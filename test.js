@@ -18,3 +18,11 @@ const body = {
 };
 
 console.log(Number(Object.values(body).join("")));
+
+// ===== shop.ejs
+// <%- include("./layouts/header") %>
+// <section>
+//   <h1>Welcome</h1>
+// </section>
+
+// <%- include("./layouts/footer") %>

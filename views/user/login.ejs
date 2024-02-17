@@ -24,9 +24,8 @@
             <div class="d-none" id="emailError">
               <p class="text-danger">Please enter a valid email address.</p>
             </div>
-            <% if (locals.invalidEmail) { %>
-            <p class="text-danger hideError"><%= invalidEmail %></p>
-            <% } %>
+
+            <p class="text-danger emailError hideError"></p>
           </div>
 
           <!-- Password input -->
@@ -42,9 +41,8 @@
             <div class="d-none" id="passwordError">
               <p class="text-danger">Password should have 8 characters.</p>
             </div>
-            <% if (locals.invalidPassword) { %>
-            <p class="text-danger hideError"><%= invalidPassword %></p>
-            <% } %>
+
+            <p class="text-danger passwordError hideError"></p>
           </div>
 
           <div class="d-flex justify-content-around align-items-center mb-4">
@@ -94,6 +92,6 @@
     </div>
   </div>
 </section>
-<script src="/static/script/loginValidation.js"></script>
+<script src="/static/script/loginPage.js"></script>
 
 <%- include("./layouts/footer") %>

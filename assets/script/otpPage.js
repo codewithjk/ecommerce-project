@@ -111,7 +111,7 @@ form.addEventListener("submit", async function (event) {
   console.log([...payload]);
 
   // Make an AJAX request to the server
-  await fetch("/user/otp-verification", {
+  await fetch("/otp-verification", {
     method: "POST",
     body: payload,
     // contentType: "application/json; charset=utf-8",
