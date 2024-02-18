@@ -1,6 +1,6 @@
 const inputs = document.querySelectorAll(".otp-field > input");
 const button = document.querySelector(".btn");
-
+let time = 120;
 let timerOn = true;
 
 window.addEventListener("load", () => inputs[0].focus());
@@ -92,7 +92,6 @@ function timer(remaining) {
   }
 
   if (!timerOn) {
-    // Do validate stuff here
     return;
   }
 
@@ -100,7 +99,7 @@ function timer(remaining) {
   document.getElementById("timer").classList.add("text-danger");
 }
 
-timer(120);
+timer(time);
 
 const form = document.getElementById("otpForm");
 form.addEventListener("submit", async function (event) {
@@ -139,7 +138,8 @@ form.addEventListener("submit", async function (event) {
         let success_message = document.querySelector(".hideSuccess");
         success_message.innerHTML = data.success;
 
-        window.location.href = data.redirect;
+        // window.location.href = data.redirect;
+        window.location.href = "/products";
         console.log(window.location);
       }
     })
@@ -148,8 +148,6 @@ form.addEventListener("submit", async function (event) {
     });
 });
 
-// **** show error and remove error ****
-
 document.addEventListener("click", (event) => {
   if (event.target.tagName === "INPUT") {
     var paragraph = document.querySelector(".hideError");
@@ -157,4 +155,28 @@ document.addEventListener("click", (event) => {
       paragraph.innerHTML = "";
     }
   }
+});
+
+// resend
+const resend = document.getElementById("resend");
+resend.addEventListener("click", (event) => {
+  event.preventDefault();
+  fetch("/resend-otp", {
+    method: "POST",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        timer(data.timer);
+      }
+    })
+    .catch((error) => {
+      throw error;
+    });
 });

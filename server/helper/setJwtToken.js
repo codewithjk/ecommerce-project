@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-const setJwtToCookies = async (res, user) => {
+const setJwtToCookies = async (res, data) => {
   // Create JWT token
-  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ userId: data.user_id }, process.env.JWT_SECRET, {
     expiresIn: "1h", // Token expires in 1 hour, adjust as needed
   });
 

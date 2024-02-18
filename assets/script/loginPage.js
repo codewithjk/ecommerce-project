@@ -30,8 +30,6 @@ form.addEventListener("submit", function (event) {
     return;
   }
 
-  // If everything is valid, submit the form
-  // this.submit();
   const prePayload = new FormData(form);
   const payload = new URLSearchParams(prePayload);
 

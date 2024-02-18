@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const authenticateToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -17,4 +17,11 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-module.exports = authenticateToken;
+const checkAuthenticated = (req, res, next) => {
+  const token = req.cookies.token;
+  if (token) {
+    return res.redirect("/products");
+  }
+  next();
+};
+module.exports = { verifyToken, checkAuthenticated };

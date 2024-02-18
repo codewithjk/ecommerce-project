@@ -10,9 +10,10 @@
         />
       </div>
       <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-        <form id="loginForm" action="/user/login" method="post">
+        <form id="loginForm">
           <!-- Email input -->
           <div class="form-outline mb-4">
+            <label class="form-label" for="form1Example13">Email address</label>
             <input
               id="email"
               name="email"
@@ -20,7 +21,6 @@
               placeholder="example@email.com"
               required
             />
-            <label class="form-label" for="form1Example13">Email address</label>
             <div class="d-none" id="emailError">
               <p class="text-danger">Please enter a valid email address.</p>
             </div>
@@ -30,6 +30,7 @@
 
           <!-- Password input -->
           <div class="form-outline mb-4">
+            <label class="form-label" for="form1Example23">Password</label>
             <input
               type="password"
               id="password"
@@ -37,7 +38,6 @@
               class="form-control form-control-lg"
               required
             />
-            <label class="form-label" for="form1Example23">Password</label>
             <div class="d-none" id="passwordError">
               <p class="text-danger">Password should have 8 characters.</p>
             </div>
@@ -59,7 +59,7 @@
                 Remember me
               </label>
             </div>
-            <a href="#!">Forgot password?</a>
+            <a href="/forgot-password">Forgot password?</a>
           </div>
 
           <!-- Submit button -->
