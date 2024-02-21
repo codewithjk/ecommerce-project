@@ -30,27 +30,40 @@
 
                   <div class="form-outline mb-4">
                     <input
+                      name="email"
                       type="email"
                       id="email"
                       class="form-control form-control-lg"
+                      required
                     />
                     <label class="form-label" for="form2Example17"
                       >Email address</label
                     >
-                    <div class="invalid-feedback" id="emailError"></div>
+                    <div class="d-none" id="emailError">
+                      <p class="text-danger">
+                        Please enter a valid email address.
+                      </p>
+                    </div>
+                    <p class="text-danger emailError hideError"></p>
                   </div>
 
                   <div class="form-outline mb-4">
                     <input
+                      name="password"
                       type="password"
                       id="password"
                       class="form-control form-control-lg"
+                      required
                     />
                     <label class="form-label" for="form2Example27"
                       >Password</label
                     >
-                    <div class="invalid-feedback" id="passwordError"></div>
-                    <!-- Error message -->
+                    <div class="d-none" id="passwordError">
+                      <p class="text-danger">
+                        Password should have 8 characters.
+                      </p>
+                    </div>
+                    <p class="text-danger passwordError hideError"></p>
                   </div>
 
                   <div class="pt-1 mb-4">
@@ -75,4 +88,6 @@
     </div>
   </div>
 </section>
+<script src="/static/script/admin/loginPage.js"></script>
+
 <%- include("./layouts/footer") %>

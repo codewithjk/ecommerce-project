@@ -16,7 +16,10 @@ const {
   verifyEmail,
   resendOtp,
 } = require("../controller/user/auth");
-const { getAllProducts } = require("../controller/user/product");
+const {
+  getAllProducts,
+  getProductPage,
+} = require("../controller/user/product");
 const path = require("path");
 const {
   verifyToken,
@@ -35,6 +38,7 @@ router.get("/otp-verification", getOtpPage);
 router.get("/products", verifyToken, getAllProducts);
 router.get("/verify-confirmation-code", getConfirmationPage);
 router.get("/set-new-password", verifyToken, getSetNewPassword);
+router.get("/product-details", getProductPage);
 
 router.post("/login", postLogin);
 router.post("/register", postRegister);

@@ -32,6 +32,10 @@ const userSchema = new Schema({
   googleId: {
     type: String,
   },
+  status:{
+    type:String,
+    default:"Active"
+  },
   resetPasswordExpires: { type: Date },
   updated: Date,
   created: {
@@ -40,4 +44,6 @@ const userSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("user", userSchema);
+const userModel = mongoose.model("user", userSchema);
+
+module.exports ={userModel}

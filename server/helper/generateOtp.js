@@ -1,5 +1,5 @@
 const { sendMail } = require("./mailer");
-const userModel = require("../models/user");
+const {userModel} = require("../models/user");
 const otpModel = require("../models/otp");
 
 async function generateOtp(email) {

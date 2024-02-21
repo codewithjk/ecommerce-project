@@ -1,7 +1,7 @@
-const userModel = require("../../models/user");
+const {userModel} = require("../../models/user");
 const otpModel = require("../../models/otp");
 
-const setJwtToCookies = require("../../helper/setJwtToken");
+const {setJwtToCookies} = require("../../helper/setJwtToken");
 const { generateOtp } = require("../../helper/generateOtp");
 // ====Register controllers
 exports.getRegister = (req, res) => {
@@ -44,8 +44,7 @@ exports.getLogin = (req, res) => {
 };
 exports.postLogin = async (req, res) => {
   console.log(req.body);
-  // const otp = await generateOtp();
-  const cDate = new Date();
+
   const email = req.body.email;
   const password = req.body.password;
 

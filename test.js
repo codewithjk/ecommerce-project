@@ -26,3 +26,15 @@ console.log(Number(Object.values(body).join("")));
 // </section>
 
 // <%- include("./layouts/footer") %>
+
+
+let arr = [1,2,3]
+arr.foo='neew'
+console.log();
+
+for(let ele of arr){
+  console.log(ele);
+}
+for (let ele in  arr){
+  console.log(ele);
+}
