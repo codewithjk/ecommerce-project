@@ -7,15 +7,14 @@ function isValidEmail(email) {
   return regex.test(email);
 }
 
-form.addEventListener("click", (event) => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
-  console.log(email);
+
   // Validate email
   if (!isValidEmail(email)) {
     emailError.classList.remove("d-none");
-    console.log(isValidEmail(email));
     return;
   }
 

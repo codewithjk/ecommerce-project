@@ -75,32 +75,6 @@ if (!timerOn) {
   // Do validate stuff here
 }
 
-function timer(remaining) {
-  var m = Math.floor(remaining / 60);
-  var s = remaining % 60;
-
-  m = m < 10 ? "0" + m : m;
-  s = s < 10 ? "0" + s : s;
-  document.getElementById("timer").innerHTML = m + ":" + s;
-  remaining -= 1;
-
-  if (remaining >= 0 && timerOn) {
-    setTimeout(function () {
-      timer(remaining);
-    }, 1000);
-    return;
-  }
-
-  if (!timerOn) {
-    return;
-  }
-
-  button.setAttribute("disabled", "disabled");
-  document.getElementById("timer").classList.add("text-danger");
-}
-
-timer(time);
-
 const form = document.getElementById("otpForm");
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
@@ -173,10 +147,72 @@ resend.addEventListener("click", (event) => {
     })
     .then((data) => {
       if (data.success) {
-        timer(data.timer);
+        // timer(data.timer);
+        location.reload();
       }
     })
     .catch((error) => {
       throw error;
     });
+});
+
+window.addEventListener("load", (event) => {
+  event.preventDefault();
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+  if (id) {
+    fetch(`/get-remaining-time?id=${id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((responseData) => {
+        console.log(responseData.data);
+        const createdAtTimestamp = responseData.data;
+        const createdAt = new Date(createdAtTimestamp);
+        const ttlMinutes = 5;
+        const expirationTime = new Date(
+          createdAt.getTime() + ttlMinutes * 60000
+        );
+        console.log(expirationTime);
+        const remainingTime = Math.max(
+          0,
+          expirationTime.getTime() - Date.now()
+        );
+        const remainingTimeInSeconds = Math.ceil(remainingTime / 1000);
+
+        function timer(remaining) {
+          var m = Math.floor(remaining / 60);
+          var s = remaining % 60;
+
+          m = m < 10 ? "0" + m : m;
+          s = s < 10 ? "0" + s : s;
+          document.getElementById("timer").innerHTML = m + ":" + s;
+          remaining -= 1;
+
+          if (remaining >= 0 && timerOn) {
+            setTimeout(function () {
+              timer(remaining);
+            }, 1000);
+            return;
+          }
+
+          if (!timerOn) {
+            return;
+          }
+
+          button.setAttribute("disabled", "disabled");
+          document.getElementById("timer").classList.add("text-danger");
+        }
+
+        timer(remainingTimeInSeconds);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  } else {
+    console.error("ID not found in URL");
+  }
 });

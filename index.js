@@ -5,9 +5,22 @@ const userRouter = require("./server/routes/userRoutes");
 const adminRouter = require("./server/routes/adminRoutes");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const cors = require("cors");
+///////////////////////
 
+////////////////////////
 connectDB();
 const app = express();
+
+// app.use(cors());
+
+// require("./server/helper/OAuth")(app);
+
+// app.use(passport.initialize());
+
+//parse body data
+app.use(express.json({ limit: "10mb" }));
 
 app.use(express.urlencoded({ extended: true }));
 

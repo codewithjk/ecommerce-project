@@ -66,7 +66,9 @@
                           </svg>
                       </div>
                       <div class="card-body p-4 z-1 position-relative">
-                          <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="7845102"></span> </h4>
+                          <h4 class="fs-22 fw-semibold mb-3">
+                            <!-- <span class="counter-value" data-target="233892"> -->
+                            </span><%=totalUsers %> </h4>
                           <p class="mb-0 fw-medium text-uppercase fs-14">Total Users</p>
                       </div>
                   </div>
@@ -105,7 +107,10 @@
                           </svg>
                       </div>
                       <div class="card-body p-4 z-1 position-relative">
-                          <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="559.25"></span>k </h4>
+                          <h4 class="fs-22 fw-semibold mb-3">
+                            <!-- <span class="counter-value" data-target="559.25"></span> -->
+                            <%=activeUsers %>
+                        </h4>
                           <p class="mb-0 fw-medium text-uppercase fs-14">Active Users</p>
                       </div>
                   </div>
@@ -144,8 +149,11 @@
                           </svg>
                       </div>
                       <div class="card-body p-4 z-1 position-relative">
-                          <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="559.25"></span>k </h4>
-                          <p class="mb-0 fw-medium text-uppercase fs-14">Unactive Users</p>
+                          <h4 class="fs-22 fw-semibold mb-3">
+                            <!-- <span class="counter-value" data-target="559.25"></span> -->
+                            <%=blockedUsers  %>
+                         </h4>
+                          <p class="mb-0 fw-medium text-uppercase fs-14">Blocked Users</p>
                       </div>
                   </div>
               </div><!--end col-->

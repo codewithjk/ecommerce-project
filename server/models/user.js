@@ -9,7 +9,7 @@ const userSchema = new Schema({
   },
   phoneNumber: {
     type: String,
-    required: true,
+    // required: true,
   },
   firstName: {
     type: String,
@@ -21,7 +21,7 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    // required: true,
   },
   avatar: {
     type: String,
@@ -32,9 +32,9 @@ const userSchema = new Schema({
   googleId: {
     type: String,
   },
-  status:{
-    type:String,
-    default:"Active"
+  status: {
+    type: String,
+    default: "Active",
   },
   resetPasswordExpires: { type: Date },
   updated: Date,
@@ -46,4 +46,4 @@ const userSchema = new Schema({
 
 const userModel = mongoose.model("user", userSchema);
 
-module.exports ={userModel}
+module.exports = { userModel };

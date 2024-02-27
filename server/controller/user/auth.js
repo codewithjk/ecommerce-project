@@ -1,8 +1,11 @@
-const {userModel} = require("../../models/user");
+const { userModel } = require("../../models/user");
 const otpModel = require("../../models/otp");
-
-const {setJwtToCookies} = require("../../helper/setJwtToken");
+const { setJwtToCookies } = require("../../helper/setJwtToken");
 const { generateOtp } = require("../../helper/generateOtp");
+
+const passport = require("passport");
+// const GoogleStrategy = require("passport-google-oidc");
+
 // ====Register controllers
 exports.getRegister = (req, res) => {
   res.render("register");
@@ -20,7 +23,8 @@ exports.postRegister = async (req, res) => {
         phoneNumber: "1234567890",
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        password: req.body.password[0],
+        password: req.body.password,
+        phoneNumber: req.body.phone,
       });
       await user.save();
       console.log("user saved", user);
@@ -28,7 +32,7 @@ exports.postRegister = async (req, res) => {
         if (data.success) {
           res.json({
             success: "successfully registered",
-            redirect: "/otp-verification",
+            redirect: `/otp-verification?id=${data.id}`,
           });
         }
       });
@@ -61,7 +65,7 @@ exports.postLogin = async (req, res) => {
         res.cookie("email", email);
         res.json({
           success: "successfully registered",
-          redirect: "/otp-verification",
+          redirect: `/otp-verification?id=${data.id}`,
         });
       }
     });
@@ -69,8 +73,13 @@ exports.postLogin = async (req, res) => {
 };
 
 // =====Otp controllers
-exports.getOtpPage = (req, res) => {
-  res.render("verifyOtp");
+exports.getOtpPage = async (req, res) => {
+  const userID = req.query.id;
+  try {
+    res.render("verifyOtp");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.postOtp = async (req, res) => {
@@ -160,8 +169,48 @@ exports.postSetNewPassword = (req, res) => {
       .then((user) => {
         res.json({
           success: "password change successfull",
-          redirect: "/product",
+          redirect: "/products",
         });
       });
+  }
+};
+
+//   === Google authentication
+
+// exports.redirectToGoogleAuth = (req, res) => {
+//    passport.authenticate("google");
+// };
+
+exports.googleAuthResult = async (req, res) => {
+  try {
+    await setJwtToCookies(res, req.user);
+    // res.json({ redirect: "/products" });
+    res.redirect("/products");
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.facebookAuthResult = async (req, res) => {
+  try {
+    console.log("facebook =========", req.user);
+    await setJwtToCookies(res, req.user);
+    // res.json({ redirect: "/products" });
+    res.redirect("/products");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//timer
+exports.getOTPTime = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const data = await otpModel.findOne(
+      { user_id: id },
+      { created_at: 1, _id: 0 }
+    );
+    res.json({ data: data.created_at });
+  } catch (error) {
+    console.log(error);
   }
 };

@@ -52,3 +52,16 @@ document.addEventListener("click", (event) => {
     }
   }
 });
+
+// google auth
+
+const google = document.getElementById("google");
+google.addEventListener("click", () => {
+  console.log("google");
+  window.location.href = "/auth/google";
+});
+
+const facebook = document.getElementById("facebook");
+google.addEventListener("click", () => {
+  window.location.href = "/auth/facebook";
+});

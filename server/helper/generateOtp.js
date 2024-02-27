@@ -1,5 +1,5 @@
 const { sendMail } = require("./mailer");
-const {userModel} = require("../models/user");
+const { userModel } = require("../models/user");
 const otpModel = require("../models/otp");
 
 async function generateOtp(email) {
@@ -20,7 +20,7 @@ async function generateOtp(email) {
       const html = `<p>` + otp + `</p>`;
       return sendMail(email, "send otp", html)
         .then(() => {
-          return { success: "email is valid." };
+          return { success: "email is valid.", id: user._id };
         })
         .catch((error) => {
           console.log("send mail error ==== ", error);

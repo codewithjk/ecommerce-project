@@ -3,29 +3,28 @@ const jwt = require("jsonwebtoken");
 // ---USER
 const setJwtToCookies = async (res, data) => {
   // Create JWT token
-  const token = jwt.sign({ userId: data.user_id }, process.env.JWT_SECRET, {
-    expiresIn: "1h", // Token expires in 1 hour, adjust as needed
+  const token = jwt.sign({ user: data }, process.env.JWT_SECRET, {
+    expiresIn: "3h",
   });
   // Set token to cookies
-  res.cookie("token", token, {
-    httpOnly: true, // Cookie is only accessible through HTTP(S) protocol
-    maxAge: 3600000, // Expiry time in milliseconds (1 hour in this case)
-    secure: process.env.NODE_ENV === "production", // Set to true in production for HTTPS only
-    sameSite: "strict", // Set to 'strict' to prevent CSRF attacks
+  res.cookie("userToken", token, {
+    httpOnly: true,
+    maxAge: 10800000, //3h
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
   });
 };
 
 //  ---ADMIN
-const setJwtToCookiesAdmin = async(res,data)=>{
-  const token = jwt.sign({adminId: data._id , email:data.email},process.env.JWT_SECRET,{expiresIn:"1h"});
-  
-  // Set token to cookies
-  res.cookie("token", token, {
-    httpOnly: true, // Cookie is only accessible through HTTP(S) protocol
-    maxAge: 3600000, // Expiry time in milliseconds (1 hour in this case)
-    secure: process.env.NODE_ENV === "production", // Set to true in production for HTTPS only
-    sameSite: "strict", // Set to 'strict' to prevent CSRF attacks
+const setJwtToCookiesAdmin = async (res, data) => {
+  console.log(data);
+  const token = jwt.sign({ data }, process.env.JWT_SECRET, { expiresIn: "3h" });
+  res.cookie("adminToken", token, {
+    httpOnly: true,
+    maxAge: 3600000,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
   });
-}
+};
 
-module.exports = {setJwtToCookies,setJwtToCookiesAdmin};
+module.exports = { setJwtToCookies, setJwtToCookiesAdmin };
