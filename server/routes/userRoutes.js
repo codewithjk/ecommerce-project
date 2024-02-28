@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express();
-const passport = require("passport");
 
-require("../helper/OAuth");
+const {
+  getGoogleURL,
+  getUserFromGoogle,
+  getFacebookURL,
+  getUserFromFacebook,
+} = require("../helper/OAuth");
 const {
   getLogin,
   postLogin,
@@ -22,6 +26,8 @@ const {
   googleAuthResult,
   facebookAuthResult,
   getOTPTime,
+  setUser,
+  renderBlockedMessage,
 } = require("../controller/user/auth");
 const {
   getAllProducts,
@@ -31,6 +37,7 @@ const path = require("path");
 const {
   verifyToken,
   checkAuthenticated,
+  isBlocked,
 } = require("../middleware/authentication");
 
 //set views directory
@@ -46,27 +53,12 @@ router.get("/products", verifyToken, getAllProducts);
 router.get("/verify-confirmation-code", getConfirmationPage);
 router.get("/set-new-password", verifyToken, getSetNewPassword);
 router.get("/product-details", verifyToken, getProductPage);
-router.get("/auth/google", passport.authenticate("google"));
-router.get("/auth/facebook", passport.authenticate("facebook"));
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    // successReturnToOrRedirect: "/products",
-    failureRedirect: "/register",
-    session: false,
-  }),
 
-  googleAuthResult
-);
-router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", {
-    // successReturnToOrRedirect: "/products",
-    failureRedirect: "/register",
-    session: false,
-  }),
-  facebookAuthResult
-);
+router.get("/auth/google", getGoogleURL);
+router.get("/auth/google/callback", getUserFromGoogle);
+
+router.get("/auth/facebook", getFacebookURL);
+router.get("/auth/facebook/callback", getUserFromFacebook);
 
 router.get("/get-remaining-time", getOTPTime);
 
@@ -78,5 +70,7 @@ router.post("/verify-email", verifyEmail);
 router.post("/change-password", verifyToken, postSetNewPassword);
 
 // router.post("/verify-email", emailVerification);
+
+router.get("/blocked-message", renderBlockedMessage);
 
 module.exports = router;

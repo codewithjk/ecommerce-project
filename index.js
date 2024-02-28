@@ -5,7 +5,6 @@ const userRouter = require("./server/routes/userRoutes");
 const adminRouter = require("./server/routes/adminRoutes");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
 const cors = require("cors");
 ///////////////////////
 
@@ -15,7 +14,7 @@ const app = express();
 
 // app.use(cors());
 
-// require("./server/helper/OAuth")(app);
+require("./server/helper/OAuth");
 
 // app.use(passport.initialize());
 

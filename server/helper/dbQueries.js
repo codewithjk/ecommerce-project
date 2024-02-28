@@ -10,6 +10,9 @@ const getAllProducts = async () => {
 const getAllUsers = async () => {
   return await userModel.find();
 };
+const getUserByEmail = async (email) => {
+  return await userModel.findOne({ email: email });
+};
 const getOneProduct = async (id) => {
   const product = await productModel.findById(id);
   return product;
@@ -65,4 +68,5 @@ module.exports = {
   getAllReviews,
   getAllCategories,
   getAllProductByCategory,
+  getUserByEmail,
 };

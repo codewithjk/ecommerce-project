@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 //  USER
 const verifyToken = (req, res, next) => {
   const token = req.cookies.userToken;
-
   if (!token) {
     return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
@@ -44,4 +43,12 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-module.exports = { verifyToken, checkAuthenticated, isAdmin };
+const isBlocked = (req, res, next) => {
+  const email = req.cookies.email;
+  if (email) {
+    next();
+  } else {
+    res.redirect("/blocked-message");
+  }
+};
+module.exports = { verifyToken, checkAuthenticated, isAdmin, isBlocked };

@@ -11,7 +11,7 @@ const setJwtToCookies = async (res, data) => {
     httpOnly: true,
     maxAge: 10800000, //3h
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: "none",
   });
 };
 

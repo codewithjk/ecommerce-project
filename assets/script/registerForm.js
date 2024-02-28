@@ -58,10 +58,32 @@ document.addEventListener("click", (event) => {
 const google = document.getElementById("google");
 google.addEventListener("click", () => {
   console.log("google");
-  window.location.href = "/auth/google";
+  fetch("/auth/google")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = data.redirect;
+    })
+    .catch((error) => {
+      error;
+    });
 });
 
 const facebook = document.getElementById("facebook");
-google.addEventListener("click", () => {
-  window.location.href = "/auth/facebook";
+facebook.addEventListener("click", () => {
+  console.log("facebook");
+  fetch("/auth/facebook")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = data.redirect;
+    });
 });

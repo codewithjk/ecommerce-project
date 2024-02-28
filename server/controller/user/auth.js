@@ -2,8 +2,8 @@ const { userModel } = require("../../models/user");
 const otpModel = require("../../models/otp");
 const { setJwtToCookies } = require("../../helper/setJwtToken");
 const { generateOtp } = require("../../helper/generateOtp");
+const { getLogger } = require("nodemailer/lib/shared");
 
-const passport = require("passport");
 // const GoogleStrategy = require("passport-google-oidc");
 
 // ====Register controllers
@@ -27,7 +27,7 @@ exports.postRegister = async (req, res) => {
         phoneNumber: req.body.phone,
       });
       await user.save();
-      console.log("user saved", user);
+      res.cookie("email", email);
       generateOtp(email).then((data) => {
         if (data.success) {
           res.json({
@@ -175,30 +175,14 @@ exports.postSetNewPassword = (req, res) => {
   }
 };
 
-//   === Google authentication
-
-// exports.redirectToGoogleAuth = (req, res) => {
-//    passport.authenticate("google");
-// };
-
-exports.googleAuthResult = async (req, res) => {
-  try {
-    await setJwtToCookies(res, req.user);
-    // res.json({ redirect: "/products" });
-    res.redirect("/products");
-  } catch (error) {
-    console.log(error);
-  }
+exports.renderBlockedMessage = (req, res) => {
+  res.render("BlockedPage");
 };
-exports.facebookAuthResult = async (req, res) => {
-  try {
-    console.log("facebook =========", req.user);
-    await setJwtToCookies(res, req.user);
-    // res.json({ redirect: "/products" });
-    res.redirect("/products");
-  } catch (error) {
-    console.log(error);
-  }
+
+exports.setUser = async (req, res) => {
+  console.log("user data ========================== ");
+  console.log(req);
+  console.log();
 };
 
 //timer
