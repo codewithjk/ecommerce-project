@@ -1,0 +1,117 @@
+<nav class="navbar navbar-expand-lg ecommerce-navbar" id="navbar">
+  <div class="container">
+    <a class="navbar-brand d-none d-lg-block" href="/products">
+      <h2>FASCO</h2>
+    </a>
+    <button
+      class="btn btn-soft-primary btn-icon d-lg-none"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="bi bi-list fs-20"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0" id="navigation-menu">
+        <li class="nav-item d-block d-lg-none">
+          <a class="d-block p-3 h-auto text-center" href="index.html">
+            <img
+              src="/static/frontend/images/logo-dark.png"
+              alt=""
+              height="25"
+              class="card-logo-dark mx-auto"
+            />
+            <img
+              src="/static/frontend/images/logo-light.png"
+              alt=""
+              height="25"
+              class="card-logo-light mx-auto"
+            />
+          </a>
+        </li>
+        <li class="nav-item dropdown dropdown-hover">
+          <a class="nav-link" data-key="t-demos" href="/products"> Home </a>
+        </li>
+        <li class="nav-item dropdown dropdown-hover dropdown-mega-full">
+          <a
+            class="nav-link dropdown-toggle"
+            data-key="t-catalog"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Category
+          </a>
+        </li>
+        <li class="nav-item dropdown dropdown-hover">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            data-key="t-shop"
+          >
+            Shop
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-key="t-contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="bg-overlay navbar-overlay"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent.show"
+    ></div>
+
+    <div class="d-flex align-items-center">
+      <button
+        type="button"
+        class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+        data-bs-toggle="modal"
+        data-bs-target="#searchModal"
+      >
+        <i class="bx bx-search fs-22"></i>
+      </button>
+      <div class="topbar-head-dropdown ms-1 header-item">
+        <button
+          type="button"
+          class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#ecommerceCart"
+          aria-controls="ecommerceCart"
+        >
+          <i class="ph-shopping-cart fs-18"></i>
+          <span
+            class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger"
+            >4</span
+          >
+        </button>
+      </div>
+
+      <div class="dropdown header-item dropdown-hover-end">
+        <button
+          type="button"
+          class="btn"
+          id="page-header-user-dropdown"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <img
+            class="rounded-circle header-profile-user"
+            src="/static/frontend/images/users/avatar-1.jpg"
+            alt="Header Avatar"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

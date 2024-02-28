@@ -1,0 +1,110 @@
+<div class="app-menu navbar-menu">
+  <!-- LOGO -->
+  <div class="navbar-brand-box py-3">
+    <a href="index-2.html" class="logo logo-dark">
+      <span class="logo-lg">
+        <h2 class="m-0">FASCO</h2>
+      </span>
+    </a>
+  </div>
+
+  <div id="scrollbar">
+    <div class="container-fluid">
+      <div id="two-column-menu"></div>
+      <ul class="navbar-nav" id="navbar-nav">
+        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+        <li class="nav-item">
+          <a href="/admin/dashboard" class="nav-link menu-link">
+            <i class="bi bi-speedometer2"></i>
+            <span data-key="t-dashboard">Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            href="#sidebarProducts"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="sidebarProducts"
+          >
+            <i class="bi bi-box-seam"></i>
+            <span data-key="t-products">Products</span>
+          </a>
+          <div class="collapse menu-dropdown" id="sidebarProducts">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a
+                  href="/admin/products"
+                  class="nav-link"
+                  data-key="t-list-view"
+                  >Products List</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a
+                  href="/admin/categories"
+                  class="nav-link"
+                  data-key="t-categories"
+                  >Categories</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link menu-link" href="/admin/orders">
+            <i class="bi bi-cart4"></i>
+            <span data-key="t-orders">Orders</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/admin/customers" class="nav-link menu-link">
+            <i class="bi bi-person-bounding-box"></i>
+            <span data-key="t-users-list">Users List</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/admin/coupons" class="nav-link menu-link">
+            <i class="bi bi-tag"></i>
+            <span data-key="t-coupons">Coupons</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link menu-link" href="/admin/banners" target="_blank">
+            <i class="bi bi-layers"></i>
+            <span data-key="t-components">Banners</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/feedback" class="nav-link menu-link"
+            ><i class="bi bi-star"></i>
+            <span data-key="t-reviews-ratings">Feedbacks</span></a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            href="#sidebarAccounts"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="sidebarAccounts"
+          >
+            <i class="bi bi-person-circle"></i>
+            <span data-key="t-accounts">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- Sidebar -->
+  </div>
+
+  <div class="sidebar-background"></div>
+</div>

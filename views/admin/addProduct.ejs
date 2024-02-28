@@ -1,0 +1,891 @@
+<!-- Plugins css -->
+<link
+  href="/static/backend/libs/dropzone/dropzone.css"
+  rel="stylesheet"
+  type="text/css"
+/>
+
+<!-- cropper css -->
+<link href="/static/script/admin/cropperjs/cropper.css" rel="stylesheet" />
+
+<%- include("./layouts/header") %>
+
+<div id="layout-wrapper">
+  <%- include("./layouts/topbar") %>
+  <!-- ========== App Menu ========== -->
+  <%-include("./layouts/menubar") %>
+  <!-- Left Sidebar End -->
+
+  <div class="main-content">
+    <div class="page-content">
+      <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="page-title-box d-sm-flex align-items-center justify-content-between"
+            >
+              <h4 class="mb-sm-0">Create product</h4>
+
+              <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">Product</a>
+                  </li>
+                  <li class="breadcrumb-item active">Create product</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end page title -->
+
+        <form
+          id="createproduct-form"
+          autocomplete="off"
+          class="needs-validation"
+          novalidate
+        >
+          <div class="row">
+            <div class="col-xl-9 col-lg-8">
+              <div class="card">
+                <div class="card-header">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0 me-3">
+                      <div class="avatar-sm">
+                        <div
+                          class="avatar-title rounded-circle bg-light text-primary fs-20"
+                        >
+                          <i class="bi bi-box-seam"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h5 class="card-title mb-1">Product Information</h5>
+                      <p class="text-muted mb-0">Fill all information below.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label class="form-label" for="product-title-input"
+                      >Product title</label
+                    >
+
+                    <input
+                      name="title"
+                      type="text"
+                      class="form-control"
+                      id="product-title-input"
+                      placeholder="Enter product title"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please enter a product title.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Product description</label>
+                    <textarea
+                      name="description"
+                      type="text"
+                      class="form-control h-auto"
+                      id="descriptionInput"
+                      placeholder="Enter product description"
+                      rows="5"
+                    ></textarea>
+
+                    <!-- <div id="ckeditor-classic">
+                      <p>
+                        Tommy Hilfiger men striped pink sweatshirt. Crafted with
+                        cotton. Material composition is 100% organic cotton.
+                        This is one of the world’s leading designer lifestyle
+                        brands and is internationally recognized for celebrating
+                        the essence of classic American cool style, featuring
+                        preppy with a twist designs.
+                      </p>
+                      <ul>
+                        <li>Full Sleeve</li>
+                        <li>Cotton</li>
+                        <li>All Sizes available</li>
+                        <li>4 Different Color</li>
+                      </ul>
+                    </div> -->
+                  </div>
+
+                  <div>
+                    <div class="d-flex align-items-start">
+                      <div class="flex-grow-1">
+                        <label class="form-label">Product category</label>
+                      </div>
+                      <div class="flex-shrink-0">
+                        <a
+                          href="/admin/categories"
+                          class="float-end text-decoration-underline"
+                          >Add New</a
+                        >
+                      </div>
+                    </div>
+                    <div>
+                      <select
+                        class="form-select"
+                        id="choices-category-input"
+                        name="choices-category-input"
+                      >
+                        <% categories.forEach(category => { %>
+                        <option value="<%=category._id  %>">
+                          <%=category.title %>
+                        </option>
+
+                        <% }); %>
+                      </select>
+                    </div>
+                    <div class="error-msg mt-1">
+                      Please select a product category.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end card -->
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0 me-3">
+                      <div class="avatar-sm">
+                        <div
+                          class="avatar-title rounded-circle bg-light text-primary fs-20"
+                        >
+                          <i class="bi bi-images"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h5 class="card-title mb-1">Product Gallery</h5>
+                      <p class="text-muted mb-0">Add product gallery images.</p>
+                    </div>
+                  </div>
+                </div>
+                <div id="images" class="card-body d-flex gap-2">
+                  <div
+                    data-bs-toggle="modal"
+                    id="image-input"
+                    class="border border-black rounded p-2 col-md-3 d-flex justify-content-center align-items-center"
+                  >
+                    <label for="uploadFile" class="select-image btn btn-primary"
+                      >Select Image
+                      <i class="display-4 text-muted ri-upload-cloud-2-fill"></i
+                    ></label>
+                    <input type="file" id="uploadFile" style="display: none" />
+                  </div>
+                  <div class="error-msg mt-1">Please add a product images.</div>
+                </div>
+              </div>
+              <!-- end card -->
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0 me-3">
+                      <div class="avatar-sm">
+                        <div
+                          class="avatar-title rounded-circle bg-light text-primary fs-20"
+                        >
+                          <i class="bi bi-list-ul"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h5 class="card-title mb-1">General Information</h5>
+                      <p class="text-muted mb-0">Fill all information below.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <!-- <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="manufacturer-name-input"
+                          >Manufacturer Name</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="manufacturer-name-input"
+                          placeholder="Enter manufacturer name"
+                        />
+                      </div>
+                    </div> -->
+                    <!-- <div class="col-lg-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="manufacturer-brand-input"
+                          >Manufacturer Brand</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="manufacturer-brand-input"
+                          placeholder="Enter manufacturer brand"
+                        />
+                      </div>
+                    </div> -->
+                  </div>
+                  <!-- end row -->
+
+                  <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="product-price-input"
+                          >Price</label
+                        >
+                        <div class="input-group has-validation mb-3">
+                          <span
+                            class="input-group-text"
+                            id="product-price-addon"
+                            >$</span
+                          >
+                          <input
+                            name="price"
+                            type="text"
+                            class="form-control"
+                            id="product-price-input"
+                            placeholder="Enter price"
+                            aria-label="Price"
+                            aria-describedby="product-price-addon"
+                            required
+                          />
+                          <div class="invalid-feedback">
+                            Please enter a product price.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                      <div class="mb-3">
+                        <label class="form-label" for="product-discount-input"
+                          >Discount</label
+                        >
+                        <div class="input-group has-validation mb-3">
+                          <span
+                            class="input-group-text"
+                            id="product-discount-addon"
+                            >%</span
+                          >
+                          <input
+                            name="discount"
+                            type="text"
+                            class="form-control"
+                            id="product-discount-input"
+                            placeholder="Enter discount"
+                            aria-label="discount"
+                            aria-describedby="product-discount-addon"
+                            required
+                          />
+                          <div class="invalid-feedback">
+                            Please enter a product discount.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- end col -->
+                  </div>
+                  <!-- end row -->
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="d-flex flex-column">
+                        <label class="form-label">Colors and Qty</label>
+                        <ul
+                          class="d-flex flex-column clothe-colors list-unstyled hstack gap-2 mb-0 flex-wrap"
+                        >
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              onchange="toggleStocksInput('success')"
+                              value="success"
+                              id="color-1"
+                            />
+
+                            <label
+                              class="avatar-xs btn btn-success p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-1"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="success"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="success"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              value="info"
+                              id="color-2"
+                              onchange="toggleStocksInput('info')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-info p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-2"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="info"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="info"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              value="warning"
+                              id="color-3"
+                              onchange="toggleStocksInput('warning')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-warning p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-3"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="warning"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="warning"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              value="danger"
+                              id="color-4"
+                              onchange="toggleStocksInput('danger')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-danger p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-4"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="danger"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="danger"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              value="primary"
+                              id="color-5"
+                              onchange="toggleStocksInput('primary')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-5"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="primary"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="primary"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              value="secondary"
+                              id="color-6"
+                              onchange="toggleStocksInput('secondary')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-secondary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-6"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="secondary"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="secondary"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              value="dark"
+                              id="color-7"
+                              onchange="toggleStocksInput('dark')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-dark p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-7"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="dark"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="dark"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="color"
+                              type="checkbox"
+                              value="light"
+                              id="color-8"
+                              onchange="toggleStocksInput('light')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-light p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="color-8"
+                            ></label>
+                            <div class="">
+                              <input
+                                name="light"
+                                type="number"
+                                class="form-control stock-of-color"
+                                value="0"
+                                id="light"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                        </ul>
+                        <div class="error-msg mt-1">
+                          Please select a product colors.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="mt-3 mt-lg-0">
+                        <label class="form-label">Sizes and Qty</label>
+                        <ul
+                          class="clothe-size list-unstyled hstack gap-2 mb-0 flex-wrap"
+                          id="size-filter"
+                        >
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="xs"
+                              id="sizeXs"
+                              onchange="toggleStocksInput('XS')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="sizeXs"
+                              >XS</label
+                            >
+                            <div class="">
+                              <input
+                                name="XS"
+                                type="number"
+                                class="form-control stock-of-size"
+                                value="0"
+                                id="XS"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="s"
+                              id="sizeS"
+                              onchange="toggleStocksInput('S')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="sizeS"
+                              >S</label
+                            >
+                            <div class="">
+                              <input
+                                name="S"
+                                type="number"
+                                class="form-control stock-of-size"
+                                value="0"
+                                id="S"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="m"
+                              id="sizeM"
+                              onchange="toggleStocksInput('M')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="sizeM"
+                              >M</label
+                            >
+                            <div class="">
+                              <input
+                                name="M"
+                                type="number"
+                                class="form-control stock-of-size"
+                                value="0"
+                                id="M"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="l"
+                              id="sizeL"
+                              onchange="toggleStocksInput('L')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="sizeL"
+                              >L</label
+                            >
+                            <div class="">
+                              <input
+                                name="L"
+                                type="number"
+                                class="form-control stock-of-size"
+                                value="0"
+                                id="L"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="xl"
+                              id="sizeXl"
+                              onchange="toggleStocksInput('XL')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="sizeXl"
+                              >XL</label
+                            >
+                            <div class="">
+                              <input
+                                name="XL"
+                                type="number"
+                                class="form-control stock-of-size"
+                                value="0"
+                                id="XL"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="2xl"
+                              id="size2xl"
+                              onchange="toggleStocksInput('2XL')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="size2xl"
+                              >2XL</label
+                            >
+                            <div class="">
+                              <input
+                                name="2XL"
+                                type="number"
+                                class="form-control stock-of-size"
+                                value="0"
+                                id="2XL"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="3xl"
+                              id="size3xl"
+                              onchange="toggleStocksInput('3XL')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="size3xl"
+                              >3XL</label
+                            >
+                            <div class="">
+                              <input
+                                name="3XL"
+                                type="number"
+                                class="form-control stock-of-size"
+                                value="0"
+                                id="3XL"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                          <li
+                            class="d-flex justify-content-center align-items-center gap-2"
+                          >
+                            <input
+                              name="size"
+                              type="checkbox"
+                              value="40"
+                              id="size40"
+                              onchange="toggleStocksInput('40')"
+                            />
+                            <label
+                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                              for="size40"
+                              >40</label
+                            >
+                            <div class="">
+                              <input
+                                name="40"
+                                value="0"
+                                type="number"
+                                class="form-control stock-of-size"
+                                id="40"
+                                placeholder="Stocks"
+                                disabled
+                              />
+                            </div>
+                          </li>
+                        </ul>
+                        <div class="error-msg mt-1">
+                          Please select a product sizes.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end card -->
+              <div class="text-end mb-3">
+                <p class="text-danger formError hideError"></p>
+                <p class="text-success formSuccess hideError"></p>
+                <button type="submit" class="btn btn-success w-sm">
+                  Submit
+                </button>
+              </div>
+            </div>
+            <!-- end col -->
+          </div>
+          <!-- end row -->
+        </form>
+      </div>
+      <!-- End Page-content -->
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+              © FASCO.
+            </div>
+            <div class="col-sm-6"></div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- end main content-->
+  </div>
+</div>
+<!-- END layout-wrapper -->
+
+<!-- successModal -->
+<div
+  id="successModal"
+  class="modal fade zoomIn"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          id="close-removecategoryModal"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body p-md-5">
+        <div
+          class="d-flex flex-column gap-2 justify-content-center align-items-center mt-4 mb-2"
+        >
+          <h2 class="my-3 px-3 text-success">Product successfully added</h2>
+          <button id="btn-next" type="button" class="btn btn-success">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- imageModal -->
+<div id="imageModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          id="close-removecategoryModal"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body p-md-5">
+        <div class="text-center">
+          <!-- image preiew -->
+          <div
+            class="h-auto d-flex justify-content-center align-items-center"
+            style="height: 400px; width: 400px"
+          >
+            <img id="preview" src="" alt="" class="img-fluid" />
+            <!-- <img id="output" src="" alt="" class="img-fluid" /> -->
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <!-- <label for="uploadFile" class="select-image btn btn-primary"
+            >Select Image</label
+          >
+          <input type="file" id="uploadFile" style="display: none" /> -->
+          <button id="btn-crop" type="button" class="btn btn-success">
+            Crop and upload
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!--preloader-->
+<div id="preloader">
+  <div id="status">
+    <div class="spinner-border text-primary avatar-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleStocksInput(inputId) {
+    var input = document.getElementById(inputId);
+    input.disabled = !input.disabled;
+  }
+</script>
+
+<!-- ckeditor -->
+<script src="/static/backend/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+
+<!-- dropzone js -->
+<script src="/static/backend/libs/dropzone/dropzone-min.js"></script>
+
+<!-- create-product -->
+<script src="/static/backend/js/backend/create-product.init.js"></script>
+
+<!-- '''''''''''''''' -->
+
+<!-- cropper Js -->
+<script src="/static/script/admin/cropperjs/cropper.js"></script>
+
+<script src="/static/script/admin/addProductPage.js"></script>
+<%- include("./layouts/footer") %>

@@ -1,0 +1,2661 @@
+<%- include("./layouts/header") %>
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+  <%- include("./layouts/topbar") %>
+  <!-- Modal -->
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content rounded">
+        <div class="modal-header p-3">
+          <div class="position-relative w-100">
+            <input
+              type="text"
+              class="form-control form-control-lg border-2"
+              placeholder="Search for Toner..."
+              autocomplete="off"
+              id="search-options"
+              value=""
+            />
+            <span class="bi bi-search search-widget-icon fs-17"></span>
+            <a
+              href="javascript:void(0);"
+              class="search-widget-icon fs-14 link-secondary text-decoration-underline search-widget-icon-close d-none"
+              id="search-close-options"
+              >Clear</a
+            >
+          </div>
+        </div>
+        <div
+          class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 overflow-hidden"
+          id="search-dropdown"
+        >
+          <div class="dropdown-head rounded-top">
+            <div class="p-3">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h6 class="m-0 fs-14 text-muted fw-semibold">
+                    RECENT SEARCHES
+                  </h6>
+                </div>
+              </div>
+            </div>
+
+            <div class="dropdown-item bg-transparent text-wrap">
+              <a
+                href="index-2.html"
+                class="btn btn-soft-secondary btn-sm btn-rounded"
+                >how to setup <i class="mdi mdi-magnify ms-1 align-middle"></i
+              ></a>
+              <a
+                href="index-2.html"
+                class="btn btn-soft-secondary btn-sm btn-rounded"
+                >buttons <i class="mdi mdi-magnify ms-1 align-middle"></i
+              ></a>
+            </div>
+          </div>
+
+          <div data-simplebar style="max-height: 300px" class="pe-2 ps-3 mt-3">
+            <div class="list-group list-group-flush border-dashed">
+              <div class="notification-group-list">
+                <h5
+                  class="text-overflow text-muted fs-13 mb-2 mt-3 text-uppercase notification-title"
+                >
+                  Apps Pages
+                </h5>
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                  ><i class="bi bi-speedometer2 me-2"></i>
+                  <span>Analytics Dashboard</span></a
+                >
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                  ><i class="bi bi-filetype-psd me-2"></i>
+                  <span>Toner.psd</span></a
+                >
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                  ><i class="bi bi-ticket-detailed me-2"></i>
+                  <span>Support Tickets</span></a
+                >
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                  ><i class="bi bi-file-earmark-zip me-2"></i>
+                  <span>Toner.zip</span></a
+                >
+              </div>
+
+              <div class="notification-group-list">
+                <h5
+                  class="text-overflow text-muted fs-13 mb-2 mt-3 text-uppercase notification-title"
+                >
+                  Links
+                </h5>
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                  ><i class="bi bi-link-45deg me-2 align-middle"></i>
+                  <span>www.themesbrand.com</span></a
+                >
+              </div>
+
+              <div class="notification-group-list">
+                <h5
+                  class="text-overflow text-muted fs-13 mb-2 mt-3 text-uppercase notification-title"
+                >
+                  People
+                </h5>
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                >
+                  <div class="d-flex align-items-center">
+                    <img
+                      src="/static/backend/images/users/avatar-1.jpg"
+                      alt=""
+                      class="avatar-xs rounded-circle flex-shrink-0 me-2"
+                    />
+                    <div>
+                      <h6 class="mb-0">Ayaan Bowen</h6>
+                      <span class="fs-12 text-muted">React Developer</span>
+                    </div>
+                  </div>
+                </a>
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                >
+                  <div class="d-flex align-items-center">
+                    <img
+                      src="/static/backend/images/users/avatar-7.jpg"
+                      alt=""
+                      class="avatar-xs rounded-circle flex-shrink-0 me-2"
+                    />
+                    <div>
+                      <h6 class="mb-0">Alexander Kristi</h6>
+                      <span class="fs-12 text-muted">React Developer</span>
+                    </div>
+                  </div>
+                </a>
+                <a
+                  href="javascript:void(0);"
+                  class="list-group-item dropdown-item notify-item"
+                >
+                  <div class="d-flex align-items-center">
+                    <img
+                      src="/static/backend/images/users/avatar-5.jpg"
+                      alt=""
+                      class="avatar-xs rounded-circle flex-shrink-0 me-2"
+                    />
+                    <div>
+                      <h6 class="mb-0">Alan Carla</h6>
+                      <span class="fs-12 text-muted">React Developer</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- removeNotificationModal -->
+  <div
+    id="removeNotificationModal"
+    class="modal fade zoomIn"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            id="NotificationModalbtn-close"
+          ></button>
+        </div>
+        <div class="modal-body p-md-5">
+          <div class="text-center">
+            <div class="text-danger">
+              <i class="bi bi-trash display-4"></i>
+            </div>
+            <div class="mt-4 fs-15">
+              <h4 class="mb-1">Are you sure ?</h4>
+              <p class="text-muted mx-4 mb-0">
+                Are you sure you want to remove this Notification ?
+              </p>
+            </div>
+          </div>
+          <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+            <button
+              type="button"
+              class="btn w-sm btn-light"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn w-sm btn-danger"
+              id="delete-notification"
+            >
+              Yes, Delete It!
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- ========== App Menu ========== -->
+  <%-include("./layouts/menubar") %>
+  <!-- Left Sidebar End -->
+  <!-- Vertical Overlay-->
+  <div class="vertical-overlay"></div>
+
+  <!-- ============================================================== -->
+  <!-- Start right Content here -->
+  <!-- ============================================================== -->
+  <div class="main-content">
+    <div class="page-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xxl-12 col-lg-6 order-first">
+            <div class="row row-cols-xxl-4 row-cols-1">
+              <div class="col">
+                <!-- card -->
+                <div class="card card-animate">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div
+                        class="vr rounded bg-secondary opacity-50"
+                        style="width: 4px"
+                      ></div>
+                      <div class="flex-grow-1 ms-3">
+                        <p
+                          class="text-uppercase fw-medium text-muted fs-14 text-truncate"
+                        >
+                          Total Earnings
+                        </p>
+                        <h4 class="fs-22 fw-semibold mb-3">
+                          $<span class="counter-value" data-target="0">0</span>
+                        </h4>
+                      </div>
+                      <div class="avatar-sm flex-shrink-0">
+                        <span
+                          class="avatar-title bg-secondary-subtle text-secondary rounded fs-3"
+                        >
+                          <i class="ph-wallet"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end card body -->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col -->
+
+              <div class="col">
+                <!-- card -->
+                <div class="card card-animate">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div
+                        class="vr rounded bg-info opacity-50"
+                        style="width: 4px"
+                      ></div>
+                      <div class="flex-grow-1 ms-3">
+                        <p
+                          class="text-uppercase fw-medium text-muted fs-14 text-truncate"
+                        >
+                          Orders
+                        </p>
+                        <h4 class="fs-22 fw-semibold mb-3">
+                          <span class="counter-value" data-target="0">0</span>
+                        </h4>
+                      </div>
+                      <div class="avatar-sm flex-shrink-0">
+                        <span
+                          class="avatar-title bg-info-subtle text-info rounded fs-3"
+                        >
+                          <i class="ph-storefront"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end card body -->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col -->
+
+              <div class="col">
+                <!-- card -->
+                <div class="card card-animate">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div
+                        class="vr rounded bg-warning opacity-50"
+                        style="width: 4px"
+                      ></div>
+                      <div class="flex-grow-1 ms-3">
+                        <p
+                          class="text-uppercase fw-medium text-muted fs-14 text-truncate"
+                        >
+                          Customers
+                        </p>
+                        <h4 class="fs-22 fw-semibold mb-3">
+                          <span
+                            class="counter-value"
+                            data-target="<%=users.length %>"
+                            >0</span
+                          >
+                        </h4>
+                      </div>
+                      <div class="avatar-sm flex-shrink-0">
+                        <span
+                          class="avatar-title bg-warning-subtle text-warning rounded fs-3"
+                        >
+                          <i class="ph-user-circle"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end card body -->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col -->
+              <div class="col">
+                <!-- card -->
+                <div class="card card-animate">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div
+                        class="vr rounded bg-primary opacity-50"
+                        style="width: 4px"
+                      ></div>
+                      <div class="flex-grow-1 ms-3">
+                        <p
+                          class="text-uppercase fw-medium text-muted fs-14 text-truncate"
+                        >
+                          Products
+                        </p>
+                        <h4 class="fs-22 fw-semibold mb-3">
+                          <span
+                            class="counter-value"
+                            data-target="<%=products.length %>"
+                            >0</span
+                          >
+                        </h4>
+                      </div>
+                      <div class="avatar-sm flex-shrink-0">
+                        <span
+                          class="avatar-title bg-primary-subtle text-primary rounded fs-3"
+                        >
+                          <i class="ph-sketch-logo"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end card body -->
+                </div>
+                <!-- end card -->
+              </div>
+              <!-- end col -->
+            </div>
+            <!-- end row-->
+          </div>
+          <!--end col-->
+        </div>
+
+        <!-- end row-->
+      </div>
+      <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            © FASCO.
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!-- end main content-->
+</div>
+<!-- END layout-wrapper -->
+
+<!--start back-to-top-->
+<button onclick="topFunction()" class="btn btn-info btn-icon" id="back-to-top">
+  <i class="ri-arrow-up-line"></i>
+</button>
+<!--end back-to-top-->
+
+<!--preloader-->
+<div id="preloader">
+  <div id="status">
+    <div class="spinner-border text-primary avatar-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- Theme Settings -->
+<div
+  class="offcanvas offcanvas-end border-0"
+  tabindex="-1"
+  id="theme-settings-offcanvas"
+>
+  <div class="d-flex align-items-center bg-primary p-3 offcanvas-header">
+    <h5 class="m-0 me-2 text-white">Theme Customizer</h5>
+
+    <button
+      type="button"
+      class="btn-close btn-close-white ms-auto"
+      id="customizerclose-btn"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div data-simplebar class="h-100">
+      <div class="p-4">
+        <!-- <h6 class="mb-1 fs-15 fw-semibold text-uppercase">View Website</h6>
+                    <p class="text-muted">Choose your</p> -->
+
+        <div class="mb-4 hstack gap-2">
+          <a
+            href="https://themesbrand.com/toner/html/frontend/index.html"
+            target="_blank"
+            class="btn btn-secondary"
+            >Visit Your Website</a
+          >
+          <a
+            href="https://themesbrand.com/toner/html/components/index.html"
+            target="_blank"
+            class="btn btn-success"
+            >Components</a
+          >
+        </div>
+
+        <h6 class="mb-1 fs-15 fw-semibold text-uppercase">Layout</h6>
+        <p class="text-muted">Choose your layout</p>
+
+        <div class="row gy-3">
+          <div class="col-6">
+            <div class="form-check card-radio customize-widget">
+              <input
+                id="customizer-layout01"
+                name="data-layout"
+                type="radio"
+                value="vertical"
+                class="form-check-input"
+              />
+              <label
+                class="form-check-label p-0 avatar-xl w-100"
+                for="customizer-layout01"
+              >
+                <span
+                  class="customize-penal-main w-100 d-block d-flex align-items-center"
+                >
+                  <span class="d-flex align-items-center gap-1 ps-1">
+                    <span
+                      class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                    ></span>
+                  </span>
+                </span>
+                <span class="d-flex gap-1 h-100">
+                  <span class="flex-shrink-0">
+                    <span class="bg-light d-flex h-100 flex-column gap-1 p-2">
+                      <span
+                        class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="flex-grow-1">
+                    <span class="d-flex h-100 flex-column">
+                      <span class="bg-light d-block p-2"></span>
+                      <span class="bg-light d-block p-2 mt-auto"></span>
+                    </span>
+                  </span>
+                </span>
+              </label>
+            </div>
+            <h5 class="fs-14 text-center mt-2">Vertical</h5>
+          </div>
+          <div class="col-6">
+            <div class="form-check card-radio customize-widget">
+              <input
+                id="customizer-layout02"
+                name="data-layout"
+                type="radio"
+                value="horizontal"
+                class="form-check-input"
+              />
+              <label
+                class="form-check-label p-0 avatar-xl w-100"
+                for="customizer-layout02"
+              >
+                <span
+                  class="customize-penal-main w-100 d-block d-flex align-items-center"
+                >
+                  <span class="d-flex align-items-center gap-1 ps-1">
+                    <span
+                      class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                    ></span>
+                  </span>
+                </span>
+                <span class="d-flex h-100 flex-column gap-1">
+                  <span class="bg-light d-flex p-1 gap-1 align-items-center">
+                    <span
+                      class="d-block p-1 bg-primary-subtle rounded me-1"
+                    ></span>
+                    <span
+                      class="d-block p-1 pb-0 px-2 bg-primary-subtle ms-auto"
+                    ></span>
+                    <span
+                      class="d-block p-1 pb-0 px-2 bg-primary-subtle"
+                    ></span>
+                  </span>
+                  <span class="bg-light d-block p-1"></span>
+                  <span class="bg-light d-block p-1 mt-auto"></span>
+                </span>
+              </label>
+            </div>
+            <h5 class="fs-14 text-center mt-2">Horizontal</h5>
+          </div>
+          <div class="col-6">
+            <div class="form-check card-radio customize-widget">
+              <input
+                id="customizer-layout03"
+                name="data-layout"
+                type="radio"
+                value="twocolumn"
+                class="form-check-input"
+              />
+              <label
+                class="form-check-label p-0 avatar-xl w-100"
+                for="customizer-layout03"
+              >
+                <span
+                  class="customize-penal-main w-100 d-block d-flex align-items-center"
+                >
+                  <span class="d-flex align-items-center gap-1 ps-1">
+                    <span
+                      class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                    ></span>
+                  </span>
+                </span>
+                <span class="d-flex gap-1 h-100">
+                  <span class="flex-shrink-0">
+                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                      <span class="d-block p-1 bg-primary-subtle mb-2"></span>
+                      <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                      <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                      <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                    </span>
+                  </span>
+                  <span class="flex-shrink-0">
+                    <span class="bg-light d-flex h-100 flex-column gap-1 p-2">
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="flex-grow-1">
+                    <span class="d-flex h-100 flex-column">
+                      <span class="bg-light d-block p-2"></span>
+                      <span class="bg-light d-block p-1 mt-auto"></span>
+                    </span>
+                  </span>
+                </span>
+              </label>
+            </div>
+            <h5 class="fs-14 text-center mt-2">Two Column</h5>
+          </div>
+          <!-- end col -->
+        </div>
+
+        <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">Color Scheme</h6>
+        <p class="text-muted">Choose Light or Dark Scheme.</p>
+
+        <div class="colorscheme-cardradio">
+          <div class="row gy-3">
+            <div class="col-6">
+              <div class="form-check card-radio customize-widget">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-bs-theme"
+                  id="layout-mode-light"
+                  value="light"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="layout-mode-light"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Light</h5>
+            </div>
+
+            <div class="col-6">
+              <div class="form-check card-radio dark customize-widget">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-bs-theme"
+                  id="layout-mode-dark"
+                  value="dark"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100 bg-dark"
+                  for="layout-mode-dark"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span
+                        class="bg-light bg-opacity-10 d-flex h-100 flex-column gap-1 p-1"
+                      >
+                        <span
+                          class="d-block p-1 px-2 bg-light bg-opacity-10 rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-light bg-opacity-10"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-light bg-opacity-10"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-light bg-opacity-10"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light bg-opacity-10 d-block p-1"></span>
+                        <span
+                          class="bg-light bg-opacity-10 d-block p-1 mt-auto"
+                        ></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Dark</h5>
+            </div>
+          </div>
+        </div>
+
+        <div id="layout-width">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">
+            Layout Width
+          </h6>
+          <p class="text-muted">Choose Fluid or Boxed layout.</p>
+
+          <div class="row gy-3">
+            <div class="col-6">
+              <div
+                class="form-check card-radio customize-widget"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseLayoutWidth.show"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-layout-width"
+                  id="layout-width-fluid"
+                  value="fluid"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="layout-width-fluid"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Fluid</h5>
+            </div>
+            <div class="col-6">
+              <div
+                class="form-check card-radio customize-widget collapsed"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseLayoutWidth"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-layout-width"
+                  id="layout-width-boxed"
+                  value="boxed"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="layout-width-boxed"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100 border-start border-end px-3">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Boxed</h5>
+            </div>
+          </div>
+        </div>
+
+        <div class="collapse" id="collapseLayoutWidth">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">
+            Boxed Layout Body Images
+          </h6>
+          <p class="text-muted">Choose image.</p>
+
+          <div class="row gy-3">
+            <div class="col-6">
+              <div class="form-check card-radio customize-widget">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-body-image"
+                  id="data-body-image-none"
+                  value="none"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="data-body-image-none"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100 border-start border-end px-3">
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">None</h5>
+            </div>
+            <!--end col-->
+            <div class="col-6">
+              <div class="form-check card-radio customize-widget">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-body-image"
+                  id="data-body-image-1"
+                  value="img-1"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="data-body-image-1"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span
+                    class="d-flex gap-1 h-100 border-start border-end px-3"
+                    style="
+                      background-image: url('/static/backend/images/sidebar/body-light-1.png');
+                    "
+                  >
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Img 1</h5>
+            </div>
+            <!--end col-->
+            <div class="col-6">
+              <div class="form-check card-radio customize-widget">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-body-image"
+                  id="data-body-image-2"
+                  value="img-2"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="data-body-image-2"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span
+                    class="d-flex gap-1 h-100 border-start border-end px-3"
+                    style="
+                      background-image: url('/static/backend/images/sidebar/body-light-2.png');
+                    "
+                  >
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Img 2</h5>
+            </div>
+            <!--end col-->
+            <div class="col-6">
+              <div class="form-check card-radio customize-widget">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-body-image"
+                  id="data-body-image-3"
+                  value="img-3"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="data-body-image-3"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span
+                    class="d-flex gap-1 h-100 border-start border-end px-3"
+                    style="
+                      background-image: url('/static/backend/images/sidebar/body-light-3.png');
+                    "
+                  >
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Img 3</h5>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </div>
+
+        <div id="layout-position">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">
+            Layout Position
+          </h6>
+          <p class="text-muted">Choose Fixed or Scrollable Layout Position.</p>
+
+          <div class="btn-group radio" role="group">
+            <input
+              type="radio"
+              class="btn-check"
+              name="data-layout-position"
+              id="layout-position-fixed"
+              value="fixed"
+            />
+            <label class="btn btn-light w-sm" for="layout-position-fixed"
+              >Fixed</label
+            >
+
+            <input
+              type="radio"
+              class="btn-check"
+              name="data-layout-position"
+              id="layout-position-scrollable"
+              value="scrollable"
+            />
+            <label
+              class="btn btn-light w-sm ms-0"
+              for="layout-position-scrollable"
+              >Scrollable</label
+            >
+          </div>
+        </div>
+        <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">Topbar Color</h6>
+        <p class="text-muted">Choose Light or Dark Topbar Color.</p>
+
+        <div class="row gy-3">
+          <div class="col-6">
+            <div class="form-check card-radio customize-widget">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="data-topbar"
+                id="topbar-color-light"
+                value="light"
+              />
+              <label
+                class="form-check-label p-0 avatar-xl w-100"
+                for="topbar-color-light"
+              >
+                <span
+                  class="customize-penal-main w-100 d-block d-flex align-items-center"
+                >
+                  <span class="d-flex align-items-center gap-1 ps-1">
+                    <span
+                      class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                    ></span>
+                  </span>
+                </span>
+                <span class="d-flex gap-1 h-100">
+                  <span class="flex-shrink-0">
+                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                      <span
+                        class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="flex-grow-1">
+                    <span class="d-flex h-100 flex-column">
+                      <span class="bg-light d-block p-1"></span>
+                      <span class="bg-light d-block p-1 mt-auto"></span>
+                    </span>
+                  </span>
+                </span>
+              </label>
+            </div>
+            <h5 class="fs-14 text-center mt-2">Light</h5>
+          </div>
+          <div class="col-6">
+            <div class="form-check card-radio customize-widget">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="data-topbar"
+                id="topbar-color-dark"
+                value="dark"
+              />
+              <label
+                class="form-check-label p-0 avatar-xl w-100"
+                for="topbar-color-dark"
+              >
+                <span
+                  class="customize-penal-main w-100 d-block d-flex align-items-center"
+                >
+                  <span class="d-flex align-items-center gap-1 ps-1">
+                    <span
+                      class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                    ></span>
+                  </span>
+                </span>
+                <span class="d-flex gap-1 h-100">
+                  <span class="flex-shrink-0">
+                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                      <span
+                        class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="flex-grow-1">
+                    <span class="d-flex h-100 flex-column">
+                      <span class="bg-dark d-block p-1"></span>
+                      <span class="bg-light d-block p-1 mt-auto"></span>
+                    </span>
+                  </span>
+                </span>
+              </label>
+            </div>
+            <h5 class="fs-14 text-center mt-2">Dark</h5>
+          </div>
+
+          <div class="col-6">
+            <div class="form-check card-radio customize-widget">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="data-topbar"
+                id="topbar-color-brand"
+                value="brand"
+              />
+              <label
+                class="form-check-label p-0 avatar-xl w-100"
+                for="topbar-color-brand"
+              >
+                <span
+                  class="customize-penal-main w-100 d-block d-flex align-items-center"
+                >
+                  <span class="d-flex align-items-center gap-1 ps-1">
+                    <span
+                      class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                    ></span>
+                  </span>
+                </span>
+                <span class="d-flex gap-1 h-100">
+                  <span class="flex-shrink-0">
+                    <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                      <span
+                        class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="flex-grow-1">
+                    <span class="d-flex h-100 flex-column">
+                      <span class="bg-primary d-block p-1"></span>
+                      <span class="bg-light d-block p-1 mt-auto"></span>
+                    </span>
+                  </span>
+                </span>
+              </label>
+            </div>
+            <h5 class="fs-14 text-center mt-2">Brand</h5>
+          </div>
+        </div>
+
+        <div id="sidebar-size">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">
+            Sidebar Size
+          </h6>
+          <p class="text-muted">Choose a size of Sidebar.</p>
+
+          <div class="row gy-3">
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar-size"
+                  id="sidebar-size-default"
+                  value="lg"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-size-default"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Default</h5>
+            </div>
+
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar-size"
+                  id="sidebar-size-compact"
+                  value="md"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-size-compact"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Compact</h5>
+            </div>
+
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar-size"
+                  id="sidebar-size-small"
+                  value="sm"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-size-small"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1">
+                        <span class="d-block p-1 bg-primary-subtle mb-2"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Small (Icon View)</h5>
+            </div>
+
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar-size"
+                  id="sidebar-size-small-hover"
+                  value="sm-hover"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-size-small-hover"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1">
+                        <span class="d-block p-1 bg-primary-subtle mb-2"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                        <span class="d-block p-1 pb-0 bg-primary-subtle"></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Small Hover View</h5>
+            </div>
+          </div>
+        </div>
+
+        <div id="sidebar-view">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">
+            Sidebar View
+          </h6>
+          <p class="text-muted">Choose Default or Detached Sidebar view.</p>
+
+          <div class="row gy-3">
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-layout-style"
+                  id="sidebar-view-default"
+                  value="default"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-view-default"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Default</h5>
+            </div>
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-layout-style"
+                  id="sidebar-view-detached"
+                  value="detached"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-view-detached"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex h-100 flex-column">
+                    <span
+                      class="bg-light d-flex p-1 gap-1 align-items-center px-2"
+                    >
+                      <span
+                        class="d-block p-1 bg-primary-subtle rounded me-1"
+                      ></span>
+                      <span
+                        class="d-block p-1 pb-0 px-2 bg-primary-subtle ms-auto"
+                      ></span>
+                      <span
+                        class="d-block p-1 pb-0 px-2 bg-primary-subtle"
+                      ></span>
+                    </span>
+                    <span class="d-flex gap-1 h-100 p-1 px-2">
+                      <span class="flex-shrink-0">
+                        <span
+                          class="bg-light d-flex h-100 flex-column gap-1 p-1"
+                        >
+                          <span
+                            class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                          ></span>
+                          <span
+                            class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                          ></span>
+                          <span
+                            class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                          ></span>
+                        </span>
+                      </span>
+                    </span>
+                    <span class="bg-light d-block p-1 mt-auto px-2"></span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Detached</h5>
+            </div>
+          </div>
+        </div>
+        <div id="sidebar-color">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">
+            Sidebar Color
+          </h6>
+          <p class="text-muted">Choose a color of Sidebar.</p>
+
+          <div class="row gy-3">
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseBgGradient.show"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar"
+                  id="sidebar-color-light"
+                  value="light"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-color-light"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span
+                        class="bg-white border-end d-flex h-100 flex-column gap-1 p-1"
+                      >
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Light</h5>
+            </div>
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseBgGradient.show"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar"
+                  id="sidebar-color-dark"
+                  value="dark"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="sidebar-color-dark"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-dark d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-light bg-opacity-10 rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-light bg-opacity-10"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-light bg-opacity-10"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-light bg-opacity-10"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Dark</h5>
+            </div>
+            <div class="col-6">
+              <button
+                class="btn btn-link avatar-xl w-100 p-0 overflow-hidden border collapsed customize-widget"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseBgGradient"
+                aria-expanded="false"
+                aria-controls="collapseBgGradient"
+              >
+                <span
+                  class="customize-penal-main w-100 d-block d-flex align-items-center"
+                >
+                  <span class="d-flex align-items-center gap-1 ps-1">
+                    <span
+                      class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                    ></span>
+                    <span
+                      class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                    ></span>
+                  </span>
+                </span>
+                <span class="d-flex gap-1 h-100">
+                  <span class="flex-shrink-0">
+                    <span
+                      class="bg-vertical-gradient d-flex h-100 flex-column gap-1 p-1"
+                    >
+                      <span
+                        class="d-block p-1 px-2 bg-light bg-opacity-10 rounded mb-2"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"
+                      ></span>
+                      <span
+                        class="d-block p-1 px-2 pb-0 bg-white bg-opacity-10"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="flex-grow-1">
+                    <span class="d-flex h-100 flex-column">
+                      <span class="bg-light d-block p-1"></span>
+                      <span class="bg-light d-block p-1 mt-auto"></span>
+                    </span>
+                  </span>
+                </span>
+              </button>
+              <h5 class="fs-14 text-center mt-2">Gradient</h5>
+            </div>
+          </div>
+          <!-- end row -->
+
+          <div class="collapse" id="collapseBgGradient">
+            <div
+              class="d-flex gap-2 flex-wrap img-switch p-2 px-3 bg-light rounded"
+            >
+              <div class="form-check sidebar-setting card-radio">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar"
+                  id="sidebar-color-gradient"
+                  value="gradient"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xs rounded-circle"
+                  for="sidebar-color-gradient"
+                >
+                  <span
+                    class="avatar-title rounded-circle bg-vertical-gradient"
+                  ></span>
+                </label>
+              </div>
+              <div class="form-check sidebar-setting card-radio">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar"
+                  id="sidebar-color-gradient-2"
+                  value="gradient-2"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xs rounded-circle"
+                  for="sidebar-color-gradient-2"
+                >
+                  <span
+                    class="avatar-title rounded-circle bg-vertical-gradient-2"
+                  ></span>
+                </label>
+              </div>
+              <div class="form-check sidebar-setting card-radio">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar"
+                  id="sidebar-color-gradient-3"
+                  value="gradient-3"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xs rounded-circle"
+                  for="sidebar-color-gradient-3"
+                >
+                  <span
+                    class="avatar-title rounded-circle bg-vertical-gradient-3"
+                  ></span>
+                </label>
+              </div>
+              <div class="form-check sidebar-setting card-radio">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-sidebar"
+                  id="sidebar-color-gradient-4"
+                  value="gradient-4"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xs rounded-circle"
+                  for="sidebar-color-gradient-4"
+                >
+                  <span
+                    class="avatar-title rounded-circle bg-vertical-gradient-4"
+                  ></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="sidebar-img">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">
+            Sidebar Images
+          </h6>
+          <p class="text-muted">Choose a image of Sidebar.</p>
+
+          <div class="img-switch">
+            <div class="row gy-3">
+              <div class="col-6">
+                <div
+                  class="form-check sidebar-setting card-radio customize-widget"
+                >
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="data-sidebar-image"
+                    id="sidebarimg-none"
+                    value="none"
+                  />
+                  <label
+                    class="form-check-label p-0 avatar-xl w-100"
+                    for="sidebarimg-none"
+                  >
+                    <span
+                      class="customize-penal-main w-100 d-block d-flex align-items-center"
+                    >
+                      <span class="d-flex align-items-center gap-1 ps-1">
+                        <span
+                          class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="d-flex gap-1 h-100">
+                      <span class="flex-shrink-0">
+                        <span
+                          class="bg-light d-flex h-100 flex-column gap-1 p-2 d-flex align-items-center justify-content-center"
+                        >
+                          <i class="ri-close-fill fs-20"></i>
+                        </span>
+                      </span>
+                      <span class="flex-grow-1">
+                        <span class="d-flex h-100 flex-column">
+                          <span class="bg-light d-block p-1"></span>
+                          <span class="bg-light d-block p-1 mt-auto"></span>
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-6">
+                <div
+                  class="form-check sidebar-setting card-radio customize-widget"
+                >
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="data-sidebar-image"
+                    id="sidebarimg-01"
+                    value="img-1"
+                  />
+                  <label
+                    class="form-check-label p-0 avatar-xl w-100"
+                    for="sidebarimg-01"
+                  >
+                    <span
+                      class="customize-penal-main w-100 d-block d-flex align-items-center"
+                    >
+                      <span class="d-flex align-items-center gap-1 ps-1">
+                        <span
+                          class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="d-flex gap-1 h-100">
+                      <span class="flex-shrink-0">
+                        <img
+                          src="/static/backend/images/sidebar/img-1.jpg"
+                          alt=""
+                          class="avatar-sm h-100 object-fit-cover"
+                        />
+                      </span>
+                      <span class="flex-grow-1">
+                        <span class="d-flex h-100 flex-column">
+                          <span class="bg-light d-block p-1"></span>
+                          <span class="bg-light d-block p-1 mt-auto"></span>
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <!--end col-->
+              <div class="col-6">
+                <div
+                  class="form-check sidebar-setting card-radio customize-widget"
+                >
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="data-sidebar-image"
+                    id="sidebarimg-02"
+                    value="img-2"
+                  />
+                  <label
+                    class="form-check-label p-0 avatar-xl w-100"
+                    for="sidebarimg-02"
+                  >
+                    <span
+                      class="customize-penal-main w-100 d-block d-flex align-items-center"
+                    >
+                      <span class="d-flex align-items-center gap-1 ps-1">
+                        <span
+                          class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="d-flex gap-1 h-100">
+                      <span class="flex-shrink-0">
+                        <img
+                          src="/static/backend/images/sidebar/img-2.jpg"
+                          alt=""
+                          class="avatar-sm h-100 object-fit-cover"
+                        />
+                      </span>
+                      <span class="flex-grow-1">
+                        <span class="d-flex h-100 flex-column">
+                          <span class="bg-light d-block p-1"></span>
+                          <span class="bg-light d-block p-1 mt-auto"></span>
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <!--end col-->
+              <div class="col-6">
+                <div
+                  class="form-check sidebar-setting card-radio customize-widget"
+                >
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="data-sidebar-image"
+                    id="sidebarimg-03"
+                    value="img-3"
+                  />
+                  <label
+                    class="form-check-label p-0 avatar-xl w-100"
+                    for="sidebarimg-03"
+                  >
+                    <span
+                      class="customize-penal-main w-100 d-block d-flex align-items-center"
+                    >
+                      <span class="d-flex align-items-center gap-1 ps-1">
+                        <span
+                          class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="d-flex gap-1 h-100">
+                      <span class="flex-shrink-0">
+                        <img
+                          src="/static/backend/images/sidebar/img-3.jpg"
+                          alt=""
+                          class="avatar-sm h-100 object-fit-cover"
+                        />
+                      </span>
+                      <span class="flex-grow-1">
+                        <span class="d-flex h-100 flex-column">
+                          <span class="bg-light d-block p-1"></span>
+                          <span class="bg-light d-block p-1 mt-auto"></span>
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <!--end col-->
+              <div class="col-6">
+                <div
+                  class="form-check sidebar-setting card-radio customize-widget"
+                >
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="data-sidebar-image"
+                    id="sidebarimg-04"
+                    value="img-4"
+                  />
+                  <label
+                    class="form-check-label p-0 avatar-xl w-100"
+                    for="sidebarimg-04"
+                  >
+                    <span
+                      class="customize-penal-main w-100 d-block d-flex align-items-center"
+                    >
+                      <span class="d-flex align-items-center gap-1 ps-1">
+                        <span
+                          class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                        ></span>
+                        <span
+                          class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="d-flex gap-1 h-100">
+                      <span class="flex-shrink-0">
+                        <img
+                          src="/static/backend/images/sidebar/img-4.jpg"
+                          alt=""
+                          class="avatar-sm h-100 object-fit-cover"
+                        />
+                      </span>
+                      <span class="flex-grow-1">
+                        <span class="d-flex h-100 flex-column">
+                          <span class="bg-light d-block p-1"></span>
+                          <span class="bg-light d-block p-1 mt-auto"></span>
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <!--end col-->
+            </div>
+            <!--end row-->
+          </div>
+        </div>
+
+        <div id="preloader-menu">
+          <h6 class="mt-4 mb-1 fs-15 fw-semibold text-uppercase">Preloader</h6>
+          <p class="text-muted">Choose a preloader.</p>
+
+          <div class="row gy-3">
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-preloader"
+                  id="preloader-view-custom"
+                  value="enable"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="preloader-view-custom"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                  <!-- <div id="preloader"> -->
+                  <span
+                    class="d-flex align-items-center justify-content-center"
+                  >
+                    <span
+                      class="spinner-border text-primary avatar-xxs m-auto"
+                      role="status"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </span>
+                  </span>
+                  <!-- </div> -->
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Enable</h5>
+            </div>
+            <div class="col-6">
+              <div
+                class="form-check sidebar-setting card-radio customize-widget"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="data-preloader"
+                  id="preloader-view-none"
+                  value="disable"
+                />
+                <label
+                  class="form-check-label p-0 avatar-xl w-100"
+                  for="preloader-view-none"
+                >
+                  <span
+                    class="customize-penal-main w-100 d-block d-flex align-items-center"
+                  >
+                    <span class="d-flex align-items-center gap-1 ps-1">
+                      <span
+                        class="d-inline-block badge p-0 text-bg-danger rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-success rounded-circle"
+                      ></span>
+                      <span
+                        class="d-inline-block badge p-0 text-bg-warning rounded-circle"
+                      ></span>
+                    </span>
+                  </span>
+                  <span class="d-flex gap-1 h-100">
+                    <span class="flex-shrink-0">
+                      <span class="bg-light d-flex h-100 flex-column gap-1 p-1">
+                        <span
+                          class="d-block p-1 px-2 bg-primary-subtle rounded mb-2"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                        <span
+                          class="d-block p-1 px-2 pb-0 bg-primary-subtle"
+                        ></span>
+                      </span>
+                    </span>
+                    <span class="flex-grow-1">
+                      <span class="d-flex h-100 flex-column">
+                        <span class="bg-light d-block p-1"></span>
+                        <span class="bg-light d-block p-1 mt-auto"></span>
+                      </span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <h5 class="fs-14 text-center mt-2">Disable</h5>
+            </div>
+          </div>
+        </div>
+        <!-- end preloader-menu -->
+      </div>
+    </div>
+  </div>
+  <div class="offcanvas-footer border-top p-3 text-center">
+    <div class="row">
+      <div class="col-6">
+        <button type="button" class="btn btn-light w-100" id="reset-layout">
+          Reset
+        </button>
+      </div>
+      <div class="col-6">
+        <a href="#!" target="_blank" class="btn btn-primary w-100">Buy Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/static/backend/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/static/backend/libs/simplebar/simplebar.min.js"></script>
+<script src="/static/backend/js/plugins.js"></script>
+<!-- apexcharts -->
+<script src="/static/backend/libs/apexcharts/apexcharts.min.js"></script>
+<!-- Vector map-->
+<script src="/static/backend/libs/jsvectormap/js/jsvectormap.min.js"></script>
+<script src="/static/backend/libs/jsvectormap/maps/world-merc.js"></script>
+<script src="../..//static/backend/libs/list.js/list.min.html"></script>
+<!--Swiper slider js-->
+<script src="/static/backend/libs/swiper/swiper-bundle.min.js"></script>
+<!-- Dashboard init -->
+<script src="/static/backend/js/pages/dashboard-ecommerce.init.js"></script>
+<!-- App js -->
+<script src="/static/backend/js/app.js"></script>
+
+<script>
+  //  Line chart datalabel
+  var linechartDatalabelColors = getChartColorsArray("line_chart_datalabel");
+  if (linechartDatalabelColors) {
+    var options = {
+      chart: {
+        height: 405,
+        zoom: {
+          enabled: true,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      colors: linechartDatalabelColors,
+      markers: {
+        size: 0,
+        colors: "#ffffff",
+        strokeColors: linechartDatalabelColors,
+        strokeWidth: 1,
+        strokeOpacity: 0.9,
+        fillOpacity: 1,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        width: [2, 2, 2],
+        curve: "smooth",
+      },
+      series: [
+        {
+          name: "Orders",
+          type: "line",
+          data: [180, 274, 346, 290, 370, 420, 490, 542, 510, 580, 636, 745],
+        },
+        {
+          name: "Refunds",
+          type: "area",
+          data: [100, 154, 302, 411, 300, 284, 273, 232, 187, 174, 152, 122],
+        },
+        {
+          name: "Earnings",
+          type: "line",
+          data: [260, 360, 320, 345, 436, 527, 641, 715, 832, 794, 865, 933],
+        },
+      ],
+      fill: {
+        type: ["solid", "gradient", "solid"],
+        gradient: {
+          shadeIntensity: 1,
+          type: "vertical",
+          inverseColors: false,
+          opacityFrom: 0.3,
+          opacityTo: 0.0,
+          stops: [20, 80, 100, 100],
+        },
+      },
+      grid: {
+        row: {
+          colors: ["transparent", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.2,
+        },
+        borderColor: "#f1f1f1",
+      },
+      xaxis: {
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        floating: true,
+        offsetY: -25,
+        offsetX: -5,
+      },
+      responsive: [
+        {
+          breakpoint: 600,
+          options: {
+            chart: {
+              toolbar: {
+                show: false,
+              },
+            },
+            legend: {
+              show: false,
+            },
+          },
+        },
+      ],
+    };
+
+    var chart = new ApexCharts(
+      document.querySelector("#line_chart_datalabel"),
+      options
+    );
+    chart.render();
+  }
+
+  // world map with line & markers
+  var vectorMapWorldLineColors = getChartColorsArray("world-map-line-markers");
+  if (vectorMapWorldLineColors)
+    var worldlinemap = new jsVectorMap({
+      map: "world_merc",
+      selector: "#world-map-line-markers",
+      zoomOnScroll: false,
+      zoomButtons: false,
+      markers: [
+        {
+          name: "Greenland",
+          coords: [71.7069, 42.6043],
+          style: {
+            image: "/static/backend/images/flags/gl.svg",
+          },
+        },
+        {
+          name: "Canada",
+          coords: [56.1304, -106.3468],
+          style: {
+            image: "/static/backend/images/flags/ca.svg",
+          },
+        },
+        {
+          name: "Brazil",
+          coords: [-14.235, -51.9253],
+          style: {
+            image: "/static/backend/images/flags/br.svg",
+          },
+        },
+        {
+          name: "Serbia",
+          coords: [44.0165, 21.0059],
+          style: {
+            image: "/static/backend/images/flags/rs.svg",
+          },
+        },
+        {
+          name: "Russia",
+          coords: [61, 105],
+          style: {
+            image: "/static/backend/images/flags/ru.svg",
+          },
+        },
+        {
+          name: "US",
+          coords: [37.0902, -95.7129],
+          style: {
+            image: "/static/backend/images/flags/us.svg",
+          },
+        },
+        {
+          name: "Australia",
+          coords: [25.2744, 133.7751],
+          style: {
+            image: "/static/backend/images/flags/au.svg",
+          },
+        },
+      ],
+      lines: [
+        {
+          from: "Canada",
+          to: "Serbia",
+        },
+        {
+          from: "Russia",
+          to: "Serbia",
+        },
+        {
+          from: "Greenland",
+          to: "Serbia",
+        },
+        {
+          from: "Brazil",
+          to: "Serbia",
+        },
+        {
+          from: "US",
+          to: "Serbia",
+        },
+        {
+          from: "Australia",
+          to: "Serbia",
+        },
+      ],
+      regionStyle: {
+        initial: {
+          stroke: "#9599ad",
+          strokeWidth: 0.25,
+          fill: vectorMapWorldLineColors,
+          fillOpacity: 1,
+        },
+      },
+      labels: {
+        markers: {
+          render(marker, index) {
+            return marker.name || marker.labelName || "Not available";
+          },
+        },
+      },
+      lineStyle: {
+        animation: true,
+        strokeDasharray: "6 3 6",
+      },
+    });
+
+  // Multi-Radial Bar
+  var chartRadialbarMultipleColors = getChartColorsArray("multiple_radialbar");
+  if (chartRadialbarMultipleColors) {
+    var options = {
+      series: [85, 69, 45, 78],
+      chart: {
+        height: 300,
+        type: "radialBar",
+      },
+      sparkline: {
+        enabled: true,
+      },
+      plotOptions: {
+        radialBar: {
+          startAngle: -90,
+          endAngle: 90,
+          dataLabels: {
+            name: {
+              fontSize: "22px",
+            },
+            value: {
+              fontSize: "16px",
+            },
+            total: {
+              show: true,
+              label: "Sales",
+              formatter: function (w) {
+                return 2922;
+              },
+            },
+          },
+        },
+      },
+      labels: ["Fashion", "Electronics", "Groceries", "Others"],
+      colors: chartRadialbarMultipleColors,
+      legend: {
+        show: false,
+        fontSize: "16px",
+        position: "bottom",
+        labels: {
+          useSeriesColors: true,
+        },
+        markers: {
+          size: 0,
+        },
+      },
+    };
+
+    var chart = new ApexCharts(
+      document.querySelector("#multiple_radialbar"),
+      options
+    );
+    chart.render();
+  }
+
+  //  Spline Area Charts
+  var areachartSplineColors = getChartColorsArray("area_chart_spline");
+  if (areachartSplineColors) {
+    var options = {
+      series: [
+        {
+          name: "This Month",
+          data: [49, 54, 48, 54, 67, 88, 96],
+        },
+        {
+          name: "Last Month",
+          data: [57, 66, 74, 63, 55, 70, 85],
+        },
+      ],
+      chart: {
+        height: 250,
+        type: "area",
+        toolbar: {
+          show: false,
+        },
+      },
+      fill: {
+        type: ["gradient", "gradient"],
+        gradient: {
+          shadeIntensity: 1,
+          type: "vertical",
+          inverseColors: false,
+          opacityFrom: 0.3,
+          opacityTo: 0.0,
+          stops: [50, 70, 100, 100],
+        },
+      },
+      markers: {
+        size: 4,
+        colors: "#ffffff",
+        strokeColors: areachartSplineColors,
+        strokeWidth: 1,
+        strokeOpacity: 0.9,
+        fillOpacity: 1,
+        hover: {
+          size: 6,
+        },
+      },
+      grid: {
+        show: false,
+        padding: {
+          top: -35,
+          right: 0,
+          bottom: 0,
+          left: -6,
+        },
+      },
+      legend: {
+        show: false,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        width: [2, 2],
+        curve: "smooth",
+      },
+      colors: areachartSplineColors,
+      xaxis: {
+        labels: {
+          show: false,
+        },
+      },
+      yaxis: {
+        labels: {
+          show: false,
+        },
+      },
+    };
+
+    var chart = new ApexCharts(
+      document.querySelector("#area_chart_spline"),
+      options
+    );
+    chart.render();
+  }
+</script>
+
+<%- include("./layouts/footer") %>
