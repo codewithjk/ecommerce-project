@@ -32,6 +32,12 @@ const {
 const {
   getAllProducts,
   getProductPage,
+  getCartItems,
+  removeCartItem,
+  addToCart,
+  getCartPage,
+  listAllProduct,
+  searchProduct,
 } = require("../controller/user/product");
 const path = require("path");
 const {
@@ -39,6 +45,16 @@ const {
   checkAuthenticated,
   isBlocked,
 } = require("../middleware/authentication");
+
+//profile
+const {
+  getAccountPage,
+  getAddressOfUser,
+  editAddress,
+  addAddress,
+  editProfile,
+} = require("../controller/user/account");
+const { resourceLimits } = require("worker_threads");
 
 //set views directory
 router.set("views", path.join(__dirname, "../../views/user"));
@@ -49,9 +65,10 @@ router.get("/login", getLogin);
 router.get("/register", getRegister);
 router.get("/forgot-password", getForgotPassword);
 router.get("/otp-verification", getOtpPage);
-router.get("/products", verifyToken, getAllProducts);
+router.get("/products", verifyToken, getAllProducts); // this is for page
 router.get("/verify-confirmation-code", getConfirmationPage);
 router.get("/set-new-password", verifyToken, getSetNewPassword);
+
 router.get("/product-details", verifyToken, getProductPage);
 
 router.get("/auth/google", getGoogleURL);
@@ -69,7 +86,20 @@ router.post("/resend-otp", resendOtp);
 router.post("/verify-email", verifyEmail);
 router.post("/change-password", verifyToken, postSetNewPassword);
 
-// router.post("/verify-email", emailVerification);
+//profile
+router.get("/account", verifyToken, getAccountPage);
+router.patch("/edit-profile", verifyToken, editProfile);
+router.get("/address", verifyToken, getAddressOfUser);
+router.patch("/edit-address", verifyToken, editAddress);
+router.post("/add-address", verifyToken, addAddress);
+
+//product
+router.put("/add-to-cart", verifyToken, addToCart);
+router.get("/get-cart", verifyToken, getCartItems);
+router.delete("/remove-from-cart", verifyToken, removeCartItem);
+router.get("/get-cart-page", verifyToken, getCartPage);
+router.get("/products/all-products", verifyToken, listAllProduct); //list all product
+router.get("/products/search", verifyToken, searchProduct);
 
 router.get("/blocked-message", renderBlockedMessage);
 

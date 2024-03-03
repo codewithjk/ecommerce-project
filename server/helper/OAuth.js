@@ -66,6 +66,7 @@ const getFacebookURL = (req, res) => {
   const params = new URLSearchParams({
     client_id: process.env.FACEBOOK_CLIENT_ID,
     redirect_uri: "http://localhost:8080/auth/facebook/callback",
+    scope: "email",
   });
   const url = `https://www.facebook.com/v6.0/dialog/oauth?${params}`;
   res.json({ redirect: url });
@@ -84,9 +85,6 @@ const getUserFromFacebook = async (req, res) => {
       "https://graph.facebook.com/v12.0/me?fields=id,email,first_name,last_name,picture";
     const response = await fetch(urlForGettingUserInfo, {
       method: "GET",
-      params: {
-        fields: "id,name,email,first_name,last_name,picture",
-      },
       headers: {
         Authorization: `Bearer ${data.access_token}`,
       },
@@ -96,7 +94,7 @@ const getUserFromFacebook = async (req, res) => {
       throw new Error("Network response was not ok");
     } else {
       const facebookUser = await response.json();
-      console.log("Face book user -==== s", facebookUser);
+      console.log("Face book user ==== ", facebookUser);
       const email = facebookUser.email;
       res.cookie("email", email);
       const existingUser = await getUserByEmail(email);
@@ -104,16 +102,16 @@ const getUserFromFacebook = async (req, res) => {
         await setJwtToCookies(res, existingUser);
         res.redirect("/products");
       } else {
-        // const user = new userModel({
-        //   firstName: facebookUser.first_name,
-        //   lastName: facebookUser.last_name,
-        //   avatar: facebookUser.picture.data.url,
-        //   email: email,
-        //   googleId: facebookUser.sub,
-        // });
-        // await user.save();
-        // await setJwtToCookies(res, user);
-        // res.redirect("/products");
+        const user = new userModel({
+          firstName: facebookUser.first_name,
+          lastName: facebookUser.last_name,
+          avatar: facebookUser.picture.data.url,
+          email: email,
+          googleId: facebookUser.sub,
+        });
+        await user.save();
+        await setJwtToCookies(res, user);
+        res.redirect("/products");
       }
     }
   }

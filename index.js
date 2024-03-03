@@ -25,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //load static assets
 app.use("/static", express.static(path.resolve(__dirname, "assets")));
+
 app.set("view engine", "ejs");
 
 app.use(cookieParser());

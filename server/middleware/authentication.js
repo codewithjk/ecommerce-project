@@ -43,6 +43,7 @@ const isAdmin = (req, res, next) => {
   }
 };
 
+// Not comleted
 const isBlocked = (req, res, next) => {
   const email = req.cookies.email;
   if (email) {

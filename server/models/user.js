@@ -25,6 +25,7 @@ const userSchema = new Schema({
   },
   avatar: {
     type: String,
+    default: "/static/frontend/images/users/avatar-1.jpg",
   },
   facebookId: {
     type: String,
@@ -38,7 +39,7 @@ const userSchema = new Schema({
   },
   resetPasswordExpires: { type: Date },
   updated: Date,
-  created: {
+  created_at: {
     type: Date,
     default: Date.now,
   },

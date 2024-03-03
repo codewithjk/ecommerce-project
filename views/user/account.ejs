@@ -1,0 +1,1507 @@
+<%- include("./layouts/header") %> <%- include("./layouts/navbar") %>
+
+<!-- start profile -->
+<section class="position-relative">
+  <div
+    class="profile-basic position-relative"
+    style="
+      background-image: url('/static/frontend/images/profile-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 300px;
+    "
+  >
+    <div class="bg-overlay bg-primary" style="--bs-bg-opacity: 0.99"></div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="pt-3">
+          <div class="mt-n5 d-flex gap-3 flex-wrap align-items-end">
+            <img
+              src="<%=user.avatar%>"
+              alt=""
+              class="avatar-xl rounded p-1 bg-light mt-n3"
+            />
+            <div>
+              <h5 class="fs-18"><%=user.firstName%> <%=user.lastName %></h5>
+              <div class="text-muted">
+                <i class="bi bi-geo-alt"></i> Phoenix, USA
+              </div>
+            </div>
+            <div class="ms-md-auto">
+              <!-- <p class="mb-0">Toner Member Since Jan 2020</p> -->
+              <a href="product-list.html" class="btn btn-success btn-hover"
+                ><i class="bi bi-cart4 me-1 align-middle"></i> Shopping Now</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end profile -->
+
+<!-- start tab-->
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <ul
+              id="menu-tabs"
+              class="nav nav-pills flex-column gap-3"
+              role="tablist"
+            >
+              <li class="nav-item" role="presentation">
+                <a
+                  id="accountInfo"
+                  class="nav-link fs-15 active"
+                  data-bs-toggle="tab"
+                  href="#custom-v-pills-profile"
+                  role="tab"
+                  aria-selected="true"
+                  ><i class="bi bi-person-circle align-middle me-1"></i> Account
+                  Info</a
+                >
+              </li>
+              <li class="nav-item" role="presentation">
+                <a
+                  id="shippingAddress"
+                  class="nav-link fs-15"
+                  data-bs-toggle="tab"
+                  href="#custom-v-pills-address"
+                  role="tab"
+                  aria-selected="true"
+                  ><i class="bi bi-person-circle align-middle me-1"></i>
+                  Addresses
+                </a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a
+                  id="wishlist"
+                  class="nav-link fs-15"
+                  data-bs-toggle="tab"
+                  href="#custom-v-pills-list"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1"
+                  ><i class="bi bi-bookmark-check align-middle me-1"></i> Wish
+                  list</a
+                >
+              </li>
+              <li class="nav-item" role="presentation">
+                <a
+                  id="orders"
+                  class="nav-link fs-15"
+                  data-bs-toggle="tab"
+                  href="#custom-v-pills-order"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1"
+                  ><i class="bi bi-bag align-middle me-1"></i> Orders</a
+                >
+              </li>
+              <li class="nav-item" role="presentation">
+                <a
+                  class="nav-link fs-15"
+                  id="settings"
+                  data-bs-toggle="tab"
+                  href="#custom-v-pills-setting"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1"
+                  ><i class="bi bi-gear align-middle me-1"></i> Settings</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  id="logout"
+                  class="nav-link fs-15"
+                  href="auth-logout-basic.html"
+                  ><i class="bi bi-box-arrow-right align-middle me-1"></i>
+                  Logout</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--end col-->
+      <div class="col-lg-9">
+        <div class="tab-content text-muted">
+          <div
+            class="tab-pane fade show active"
+            id="custom-v-pills-profile"
+            role="tabpanel"
+          >
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex mb-4">
+                      <h6
+                        class="fs-16 text-decoration-underline flex-grow-1 mb-0"
+                      >
+                        Personal Info
+                      </h6>
+                      <div class="flex-shrink-0">
+                        <% const userObj = JSON.stringify(user) %>
+                        <a
+                          class="badge bg-dark-subtle text-dark"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editProfileModal"
+                          data-custom-data="<%=userObj %>"
+                          >Edit</a
+                        >
+                      </div>
+                    </div>
+
+                    <div class="table-responsive table-card px-1">
+                      <table class="table table-borderless table-sm">
+                        <tbody>
+                          <tr>
+                            <td>Customer Name</td>
+                            <td class="fw-medium">
+                              <%=user.firstName%> <%=user.lastName %>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Mobile / Phone Number</td>
+                            <td class="fw-medium"><%=user.phoneNumber %></td>
+                          </tr>
+                          <tr>
+                            <td>Email Address</td>
+                            <td class="fw-medium"><%=user.email %></td>
+                          </tr>
+                          <tr>
+                            <td>Location</td>
+                            <td class="fw-medium">Phoenix, USA</td>
+                          </tr>
+                          <tr>
+                            <td>Since Member</td>
+                            <td class="fw-medium">
+                              <% const dateString = new
+                              Date(user.created_at).toLocaleDateString('en-US',
+                              { day: '2-digit', month: 'short', year: 'numeric'
+                              }); %> <%= dateString %>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- end row -->
+                  </div>
+                </div>
+                <!--end card-->
+              </div>
+              <!--end col-->
+            </div>
+          </div>
+          <!--end tab-pane-->
+          <div
+            class="tab-pane fade show"
+            id="custom-v-pills-address"
+            role="tabpanel"
+          >
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div
+                      class="mt-4 d-flex align-items-center justify-content-between"
+                    >
+                      <h6 class="fs-16 text-decoration-underline m-0">
+                        Shipping Address
+                      </h6>
+                      <a
+                        type="button"
+                        class="btn btn-success btn-sm w-xs"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addAddressModal"
+                      >
+                        Add
+                      </a>
+                    </div>
+                    <div id="addressContent" class="row mt-4"></div>
+                    <!-- end row -->
+                  </div>
+                </div>
+                <!--end card-->
+              </div>
+              <!--end col-->
+            </div>
+          </div>
+          <!--end tab-pane-->
+          <div class="tab-pane fade" id="custom-v-pills-list" role="tabpanel">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card overflow-hidden">
+                  <div class="card-body">
+                    <div class="table-responsive table-card">
+                      <table class="table fs-15 align-middle">
+                        <thead>
+                          <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Stock Status</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="d-flex gap-3">
+                                <div class="avatar-sm flex-shrink-0">
+                                  <div
+                                    class="avatar-title bg-dark-subtle rounded"
+                                  >
+                                    <img
+                                      src="/static/frontend/images/products/img-19.png"
+                                      alt=""
+                                      class="avatar-xs"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <a href="product-details.html">
+                                    <h6 class="fs-16">
+                                      World's Most Expensive T Shirt
+                                    </h6>
+                                  </a>
+                                  <p class="mb-0 text-muted fs-13">
+                                    Women's Clothes
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>$154.49</td>
+                            <td>
+                              <span class="badge bg-success-subtle text-success"
+                                >In Stock</span
+                              >
+                            </td>
+                            <td>
+                              <ul class="list-unstyled d-flex gap-3 mb-0">
+                                <li>
+                                  <a
+                                    href="shop-cart.html"
+                                    class="btn btn-soft-info btn-icon btn-sm"
+                                    ><i
+                                      class="ri-shopping-cart-2-line fs-13"
+                                    ></i
+                                  ></a>
+                                </li>
+                                <li>
+                                  <a
+                                    href="#!"
+                                    class="btn btn-soft-danger btn-icon btn-sm"
+                                    ><i class="ri-close-line fs-13"></i
+                                  ></a>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex gap-3">
+                                <div class="avatar-sm flex-shrink-0">
+                                  <div
+                                    class="avatar-title bg-danger-subtle rounded"
+                                  >
+                                    <img
+                                      src="/static/frontend/images/products/img-12.png"
+                                      alt=""
+                                      class="avatar-xs"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <a href="product-details.html">
+                                    <h6 class="fs-16">
+                                      Onyx SmartGRID Chair Red
+                                    </h6>
+                                  </a>
+                                  <p class="mb-0 text-muted fs-13">
+                                    Furniture &amp; Decor
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>$39.99</td>
+                            <td>
+                              <span class="badge bg-danger-subtle text-danger"
+                                >Out Of Stock</span
+                              >
+                            </td>
+                            <td>
+                              <ul class="list-unstyled d-flex gap-3 mb-0">
+                                <li>
+                                  <a
+                                    href="shop-cart.html"
+                                    class="btn btn-soft-info btn-icon btn-sm"
+                                    ><i
+                                      class="ri-shopping-cart-2-line fs-13"
+                                    ></i
+                                  ></a>
+                                </li>
+                                <li>
+                                  <a
+                                    href="#!"
+                                    class="btn btn-soft-danger btn-icon btn-sm"
+                                    ><i class="ri-close-line fs-13"></i
+                                  ></a>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex gap-3">
+                                <div class="avatar-sm flex-shrink-0">
+                                  <div
+                                    class="avatar-title bg-success-subtle rounded"
+                                  >
+                                    <img
+                                      src="/static/frontend/images/products/img-4.png"
+                                      alt=""
+                                      class="avatar-xs"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <a href="product-details.html">
+                                    <h6 class="fs-16">Slippers Open Toe</h6>
+                                  </a>
+                                  <p class="mb-0 text-muted fs-13">Footwear</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>$74.32</td>
+                            <td>
+                              <span class="badge bg-success-subtle text-success"
+                                >In Stock</span
+                              >
+                            </td>
+                            <td>
+                              <ul class="list-unstyled d-flex gap-3 mb-0">
+                                <li>
+                                  <a
+                                    href="shop-cart.html"
+                                    class="btn btn-soft-info btn-icon btn-sm"
+                                    ><i
+                                      class="ri-shopping-cart-2-line fs-13"
+                                    ></i
+                                  ></a>
+                                </li>
+                                <li>
+                                  <a
+                                    href="#!"
+                                    class="btn btn-soft-danger btn-icon btn-sm"
+                                    ><i class="ri-close-line fs-13"></i
+                                  ></a>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex gap-3">
+                                <div class="avatar-sm flex-shrink-0">
+                                  <div
+                                    class="avatar-title bg-secondary-subtle rounded"
+                                  >
+                                    <img
+                                      src="/static/frontend/images/products/img-1.png"
+                                      alt=""
+                                      class="avatar-xs"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <a href="product-details.html">
+                                    <h6 class="fs-16">
+                                      Hp Trendsetter Backpack
+                                    </h6>
+                                  </a>
+                                  <p class="mb-0 text-muted fs-13">
+                                    Handbags &amp; Clutches
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>$32.00</td>
+                            <td>
+                              <span class="badge bg-success-subtle text-success"
+                                >In Stock</span
+                              >
+                            </td>
+                            <td>
+                              <ul class="list-unstyled d-flex gap-3 mb-0">
+                                <li>
+                                  <a
+                                    href="shop-cart.html"
+                                    class="btn btn-soft-info btn-icon btn-sm"
+                                    ><i
+                                      class="ri-shopping-cart-2-line fs-13"
+                                    ></i
+                                  ></a>
+                                </li>
+                                <li>
+                                  <a
+                                    href="#!"
+                                    class="btn btn-soft-danger btn-icon btn-sm"
+                                    ><i class="ri-close-line fs-13"></i
+                                  ></a>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="d-flex gap-3">
+                                <div class="avatar-sm flex-shrink-0">
+                                  <div
+                                    class="avatar-title bg-info-subtle rounded"
+                                  >
+                                    <img
+                                      src="/static/frontend/images/products/img-7.png"
+                                      alt=""
+                                      class="avatar-xs"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <a href="product-details.html">
+                                    <h6 class="fs-16">
+                                      Innovative education book
+                                    </h6>
+                                  </a>
+                                  <p class="mb-0 text-muted fs-13">Books</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td>$18.32</td>
+                            <td>
+                              <span class="badge bg-danger-subtle text-danger"
+                                >Out Of Stock</span
+                              >
+                            </td>
+                            <td>
+                              <ul class="list-unstyled d-flex gap-3 mb-0">
+                                <li>
+                                  <a
+                                    href="shop-cart.html"
+                                    class="btn btn-soft-info btn-icon btn-sm"
+                                    ><i
+                                      class="ri-shopping-cart-2-line fs-13"
+                                    ></i
+                                  ></a>
+                                </li>
+                                <li>
+                                  <a
+                                    href="#!"
+                                    class="btn btn-soft-danger btn-icon btn-sm"
+                                    ><i class="ri-close-line fs-13"></i
+                                  ></a>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="hstack gap-2 justify-content-end mt-4">
+                      <a
+                        href="product-list.html"
+                        class="btn btn-hover btn-secondary"
+                        >Continue Shopping
+                        <i class="ri-arrow-right-line align-bottom"></i
+                      ></a>
+                      <a href="checkout.html" class="btn btn-hover btn-primary"
+                        >Check Out
+                        <i class="ri-arrow-right-line align-bottom"></i
+                      ></a>
+                    </div>
+                  </div>
+                  <!-- end card-body -->
+                </div>
+                <!--end card-->
+              </div>
+              <!--end col-->
+            </div>
+          </div>
+          <!--end tab-pane-->
+          <div class="tab-pane fade" id="custom-v-pills-order" role="tabpanel">
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive table-card">
+                  <table class="table fs-15 align-middle table-nowrap">
+                    <thead>
+                      <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="#" class="text-body">TBT15454841</a>
+                        </td>
+                        <td>
+                          <a href="product-details.html">
+                            <h6 class="fs-15 mb-1">
+                              World's Most Expensive T Shirt
+                            </h6>
+                          </a>
+                          <p class="mb-0 text-muted fs-13">Women's Clothes</p>
+                        </td>
+                        <td><span class="text-muted">01 Jul, 2022</span></td>
+                        <td class="fw-medium">$287.53</td>
+                        <td>
+                          <span class="badge bg-success-subtle text-success"
+                            >Delivered</span
+                          >
+                        </td>
+                        <td>
+                          <a
+                            href="#invoiceModal"
+                            data-bs-toggle="modal"
+                            class="btn btn-secondary btn-sm"
+                            >Invoice</a
+                          >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="#" class="text-body">TBT15425012</a>
+                        </td>
+                        <td>
+                          <a href="product-details.html">
+                            <h6 class="fs-15 mb-1">Onyx SmartGRID Chair Red</h6>
+                          </a>
+                          <p class="mb-0 text-muted fs-13">
+                            Furniture &amp; Decor
+                          </p>
+                        </td>
+                        <td>
+                          <span class="text-muted">01 Feb, 2023</span>
+                        </td>
+                        <td class="fw-medium">$39.99</td>
+                        <td>
+                          <span class="badge bg-secondary-subtle text-secondary"
+                            >Shipping</span
+                          >
+                        </td>
+                        <td>
+                          <a
+                            href="#invoiceModal"
+                            data-bs-toggle="modal"
+                            class="btn btn-secondary btn-sm"
+                            >Invoice</a
+                          >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="#" class="text-body">TBT1524563 </a>
+                        </td>
+                        <td>
+                          <a href="product-details.html">
+                            <h6 class="fs-15 mb-1">Slippers Open Toe</h6>
+                          </a>
+                          <p class="mb-0 text-muted fs-13">Footwear</p>
+                        </td>
+                        <td>
+                          <span class="text-muted">09 Dec, 2022</span>
+                        </td>
+                        <td class="fw-medium">$874.00</td>
+                        <td>
+                          <span class="badge bg-danger-subtle text-danger"
+                            >Out Of Delivery</span
+                          >
+                        </td>
+                        <td>
+                          <a
+                            href="#invoiceModal"
+                            data-bs-toggle="modal"
+                            class="btn btn-secondary btn-sm"
+                            >Invoice</a
+                          >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="#" class="text-body">TBT1524530 </a>
+                        </td>
+                        <td>
+                          <a href="product-details.html">
+                            <h6 class="fs-15 mb-1">Hp Trendsetter Backpack</h6>
+                          </a>
+                          <p class="mb-0 text-muted fs-13">
+                            Handbags &amp; Clutches
+                          </p>
+                        </td>
+                        <td>
+                          <span class="text-muted">02 Jan, 2023</span>
+                        </td>
+                        <td class="fw-medium">$32.00</td>
+                        <td>
+                          <span class="badge bg-success-subtle text-success"
+                            >Delivered</span
+                          >
+                        </td>
+                        <td>
+                          <a
+                            href="#invoiceModal"
+                            data-bs-toggle="modal"
+                            class="btn btn-secondary btn-sm"
+                            >Invoice</a
+                          >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <a href="#" class="text-body">TBT13642870</a>
+                        </td>
+                        <td>
+                          <a href="product-details.html">
+                            <h6 class="fs-15 mb-1">
+                              Innovative education book
+                            </h6>
+                          </a>
+                          <p class="mb-0 text-muted fs-13">Books</p>
+                        </td>
+                        <td>
+                          <span class="text-muted">08 Jan, 2023</span>
+                        </td>
+                        <td class="fw-medium">$18.32</td>
+                        <td>
+                          <span class="badge bg-warning-subtle text-warning"
+                            >Pending</span
+                          >
+                        </td>
+                        <td>
+                          <a
+                            href="#invoiceModal"
+                            data-bs-toggle="modal"
+                            class="btn btn-secondary btn-sm"
+                            >Invoice</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="text-end mt-4">
+                  <a href="product-grid.html" class="btn btn-hover btn-primary"
+                    >Continue Shopping
+                    <i class="ri-arrow-right-line align-middle ms-1"></i
+                  ></a>
+                </div>
+              </div>
+              <!-- end card-body -->
+            </div>
+            <!--end card-->
+          </div>
+          <!--end tab-pane-->
+          <div
+            class="tab-pane fade"
+            id="custom-v-pills-setting"
+            role="tabpanel"
+          >
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form action="javascript:void(0);">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <h5 class="fs-16 text-decoration-underline mb-4">
+                            Personal Details
+                          </h5>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label for="firstnameInput" class="form-label"
+                              >First Name</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="firstnameInput"
+                              placeholder="Enter your firstname"
+                              value="Raquel"
+                            />
+                          </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label for="lastnameInput" class="form-label"
+                              >Last Name</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="lastnameInput"
+                              placeholder="Enter your lastname"
+                              value="Murillo"
+                            />
+                          </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label for="phonenumberInput" class="form-label"
+                              >Phone Number</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="phonenumberInput"
+                              placeholder="Enter your phone number"
+                              value="+(253) 01234 5678"
+                            />
+                          </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label for="emailInput" class="form-label"
+                              >Email Address</label
+                            >
+                            <input
+                              type="email"
+                              class="form-control"
+                              id="emailInput"
+                              placeholder="Enter your email"
+                              value="raque@toner.com"
+                            />
+                          </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-4">
+                          <div class="mb-3">
+                            <label for="cityInput" class="form-label"
+                              >City</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="cityInput"
+                              placeholder="City"
+                              value="Phoenix"
+                            />
+                          </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-4">
+                          <div class="mb-3">
+                            <label for="countryInput" class="form-label"
+                              >Country</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="countryInput"
+                              placeholder="Country"
+                              value="USA"
+                            />
+                          </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-4">
+                          <div class="mb-3">
+                            <label for="zipcodeInput" class="form-label"
+                              >Zip Code</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              minlength="5"
+                              maxlength="6"
+                              id="zipcodeInput"
+                              placeholder="Enter zipcode"
+                              value="90011"
+                            />
+                          </div>
+                        </div>
+                        <!--end col-->
+                        <div class="col-lg-12">
+                          <div class="mb-3 pb-2">
+                            <label
+                              for="exampleFormControlTextarea"
+                              class="form-label"
+                              >Description</label
+                            >
+                            <textarea
+                              class="form-control"
+                              id="exampleFormControlTextarea"
+                              placeholder="Enter your description"
+                              rows="3"
+                            >
+Hi I'm Raquel Murillo, It will be as simple as Occidental; in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is European languages are members of the same family.</textarea
+                            >
+                          </div>
+                        </div>
+                        <!--end col-->
+                      </div>
+                      <!--end row-->
+                    </form>
+                    <!--end tab-pane-->
+                    <div class="mb-3" id="changePassword">
+                      <h5 class="fs-16 text-decoration-underline mb-4">
+                        Change Password
+                      </h5>
+                      <form action="javascript:void(0);">
+                        <div class="row g-2">
+                          <div class="col-lg-4">
+                            <div>
+                              <label for="oldpasswordInput" class="form-label"
+                                >Old Password*</label
+                              >
+                              <input
+                                type="password"
+                                class="form-control"
+                                id="oldpasswordInput"
+                                placeholder="Enter current password"
+                              />
+                            </div>
+                          </div>
+                          <!--end col-->
+                          <div class="col-lg-4">
+                            <div>
+                              <label for="newpasswordInput" class="form-label"
+                                >New Password*</label
+                              >
+                              <input
+                                type="password"
+                                class="form-control"
+                                id="newpasswordInput"
+                                placeholder="Enter new password"
+                              />
+                            </div>
+                          </div>
+                          <!--end col-->
+                          <div class="col-lg-4">
+                            <div>
+                              <label
+                                for="confirmpasswordInput"
+                                class="form-label"
+                                >Confirm Password*</label
+                              >
+                              <input
+                                type="password"
+                                class="form-control"
+                                id="confirmpasswordInput"
+                                placeholder="Confirm password"
+                              />
+                            </div>
+                          </div>
+                          <!--end col-->
+                          <div class="col-lg-12">
+                            <div class="mb-3">
+                              <a
+                                href="auth-pass-reset-basic.html"
+                                class="link-primary text-decoration-underline"
+                                >Forgot Password ?</a
+                              >
+                            </div>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!--end row-->
+                      </form>
+                    </div>
+                    <!--end tab-pane-->
+                    <div class="mb-3" id="privacy">
+                      <h5 class="fs-16 text-decoration-underline mb-4">
+                        Privacy Policy
+                      </h5>
+                      <div class="mb-3">
+                        <h5 class="fs-15 mb-2">Security:</h5>
+                        <div
+                          class="d-flex flex-column align-items-center flex-sm-row mb-sm-0"
+                        >
+                          <div class="flex-grow-1">
+                            <p class="text-muted fs-14 mb-0">
+                              Two-factor Authentication
+                            </p>
+                          </div>
+                          <div class="flex-shrink-0 ms-sm-3">
+                            <a
+                              href="javascript:void(0);"
+                              class="btn btn-sm btn-primary"
+                              >Enable Two-facor Authentication</a
+                            >
+                          </div>
+                        </div>
+                        <div
+                          class="d-flex flex-column align-items-center flex-sm-row mb-sm-0 mt-2"
+                        >
+                          <div class="flex-grow-1">
+                            <p class="text-muted fs-14 mb-0">
+                              Secondary Verification
+                            </p>
+                          </div>
+                          <div class="flex-shrink-0 ms-sm-3">
+                            <a
+                              href="javascript:void(0);"
+                              class="btn btn-sm btn-primary"
+                              >Set up secondary method</a
+                            >
+                          </div>
+                        </div>
+                        <div
+                          class="d-flex flex-column align-items-center flex-sm-row mb-sm-0 mt-2"
+                        >
+                          <div class="flex-grow-1">
+                            <p class="text-muted fs-14 mb-0">Backup Codes</p>
+                          </div>
+                          <div class="flex-shrink-0 ms-sm-3">
+                            <a
+                              href="javascript:void(0);"
+                              class="btn btn-sm btn-primary"
+                              >Generate backup codes</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <h5 class="fs-15 mb-2">Application Notifications:</h5>
+                        <ul class="list-unstyled mb-0">
+                          <li class="d-flex">
+                            <div class="flex-grow-1">
+                              <label
+                                for="directMessage"
+                                class="form-check-label fs-14"
+                                >Direct messages</label
+                              >
+                            </div>
+                            <div class="flex-shrink-0">
+                              <div class="form-check form-switch">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id="directMessage"
+                                  checked=""
+                                />
+                              </div>
+                            </div>
+                          </li>
+                          <li class="d-flex mt-2">
+                            <div class="flex-grow-1">
+                              <label
+                                class="form-check-label fs-14"
+                                for="desktopNotification"
+                              >
+                                Show desktop notifications
+                              </label>
+                            </div>
+                            <div class="flex-shrink-0">
+                              <div class="form-check form-switch">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id="desktopNotification"
+                                  checked=""
+                                />
+                              </div>
+                            </div>
+                          </li>
+                          <li class="d-flex mt-2">
+                            <div class="flex-grow-1">
+                              <label
+                                class="form-check-label fs-14"
+                                for="emailNotification"
+                              >
+                                Show email notifications
+                              </label>
+                            </div>
+                            <div class="flex-shrink-0">
+                              <div class="form-check form-switch">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id="emailNotification"
+                                />
+                              </div>
+                            </div>
+                          </li>
+                          <li class="d-flex mt-2">
+                            <div class="flex-grow-1">
+                              <label
+                                class="form-check-label fs-14"
+                                for="chatNotification"
+                              >
+                                Show chat notifications
+                              </label>
+                            </div>
+                            <div class="flex-shrink-0">
+                              <div class="form-check form-switch">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id="chatNotification"
+                                />
+                              </div>
+                            </div>
+                          </li>
+                          <li class="d-flex mt-2">
+                            <div class="flex-grow-1">
+                              <label
+                                class="form-check-label fs-14"
+                                for="purchaesNotification"
+                              >
+                                Show purchase notifications
+                              </label>
+                            </div>
+                            <div class="flex-shrink-0">
+                              <div class="form-check form-switch">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id="purchaesNotification"
+                                />
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!--end tab-pane-->
+                    <div class="text-sm-end">
+                      <a
+                        href="#!"
+                        class="btn btn-secondary d-block d-sm-inline-block"
+                        ><i class="ri-edit-box-line align-middle me-2"></i>
+                        Update Profile</a
+                      >
+                    </div>
+                  </div>
+                  <!-- end card-body -->
+                </div>
+                <!--end card-->
+              </div>
+              <!--end col-->
+            </div>
+          </div>
+          <!--end tab-pane-->
+        </div>
+      </div>
+    </div>
+    <!-- end row-->
+  </div>
+</section>
+<!-- end tab-->
+
+<!--edit address Modal -->
+<div
+  class="modal fade"
+  id="editAddressModal"
+  tabindex="-1"
+  aria-labelledby="AddressModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editAddressModalLabel">
+          Edit Address
+        </h1>
+        <button
+          type="button"
+          id="editaddress-close"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          autocomplete="off"
+          class="needs-validation createAddress-form"
+          id="editAddress-form"
+          novalidate
+        >
+          <div>
+            <div class="mb-3">
+              <label for="editaddress-Name" class="form-label">Name</label>
+              <input
+                name="name"
+                type="text"
+                class="form-control"
+                id="editaddress-Name"
+                placeholder="Enter name"
+                required
+              />
+              <div class="invalid-feedback">Please enter a name.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="editaddress-textarea" class="form-label"
+                >Address</label
+              >
+              <textarea
+                name="address"
+                class="form-control"
+                id="editaddress-textarea"
+                placeholder="Enter address"
+                rows="2"
+                required
+              ></textarea>
+              <div class="invalid-feedback">Please enter address.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="editaddress-phone" class="form-label">Phone</label>
+              <input
+                name="phoneNumber"
+                type="text"
+                class="form-control"
+                id="editaddress-phone"
+                placeholder="Enter phone no."
+                required
+              />
+              <div class="invalid-feedback">Please enter a phone no.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="editaddress-city" class="form-label">City</label>
+              <input
+                name="city"
+                type="text"
+                class="form-control"
+                id="editaddress-city"
+                placeholder="Enter city"
+                required
+              />
+              <div class="invalid-feedback">Please enter a city</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="editaddress-state" class="form-label">State</label>
+              <input
+                name="state"
+                type="text"
+                class="form-control"
+                id="editaddress-state"
+                placeholder="Enter state"
+                required
+              />
+              <div class="invalid-feedback">Please enter a state</div>
+            </div>
+            <div class="mb-3">
+              <label for="editaddress-postalCode" class="form-label"
+                >Postal code</label
+              >
+              <input
+                name="postalCode"
+                type="text"
+                class="form-control"
+                id="editaddress-postalCode"
+                placeholder="Enter postalCode"
+                required
+              />
+              <div class="invalid-feedback">Please enter a postalCode</div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <p id="fillerrror" class="text-danger hideError"></p>
+            <p id="success" class="text-success"></p>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" id="addNewAddress" class="btn btn-primary">
+              Edit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--add address Modal -->
+<div
+  class="modal fade"
+  id="addAddressModal"
+  tabindex="-1"
+  aria-labelledby="addAddressModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addAddressModalLabel">
+          Add New Address
+        </h1>
+        <button
+          type="button"
+          id="addAddress-close"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          autocomplete="off"
+          class="needs-validation createAddress-form"
+          id="createAddress-form"
+          novalidate
+        >
+          <div>
+            <div class="mb-3">
+              <label for="addaddress-Name" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="addaddress-Name"
+                placeholder="Enter name"
+                required
+              />
+              <div class="invalid-feedback">Please enter a name.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="addaddress-textarea" class="form-label"
+                >Address</label
+              >
+              <textarea
+                class="form-control"
+                id="addaddress-textarea"
+                placeholder="Enter address"
+                rows="2"
+                required
+              ></textarea>
+              <div class="invalid-feedback">Please enter address.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="addaddress-phone" class="form-label">Phone</label>
+              <input
+                type="text"
+                class="form-control"
+                id="addaddress-phone"
+                placeholder="Enter phone no."
+                required
+              />
+              <div class="invalid-feedback">Please enter a phone no.</div>
+            </div>
+            <div class="mb-3">
+              <label for="addaddress-city" class="form-label">City</label>
+              <input
+                name="city"
+                type="text"
+                class="form-control"
+                id="addaddress-city"
+                placeholder="Enter city"
+                required
+              />
+              <div class="invalid-feedback">Please enter a city</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="addaddress-state" class="form-label">State</label>
+              <input
+                name="state"
+                type="text"
+                class="form-control"
+                id="addaddress-state"
+                placeholder="Enter state"
+                required
+              />
+              <div class="invalid-feedback">Please enter a state</div>
+            </div>
+            <div class="mb-3">
+              <label for="addaddress-postalCode" class="form-label"
+                >Postal code</label
+              >
+              <input
+                name="postalCode"
+                type="text"
+                class="form-control"
+                id="addaddress-postalCode"
+                placeholder="Enter postalCode"
+                required
+              />
+              <div class="invalid-feedback">Please enter a postalCode</div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <p id="addfillerrror" class="text-danger hideError"></p>
+            <p id="addsuccess" class="text-success"></p>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" id="addNewAddress" class="btn btn-primary">
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- remove address Modal -->
+<div
+  id="removeAddressModal"
+  class="modal fade zoomIn"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          id="close-removeAddressModal"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mt-2 text-center">
+          <lord-icon
+            src="https://cdn.lordicon.com/gsqxdxog.json"
+            trigger="loop"
+            colors="primary:#f7b84b,secondary:#f06548"
+            style="width: 100px; height: 100px"
+          ></lord-icon>
+          <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+            <h4>Are you sure ?</h4>
+            <p class="text-muted mx-4 mb-0">
+              Are you sure You want to remove this address ?
+            </p>
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button
+            type="button"
+            class="btn w-sm btn-light"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="button" id="remove-address" class="btn w-sm btn-danger">
+            Yes, Delete It!
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- edit profile modal -->
+<div
+  class="modal fade"
+  id="editProfileModal"
+  tabindex="-1"
+  aria-labelledby="AddressModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editAddressModalLabel">
+          Edit Profile
+        </h1>
+        <button
+          type="button"
+          id="editaddress-close"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          autocomplete="off"
+          class="needs-validation createAddress-form"
+          id="editProfile-form"
+          novalidate
+        >
+          <div>
+            <div class="mb-3">
+              <label for="editprofile-firstName" class="form-label"
+                >First Name</label
+              >
+              <input
+                name="name"
+                type="text"
+                class="form-control"
+                id="editprofile-firstName"
+                placeholder="Enter name"
+                required
+              />
+              <div class="invalid-feedback">Please enter first name.</div>
+            </div>
+            <div class="mb-3">
+              <label for="editprofile-lastName" class="form-label"
+                >Last Name</label
+              >
+              <input
+                name="name"
+                type="text"
+                class="form-control"
+                id="editprofile-lastName"
+                placeholder="Enter name"
+                required
+              />
+              <div class="invalid-feedback">Please enter first name.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="editprofile-phone" class="form-label">Phone</label>
+              <input
+                name="phoneNumber"
+                type="text"
+                class="form-control"
+                id="editprofile-phone"
+                placeholder="Enter phone no."
+                required
+              />
+              <div class="invalid-feedback">Please enter a phone no.</div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <p id="fillerrror-profile" class="text-danger hideError"></p>
+            <p id="success-profile" class="text-success"></p>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" id="addNewAddress" class="btn btn-primary">
+              Edit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/script/accountPage.js"></script>
+<script src="/static/script/addressPage.js"></script>
+<%- include("./layouts/footer") %>

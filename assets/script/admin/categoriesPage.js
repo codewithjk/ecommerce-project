@@ -8,7 +8,6 @@ createCategoryForm.addEventListener("submit", (event) => {
   // var categoryImg = document.getElementById("category-img").src.split(",");
   var categoryImg = document.getElementById("category-img").src;
   var categoryDesc = document.getElementById("descriptionInput").value;
-  console.log(categoryImg);
 
   if (inputTitle == "" || categoryDesc == "" || categoryImg == "") {
     document.querySelector(".formError").innerHTML =
@@ -57,7 +56,6 @@ delete_modal.addEventListener("show.bs.modal", function (event) {
   delete_button.addEventListener("click", (event) => {
     event.preventDefault();
 
-    console.log(category_id);
     fetch(`/admin/remove-category/?id=${category_id}`, {
       method: "delete",
     })

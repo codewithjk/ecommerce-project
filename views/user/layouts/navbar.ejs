@@ -81,37 +81,34 @@
         <i class="bx bx-search fs-22"></i>
       </button>
       <div class="topbar-head-dropdown ms-1 header-item">
-        <button
+        <a
+          id="cart-button"
           type="button"
           class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
           data-bs-toggle="offcanvas"
-          data-bs-target="#ecommerceCart"
+          href="#ecommerceCart"
           aria-controls="ecommerceCart"
         >
           <i class="ph-shopping-cart fs-18"></i>
           <span
             class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger"
-            >4</span
-          >
-        </button>
+          ></span>
+        </a>
       </div>
-
       <div class="dropdown header-item dropdown-hover-end">
-        <button
-          type="button"
-          class="btn"
-          id="page-header-user-dropdown"
-          data-bs-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <img
-            class="rounded-circle header-profile-user"
-            src="/static/frontend/images/users/avatar-1.jpg"
-            alt="Header Avatar"
-          />
-        </button>
+        <a href="/account?uid=<%=user._id %>">
+          <button type="button" class="btn" id="page-header-user-dropdown">
+            <img
+              class="rounded-circle header-profile-user"
+              src="<%=user.avatar %>"
+              alt="Header Avatar"
+            />
+          </button>
+        </a>
       </div>
     </div>
   </div>
 </nav>
+
+<%- include("cart") %> <%- include("removeFromCart") %> <%- include("searchbar")
+%>

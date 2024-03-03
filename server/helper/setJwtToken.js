@@ -3,9 +3,13 @@ const jwt = require("jsonwebtoken");
 // ---USER
 const setJwtToCookies = async (res, data) => {
   // Create JWT token
-  const token = jwt.sign({ user: data }, process.env.JWT_SECRET, {
-    expiresIn: "3h",
-  });
+  const token = jwt.sign(
+    { sub: data._id, role: "user" },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "3h",
+    }
+  );
   // Set token to cookies
   res.cookie("userToken", token, {
     httpOnly: true,

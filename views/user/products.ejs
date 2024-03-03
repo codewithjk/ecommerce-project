@@ -17,7 +17,11 @@
               </div>
             </div>
 
-            <div class="search-box">
+            <div
+              data-bs-toggle="modal"
+              data-bs-target="#searchModal"
+              class="search-box"
+            >
               <input
                 type="text"
                 class="form-control"
@@ -404,111 +408,6 @@
             <!-- end accordion-item -->
 
             <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingBrands">
-                <button
-                  class="accordion-button bg-transparent shadow-none"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseBrands"
-                  aria-expanded="true"
-                  aria-controls="flush-collapseBrands"
-                >
-                  <span class="text-muted text-uppercase fs-13 fw-medium"
-                    >Brands</span
-                  >
-                  <span
-                    class="badge bg-success rounded-pill align-middle ms-1 filter-badge"
-                  ></span>
-                </button>
-              </h2>
-
-              <div
-                id="flush-collapseBrands"
-                class="accordion-collapse collapse show"
-                aria-labelledby="flush-headingBrands"
-              >
-                <div class="accordion-body text-body pt-0">
-                  <div class="search-box search-box-sm">
-                    <input
-                      type="text"
-                      class="form-control bg-light border-0"
-                      id="searchBrandsList"
-                      placeholder="Search Brands..."
-                    />
-                    <i class="ri-search-line search-icon"></i>
-                  </div>
-                  <div class="d-flex flex-column gap-2 mt-3 filter-check">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Boat"
-                        id="productBrandRadio5"
-                      />
-                      <label class="form-check-label" for="productBrandRadio5"
-                        >Boat</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="OnePlus"
-                        id="productBrandRadio4"
-                      />
-                      <label class="form-check-label" for="productBrandRadio4"
-                        >OnePlus</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Realme"
-                        id="productBrandRadio3"
-                      />
-                      <label class="form-check-label" for="productBrandRadio3"
-                        >Realme</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Sony"
-                        id="productBrandRadio2"
-                      />
-                      <label class="form-check-label" for="productBrandRadio2"
-                        >Sony</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="JBL"
-                        id="productBrandRadio1"
-                      />
-                      <label class="form-check-label" for="productBrandRadio1"
-                        >JBL</label
-                      >
-                    </div>
-
-                    <div>
-                      <button
-                        type="button"
-                        class="btn btn-link text-decoration-none text-uppercase fw-medium p-0"
-                      >
-                        1,235 More
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- end accordion-item -->
-
-            <div class="accordion-item">
               <h2 class="accordion-header" id="flush-headingDiscount">
                 <button
                   class="accordion-button bg-transparent shadow-none collapsed"
@@ -751,108 +650,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <% products.forEach(product => { %>
-
-          <div
-            id="<%=product._id %>"
-            class="col-xxl-4 col-lg-4 col-md-6"
-            onclick="window.location.href='/product-details?id=<%=product._id %>'"
-          >
-            <div
-              class="card ecommerce-product-widgets border-0 rounded-0 shadow-none overflow-hidden"
-            >
-              <div
-                class="bg-light bg-opacity-50 rounded py-4 position-relative"
-              >
-                <img
-                  src="<%=product.images[0]%>"
-                  alt=""
-                  style="max-height: 200px; max-width: 100%"
-                  class="mx-auto d-block rounded-2"
-                />
-                <div class="action vstack gap-2">
-                  <button
-                    class="btn btn-danger avatar-xs p-0 btn-soft-warning custom-toggle product-action"
-                    data-bs-toggle="button"
-                  >
-                    <span class="icon-on"><i class="ri-heart-line"></i></span>
-                    <span class="icon-off"><i class="ri-heart-fill"></i></span>
-                  </button>
-                </div>
-                <div class="avatar-xs label">
-                  <div class="avatar-title bg-danger rounded-circle fs-11">
-                    <%=product.discount %>%
-                  </div>
-                </div>
-              </div>
-              <div class="pt-4">
-                <div>
-                  <ul
-                    class="clothe-colors list-unstyled hstack gap-1 mb-3 flex-wrap"
-                  >
-                    <li>
-                      <input type="radio" name="sizes1" id="product-color-12" />
-                      <label
-                        class="avatar-xxs btn btn-success p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="product-color-12"
-                      ></label>
-                    </li>
-                    <li>
-                      <input type="radio" name="sizes1" id="product-color-13" />
-                      <label
-                        class="avatar-xxs btn btn-info p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="product-color-13"
-                      ></label>
-                    </li>
-                    <li>
-                      <input type="radio" name="sizes1" id="product-color-14" />
-                      <label
-                        class="avatar-xxs btn btn-warning p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="product-color-14"
-                      ></label>
-                    </li>
-                    <li>
-                      <input type="radio" name="sizes1" id="product-color-15" />
-                      <label
-                        class="avatar-xxs btn btn-danger p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="product-color-15"
-                      ></label>
-                    </li>
-                  </ul>
-                  <a href="#!">
-                    <h6
-                      class="text-capitalize fs-15 lh-base text-truncate mb-0"
-                    >
-                      <%=product.title %>
-                    </h6>
-                  </a>
-                  <div class="mt-2">
-                    <span class="float-end"
-                      >4.9
-                      <i class="ri-star-half-fill text-warning align-bottom"></i
-                    ></span>
-                    <h5 class="text-secondary mb-0">
-                      <% const discount_price = product.price -
-                      product.price*product.discount/100 %> ₹<%=discount_price
-                      %>
-                      <span class="text-muted fs-12"
-                        ><del>₹<%=product.price %></del></span
-                      >
-                    </h5>
-                  </div>
-                  <div class="tn mt-3">
-                    <a href="#!" class="btn btn-primary btn-hover w-100 add-btn"
-                      ><i class="mdi mdi-cart me-1"></i> Add To Cart</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <% }); %>
-        </div>
+        <div id="product-list" class="row"></div>
 
         <div class="row d-none" id="search-result-elem">
           <div class="col-lg-12">
@@ -877,3 +675,4 @@
 
 <!-- footer -->
 <%- include("./layouts/footer") %>
+<script src="/static/script/productsPage.js"></script>

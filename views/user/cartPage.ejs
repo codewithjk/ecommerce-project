@@ -1,0 +1,129 @@
+<%- include("./layouts/header") %> <%- include("./layouts/navbar") %>
+
+<section class="page-wrapper bg-primary">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div
+          class="text-center d-flex align-items-center justify-content-between"
+        >
+          <h4 class="text-white mb-0">Shopping Cart</h4>
+          <nav aria-label="breadcrumb">
+            <ol
+              class="breadcrumb breadcrumb-light justify-content-center mb-0 fs-15"
+            >
+              <li class="breadcrumb-item"><a href="#!">Shop</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Shopping Cart
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="row product-list justify-content-center">
+      <div class="col-lg-8">
+        <div class="d-flex align-items-center mb-4">
+          <h5 class="mb-0 flex-grow-1 fw-medium">
+            There are <span class="fw-bold product-count">4</span> products in
+            your cart
+          </h5>
+          <div class="flex-shrink-0">
+            <a href="#!" class="text-decoration-underline link-secondary"
+              >Clear Cart</a
+            >
+          </div>
+        </div>
+        <div id="cartItems"></div>
+
+        <!--end card-->
+      </div>
+      <!--end col-->
+      <div class="col-lg-4">
+        <div class="sticky-side-div">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-center">
+                <h6 class="mb-3 fs-15">
+                  Have a <span class="fw-semibold">promo</span> code ?
+                </h6>
+              </div>
+              <div class="hstack gap-3 px-3 mx-n3">
+                <input
+                  class="form-control me-auto"
+                  type="text"
+                  placeholder="Enter coupon code"
+                  value="Toner15"
+                  aria-label="Add Promo Code here..."
+                />
+                <button type="button" class="btn btn-primary w-xs">
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card overflow-hidden">
+            <div class="card-header border-bottom-dashed">
+              <h5 class="card-title mb-0 fs-15">Order Summary</h5>
+            </div>
+            <div class="card-body pt-4">
+              <div class="table-responsive table-card">
+                <table class="table table-borderless mb-0 fs-15">
+                  <tbody>
+                    <tr>
+                      <td>Sub Total :</td>
+                      <td class="text-end cart-subtotal">$1361.97</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Discount <span class="text-muted">(Toner15)</span>:
+                      </td>
+                      <td class="text-end cart-discount">-$204.30</td>
+                    </tr>
+                    <tr>
+                      <td>Shipping Charge :</td>
+                      <td class="text-end cart-shipping">$65.00</td>
+                    </tr>
+                    <tr>
+                      <td>Estimated Tax (12.5%) :</td>
+                      <td class="text-end cart-tax">$170.25</td>
+                    </tr>
+                    <tr class="table-active">
+                      <th>Total (USD) :</th>
+                      <td class="text-end">
+                        <span class="fw-semibold cart-total">$1392.92</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- end table-responsive -->
+            </div>
+          </div>
+          <div class="hstack gap-2 justify-content-end">
+            <button type="button" class="btn btn-hover btn-danger">
+              Continue Shopping
+            </button>
+            <button type="button" class="btn btn-hover btn-success">
+              Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i>
+            </button>
+          </div>
+        </div>
+        <!-- end sticky -->
+      </div>
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+</section>
+
+<%- include("./layouts/footer") %>
+<script src="/static/script/cartPage.js"></script>

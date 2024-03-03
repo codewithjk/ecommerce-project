@@ -85,27 +85,27 @@ exports.getOtpPage = async (req, res) => {
 exports.postOtp = async (req, res) => {
   console.log("otp body ==", req.body);
   const user_otp = Number(Object.values(req.body).join(""));
-
-  otpModel.findOne({ otp: user_otp }).then((otpData) => {
+  try {
+    const otpData = await otpModel.findOne({ otp: user_otp });
     if (otpData === null) {
       res.json({ error: "invalid otp" });
     } else if (otpData.is_verified === true) {
       res.json({ error: "Otp is already used" });
     } else {
-      otpModel
-        .findOneAndUpdate({ _id: otpData._id }, { is_verified: true })
-        .then(() => {
-          // ==== set jwt token to cookies
-          setJwtToCookies(res, otpData).then(() => {
-            res.status(200).json({
-              success: "otp successfully verified",
-              // redirect: "/products",
-            });
-          });
-          console.log("is verified is now true");
-        });
+      await otpModel.findOneAndUpdate(
+        { _id: otpData._id },
+        { is_verified: true }
+      );
+      const userData = await userModel.findOne({ _id: otpData.user_id });
+      await setJwtToCookies(res, userData);
+      res.status(200).json({
+        success: "otp successfully verified",
+        // redirect: "/products",
+      });
     }
-  });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // verify email for reset password

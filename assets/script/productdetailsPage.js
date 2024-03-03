@@ -32,3 +32,29 @@ var swiper2 = new Swiper(".productSwiper2", {
     swiper: swiper,
   },
 });
+
+//quantity of product
+var plus = document.getElementById("plus");
+var minus = document.getElementById("minus");
+var productqty = document.getElementById("product-quantity1");
+
+const max = Number(productqty.getAttribute("max"));
+
+plus.addEventListener("click", (event) => {
+  event.preventDefault();
+  minus.disabled = false;
+  if (productqty.value >= max) {
+    plus.disabled = true;
+  } else {
+    productqty.value = Number(productqty.value) + 1;
+  }
+});
+minus.addEventListener("click", (event) => {
+  event.preventDefault();
+  plus.disabled = false;
+  if (Number(productqty.value) < 2) {
+    minus.disabled = true;
+  } else {
+    productqty.value = Number(productqty.value) - 1;
+  }
+});
