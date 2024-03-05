@@ -59,6 +59,8 @@ exports.postLogin = async (req, res) => {
   } else if (password !== user.password) {
     res.json({ passwordError: "incorrect password" });
     // res.render("login", { invalidPassword: "incorrect password" });
+  } else if (user.status === "Blocked") {
+    res.json({ blocked: true });
   } else {
     generateOtp(email).then((data) => {
       if (data.success) {
@@ -160,7 +162,7 @@ exports.getSetNewPassword = (req, res) => {
 exports.postSetNewPassword = (req, res) => {
   console.log(req.body);
   console.log(req.user);
-  const userId = req.user.userId;
+  const userId = req.user.sub;
   if (req.body.password[0] !== req.body.password[1]) {
     res.json({ error: "password not matching" });
   } else {
@@ -197,4 +199,10 @@ exports.getOTPTime = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.logout = async (req, res) => {
+  res.clearCookie("userToken");
+  res.clearCookie("email");
+  res.redirect("/");
 };

@@ -28,6 +28,7 @@ const {
   getOTPTime,
   setUser,
   renderBlockedMessage,
+  logout,
 } = require("../controller/user/auth");
 const {
   getAllProducts,
@@ -36,8 +37,13 @@ const {
   removeCartItem,
   addToCart,
   getCartPage,
+  updateItemCountInCart,
   listAllProduct,
   searchProduct,
+  getCheckoutPage,
+  getPaymentPage,
+  placeOrder,
+  getAllOrders,
 } = require("../controller/user/product");
 const path = require("path");
 const {
@@ -53,6 +59,7 @@ const {
   editAddress,
   addAddress,
   editProfile,
+  removeAddress,
 } = require("../controller/user/account");
 const { resourceLimits } = require("worker_threads");
 
@@ -92,15 +99,26 @@ router.patch("/edit-profile", verifyToken, editProfile);
 router.get("/address", verifyToken, getAddressOfUser);
 router.patch("/edit-address", verifyToken, editAddress);
 router.post("/add-address", verifyToken, addAddress);
+router.delete("/remove-address", verifyToken, removeAddress);
 
 //product
 router.put("/add-to-cart", verifyToken, addToCart);
 router.get("/get-cart", verifyToken, getCartItems);
 router.delete("/remove-from-cart", verifyToken, removeCartItem);
 router.get("/get-cart-page", verifyToken, getCartPage);
+router.get("/update-item-count", verifyToken, updateItemCountInCart);
 router.get("/products/all-products", verifyToken, listAllProduct); //list all product
 router.get("/products/search", verifyToken, searchProduct);
 
+router.get("/orders", verifyToken, getAllOrders);
+
+//checkout
+router.get("/checkout", verifyToken, getCheckoutPage);
+router.get("/payment", verifyToken, getPaymentPage);
+router.get("/place-order", verifyToken, placeOrder);
+
 router.get("/blocked-message", renderBlockedMessage);
+
+router.get("/logout", verifyToken, logout);
 
 module.exports = router;

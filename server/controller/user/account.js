@@ -4,6 +4,7 @@ const {
   updateAddress,
   addAddress,
   updateProfile,
+  deleteAddressById,
 } = require("../../helper/dbQueries");
 
 exports.getAccountPage = async (req, res) => {
@@ -67,7 +68,6 @@ exports.addAddress = async (req, res) => {
 };
 
 exports.editProfile = async (req, res) => {
-  console.log("reached");
   try {
     const userId = req.user.sub;
     console.log("edited data ===", req.body);
@@ -77,5 +77,19 @@ exports.editProfile = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+  }
+};
+
+exports.removeAddress = async (req, res) => {
+  try {
+    const addressId = req.query.addressId;
+
+    const deletedAddress = await deleteAddressById(addressId);
+
+    if (deletedAddress !== null) {
+      res.status(200).json({ message: "address successfully deleted" });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

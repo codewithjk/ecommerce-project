@@ -4,6 +4,7 @@ const { userModel } = require("../models/user");
 const { reviewModal } = require("../models/review");
 const { addressModel } = require("../models/address");
 const { cartModel } = require("../models/cart");
+const { orderModel } = require("../models/order");
 const mongoose = require("mongoose");
 
 const getAllProducts = async () => {
@@ -160,12 +161,142 @@ const addItemToCart = async (userId, itemId) => {
     console.log(error);
   }
 };
+
+const updateItemCount = async (userId, itemId, count) => {
+  const updatedItem = await cartModel.findOneAndUpdate(
+    {
+      userId: userId,
+      "items.productId": itemId,
+    },
+    {
+      $set: { "items.$.quantity": count },
+    }
+  );
+  return updatedItem;
+};
+
+/////////
 const searchProducts = async (query) => {
   try {
     const result = await productModel.find({
       title: { $regex: ".*" + query + ".*", $options: "i" },
     });
     return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAddressById = async (id) => {
+  try {
+    const address = await addressModel.findById(id);
+    return address;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createOrder = async (
+  userId,
+  username,
+  address,
+  products,
+  amount,
+  method
+) => {
+  try {
+    const order = new orderModel({
+      userId: userId,
+      customer: username,
+      address: address,
+      products: products,
+      totalAmount: amount,
+      method: method,
+    });
+    const newOrder = await order.save();
+    return newOrder;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getAllOrderAdmin = async () => {
+  try {
+    // const orders = orderModel.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "customers",
+    //       localField: "customer._id",
+    //       foreignField: "_id",
+    //       as: "customerDetails",
+    //     },
+    //   },
+    //   {
+    //     $unwind: "$products",
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$_id",
+    //       CustomerName: { $first: "$customerDetails.firstName" },
+
+    //       ProductNames: { $push: "$products.title" },
+    //       TotalAmount: { $first: "$totalAmount" },
+    //       Status: { $first: "$status" },
+    //       Method: { $first: "$method" },
+    //       OrderDate: { $first: "$orderDate" },
+    //     },
+    //   },
+    // ]);
+    // return orders;
+
+    const orders = await orderModel.find();
+
+    const formattedOrders = orders.map((order) => ({
+      customerName: order.customer,
+      productNames: order.products.map((product) => product.title),
+      totalAmount: order.totalAmount,
+      status: order.status,
+      method: order.method,
+      orderDate: order.orderDate,
+    }));
+    return formattedOrders;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//user orders
+const getOrdersByUserId = async (id) => {
+  try {
+    const orders = await orderModel.find({ userId: id });
+
+    const formattedOrders = orders.map((order) => ({
+      // customerName: order.customer,
+      productNames: order.products.map((product) => product.title),
+      totalAmount: order.totalAmount,
+      status: order.status,
+      // method: order.method,
+      orderDate: order.orderDate,
+    }));
+
+    return formattedOrders;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteAddressById = async (id) => {
+  try {
+    const deletedAddress = await addressModel.findByIdAndDelete(id);
+    return deletedAddress;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const removeAllItemFromCart = async (userId) => {
+  try {
+    const deletedCart = await cartModel.findOneAndDelete({ userId: userId });
+    return deletedCart;
   } catch (error) {
     console.log(error);
   }
@@ -189,4 +320,11 @@ module.exports = {
   deleteFromCart,
   addItemToCart,
   searchProducts,
+  updateItemCount,
+  getAddressById,
+  createOrder,
+  getAllOrderAdmin,
+  getOrdersByUserId,
+  deleteAddressById,
+  removeAllItemFromCart,
 };

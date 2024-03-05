@@ -126,23 +126,34 @@ function displayProducts(products) {
 const searchButton = document.getElementById("btn-search");
 searchButton.addEventListener("click", async (event) => {
   event.preventDefault();
-  console.log("searching ......");
+  document.getElementById("searchError").innerHTML = "";
+
   const searchQuery = document.getElementById("search-options").value.trim();
-  console.log(searchQuery);
-  try {
-    const response = await fetch(`/products/search?search=${searchQuery}`);
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    } else {
-      const data = await response.json();
-      globalproducts = data.products;
-      displayProducts(globalproducts);
-      //   return data.products;
-      const search_modal = document.getElementById("searchModal");
-      const modal = bootstrap.Modal.getInstance(search_modal);
-      modal.hide();
+  document.getElementById("searchProductList").value = searchQuery;
+  if (searchQuery === "") {
+    const search_modal = document.getElementById("searchModal");
+    const modal = bootstrap.Modal.getInstance(search_modal);
+    modal.hide();
+  } else {
+    try {
+      const response = await fetch(`/products/search?search=${searchQuery}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      } else {
+        const data = await response.json();
+        if (data.message) {
+          document.getElementById("searchError").innerHTML = data.message;
+        } else {
+          globalproducts = data.products;
+          displayProducts(globalproducts);
+
+          const search_modal = document.getElementById("searchModal");
+          const modal = bootstrap.Modal.getInstance(search_modal);
+          modal.hide();
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
   }
 });

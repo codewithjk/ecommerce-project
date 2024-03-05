@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express();
 const { isAdmin } = require("../middleware/authentication");
-const { getLogin, postLogin } = require("../controller/admin/auth");
+const { getLogin, postLogin, logout } = require("../controller/admin/auth");
 const { getDashboard } = require("../controller/admin/dashboard");
 const {
   getProductsPage,
@@ -53,4 +53,7 @@ router.delete("/remove-product", removeProduct);
 router.delete("/remove-category", removeCategory);
 router.patch("/edit-category", editCategory);
 router.patch("/edit-product", editProduct);
+
+router.get("/logout", logout);
+
 module.exports = router;

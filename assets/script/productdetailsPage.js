@@ -41,6 +41,7 @@ var productqty = document.getElementById("product-quantity1");
 const max = Number(productqty.getAttribute("max"));
 
 plus.addEventListener("click", (event) => {
+  console.log("clicked");
   event.preventDefault();
   minus.disabled = false;
   if (productqty.value >= max) {

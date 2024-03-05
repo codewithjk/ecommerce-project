@@ -117,10 +117,7 @@
                 >
               </li>
               <li class="nav-item">
-                <a
-                  id="logout"
-                  class="nav-link fs-15"
-                  href="auth-logout-basic.html"
+                <a id="logout" class="nav-link fs-15" href="/logout"
                   ><i class="bi bi-box-arrow-right align-middle me-1"></i>
                   Logout</a
                 >
@@ -235,8 +232,8 @@
               <!--end col-->
             </div>
           </div>
-          <!--end tab-pane-->
-          <div class="tab-pane fade" id="custom-v-pills-list" role="tabpanel">
+          <!--wishlist-->
+          <!-- <div class="tab-pane fade" id="custom-v-pills-list" role="tabpanel">
             <div class="row">
               <div class="col-lg-12">
                 <div class="card overflow-hidden">
@@ -527,14 +524,14 @@
                       ></a>
                     </div>
                   </div>
-                  <!-- end card-body -->
+                 
                 </div>
-                <!--end card-->
+             
               </div>
-              <!--end col-->
+              
             </div>
-          </div>
-          <!--end tab-pane-->
+          </div> -->
+          <!--orders-->
           <div class="tab-pane fade" id="custom-v-pills-order" role="tabpanel">
             <div class="card">
               <div class="card-body">
@@ -542,7 +539,6 @@
                   <table class="table fs-15 align-middle table-nowrap">
                     <thead>
                       <tr>
-                        <th scope="col">Order ID</th>
                         <th scope="col">Product</th>
                         <th scope="col">Date</th>
                         <th scope="col">Total Amount</th>
@@ -550,166 +546,19 @@
                         <th scope="col"></th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <a href="#" class="text-body">TBT15454841</a>
-                        </td>
-                        <td>
-                          <a href="product-details.html">
-                            <h6 class="fs-15 mb-1">
-                              World's Most Expensive T Shirt
-                            </h6>
-                          </a>
-                          <p class="mb-0 text-muted fs-13">Women's Clothes</p>
-                        </td>
-                        <td><span class="text-muted">01 Jul, 2022</span></td>
-                        <td class="fw-medium">$287.53</td>
-                        <td>
-                          <span class="badge bg-success-subtle text-success"
-                            >Delivered</span
-                          >
-                        </td>
-                        <td>
-                          <a
-                            href="#invoiceModal"
-                            data-bs-toggle="modal"
-                            class="btn btn-secondary btn-sm"
-                            >Invoice</a
-                          >
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#" class="text-body">TBT15425012</a>
-                        </td>
-                        <td>
-                          <a href="product-details.html">
-                            <h6 class="fs-15 mb-1">Onyx SmartGRID Chair Red</h6>
-                          </a>
-                          <p class="mb-0 text-muted fs-13">
-                            Furniture &amp; Decor
-                          </p>
-                        </td>
-                        <td>
-                          <span class="text-muted">01 Feb, 2023</span>
-                        </td>
-                        <td class="fw-medium">$39.99</td>
-                        <td>
-                          <span class="badge bg-secondary-subtle text-secondary"
-                            >Shipping</span
-                          >
-                        </td>
-                        <td>
-                          <a
-                            href="#invoiceModal"
-                            data-bs-toggle="modal"
-                            class="btn btn-secondary btn-sm"
-                            >Invoice</a
-                          >
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#" class="text-body">TBT1524563 </a>
-                        </td>
-                        <td>
-                          <a href="product-details.html">
-                            <h6 class="fs-15 mb-1">Slippers Open Toe</h6>
-                          </a>
-                          <p class="mb-0 text-muted fs-13">Footwear</p>
-                        </td>
-                        <td>
-                          <span class="text-muted">09 Dec, 2022</span>
-                        </td>
-                        <td class="fw-medium">$874.00</td>
-                        <td>
-                          <span class="badge bg-danger-subtle text-danger"
-                            >Out Of Delivery</span
-                          >
-                        </td>
-                        <td>
-                          <a
-                            href="#invoiceModal"
-                            data-bs-toggle="modal"
-                            class="btn btn-secondary btn-sm"
-                            >Invoice</a
-                          >
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#" class="text-body">TBT1524530 </a>
-                        </td>
-                        <td>
-                          <a href="product-details.html">
-                            <h6 class="fs-15 mb-1">Hp Trendsetter Backpack</h6>
-                          </a>
-                          <p class="mb-0 text-muted fs-13">
-                            Handbags &amp; Clutches
-                          </p>
-                        </td>
-                        <td>
-                          <span class="text-muted">02 Jan, 2023</span>
-                        </td>
-                        <td class="fw-medium">$32.00</td>
-                        <td>
-                          <span class="badge bg-success-subtle text-success"
-                            >Delivered</span
-                          >
-                        </td>
-                        <td>
-                          <a
-                            href="#invoiceModal"
-                            data-bs-toggle="modal"
-                            class="btn btn-secondary btn-sm"
-                            >Invoice</a
-                          >
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#" class="text-body">TBT13642870</a>
-                        </td>
-                        <td>
-                          <a href="product-details.html">
-                            <h6 class="fs-15 mb-1">
-                              Innovative education book
-                            </h6>
-                          </a>
-                          <p class="mb-0 text-muted fs-13">Books</p>
-                        </td>
-                        <td>
-                          <span class="text-muted">08 Jan, 2023</span>
-                        </td>
-                        <td class="fw-medium">$18.32</td>
-                        <td>
-                          <span class="badge bg-warning-subtle text-warning"
-                            >Pending</span
-                          >
-                        </td>
-                        <td>
-                          <a
-                            href="#invoiceModal"
-                            data-bs-toggle="modal"
-                            class="btn btn-secondary btn-sm"
-                            >Invoice</a
-                          >
-                        </td>
-                      </tr>
+                    <tbody id="orderContent">
+                      <!-- here order list will display -->
                     </tbody>
                   </table>
                 </div>
                 <div class="text-end mt-4">
-                  <a href="product-grid.html" class="btn btn-hover btn-primary"
+                  <a href="/products" class="btn btn-hover btn-primary"
                     >Continue Shopping
                     <i class="ri-arrow-right-line align-middle ms-1"></i
                   ></a>
                 </div>
               </div>
-              <!-- end card-body -->
             </div>
-            <!--end card-->
           </div>
           <!--end tab-pane-->
           <div
@@ -1393,6 +1242,9 @@ Hi I'm Raquel Murillo, It will be as simple as Occidental; in fact, it will be O
             </p>
           </div>
         </div>
+        <p id="address-delete-succcess" class="text-success text-center"></p>
+        <p id="address-delete-error" class="text-danger text-center"></p>
+
         <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
           <button
             type="button"
@@ -1401,7 +1253,11 @@ Hi I'm Raquel Murillo, It will be as simple as Occidental; in fact, it will be O
           >
             Close
           </button>
-          <button type="button" id="remove-address" class="btn w-sm btn-danger">
+          <button
+            type="button"
+            id="remove-address-button"
+            class="btn w-sm btn-danger"
+          >
             Yes, Delete It!
           </button>
         </div>
@@ -1504,4 +1360,6 @@ Hi I'm Raquel Murillo, It will be as simple as Occidental; in fact, it will be O
 
 <script src="/static/script/accountPage.js"></script>
 <script src="/static/script/addressPage.js"></script>
+<script src="/static/script/orderPage.js"></script>
+
 <%- include("./layouts/footer") %>

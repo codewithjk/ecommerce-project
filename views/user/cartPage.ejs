@@ -33,7 +33,7 @@
       <div class="col-lg-8">
         <div class="d-flex align-items-center mb-4">
           <h5 class="mb-0 flex-grow-1 fw-medium">
-            There are <span class="fw-bold product-count">4</span> products in
+            There are <span class="fw-bold product-count"></span> products in
             your cart
           </h5>
           <div class="flex-shrink-0">
@@ -88,18 +88,13 @@
                       </td>
                       <td class="text-end cart-discount">-$204.30</td>
                     </tr>
-                    <tr>
-                      <td>Shipping Charge :</td>
-                      <td class="text-end cart-shipping">$65.00</td>
-                    </tr>
-                    <tr>
-                      <td>Estimated Tax (12.5%) :</td>
-                      <td class="text-end cart-tax">$170.25</td>
-                    </tr>
+
                     <tr class="table-active">
-                      <th>Total (USD) :</th>
+                      <th>Total amount :</th>
                       <td class="text-end">
-                        <span class="fw-semibold cart-total">$1392.92</span>
+                        <span id="cart-total" class="fw-semibold cart-total"
+                          >$1392.92</span
+                        >
                       </td>
                     </tr>
                   </tbody>
@@ -112,9 +107,9 @@
             <button type="button" class="btn btn-hover btn-danger">
               Continue Shopping
             </button>
-            <button type="button" class="btn btn-hover btn-success">
+            <a href="/checkout" type="button" class="btn btn-hover btn-success">
               Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i>
-            </button>
+            </a>
           </div>
         </div>
         <!-- end sticky -->

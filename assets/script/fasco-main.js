@@ -39,16 +39,20 @@ async function listCartItems() {
     cartList.innerHTML = "";
     const response = await fetch("/get-cart");
     const { items, total } = await response.json();
+    let totalBill = total;
     console.log(items.length);
     console.log(document.querySelectorAll(".cartitem-badge"));
     document
       .querySelectorAll(".cartitem-badge")
       .forEach((element) => (element.innerHTML = items.length));
     console.log(items);
+    const total_amount = document.querySelectorAll(".cart-total");
+    total_amount.forEach((element) => (element.innerHTML = totalBill));
 
     document.querySelector(".cart-total").innerHTML = total;
     items.forEach((item) => {
       const listItem = document.createElement("li");
+      listItem.id = `item${item._id}`;
       listItem.classList.add("list-group-item", "product");
 
       listItem.innerHTML = `<div class="d-flex gap-3">
@@ -94,6 +98,48 @@ async function listCartItems() {
     </div>`;
 
       cartList.appendChild(listItem);
+      // Get the container element for input steps
+      const inputStepsContainer = document.getElementById(`item${item._id}`);
+      console.log(inputStepsContainer);
+      // Add event listener to the container element
+      inputStepsContainer.addEventListener("click", async function (event) {
+        const target = event.target;
+
+        const input = inputStepsContainer.querySelector(".product-quantity");
+        const max = input.getAttribute("max");
+        const productqty = input.value;
+        const totalperItem = inputStepsContainer.querySelector(
+          ".product-line-price"
+        );
+
+        if (
+          target.classList.contains("minus") ||
+          target.classList.contains("plus")
+        ) {
+          // Get the input element associated with the clicked button
+          //   const input = inputStepsContainer.querySelector(".product-quantity");
+
+          // Get the current quantity value
+          let quantity = parseInt(input.value);
+
+          // Update the quantity based on the button clicked
+          if (target.classList.contains("minus") && quantity > 1) {
+            quantity--;
+            totalBill = totalBill - item.price;
+            total_amount.forEach((element) => (element.innerHTML = totalBill));
+          } else if (target.classList.contains("plus") && quantity < max) {
+            quantity++;
+            totalBill = totalBill + item.price;
+            total_amount.forEach((element) => (element.innerHTML = totalBill));
+          }
+          totalperItem.innerHTML = quantity * item.price;
+          // Update the input value
+          input.value = quantity;
+          await fetch(
+            `/update-item-count?itemId=${item._id}&count=${quantity}`
+          );
+        }
+      });
     });
   } catch (error) {
     console.log(error);
@@ -127,8 +173,11 @@ remove_modal.addEventListener("show.bs.modal", function (event) {
         modal.hide();
       }
     } catch (error) {
-      document.getElementById("cart-delete-error").innerHTML =
-        "something went wrong try again!";
+      console.log(error);
+      // if (error) {
+      //   document.getElementById("cart-delete-error").innerHTML =
+      //     "something went wrong try again!";
+      // }
     }
   });
 });

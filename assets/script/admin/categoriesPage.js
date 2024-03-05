@@ -36,6 +36,8 @@ createCategoryForm.addEventListener("submit", (event) => {
           console.log("category added");
           document.querySelector(".formSuccess").innerHTML = data.message;
           document.location.href = data.redirect;
+        } else if (data.error) {
+          document.querySelector(".formSuccess").innerHTML = data.error;
         }
       })
       .catch((error) => {
@@ -123,11 +125,13 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
       })
       .then((data) => {
         console.log(data);
-        if (data) {
+        if (data.message) {
           // document.getElementById("yes-delete").innerHTML = data.message;
           // alert(data.message);
           window.location.href = data.redirect;
           // document.getElementById("no-delete").innerHTML = data.error;
+        } else if (data.error) {
+          document.getElementById("edit-error").innerHTML = data.error;
         }
       })
       .catch((error) => {

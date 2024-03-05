@@ -1,92 +1,105 @@
 //address tabs in account info
 
-const addressContent = document.getElementById("addressContent");
-addressContent.innerHTML = "";
-const address_tab = document.getElementById("shippingAddress"); //here id of triggering element (a tag)
-address_tab.addEventListener("shown.bs.tab", async function (event) {
-  event.preventDefault();
+async function reload() {
   const addressContent = document.getElementById("addressContent");
   addressContent.innerHTML = "";
-  console.log("address");
-  const response = await fetch(`/address`);
-  const data = await response.json();
-  data.addresses.forEach((address) => {
-    const cardCol = document.createElement("div");
-    cardCol.classList.add("col-md-6", "mb-2");
-
-    const card = document.createElement("div");
-    card.classList.add("card", "mb-md-0");
-
-    const cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
-
-    const floatEnd = document.createElement("div");
-    floatEnd.classList.add("float-end", "clearfix");
-
-    const editLink = document.createElement("a");
-    editLink.href = "address.html";
-    editLink.classList.add("badge", "bg-primary-subtle", "text-primary");
-    editLink.innerHTML =
-      '<i class="ri-pencil-fill align-bottom me-1"></i> Edit';
-    editLink.setAttribute("data-custom-data", JSON.stringify(address)); // Assuming categoryObj is the custom data
-    editLink.setAttribute("data-bs-toggle", "modal");
-    editLink.setAttribute("data-bs-target", "#editAddressModal");
-
-    floatEnd.appendChild(editLink);
-
-    const addressHeading = document.createElement("p");
-    addressHeading.classList.add(
-      "mb-3",
-      "fw-semibold",
-      "fs-12",
-      "d-block",
-      "text-muted",
-      "text-uppercase"
-    );
-    addressHeading.textContent = "shipping address";
-
-    const name = document.createElement("h6");
-    name.classList.add("fs-14", "mb-2", "d-block");
-    name.textContent = address.fullName;
-
-    const addressLine = document.createElement("span");
-    addressLine.classList.add(
-      "text-muted",
-      "fw-normal",
-      "text-wrap",
-      "mb-1",
-      "d-block"
-    );
-    addressLine.textContent = `${address.addressLine1}, ${address.city}, ${address.state} ${address.postalCode}`;
-
-    const phoneNumber = document.createElement("span");
-    phoneNumber.classList.add("text-muted", "fw-normal", "d-block");
-    phoneNumber.textContent = `Mo. ${address.phoneNumber}`;
-
-    cardBody.appendChild(floatEnd);
-    cardBody.appendChild(addressHeading);
-    cardBody.appendChild(name);
-    cardBody.appendChild(addressLine);
-    cardBody.appendChild(phoneNumber);
-
-    card.appendChild(cardBody);
-
-    cardCol.appendChild(card);
-
-    addressContent.appendChild(cardCol);
-  });
-
   try {
+    const response = await fetch(`/address`);
+    const data = await response.json();
+    data.addresses.forEach((address) => {
+      const cardCol = document.createElement("div");
+      cardCol.classList.add("col-md-6", "mb-2");
+
+      const card = document.createElement("div");
+      card.classList.add("card", "mb-md-0");
+
+      const cardBody = document.createElement("div");
+      cardBody.classList.add("card-body");
+
+      const floatEnd = document.createElement("div");
+      floatEnd.classList.add("float-end", "clearfix");
+
+      const editLink = document.createElement("a");
+      // editLink.href = "address.html";
+      editLink.classList.add("badge", "bg-primary-subtle", "text-primary");
+      editLink.innerHTML =
+        '<i class="ri-pencil-fill align-bottom me-1"></i> Edit';
+      editLink.setAttribute("data-custom-data", JSON.stringify(address)); // Assuming categoryObj is the custom data
+      editLink.setAttribute("data-bs-toggle", "modal");
+      editLink.setAttribute("data-bs-target", "#editAddressModal");
+
+      const removeLink = document.createElement("a");
+      // editLink.href = "address.html";
+      removeLink.classList.add("badge", "bg-danger-subtle", "text-danger");
+      removeLink.innerHTML =
+        '<i class="ri-trash-fill align-bottom me-1"></i> Remove';
+      removeLink.setAttribute("data-custom-data", address._id); // Assuming categoryObj is the custom data
+      removeLink.setAttribute("data-bs-toggle", "modal");
+      removeLink.setAttribute("data-bs-target", "#removeAddressModal");
+
+      floatEnd.appendChild(editLink);
+      floatEnd.appendChild(removeLink);
+
+      const addressHeading = document.createElement("p");
+      addressHeading.classList.add(
+        "mb-3",
+        "fw-semibold",
+        "fs-12",
+        "d-block",
+        "text-muted",
+        "text-uppercase"
+      );
+      addressHeading.textContent = "shipping address";
+
+      const name = document.createElement("h6");
+      name.classList.add("fs-14", "mb-2", "d-block");
+      name.textContent = address.fullName;
+
+      const addressLine = document.createElement("span");
+      addressLine.classList.add(
+        "text-muted",
+        "fw-normal",
+        "text-wrap",
+        "mb-1",
+        "d-block"
+      );
+      addressLine.textContent = `${address.addressLine1}, ${address.city}, ${address.state} ${address.postalCode}`;
+
+      const phoneNumber = document.createElement("span");
+      phoneNumber.classList.add("text-muted", "fw-normal", "d-block");
+      phoneNumber.textContent = `Mo. ${address.phoneNumber}`;
+
+      cardBody.appendChild(floatEnd);
+      cardBody.appendChild(addressHeading);
+      cardBody.appendChild(name);
+      cardBody.appendChild(addressLine);
+      cardBody.appendChild(phoneNumber);
+
+      card.appendChild(cardBody);
+
+      cardCol.appendChild(card);
+
+      addressContent.appendChild(cardCol);
+    });
   } catch (error) {
     console.log(error);
   }
+}
+
+// const addressContent = document.getElementById("addressContent");
+// addressContent.innerHTML = "";
+const address_tab = document.getElementById("shippingAddress"); //here id of triggering element (a tag)
+address_tab.addEventListener("shown.bs.tab", async function (event) {
+  // event.preventDefault();
+  await reload();
 });
 
 //edit address modal
 const edit_modal = document.getElementById("editAddressModal");
 edit_modal.addEventListener("show.bs.modal", function (event) {
   const button = event.relatedTarget;
-
+  document.getElementById("success").innerHTML = "";
+  addressContent.innerHTML = "";
   const address = button.getAttribute("data-custom-data");
   const addressobj = JSON.parse(address);
   console.log(addressobj);
@@ -102,6 +115,7 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
 
   const form = document.getElementById("editAddress-form");
   form.addEventListener("submit", async (event) => {
+    addressContent.innerHTML = "";
     event.preventDefault();
     let filled = true;
 
@@ -138,16 +152,17 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
           "address successfully edited";
 
         // Trigger 'shown.bs.tab' event on address tab to refresh data
-        const addressTab = document.getElementById("shippingAddress");
-        const shownEvent = new Event("shown.bs.tab", {
-          bubbles: true,
-          cancelable: true,
-        });
-        addressTab.dispatchEvent(shownEvent);
+        // const addressTab = document.getElementById("shippingAddress");
+        // const shownEvent = new Event("shown.bs.tab", {
+        //   bubbles: true,
+        //   cancelable: true,
+        // });
+        // addressTab.dispatchEvent(shownEvent);
 
         // Close modal
         // const modal = bootstrap.Modal.getInstance(edit_modal);
         // modal.hide();
+        await reload();
         const add_modal = document.getElementById("editAddressModal");
         const modal = bootstrap.Modal.getInstance(add_modal);
         modal.hide();
@@ -220,4 +235,35 @@ add_form.addEventListener("submit", async function (event) {
       modal.hide();
     }
   }
+});
+
+//remove address
+const remove_address_modal = document.getElementById("removeAddressModal");
+remove_address_modal.addEventListener("show.bs.modal", function (event) {
+  const button = event.relatedTarget;
+  console.log("remove address");
+  const addressId = button.getAttribute("data-custom-data");
+  console.log(addressId);
+  const removeButton = document.getElementById("remove-address-button");
+  removeButton.addEventListener("click", async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(`/remove-address?addressId=${addressId}`, {
+        method: "delete",
+      });
+      if (!response.ok) {
+        throw new Error("Something went wrong. Please try again.");
+      } else {
+        const data = await response.json();
+        document.getElementById("address-delete-succcess").innerHTML =
+          data.message;
+        await reload();
+        const modal = bootstrap.Modal.getInstance(remove_address_modal);
+        modal.hide();
+      }
+    } catch (error) {
+      document.getElementById("address-delete-error").innerHTML =
+        "something went wrong try again!";
+    }
+  });
 });

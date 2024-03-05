@@ -7,7 +7,12 @@ const {
   getCartByUserId,
   deleteFromCart,
   addItemToCart,
+  updateItemCount,
   searchProducts,
+  getAddressById,
+  createOrder,
+  getOrdersByUserId,
+  removeAllItemFromCart,
 } = require("../../helper/dbQueries");
 
 exports.getAllProducts = async (req, res) => {
@@ -46,6 +51,7 @@ exports.getCartItems = async (req, res) => {
   cartItems.forEach((item) => {
     total += item.price * item.quantity;
   });
+  console.log(total);
   if (cartItems !== null) {
     res.json({ items: cartItems, total: total });
   } else {
@@ -114,7 +120,95 @@ exports.searchProduct = async (req, res) => {
     if (products.length > 0) {
       res.status(200).json({ products: products });
     } else {
-      res.status(200).json({ message: "no products found" });
+      res.status(200).json({ message: `No  result found for '${query}'` });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.updateItemCountInCart = async (req, res) => {
+  try {
+    const userId = req.user.sub;
+    const itemId = req.query.itemId;
+    const count = req.query.count;
+    const updated = await updateItemCount(userId, itemId, count);
+    if (updated !== null) {
+      res.status(200).json({ message: "count updated" });
+    } else {
+      res.status(500).json({ message: "something went wrong! try again" });
+    }
+  } catch (error) {}
+};
+
+exports.getCheckoutPage = async (req, res) => {
+  try {
+    const userId = req.user.sub;
+    const user = await getUserById(userId);
+    const cartItems = await getCartByUserId(userId);
+    res.render("checkoutPage", { user: user, items: cartItems });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getPaymentPage = async (req, res) => {
+  try {
+    const userId = req.user.sub;
+    const user = await getUserById(userId);
+    const addressId = req.query.addressId;
+    res.render("payment", { addressId: addressId, user: user });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.placeOrder = async (req, res) => {
+  try {
+    const userId = req.user.sub;
+    const user = await getUserById(userId);
+    const userName = user.firstName + " " + user.lastName;
+    const addressId = req.query.addressId;
+    const address = await getAddressById(addressId);
+    const items = await getCartByUserId(userId);
+    const method = "COD";
+
+    let total_amount = 0;
+    items.forEach((item) => {
+      total_amount += item.price * item.quantity;
+    });
+
+    const newOrder = await createOrder(
+      userId,
+      userName,
+      address,
+      items,
+      total_amount,
+      method
+    );
+    console.log(newOrder);
+    if (newOrder !== null) {
+      //remove all items from cart
+      const remove = await removeAllItemFromCart(userId);
+      console.log("cart is now empty ====", remove);
+      res
+        .status(200)
+        .render("confirmation", { user: user, orderId: newOrder._id });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getAllOrders = async (req, res) => {
+  try {
+    const userId = req.user.sub;
+    const orders = await getOrdersByUserId(userId);
+    console.log("order === ", orders);
+    if (orders !== null) {
+      res.status(200).json({ orders: orders });
+    } else {
+      res.status(200).json({ message: "no orders found" });
     }
   } catch (error) {
     console.log(error);

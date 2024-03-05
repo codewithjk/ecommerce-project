@@ -1,0 +1,256 @@
+<%- include("./layouts/header") %><%- include("./layouts/navbar") %>
+
+<section class="section pb-4">
+  <div class="container">
+    <div class="row product-list">
+      <div class="col-xl-12">
+        <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
+
+        <ul
+          class="nav nav-pills arrow-navtabs nav-success bg-light mb-3 mt-4 nav-justified custom-nav"
+          role="tablist"
+        >
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link py-3"
+              data-bs-toggle="tab"
+              href="#paypal"
+              role="tab"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              <span class="d-block d-sm-none"
+                ><i class="ri-paypal-fill align-bottom"></i
+              ></span>
+              <span class="d-none d-sm-block"
+                ><i class="ri-paypal-fill align-bottom pe-2"></i> Paypal</span
+              >
+            </a>
+          </li>
+
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link py-3"
+              data-bs-toggle="tab"
+              href="#credit"
+              role="tab"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              <span class="d-block d-sm-none"
+                ><i class="ri-bank-card-fill align-bottom"></i
+              ></span>
+              <span class="d-none d-sm-block">
+                <i class="ri-bank-card-fill align-bottom pe-2"></i> Credit /
+                Debit Card</span
+              >
+            </a>
+          </li>
+
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link py-3 active"
+              data-bs-toggle="tab"
+              href="#cash"
+              role="tab"
+              aria-selected="true"
+            >
+              <span class="d-block d-sm-none"
+                ><i class="ri-money-dollar-box-fill align-bottom"></i
+              ></span>
+              <span class="d-none d-sm-block">
+                <i class="ri-money-dollar-box-fill align-bottom pe-2"></i> Cash
+                on Delivery</span
+              >
+            </a>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content text-muted">
+          <div class="tab-pane" id="paypal" role="tabpanel">
+            <div class="card">
+              <div class="card-body">
+                <div class="row gy-3">
+                  <div class="col-md-12">
+                    <label for="buyers-name" class="form-label"
+                      >Buyers First Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="buyers-name"
+                      placeholder="Enter Name"
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="buyers-last" class="form-label"
+                      >Buyers Last Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="buyers-last"
+                      placeholder="Enter Last Name"
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="buyers-address" class="form-label"
+                      >Email Address</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="buyers-address"
+                      placeholder="Enter Email Address"
+                    />
+                  </div>
+
+                  <div class="col-md-12">
+                    <label class="form-label"
+                      >Select your paypal account type</label
+                    >
+                    <div class="d-flex gap-4 mt-1">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="formRadios"
+                          id="formRadios1"
+                          checked=""
+                        />
+                        <label class="form-check-label" for="formRadios1">
+                          Domestic
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="formRadios"
+                          id="formRadios2"
+                        />
+                        <label class="form-check-label" for="formRadios2">
+                          International
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="hstack gap-2 justify-content-end pt-4">
+                  <button type="button" class="btn btn-hover btn-primary">
+                    <i
+                      class="ri-paypal-fill align-bottom align-bottom pe-2"
+                    ></i>
+                    Log into my Paypal
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="credit" role="tabpanel">
+            <div class="card">
+              <div class="card-body">
+                <div class="row gy-3">
+                  <div class="col-md-12">
+                    <label for="cc-name" class="form-label">Name on card</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cc-name"
+                      placeholder="Enter name"
+                    />
+                    <small class="text-muted"
+                      >Full name as displayed on card</small
+                    >
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="cc-number" class="form-label"
+                      >Credit card number</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cc-number"
+                      placeholder="xxxx xxxx xxxx xxxx"
+                    />
+                  </div>
+
+                  <div class="col-md-3">
+                    <label for="cc-expiration" class="form-label"
+                      >Expiration</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cc-expiration"
+                      placeholder="MM/YY"
+                    />
+                  </div>
+
+                  <div class="col-md-3">
+                    <label for="cc-cvv" class="form-label">CVV</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cc-cvv"
+                      placeholder="xxx"
+                    />
+                  </div>
+                </div>
+
+                <div class="hstack gap-2 justify-content-end pt-4">
+                  <button type="button" class="btn btn-hover w-md btn-primary">
+                    Pay<i class="ri-logout-box-r-line align-bottom ms-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane active show" id="cash" role="tabpanel">
+            <div class="card">
+              <div class="card-body">
+                <div class="text-center py-3">
+                  <div class="avatar-md mx-auto mb-4">
+                    <div
+                      class="avatar-title bg-primary-subtle text-primary rounded-circle display-6"
+                    >
+                      <i class="bi bi-cash"></i>
+                    </div>
+                  </div>
+                  <h5 class="fs-16 mb-3">Cash on Delivery</h5>
+                  <p class="text-muted mt-3 mb-0 w-75 mx-auto">
+                    "Please note that cash on delivery (COD) payment option is
+                    available for your convenience. You can pay the total amount
+                    in cash when your order is delivered to your doorstep. Thank
+                    you for choosing our service."
+                  </p>
+                </div>
+                <div class="hstack gap-2 justify-content-end pt-3">
+                  <a
+                    href="/place-order?addressId=<%=addressId %>"
+                    type="button"
+                    class="btn btn-hover w-md btn-primary"
+                  >
+                    Continue<i
+                      class="ri-logout-box-r-line align-bottom ms-2"
+                    ></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+</section>
+<%- include("./layouts/footer") %>
