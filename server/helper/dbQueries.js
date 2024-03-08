@@ -7,8 +7,8 @@ const { cartModel } = require("../models/cart");
 const { orderModel } = require("../models/order");
 const mongoose = require("mongoose");
 
-const getAllProducts = async () => {
-  return await productModel.find();
+const getAllProducts = async (limit, skip) => {
+  return await productModel.find().limit(limit).skip(skip);
 };
 const getAllUsers = async () => {
   return await userModel.find();
@@ -73,6 +73,7 @@ const getUserById = async (id) => {
       phoneNumber: 1,
       created_at: 1,
       avatar: 1,
+      status: 1,
     }
   );
   return user;
@@ -176,11 +177,14 @@ const updateItemCount = async (userId, itemId, count) => {
 };
 
 /////////
-const searchProducts = async (query) => {
+const searchProducts = async (query, limit, skip) => {
   try {
-    const result = await productModel.find({
-      title: { $regex: ".*" + query + ".*", $options: "i" },
-    });
+    const result = await productModel
+      .find({
+        title: { $regex: ".*" + query + ".*", $options: "i" },
+      })
+      .limit(limit)
+      .skip(skip);
     return result;
   } catch (error) {
     console.log(error);
@@ -199,6 +203,7 @@ const getAddressById = async (id) => {
 const createOrder = async (
   userId,
   username,
+  user,
   address,
   products,
   amount,
@@ -208,6 +213,7 @@ const createOrder = async (
     const order = new orderModel({
       userId: userId,
       customer: username,
+      userData: user,
       address: address,
       products: products,
       totalAmount: amount,
@@ -221,36 +227,10 @@ const createOrder = async (
 };
 const getAllOrderAdmin = async () => {
   try {
-    // const orders = orderModel.aggregate([
-    //   {
-    //     $lookup: {
-    //       from: "customers",
-    //       localField: "customer._id",
-    //       foreignField: "_id",
-    //       as: "customerDetails",
-    //     },
-    //   },
-    //   {
-    //     $unwind: "$products",
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$_id",
-    //       CustomerName: { $first: "$customerDetails.firstName" },
-
-    //       ProductNames: { $push: "$products.title" },
-    //       TotalAmount: { $first: "$totalAmount" },
-    //       Status: { $first: "$status" },
-    //       Method: { $first: "$method" },
-    //       OrderDate: { $first: "$orderDate" },
-    //     },
-    //   },
-    // ]);
-    // return orders;
-
     const orders = await orderModel.find();
 
     const formattedOrders = orders.map((order) => ({
+      orderId: order._id,
       customerName: order.customer,
       productNames: order.products.map((product) => product.title),
       totalAmount: order.totalAmount,
@@ -302,6 +282,51 @@ const removeAllItemFromCart = async (userId) => {
   }
 };
 
+const deleteImage = async (stringToRemove, id) => {
+  try {
+    const updatedProduct = await productModel.findByIdAndUpdate(
+      id,
+      { $pull: { images: stringToRemove } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      console.log("Failed to update product");
+      return false;
+    }
+
+    console.log(
+      `Successfully pulled "${stringToRemove}" from images and updated product`
+    );
+    return true;
+  } catch (error) {
+    console.error("Error:", error);
+    return false;
+  }
+};
+
+const getOrderById = async (id) => {
+  try {
+    const order = await orderModel.findById(id);
+    return order;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const changeOrderStatus = async (id, status) => {
+  try {
+    const result = orderModel.findByIdAndUpdate(
+      id,
+      { status: status },
+      { new: true }
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getAllProducts,
   getOneProduct,
@@ -327,4 +352,7 @@ module.exports = {
   getOrdersByUserId,
   deleteAddressById,
   removeAllItemFromCart,
+  deleteImage,
+  getOrderById,
+  changeOrderStatus,
 };

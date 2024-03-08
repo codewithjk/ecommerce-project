@@ -1,4 +1,4 @@
-<%- include("./layouts/header") %>
+<%- include("./layouts/footer") %>
 <section
   class="auth-page-wrapper position-relative bg-light min-vh-100 d-flex align-items-center justify-content-between"
 >
@@ -21,24 +21,24 @@
               <div class="card-body text-center p-4">
                 <div class="text-center px-sm-5 mx-5">
                   <img
-                    src="/static/images/blocked.webp"
+                    src="/static/images/error500.png"
                     class="img-fluid"
-                    alt=""
+                    alt="error500"
                   />
                 </div>
                 <div class="mt-4 text-center pt-3">
                   <div class="position-relative">
                     <h4 class="fs-18 error-subtitle text-uppercase mb-0">
-                      You are blocked by admin
+                      Internal Server Error
                     </h4>
                     <p class="fs-15 text-muted mt-3">
-                      "Your account has been temporarily blocked by
-                      administrators due to suspicious activity. We apologize
-                      for any inconvenience this may cause. Please be assured
-                      that our team is diligently investigating the matter."
+                      "We apologize for the inconvenience, but we're
+                      experiencing technical difficulties at the moment. Our
+                      team has been notified of the issue and is working
+                      diligently to resolve it as soon as possible."
                     </p>
                     <div class="mt-4">
-                      <a href="/" class="btn btn-primary"
+                      <a href="/admin/dashboard" class="btn btn-primary"
                         ><i class="mdi mdi-home me-1"></i>Back to home</a
                       >
                     </div>
@@ -64,7 +64,7 @@
                 <script>
                   document.write(new Date().getFullYear());
                 </script>
-                FASCO.
+                FASCO
               </p>
             </div>
           </div>
@@ -73,5 +73,4 @@
     </footer>
   </div>
 </section>
-
-<%- include("./layouts/footer") %>
+<%- include("./layouts/header") %>

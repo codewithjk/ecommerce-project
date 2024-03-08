@@ -1,6 +1,19 @@
 const { categoryModel } = require("../../models/category");
 const { productModel } = require("../../models/product");
-const { getAllCategories } = require("../../helper/dbQueries");
+const {
+  getAllCategories,
+  deleteImage,
+  getOrderById,
+  changeOrderStatus,
+} = require("../../helper/dbQueries");
+///////
+
+const fs = require("fs");
+const path = require("path");
+
+const imgur = require("imgur");
+
+/////
 
 exports.getProductsPage = async (req, res) => {
   const data = await productModel.aggregate([
@@ -15,18 +28,20 @@ exports.getProductsPage = async (req, res) => {
     {
       $project: {
         title: 1,
-        image: { $arrayElemAt: ["$images", 0] },
+        images: 1,
         total_stock: 1,
         price: 1,
         created_at: 1,
         description: 1,
         discount: 1,
         category: { $arrayElemAt: ["$categoryInfo.title", 0] },
+        sizes: 1,
       },
     },
   ]);
 
   const categories = await getAllCategories();
+  console.log(data);
 
   res.render("products", { products: data, categories: categories });
 };
@@ -42,9 +57,16 @@ exports.getAddProduct = async (req, res) => {
 
 exports.postAddProduct = async (req, res) => {
   try {
-    // const imageData = req.body.image.map((element) => {
-    //   return (element = Buffer.from(element, "base64"));
-    // });
+    const urls = [];
+
+    for (const image of req.body.image) {
+      const url = await saveBase64ImageToFile(image, "image.jpg");
+      urls.push(url);
+    }
+
+    console.log(urls);
+
+    //////////////////////////////
 
     let totalStock = 0;
     const allvarients =
@@ -57,7 +79,7 @@ exports.postAddProduct = async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       category: req.body.category,
-      images: req.body.image,
+      images: urls,
       price: req.body.price,
       discount: req.body.discount,
       colors: req.body.color,
@@ -91,16 +113,25 @@ exports.removeProduct = async (req, res) => {
 exports.editProduct = async (req, res) => {
   try {
     const id = req.body.id;
+
+    let totalStock = 0;
+    const allvarients = req.body.size;
+    allvarients.forEach((obj) => {
+      totalStock += Object.values(obj)[0];
+    });
+
     const product = {
       title: req.body.title,
-      // image: req.body.image,
       description: req.body.description,
       category: req.body.category,
-      pirce: req.body.price,
+      images: req.body.image,
+      price: req.body.price,
       discount: req.body.discount,
-      color: req.body.color,
-      size: req.body.size,
+      sizes: req.body.size,
+      total_stock: totalStock,
     };
+    console.log("edited product ================================ ", product);
+    console.log(id);
     const updatedData = await productModel.findByIdAndUpdate(id, product);
     console.log(updatedData);
     res.json({
@@ -111,3 +142,74 @@ exports.editProduct = async (req, res) => {
     console.error(error);
   }
 };
+
+exports.removeImage = async (req, res) => {
+  const url = req.query.url;
+  const pid = req.query.pid;
+  console.log(url, pid);
+  try {
+    const result = await deleteImage(url, pid);
+    if (result) {
+      res.status(200).json({ message: "success fully removed" });
+    } else {
+      res.status(500).json({ message: "failed to remove" });
+    }
+  } catch (error) {
+    res.status(500).render("error");
+  }
+};
+
+//get order details by id
+exports.orderDetails = async (req, res) => {
+  try {
+    const orderId = req.query.orderId;
+    const order = await getOrderById(orderId);
+    if (order !== null) {
+      console.log(order);
+      res.status(200).render("orderDetails", { order: order });
+    } else {
+      res.status(500).render("serverError");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    console.log(req.body);
+    const status = req.body.status;
+    const orderId = req.body.orderId;
+    const updated = await changeOrderStatus(orderId, status);
+    if (updated !== null) {
+      res.status(200).json({ message: `Order is ${status}` });
+    } else {
+      res.status(401).json({ message: "something went wrong!" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+///////////////////////////////////////////////////////////////////
+
+async function saveBase64ImageToFile(base64Data, filePath) {
+  return new Promise((resolve, reject) => {
+    const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, "");
+    const buffer = Buffer.from(base64Image, "base64");
+    fs.writeFile(filePath, buffer, async (err) => {
+      if (err) {
+        console.error("Error saving image:", err);
+        reject(err);
+      } else {
+        try {
+          const obj = await imgur.uploadFile(filePath);
+          resolve(obj.data.link);
+        } catch (error) {
+          console.log(error);
+          reject(error);
+        }
+      }
+    });
+  });
+}

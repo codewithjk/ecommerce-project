@@ -84,7 +84,8 @@
                     </thead>
                     <tbody class="list form-check-all">
                       <% orders.forEach(order => { %>
-                      <tr>
+
+                      <tr id="<%=order.orderId %>" href="">
                         <th scope="row">
                           <div class="form-check">
                             <input
@@ -137,35 +138,14 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                               <li>
-                                <a class="dropdown-item" href="#!">
+                                <a
+                                  class="dropdown-item"
+                                  href="/admin/order-details?orderId=<%=order.orderId %>"
+                                >
                                   <i
                                     class="ri-eye-fill align-bottom me-2 text-muted"
                                   ></i>
                                   View
-                                </a>
-                              </li>
-                              <li>
-                                <a
-                                  class="dropdown-item edit-item-btn"
-                                  href="#showModal"
-                                  data-bs-toggle="modal"
-                                >
-                                  <i
-                                    class="ri-pencil-fill align-bottom me-2 text-muted"
-                                  ></i
-                                  >Edit
-                                </a>
-                              </li>
-                              <li>
-                                <a
-                                  class="dropdown-item remove-item-btn"
-                                  data-bs-toggle="modal"
-                                  href="#deleteRecordModal"
-                                >
-                                  <i
-                                    class="ri-delete-bin-fill align-bottom me-2 text-muted"
-                                  ></i>
-                                  Delete
                                 </a>
                               </li>
                             </ul>

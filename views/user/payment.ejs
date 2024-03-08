@@ -140,11 +140,15 @@
                 </div>
 
                 <div class="hstack gap-2 justify-content-end pt-4">
-                  <button type="button" class="btn btn-hover btn-primary">
+                  <button
+                    id="btn-razorpay"
+                    type="button"
+                    class="btn btn-hover btn-primary"
+                  >
                     <i
                       class="ri-paypal-fill align-bottom align-bottom pe-2"
                     ></i>
-                    Log into my Paypal
+                    RazorPay
                   </button>
                 </div>
               </div>
@@ -233,7 +237,7 @@
                 </div>
                 <div class="hstack gap-2 justify-content-end pt-3">
                   <a
-                    href="/place-order?addressId=<%=addressId %>"
+                    href="/place-order-cod?addressId=<%=addressId %>"
                     type="button"
                     class="btn btn-hover w-md btn-primary"
                   >
@@ -253,4 +257,59 @@
   </div>
   <!--end container-->
 </section>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  const btn_razorpay = document.getElementById("btn-razorpay");
+  const addressId = new URLSearchParams(window.location.search).get(
+    "addressId"
+  );
+  btn_razorpay.addEventListener("click", async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(
+        `/place-order-razorpay?addressId=${addressId}`
+      );
+      if (!response.ok) {
+        alert("somthing gone wrong");
+      } else {
+        const res = await response.json();
+        console.log(res);
+        var options = {
+          key: "" + res.key_id + "",
+          amount: "" + res.amount + "",
+          currency: "INR",
+          name: "" + res.title + "",
+          description: "" + res.description + "",
+          image: "https://dummyimage.com/600x400/000/fff",
+          order_id: "" + res.order_id + "",
+          handler: function (response) {
+            // alert("Payment Succeeded");
+            window.open(
+              `/payment/success?orderId=${res.order_id}&method="razorpay"&addressId=${addressId}`,
+              "_self"
+            );
+          },
+          prefill: {
+            contact: "" + res.contact + "",
+            name: "" + res.name + "",
+            email: "" + res.email + "",
+          },
+          notes: {
+            description: "" + res.description + "",
+          },
+          theme: {
+            color: "#2300a3",
+          },
+        };
+        var razorpayObject = new Razorpay(options);
+        razorpayObject.on("payment.failed", function (response) {
+          alert("Payment Failed");
+        });
+        razorpayObject.open();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>
 <%- include("./layouts/footer") %>

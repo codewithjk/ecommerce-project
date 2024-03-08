@@ -152,6 +152,7 @@ const remove_modal = document.getElementById("removeItemModal");
 remove_modal.addEventListener("show.bs.modal", function (event) {
   const button = event.relatedTarget;
   console.log("adsfkdaakldsfaldkadskll");
+  document.getElementById("cart-delete-succcess").innerHTML = "";
   const itemId = button.getAttribute("data-custom-data");
   console.log(itemId);
   const removeButton = document.getElementById("remove-product-button");

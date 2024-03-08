@@ -1,31 +1,21 @@
 var globalproducts = [];
+var searchQuery = "";
+var skip = 0;
+var limit = 10;
 
 window.onload = async () => {
-  globalproducts = await listAllProduct();
+  globalproducts = await getProducts(searchQuery, skip);
+  console.log(globalproducts);
   displayProducts(globalproducts);
 };
 
 console.log("this is product page");
 
-async function listAllProduct() {
-  try {
-    const response = await fetch("/products/all-products");
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    } else {
-      const data = await response.json();
-      return data.products;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 //display product
 const productRow = document.getElementById("product-list");
 function displayProducts(products) {
   console.log(products);
-  productRow.innerHTML = "";
+  // productRow.innerHTML = "";
   products.forEach((product) => {
     const discount_price =
       product.price - (product.price * product.discount) / 100;
@@ -38,6 +28,7 @@ function displayProducts(products) {
     <div
       class="bg-light bg-opacity-50 rounded py-4 position-relative"
       onclick="window.location.href='/product-details?id=${product._id} '"
+      style="width: 255px;"
     >
       <img
         src="${product.images[0]}"
@@ -101,7 +92,7 @@ function displayProducts(products) {
           <h5 class="text-secondary mb-0">
              ₹${discount_price}
             <span class="text-muted fs-12"
-              ><del>₹${product.price} </del></span
+              ><del>₹ ${product.price} </del></span
             >
           </h5>
         </div>
@@ -122,13 +113,24 @@ function displayProducts(products) {
   });
 }
 
-// search product
+async function loadmore() {
+  console.log("heloo");
+  skip++;
+  const products = await getProducts(searchQuery, skip * limit);
+  console.log(products);
+  if (products.length === 0 || products.message) {
+    document.getElementById("no-result").innerHTML = "No more results found...";
+  } else {
+    displayProducts(products);
+  }
+}
+
 const searchButton = document.getElementById("btn-search");
 searchButton.addEventListener("click", async (event) => {
   event.preventDefault();
   document.getElementById("searchError").innerHTML = "";
 
-  const searchQuery = document.getElementById("search-options").value.trim();
+  searchQuery = document.getElementById("search-options").value.trim();
   document.getElementById("searchProductList").value = searchQuery;
   if (searchQuery === "") {
     const search_modal = document.getElementById("searchModal");
@@ -136,24 +138,49 @@ searchButton.addEventListener("click", async (event) => {
     modal.hide();
   } else {
     try {
-      const response = await fetch(`/products/search?search=${searchQuery}`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      const data = await getProducts(searchQuery, skip);
+      if (data.message) {
+        document.getElementById("searchError").innerHTML = data.message;
       } else {
-        const data = await response.json();
-        if (data.message) {
-          document.getElementById("searchError").innerHTML = data.message;
-        } else {
-          globalproducts = data.products;
-          displayProducts(globalproducts);
+        productRow.innerHTML = "";
+        globalproducts = data.products;
+        displayProducts(globalproducts);
 
-          const search_modal = document.getElementById("searchModal");
-          const modal = bootstrap.Modal.getInstance(search_modal);
-          modal.hide();
-        }
+        const search_modal = document.getElementById("searchModal");
+        const modal = bootstrap.Modal.getInstance(search_modal);
+        modal.hide();
       }
     } catch (error) {
       console.log(error);
     }
   }
 });
+
+//function to get products
+async function getProducts(searchQuery, skip) {
+  try {
+    if (searchQuery === "") {
+      const response = await fetch(
+        `/products/all-products?limit=${limit}&skip=${skip}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      } else {
+        const data = await response.json();
+        return data.products;
+      }
+    } else {
+      const response = await fetch(
+        `/products/search?limit=${limit}&search=${searchQuery}&skip=${skip}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      } else {
+        const data = await response.json();
+        return data;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

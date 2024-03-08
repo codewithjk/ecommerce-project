@@ -9,6 +9,9 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userData: {
+    type: Object,
+  },
   address: {
     type: Object,
   },
@@ -20,8 +23,22 @@ const orderSchema = new mongoose.Schema({
   orderDate: { type: Date, default: Date.now },
   status: {
     type: String,
-    enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
+    enum: [
+      "Pending",
+      "Processing",
+      "Shipped",
+      "Delivered",
+      "Cancelled",
+      "Returns",
+    ],
     default: "Pending",
+  },
+  subTotal: {
+    type: Number,
+  },
+  discount: {
+    type: Number,
+    default: 0,
   },
 });
 

@@ -1,0 +1,390 @@
+<%- include("./layouts/header") %>
+
+<div id="layout-wrapper">
+  <%- include("./layouts/topbar") %>
+  <!-- ========== App Menu ========== -->
+  <%-include("./layouts/menubar") %>
+  <!-- Left Sidebar End -->
+
+  <div class="main-content">
+    <div class="page-content">
+      <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="page-title-box d-sm-flex align-items-center justify-content-between"
+            >
+              <h4 class="mb-sm-0">Overview</h4>
+
+              <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">Orders</a>
+                  </li>
+                  <li class="breadcrumb-item active">Overview</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row mb-4 align-items-center">
+          <div class="col">
+            <h6 class="fs-18 mb-0">Order ID: #22830</h6>
+          </div>
+          <div class="col text-end d-flex justify-content-end gap-2">
+            <div class="bg-success-subtle">
+                <select class="form-control" required id="delivered-status">
+                  <option value="">Delivery Status</option>
+                  <option value="Pending" <% if (order.status === 'Pending') { %> selected <% } %>>Pending</option>
+                  <option value="Processing" <% if (order.status === 'Processing') { %> selected <% } %>>Processing</option>
+                  <option value="Shipped" <% if (order.status === 'Shipped') { %> selected <% } %>>Shipped</option>
+                  <option value="Delivered" <% if (order.status === 'Delivered') { %> selected <% } %>>Delivered</option>
+                  <option value="Cancelled" <% if (order.status === 'Cancelled') { %> selected <% } %>>Cancelled</option>
+                  <option value="Returns" <% if (order.status === 'Returns') { %> selected <% } %>>Returns</option>
+                </select>
+              </div>
+              
+              
+            <button type="button" class="btn btn-secondary">
+              <i class="ph-download-simple me-1 align-middle"></i> Invoice
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xxl-3 col-lg-6">
+            <div class="card bg-success bg-opacity-10 border-0">
+              <div class="card-body">
+                <div class="d-flex gap-3">
+                  <div class="flex-grow-1">
+                    <h6 class="fs-18 mb-3">Customer Info</h6>
+                    <p class="mb-0 fw-medium"><%=order.customer %></p>
+                    <p class="mb-1"><%=order.userData.email %></p>
+                    <% if(order.userData.phoneNumber){%>
+                    <p class="mb-0"><%=order.userData.phoneNumber %></p>
+                    <% } %>
+                  </div>
+                  <div class="avatar-sm flex-shrink-0">
+                    <div
+                      class="avatar-title bg-success-subtle text-success rounded fs-3"
+                    >
+                      <i class="ph-user-circle"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-3 col-lg-6">
+            <div class="card bg-primary bg-opacity-10 border-0">
+              <div class="card-body">
+                <div class="d-flex gap-3">
+                  <div class="flex-grow-1">
+                    <h6 class="fs-18 mb-3">Shipping Address</h6>
+                    <p class="mb-0"><%=order.address.addressLine1 %></p>
+                    <p class="mb-1">
+                      <%=order.address.city%>, <%=order.address.state %>
+                    </p>
+                    <p class="mb-0"><%=order.address.phoneNumber%></p>
+                  </div>
+                  <div class="avatar-sm flex-shrink-0">
+                    <div
+                      class="avatar-title bg-primary-subtle text-primary rounded fs-3"
+                    >
+                      <i class="ph-map-pin"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xxl-9">
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive table-card">
+                  <table class="table align-middle table-nowrap mb-0">
+                    <thead class="text-muted table-light">
+                      <tr>
+                        <th scope="col">Product ID</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col" class="text-end">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% order.products.forEach(product => {%>
+                      <tr>
+                        <td>
+                          <a href="#!" class="fw-medium link-primary">#00541</a>
+                        </td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 me-2">
+                              <img
+                                src="<%=product.image %>"
+                                alt=""
+                                class="avatar-xs rounded-circle"
+                              />
+                            </div>
+                            <div class="flex-grow-1"><%=product.title %></div>
+                          </div>
+                        </td>
+
+                        <td>
+                          <span class="text-secondary"
+                            ><%=product.price %></span
+                          >
+                        </td>
+
+                        <td><%=product.quantity %> PCS</td>
+                        <td class="text-end">
+                          ₹ <%=product.price * product.quantity%>
+                        </td>
+                      </tr>
+                      <% }); %>
+
+                      <tr>
+                        <td colspan="3"></td>
+                        <td colspan="2" class="p-0">
+                          <table class="table table-borderless mb-0">
+                            <tbody>
+                              <tr>
+                                <td>Sub Total:</td>
+                                <td class="text-end">$1715.97(not dynamic)</td>
+                              </tr>
+
+                              <tr>
+                                <td>Discount:</td>
+                                <% if(order.discount){ %>
+                                <td class="text-end"><%=order.discount %></td>
+                                <% } %>
+                              </tr>
+                              <tr class="border-top">
+                                <th>Total (INR) :</th>
+                                <th class="text-end">
+                                  ₹ <%=order.totalAmount %>
+                                </th>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!--end card-->
+          </div>
+          <!--end col-->
+          <div class="col-xxl-3">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header d-flex align-items-center">
+                    <h5 class="card-title flex-grow-1 mb-0">
+                      Logistics Details
+                    </h5>
+                    <div class="flex-shrink-0">
+                      <a href="#track-order" class="btn btn-sm btn-info"
+                        >Track Order</a
+                      >
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="text-center">
+                      <i class="bi bi-truck fs-1"></i>
+                      <h5 class="fs-18">Toner Logistics</h5>
+                      <p class="mb-0">ID: MFDS1400457854</p>
+                      <p class="mb-0">Payment Mode : Dedit Card</p>
+                    </div>
+                  </div>
+                </div>
+                <!--end card-->
+              </div>
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0">Payment Detail:</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table
+                        class="table table-sm table-borderless align-middle description-table mb-0"
+                      >
+                        <tbody>
+                          <tr>
+                            <td>Transactions:</td>
+                            <td>
+                              <span class="fw-medium">#VLZ124561278124</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Payment Method</td>
+                            <td><span class="fw-medium">Debit Card</span></td>
+                          </tr>
+                          <tr>
+                            <td>Card Number:</td>
+                            <td>
+                              <span class="fw-medium">XXXX XXXX XXXX 3028</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Card Holder Name</td>
+                            <td>
+                              <span class="fw-medium">Daniel Gonzalez</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Total Amount</td>
+                            <td><span class="fw-medium">$1868.98</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <div class="card" id="track-order">
+              <div class="card-header d-flex align-items-center gap-3">
+                <h5 class="card-title flex-grow-1 mb-0">Order Status</h5>
+                <div class="flex-shrink-0">
+                  <button
+                    type="button"
+                    class="btn btn-soft-primary btn-sm mt-2 mt-sm-0"
+                  >
+                    <i class="ri-map-pin-line align-bottom me-1"></i> Change
+                    Address
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-soft-danger btn-sm mt-2 mt-sm-0"
+                  >
+                    <i
+                      class="mdi mdi-archive-remove-outline align-bottom me-1"
+                    ></i>
+                    Cancel Order
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-lg-2 order-tracking text-center completed">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Order Process</h6>
+                        <p class="text-muted fs-15 mb-0">Mon, 24 Dec, 2022</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center completed">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Packed</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 28 Dec, 2022</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center completed">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Order Shipped</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 02 Jan, 2023</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Out Of Delivery</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 10 Jan, 2023</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Delivered</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 16 Jan, 2023</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                </div>
+                <!--end row-->
+              </div>
+            </div>
+          </div>
+          <!--end container-->
+        </div>
+      </div>
+      <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            © FASCO.
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+<!-- END layout-wrapper -->
+
+<!--preloader-->
+<div id="preloader">
+  <div id="status">
+    <div class="spinner-border text-primary avatar-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- response modal -->
+<div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="responseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="responseModalLabel">Response</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Modal body content will be populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%- include("./layouts/footer") %>
+<script src="/static/script/admin/orderDetails.js"></script>

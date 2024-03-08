@@ -650,7 +650,16 @@
             </div>
           </div>
         </div>
-        <div id="product-list" class="row"></div>
+        <div id="product-list" class="row overflow-hidden"></div>
+        <div id="pagination-element" class="row d-flex justify-content-center">
+          <button
+            onclick="loadmore()"
+            class="btn btn-primary rounded-pill w-auto"
+          >
+            Load More
+          </button>
+          <h5 id="no-result" class="text-center"></h5>
+        </div>
 
         <div class="row d-none" id="search-result-elem">
           <div class="col-lg-12">

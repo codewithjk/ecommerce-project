@@ -36,6 +36,6 @@ exports.postLogin = async (req, res) => {
 
 exports.logout = async (req, res) => {
   res.clearCookie("adminToken");
-
+  console.log("eh");
   res.redirect("/admin/login");
 };

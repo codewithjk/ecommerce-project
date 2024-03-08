@@ -9,6 +9,9 @@ const {
   postAddProduct,
   removeProduct,
   editProduct,
+  removeImage,
+  orderDetails,
+  updateOrderStatus,
 } = require("../controller/admin/product");
 const {
   getCategoryPage,
@@ -48,11 +51,13 @@ router.patch("/unblock-user", unblockUser);
 router.post("/login", postLogin);
 router.post("/add-category", addCategory);
 router.post("/add-product", postAddProduct);
-
+router.patch("/remove-image", removeImage);
 router.delete("/remove-product", removeProduct);
 router.delete("/remove-category", removeCategory);
 router.patch("/edit-category", editCategory);
 router.patch("/edit-product", editProduct);
+router.get("/order-details", orderDetails);
+router.patch("/order/update-status", updateOrderStatus);
 
 router.get("/logout", logout);
 

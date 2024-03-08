@@ -106,7 +106,9 @@ exports.getCartPage = async (req, res) => {
 
 exports.listAllProduct = async (req, res) => {
   try {
-    const products = await getAllProducts();
+    const limit = req.query.limit;
+    const skip = req.query.skip;
+    const products = await getAllProducts(limit, skip);
     res.status(200).json({ products: products });
   } catch (error) {
     console.log(error);
@@ -116,7 +118,9 @@ exports.listAllProduct = async (req, res) => {
 exports.searchProduct = async (req, res) => {
   try {
     const query = req.query.search;
-    const products = await searchProducts(query);
+    const limit = req.query.limit;
+    const skip = req.query.skip;
+    const products = await searchProducts(query, limit, skip);
     if (products.length > 0) {
       res.status(200).json({ products: products });
     } else {
@@ -158,58 +162,6 @@ exports.getPaymentPage = async (req, res) => {
     const user = await getUserById(userId);
     const addressId = req.query.addressId;
     res.render("payment", { addressId: addressId, user: user });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-exports.placeOrder = async (req, res) => {
-  try {
-    const userId = req.user.sub;
-    const user = await getUserById(userId);
-    const userName = user.firstName + " " + user.lastName;
-    const addressId = req.query.addressId;
-    const address = await getAddressById(addressId);
-    const items = await getCartByUserId(userId);
-    const method = "COD";
-
-    let total_amount = 0;
-    items.forEach((item) => {
-      total_amount += item.price * item.quantity;
-    });
-
-    const newOrder = await createOrder(
-      userId,
-      userName,
-      address,
-      items,
-      total_amount,
-      method
-    );
-    console.log(newOrder);
-    if (newOrder !== null) {
-      //remove all items from cart
-      const remove = await removeAllItemFromCart(userId);
-      console.log("cart is now empty ====", remove);
-      res
-        .status(200)
-        .render("confirmation", { user: user, orderId: newOrder._id });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-exports.getAllOrders = async (req, res) => {
-  try {
-    const userId = req.user.sub;
-    const orders = await getOrdersByUserId(userId);
-    console.log("order === ", orders);
-    if (orders !== null) {
-      res.status(200).json({ orders: orders });
-    } else {
-      res.status(200).json({ message: "no orders found" });
-    }
   } catch (error) {
     console.log(error);
   }
