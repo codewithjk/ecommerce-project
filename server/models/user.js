@@ -43,6 +43,9 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  refferalCode: {
+    type: String,
+  },
 });
 
 const userModel = mongoose.model("user", userSchema);

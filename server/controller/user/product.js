@@ -13,14 +13,16 @@ const {
   createOrder,
   getOrdersByUserId,
   removeAllItemFromCart,
+  getAllCategories,
 } = require("../../helper/dbQueries");
 
 exports.getAllProducts = async (req, res) => {
   const products = await getAllProducts();
   const userId = req.user.sub;
   const user = await getUserById(userId);
+  const categories = await getAllCategories();
 
-  res.render("products", { user: user });
+  res.render("products", { user: user, categories: categories });
 };
 
 exports.getProductPage = async (req, res) => {

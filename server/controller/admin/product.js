@@ -4,7 +4,11 @@ const {
   getAllCategories,
   deleteImage,
   getOrderById,
+  refundOrderById,
   changeOrderStatus,
+  getDailyDataOfWeek,
+  getWeeklyDataOfMonth,
+  getMonthlyDataOfYear,
 } = require("../../helper/dbQueries");
 ///////
 
@@ -12,6 +16,7 @@ const fs = require("fs");
 const path = require("path");
 
 const imgur = require("imgur");
+const { log } = require("console");
 
 /////
 
@@ -130,8 +135,7 @@ exports.editProduct = async (req, res) => {
       sizes: req.body.size,
       total_stock: totalStock,
     };
-    console.log("edited product ================================ ", product);
-    console.log(id);
+
     const updatedData = await productModel.findByIdAndUpdate(id, product);
     console.log(updatedData);
     res.json({
@@ -159,6 +163,17 @@ exports.removeImage = async (req, res) => {
   }
 };
 
+exports.getEditPage = async (req, res) => {
+  try {
+    const productId = req.query.productId;
+    const categories = await categoryModel.find();
+    const product = await productModel.findById(productId);
+    res.render("editProduct", { product: product, categories: categories });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //get order details by id
 exports.orderDetails = async (req, res) => {
   try {
@@ -167,6 +182,22 @@ exports.orderDetails = async (req, res) => {
     if (order !== null) {
       console.log(order);
       res.status(200).render("orderDetails", { order: order });
+    } else {
+      res.status(500).render("serverError");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.refundOrder = async (req, res) => {
+  try {
+    const orderId = req.query.orderId;
+    console.log(orderId);
+    const order = await refundOrderById(orderId);
+    if (order) {
+      console.log(order);
+      res.status(200).json({ message: "sucessfully refunded" });
     } else {
       res.status(500).render("serverError");
     }
@@ -186,6 +217,39 @@ exports.updateOrderStatus = async (req, res) => {
     } else {
       res.status(401).json({ message: "something went wrong!" });
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//for chart data
+exports.getWeeklyOrders = async (req, res) => {
+  try {
+    const data = await getDailyDataOfWeek();
+    console.log("get weekly data");
+    console.log(data);
+    res.status(200).json({ data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.getMonthlyOrders = async (req, res) => {
+  try {
+    const data = await getWeeklyDataOfMonth();
+    console.log("get Monthly data");
+    console.log(data);
+    res.status(200).json({ data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getYearlyOrders = async (req, res) => {
+  try {
+    const data = await getMonthlyDataOfYear();
+    console.log("get Yearly data");
+    console.log(data);
+    res.status(200).json({ data });
   } catch (error) {
     console.log(error);
   }

@@ -1,7 +1,8 @@
-const { getUserByEmail } = require("../helper/dbQueries");
+const { getUserByEmail, createNewWallet } = require("../helper/dbQueries");
 const { setJwtToCookies } = require("../helper/setJwtToken");
 const { userModel } = require("../models/user");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const getGoogleURL = (req, res) => {
   const params = new URLSearchParams({
@@ -47,14 +48,21 @@ const getUserFromGoogle = async (req, res) => {
         await setJwtToCookies(res, existingUser);
         res.redirect("/products");
       } else {
+        const refferalCode = await generateRandomCode();
         const user = new userModel({
           firstName: googleUser.given_name,
           lastName: googleUser.family_name,
           avatar: googleUser.picture,
           email: email,
           googleId: googleUser.sub,
+          refferalCode: refferalCode,
         });
-        await user.save();
+        const newUser = await user.save();
+        const userId = newUser._id;
+        console.log(userId);
+        //create wallet
+        const wallet = await createNewWallet(userId);
+        console.log("now created wallet ===== ", wallet);
         await setJwtToCookies(res, user);
         res.redirect("/products");
       }
@@ -109,7 +117,11 @@ const getUserFromFacebook = async (req, res) => {
           email: email,
           googleId: facebookUser.sub,
         });
-        await user.save();
+        const newUser = await user.save();
+        const userId = newUser._id;
+        //create wallet
+        const wallet = await createNewWallet(userId);
+        await setJwtToCookies(res, user);
         await setJwtToCookies(res, user);
         res.redirect("/products");
       }
@@ -180,4 +192,18 @@ function getFacebookToken(code) {
     .catch((error) => {
       console.log(error);
     });
+}
+
+// Function to generate a refferal code
+function generateRandomCode() {
+  return new Promise((resolve, reject) => {
+    crypto.randomBytes(8, (err, buffer) => {
+      if (err) {
+        reject(err);
+      } else {
+        const code = buffer.toString("hex").toUpperCase().slice(0, 8);
+        resolve(code);
+      }
+    });
+  });
 }

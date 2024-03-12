@@ -1,12 +1,13 @@
 <%- include("./layouts/header") %>
 
 <div id="layout-wrapper">
-  <%- include("./layouts/topbar") %>
+  <%- include("./layouts/navbar") %> <%- include("./layouts/cart") %>
+
   <!-- ========== App Menu ========== -->
-  <%-include("./layouts/menubar") %>
+  <%-include("./layouts/removeFromCart") %>
   <!-- Left Sidebar End -->
 
-  <div class="main-content">
+  <div class="main-content ms-5">
     <div class="page-content">
       <div class="container-fluid">
         <!-- start page title -->
@@ -20,47 +21,22 @@
               <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">
-                    <a href="javascript: void(0);">Orders</a>
+                    <a onclick="history.back();">Orders</a>
                   </li>
                   <li class="breadcrumb-item active">Overview</li>
                 </ol>
               </div>
             </div>
+            <% if(order.is_cancelled){%>
+            <h4 class="text-danger">Order cancelled !</h4>
+            <%} %>
           </div>
         </div>
         <!-- end page title -->
 
         <div class="row mb-4 align-items-center">
-          <div class="col">
-            <% if(order.is_cancelled){%>
-              <h4 class="text-danger">Order cancelled</h4>
-           <% } %>
-            
-          </div>
+          <div class="col"></div>
           <div class="col text-end d-flex justify-content-end gap-2">
-            <% if(order.is_cancelled && !order.is_refunded){ %>
-              <span type="button" class="btn btn-primary"    data-custom-data="<%=order._id %>"
-                data-bs-toggle="modal"
-                data-bs-target="#refundModal" >
-              Refund
-              </span>
-           <% } %>
-            <% if(!order.is_cancelled){ %>
-            <div class="bg-success-subtle">
-              <select class="form-control" required id="delivered-status">
-                <option value="">Delivery Status</option>
-                <option value="Pending" <% if (order.status === 'Pending') { %> selected <% } %>>Pending</option>
-                <option value="Processing" <% if (order.status === 'Processing') { %> selected <% } %>>Processing</option>
-                <option value="Shipped" <% if (order.status === 'Shipped') { %> selected <% } %>>Shipped</option>
-                <option value="Delivered" <% if (order.status === 'Delivered') { %> selected <% } %>>Delivered</option>
-                <!-- <option value="Cancelled" <% if (order.status === 'Cancelled') { %> selected <% } %>>Cancelled</option> -->
-                <option value="Returns" <% if (order.status === 'Returns') { %> selected <% } %>>Returns</option>
-              </select>
-            </div>
-           <% } %>
-            
-              
-              
             <button type="button" class="btn btn-secondary">
               <i class="ph-download-simple me-1 align-middle"></i> Invoice
             </button>
@@ -124,7 +100,6 @@
                   <table class="table align-middle table-nowrap mb-0">
                     <thead class="text-muted table-light">
                       <tr>
-                        
                         <th scope="col">Product Name</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Quantity</th>
@@ -134,7 +109,6 @@
                     <tbody>
                       <% order.products.forEach(product => {%>
                       <tr>
-                        
                         <td>
                           <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-2">
@@ -195,13 +169,27 @@
             <!--end card-->
           </div>
           <!--end col-->
-          
 
           <div class="col-lg-12">
             <div class="card" id="track-order">
               <div class="card-header d-flex align-items-center gap-3">
                 <h5 class="card-title flex-grow-1 mb-0">Order Status</h5>
-                
+                <div class="flex-shrink-0">
+                  <% if(!order.is_cancelled){ %>
+                  <button
+                    data-custom-data="<%=order._id %>"
+                    data-bs-toggle="modal"
+                    data-bs-target="#cancelOrderModal"
+                    type="button"
+                    class="btn btn-soft-danger btn-sm mt-2 mt-sm-0"
+                  >
+                    <i
+                      class="mdi mdi-archive-remove-outline align-bottom me-1"
+                    ></i>
+                    Cancel Order
+                  </button>
+                  <% } %>
+                </div>
               </div>
               <div class="card-body">
                 <div class="row justify-content-between">
@@ -285,37 +273,46 @@
 <!-- END layout-wrapper -->
 
 <!--preloader-->
-<div id="preloader">
+<!-- <div id="preloader">
   <div id="status">
     <div class="spinner-border text-primary avatar-sm" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-</div>
-
+</div> -->
 
 <!-- response modal -->
-<div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="responseModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="responseModalLabel">Response</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Modal body content will be populated dynamically -->
-        </div>
+<div
+  class="modal fade"
+  id="responseModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="responseModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="responseModalLabel">Response</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Modal body content will be populated dynamically -->
       </div>
     </div>
   </div>
+</div>
 
-
-  <!-- refund modal -->
-
-  <div
-  id="refundModal"
+<!-- cancel order modal -->
+<div
+  id="cancelOrderModal"
   class="modal fade zoomIn"
   tabindex="-1"
   aria-hidden="true"
@@ -342,7 +339,7 @@
           <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
             <h4>Are you sure ?</h4>
             <p class="text-muted mx-4 mb-0">
-              Are you sure you want to refund full Amount ?
+              Are you sure you want to cancel this order ?
             </p>
           </div>
         </div>
@@ -361,10 +358,10 @@
           </button>
           <button
             type="button"
-            class="btn w-sm btn-primary"
-            id="refund-button"
+            class="btn w-sm btn-danger"
+            id="cancel-order-button"
           >
-            Yes, Refund
+            Yes, Cancel It!
           </button>
         </div>
       </div>
@@ -373,5 +370,7 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<!-- /.modal -->
+
 <%- include("./layouts/footer") %>
-<script src="/static/script/admin/orderDetails.js"></script>
+<script src="/static/script/orderDetails.js"></script>

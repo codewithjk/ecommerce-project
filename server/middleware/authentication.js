@@ -20,10 +20,12 @@ const verifyToken = (req, res, next) => {
 
 const checkAuthenticated = (req, res, next) => {
   const token = req.cookies.userToken;
+
   if (token) {
     return res.redirect("/products");
+  } else {
+    next();
   }
-  next();
 };
 
 //  ADMIN
@@ -41,7 +43,8 @@ const isAdmin = (req, res, next) => {
       }
     });
   } else {
-    return res.status(401).json({ error: "Unauthorized access" });
+    return res.redirect("/admin/login");
+    // return res.status(401).json({ error: "Unauthorized access" });
   }
 };
 

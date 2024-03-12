@@ -39,8 +39,8 @@ order_tab.addEventListener("shown.bs.tab", async function (event) {
   </td>
   <td>
     <a
-      href="#invoiceModal"
-      data-bs-toggle="modal"
+      href="/order-details?orderId=${order.orderId}"
+     
       class="btn btn-info btn-sm"
       >View</a
     >

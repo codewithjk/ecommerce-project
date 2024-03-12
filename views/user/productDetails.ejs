@@ -212,27 +212,6 @@
                 </ul>
               </div>
             </div>
-            <div class="col-md-6">
-              <h6 class="fs-14 fw-medium text-muted">Colors:</h6>
-              <ul
-                class="clothe-colors list-unstyled hstack gap-1 mb-0 flex-wrap ms-2"
-              >
-                <% product.colors.forEach(color => {%>
-                <li>
-                  <input
-                    type="radio"
-                    name="sizes"
-                    id="<%=Object.keys(color)[0] %>"
-                  />
-                  <label
-                    class="avatar-xs btn btn-<%=Object.keys(color)[0] %> p-0 d-flex align-items-center justify-content-center rounded-circle"
-                    for="<%=Object.keys(color)[0] %>"
-                  ></label>
-                </li>
-
-                <%}); %>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -482,22 +461,6 @@
             </div>
           </div>
           <div class="pt-4">
-            <ul class="clothe-colors list-unstyled hstack gap-1 mb-3 flex-wrap">
-              <% product.colors.forEach(color => {%>
-              <li>
-                <input
-                  type="radio"
-                  name="sizes"
-                  id="<%=Object.keys(color)[0] %>"
-                />
-                <label
-                  class="avatar-xs btn btn-<%=Object.keys(color)[0] %> p-0 d-flex align-items-center justify-content-center rounded-circle"
-                  for="<%=Object.keys(color)[0] %>"
-                ></label>
-              </li>
-
-              <%}); %>
-            </ul>
             <a href="#">
               <h6 class="text-capitalize fs-15 lh-base text-truncate mb-0">
                 <%=product.title%>

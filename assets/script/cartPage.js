@@ -68,7 +68,7 @@ async function listCartItemsPage() {
             <div class="text-lg-end">
               <p class="text-muted mb-1 fs-12">Item Price:</p>
               <h5 class="fs-16">
-                $<span class="product-price">${item.price}</span>
+                ₹<span class="product-price">${item.price}</span>
               </h5>
             </div>
           </div>
@@ -103,7 +103,7 @@ async function listCartItemsPage() {
             <div class="d-flex align-items-center gap-2 text-muted">
               <div>Total :</div>
               <h5 class="fs-14 mb-0">
-                $<span class="product-line-price">${
+                ₹<span class="product-line-price">${
                   item.price * item.quantity
                 }</span>
               </h5>

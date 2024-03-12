@@ -40,6 +40,14 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  is_cancelled: {
+    type: Boolean,
+    default: false,
+  },
+  is_refunded: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const orderModel = mongoose.model("order", orderSchema);

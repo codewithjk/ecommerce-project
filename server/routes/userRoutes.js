@@ -58,6 +58,13 @@ const {
   addAddress,
   editProfile,
   removeAddress,
+  addToWishlist,
+  removeFromWishlist,
+  getWishlist,
+  renderWishlistPage,
+  orderDetails,
+  cancelOrder,
+  getWallet,
 } = require("../controller/user/account");
 const {
   getAllOrders,
@@ -103,6 +110,14 @@ router.get("/address", verifyToken, isBlocked, getAddressOfUser);
 router.patch("/edit-address", verifyToken, isBlocked, editAddress);
 router.post("/add-address", verifyToken, isBlocked, addAddress);
 router.delete("/remove-address", verifyToken, isBlocked, removeAddress);
+router.patch("/edit-wishlist", verifyToken, isBlocked, addToWishlist);
+router.delete("/edit-wishlist", verifyToken, isBlocked, removeFromWishlist);
+router.get("/wishlist", verifyToken, isBlocked, getWishlist);
+router.get("/wishlist-page", verifyToken, isBlocked, renderWishlistPage);
+router.get("/get-wallet", verifyToken, isBlocked, getWallet);
+router.get("/order-details", verifyToken, isBlocked, orderDetails);
+
+router.delete("/cancel-order", verifyToken, isBlocked, cancelOrder);
 
 //product
 router.put("/add-to-cart", verifyToken, isBlocked, addToCart);

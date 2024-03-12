@@ -13,6 +13,7 @@ const {
   createOrder,
   removeAllItemFromCart,
   getOrdersByUserId,
+  createNewWallet,
 } = require("../../helper/dbQueries");
 
 exports.placeOrderCOD = async (req, res) => {
@@ -118,6 +119,7 @@ exports.placeOrderRazorpay = async (req, res) => {
 exports.renderSuccess = async (req, res) => {
   try {
     const userId = req.user.sub;
+
     const user = await getUserById(userId);
     const userName = user.firstName + " " + user.lastName;
     const mobile = user.phoneNumber;

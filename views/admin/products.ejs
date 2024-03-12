@@ -337,7 +337,7 @@
                             class="gridjs-sort gridjs-sort-neutral"
                           ></button>
                         </th>
-                        <th
+                        <!-- <th
                           data-column-id="rate"
                           class="gridjs-th gridjs-th-sort"
                           tabindex="0"
@@ -350,7 +350,7 @@
                             title="Sort column ascending"
                             class="gridjs-sort gridjs-sort-neutral"
                           ></button>
-                        </th>
+                        </th> -->
                         <th
                           data-column-id="price"
                           class="gridjs-th gridjs-th-sort"
@@ -539,7 +539,7 @@
                         <td data-column-id="stock" class="gridjs-td">
                           <%=product.total_stock %>
                         </td>
-                        <td data-column-id="rate" class="gridjs-td">
+                        <!-- <td data-column-id="rate" class="gridjs-td">
                           <span
                             ><span
                               class="badge bg-light text-body fs-13 fw-medium"
@@ -547,7 +547,7 @@
                               >4.9</span
                             ></span
                           >
-                        </td>
+                        </td> -->
                         <td data-column-id="price" class="gridjs-td">
                           <span><div><%=product.price %></div></span>
                         </td>
@@ -856,7 +856,7 @@
                         />
                         <label
                           class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                          for="sizeXs"
+                          for="sizeXS"
                           >XS</label
                         >
                         <div class="">
@@ -1148,6 +1148,47 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+
+<!-- imageModal -->
+<div id="imageModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          id="close-removecategoryModal"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body p-md-5">
+        <div class="text-center">
+          <!-- image preiew -->
+          <div
+            class="h-auto d-flex justify-content-center align-items-center"
+            style="height: 400px; width: 400px"
+          >
+            <img id="preview" src="" alt="" class="img-fluid" />
+            <!-- <img id="output" src="" alt="" class="img-fluid" /> -->
+          </div>
+        </div>
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <!-- <label for="uploadFile" class="select-image btn btn-primary"
+            >Select Image</label
+          >
+          <input type="file" id="uploadFile" style="display: none" /> -->
+          <button id="btn-crop" type="button" class="btn btn-success">
+            Crop and upload
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <!--preloader-->
 <div id="preloader">
   <div id="status">
@@ -1163,6 +1204,9 @@
     input.disabled = !input.disabled;
   }
 </script>
+
+<!-- cropper Js -->
+<script src="/static/script/admin/cropperjs/cropper.js"></script>
 
 <!-- nouisliderribute js -->
 <script src="/static/backend/libs/nouislider/nouislider.min.js"></script>

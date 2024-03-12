@@ -5,6 +5,8 @@ const { reviewModal } = require("../models/review");
 const { addressModel } = require("../models/address");
 const { cartModel } = require("../models/cart");
 const { orderModel } = require("../models/order");
+const { wishlistModel } = require("../models/wishlist");
+const { walletModel } = require("../models/wallet");
 const mongoose = require("mongoose");
 
 const getAllProducts = async (limit, skip) => {
@@ -74,6 +76,7 @@ const getUserById = async (id) => {
       created_at: 1,
       avatar: 1,
       status: 1,
+      refferalCode: 1,
     }
   );
   return user;
@@ -251,6 +254,7 @@ const getOrdersByUserId = async (id) => {
 
     const formattedOrders = orders.map((order) => ({
       // customerName: order.customer,
+      orderId: order._id,
       productNames: order.products.map((product) => product.title),
       totalAmount: order.totalAmount,
       status: order.status,
@@ -326,6 +330,458 @@ const changeOrderStatus = async (id, status) => {
     console.log(error);
   }
 };
+const addItemToWishlist = async (userId, itemId) => {
+  try {
+    const filter = { userId: userId };
+    const update = { $addToSet: { items: itemId } };
+    const options = { new: true, upsert: true };
+
+    const newItem = await wishlistModel.findOneAndUpdate(
+      filter,
+      update,
+      options
+    );
+    console.log(newItem);
+    // const newWishlist = await wishlistModel.findOne(
+    //   { userId: userId },
+    //   { new: true, upsert: true }
+    // );
+    // console.log("new whish list=========", newWishlist);
+    // const wishlistId = newWishlist._id;
+    // console.log(wishlistId);
+    // const newItem = await walletModel.findOneAndUpdate(
+    //   { _id: wishlistId },
+    //   {
+    //     $addToSet: { items: itemId },
+    //   },
+    //   { new: true }
+    // );
+    // console.log("pushed item===", newItem);
+    return newItem;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const removeItemToWishlist = async (userId, itemId) => {
+  try {
+    const removedItem = await wishlistModel.findOneAndUpdate(
+      {
+        userId: userId,
+      },
+      { $pull: { items: itemId } },
+      { new: true }
+    );
+    return removedItem;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getWishlistByUserId = async (userId) => {
+  try {
+    const wishlist = await wishlistModel.findOne({ userId: userId });
+    return wishlist;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getDetailedWishlist = async (userId) => {
+  try {
+    const result = await wishlistModel.aggregate([
+      // Match documents based on userId
+      { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+      // Lookup Product details for items in the Wishlist
+      {
+        $lookup: {
+          from: "products",
+          localField: "items",
+          foreignField: "_id",
+          as: "result",
+        },
+      },
+      {
+        $unwind: {
+          path: "$result",
+          includeArrayIndex: "string",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          "result._id": 1,
+          "result.title": 1,
+          "result.images": 1,
+          "result.price": 1,
+          "result.total_stock": 1,
+          "result.discount": 1,
+        },
+      },
+      // Replace the root with the "result" field
+      {
+        $replaceRoot: { newRoot: "$result" },
+      },
+    ]);
+    return result;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+async function createNewWallet(userId) {
+  try {
+    const newWallet = await walletModel.create({ userId });
+    return newWallet;
+  } catch (error) {
+    console.error("Error creating new wallet:", error);
+    throw error;
+  }
+}
+async function getWalletByUserId(userId) {
+  try {
+    const Wallet = await walletModel.findOne({ userId: userId });
+    return Wallet;
+  } catch (error) {
+    console.error("Error creating new wallet:", error);
+    throw error;
+  }
+}
+
+async function refundOrderById(orderId) {
+  try {
+    const order = await orderModel.findById(orderId);
+    const userId = order.userId;
+    const totalAmount = order.totalAmount;
+    console.log(userId, totalAmount);
+    const updatedOrder = await orderModel.findByIdAndUpdate(orderId, {
+      is_refunded: true,
+    });
+    const wallet = await walletModel.findOneAndUpdate(
+      { userId: userId },
+      {
+        $push: {
+          history: {
+            name: "Refund",
+            description: `You got refund for your calncelled order. of ${order.products[0].title}`,
+            amount: totalAmount,
+          },
+        },
+        $inc: { balance: totalAmount },
+      },
+      { new: true }
+    );
+    if (updatedOrder !== null && wallet !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Error creating new wallet:", error);
+    throw error;
+  }
+}
+
+//for chart data
+async function getDailyDataOfWeek() {
+  try {
+    // Get the start and end date of the current week
+    const currentDate = new Date();
+    const startOfWeek = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() - currentDate.getDay()
+    );
+    const endOfWeek = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() - currentDate.getDay() + 6
+    );
+
+    // Fetch orders for the current week from the database
+    const orders = await orderModel.find({
+      orderDate: { $gte: startOfWeek, $lte: endOfWeek },
+    });
+    const ordersByDay = Array(7).fill(0);
+    orders.forEach((order) => {
+      const dayOfWeek = order.orderDate.getDay(); // Get the day of the week (0 for Sunday, 1 for Monday)
+      ordersByDay[dayOfWeek]++;
+    });
+
+    // Fetch refunded orders for the current week
+    const refundedOrders = await orderModel.find({
+      orderDate: { $gte: startOfWeek, $lte: endOfWeek },
+      is_refunded: true,
+    });
+    const refundedAmount = Array(7).fill(0);
+    refundedOrders.forEach((order) => {
+      const dayOfWeek = order.orderDate.getDay();
+      refundedAmount[dayOfWeek] += order.totalAmount;
+    });
+    console.log("refunded orders amount sum ===  ", refundedAmount);
+
+    //fetch successfull orders
+    const successfullOrders = await orderModel.find({
+      orderDate: { $gte: startOfWeek, $lte: endOfWeek },
+      is_refunded: false,
+      status: "Delivered",
+    });
+    const earnings = Array(7).fill(0);
+    successfullOrders.forEach((order) => {
+      const dayOfWeek = order.orderDate.getDay();
+      earnings[dayOfWeek] += order.totalAmount;
+    });
+    console.log("total earnings ===  ", earnings);
+
+    return { orders: ordersByDay, earnings: earnings, refunds: refundedAmount };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+// async function getWeeklyDataOfMonth() {
+//   try {
+//     const currentDate = new Date();
+//     const currentMonth = currentDate.getMonth();
+//     const currentYear = currentDate.getFullYear();
+
+//     // Get the first and last day of the current month
+//     const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+//     const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+//     // Initialize arrays to store data for each week of the month
+//     const earningsByWeek = Array(5).fill(0); // Assuming 5 weeks maximum in a month
+//     const refundedAmountByWeek = Array(5).fill(0); // Assuming 5 weeks maximum in a month
+
+//     // Iterate over each day of the month
+//     for (
+//       let currentDay = firstDayOfMonth;
+//       currentDay <= lastDayOfMonth;
+//       currentDay.setDate(currentDay.getDate() + 1)
+//     ) {
+//       // Calculate the week number for the current day (1-5)
+//       const weekNumber =
+//         Math.ceil(
+//           (currentDay.getDate() -
+//             firstDayOfMonth.getDate() +
+//             1 +
+//             firstDayOfMonth.getDay()) /
+//             7
+//         ) - 1;
+
+//       // Fetch successfull orders for the current day from the database
+//       const successfullOrders = await orderModel.find({
+//         orderDate: {
+//           $gte: currentDay,
+//           $lte: new Date(
+//             currentDay.getFullYear(),
+//             currentDay.getMonth(),
+//             currentDay.getDate(),
+//             23,
+//             59,
+//             59
+//           ),
+//         },
+//         is_refunded: false,
+//         status: "Delivered",
+//       });
+
+//       // Calculate total earnings for the current day
+//       const totalEarnings = successfullOrders.reduce(
+//         (acc, order) => acc + order.totalAmount,
+//         0
+//       );
+
+//       // Add total earnings for the current day to the corresponding week's earnings
+//       earningsByWeek[weekNumber] += totalEarnings;
+
+//       // Fetch refunded orders for the current day from the database
+//       const refundedOrders = await orderModel.find({
+//         orderDate: {
+//           $gte: currentDay,
+//           $lte: new Date(
+//             currentDay.getFullYear(),
+//             currentDay.getMonth(),
+//             currentDay.getDate(),
+//             23,
+//             59,
+//             59
+//           ),
+//         },
+//         is_refunded: true,
+//       });
+
+//       // Calculate sum of totalAmount for refunded orders for the current day
+//       const totalRefundedAmount = refundedOrders.reduce(
+//         (acc, order) => acc + order.totalAmount,
+//         0
+//       );
+
+//       // Add total refunded amount for the current day to the corresponding week's refunded amount
+//       refundedAmountByWeek[weekNumber] += totalRefundedAmount;
+//     }
+
+//     return { earnings: earningsByWeek, refundedAmount: refundedAmountByWeek };
+//   } catch (error) {
+//     console.error(error);
+//     throw error;
+//   }
+// }
+
+async function getWeeklyDataOfMonth() {
+  try {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    // Get the first and last day of the current month
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+    // Initialize arrays to store data for each week of the month
+    const ordersByWeek = Array(5).fill(0); // Assuming 5 weeks maximum in a month
+    const earningsByWeek = Array(5).fill(0); // Assuming 5 weeks maximum in a month
+    const refundedAmountByWeek = Array(5).fill(0); // Assuming 5 weeks maximum in a month
+
+    // Iterate over each day of the month
+    for (
+      let currentDay = firstDayOfMonth;
+      currentDay <= lastDayOfMonth;
+      currentDay.setDate(currentDay.getDate() + 1)
+    ) {
+      // Calculate the week number for the current day (1-5)
+      const weekNumber =
+        Math.ceil(
+          (currentDay.getDate() -
+            firstDayOfMonth.getDate() +
+            1 +
+            firstDayOfMonth.getDay()) /
+            7
+        ) - 1;
+
+      // Fetch orders for the current day from the database
+      const orders = await orderModel.find({
+        orderDate: {
+          $gte: currentDay,
+          $lte: new Date(
+            currentDay.getFullYear(),
+            currentDay.getMonth(),
+            currentDay.getDate(),
+            23,
+            59,
+            59
+          ),
+        },
+      });
+
+      // Calculate total number of orders for the current day
+      const totalOrders = orders.length;
+
+      // Add total orders for the current day to the corresponding week's orders
+      ordersByWeek[weekNumber] += totalOrders;
+
+      // Fetch successfull orders for the current day from the database
+      const successfullOrders = orders.filter(
+        (order) => !order.is_refunded && order.status === "Delivered"
+      );
+
+      // Calculate total earnings for the current day
+      const totalEarnings = successfullOrders.reduce(
+        (acc, order) => acc + order.totalAmount,
+        0
+      );
+
+      // Add total earnings for the current day to the corresponding week's earnings
+      earningsByWeek[weekNumber] += totalEarnings;
+
+      // Fetch refunded orders for the current day from the database
+      const refundedOrders = orders.filter((order) => order.is_refunded);
+
+      // Calculate sum of totalAmount for refunded orders for the current day
+      const totalRefundedAmount = refundedOrders.reduce(
+        (acc, order) => acc + order.totalAmount,
+        0
+      );
+
+      // Add total refunded amount for the current day to the corresponding week's refunded amount
+      refundedAmountByWeek[weekNumber] += totalRefundedAmount;
+    }
+
+    return {
+      orders: ordersByWeek,
+      earnings: earningsByWeek,
+      refunds: refundedAmountByWeek,
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function getMonthlyDataOfYear() {
+  try {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
+    // Initialize arrays to store data for each month of the year
+    const ordersByMonth = Array(12).fill(0);
+    const earningsByMonth = Array(12).fill(0);
+    const refundedAmountByMonth = Array(12).fill(0);
+
+    // Iterate over each month of the year
+    for (let month = 0; month < 12; month++) {
+      // Get the first and last day of the current month
+      const firstDayOfMonth = new Date(currentYear, month, 1);
+      const lastDayOfMonth = new Date(currentYear, month + 1, 0);
+
+      // Fetch orders for the current month from the database
+      const orders = await orderModel.find({
+        orderDate: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
+      });
+
+      // Calculate total number of orders for the current month
+      const totalOrders = orders.length;
+
+      // Add total orders for the current month to the corresponding month's orders
+      ordersByMonth[month] = totalOrders;
+
+      // Fetch successfull orders for the current month from the database
+      const successfullOrders = orders.filter(
+        (order) => !order.is_refunded && order.status === "Delivered"
+      );
+
+      // Calculate total earnings for the current month
+      const totalEarnings = successfullOrders.reduce(
+        (acc, order) => acc + order.totalAmount,
+        0
+      );
+
+      // Add total earnings for the current month to the corresponding month's earnings
+      earningsByMonth[month] = totalEarnings;
+
+      // Fetch refunded orders for the current month from the database
+      const refundedOrders = orders.filter((order) => order.is_refunded);
+
+      // Calculate sum of totalAmount for refunded orders for the current month
+      const totalRefundedAmount = refundedOrders.reduce(
+        (acc, order) => acc + order.totalAmount,
+        0
+      );
+
+      // Add total refunded amount for the current month to the corresponding month's refunded amount
+      refundedAmountByMonth[month] = totalRefundedAmount;
+    }
+
+    return {
+      orders: ordersByMonth,
+      earnings: earningsByMonth,
+      refunds: refundedAmountByMonth,
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 module.exports = {
   getAllProducts,
@@ -355,4 +811,14 @@ module.exports = {
   deleteImage,
   getOrderById,
   changeOrderStatus,
+  addItemToWishlist,
+  removeItemToWishlist,
+  getWishlistByUserId,
+  getDetailedWishlist,
+  createNewWallet,
+  getWalletByUserId,
+  getDailyDataOfWeek,
+  getWeeklyDataOfMonth,
+  getMonthlyDataOfYear,
+  refundOrderById,
 };

@@ -26,15 +26,10 @@
             <div>
               <h5 class="fs-18"><%=user.firstName%> <%=user.lastName %></h5>
               <div class="text-muted">
-                <i class="bi bi-geo-alt"></i> Phoenix, USA
+                <i class="bi bi-envelope-at"></i> <%=user.email %>
               </div>
             </div>
-            <div class="ms-md-auto">
-              <!-- <p class="mb-0">Toner Member Since Jan 2020</p> -->
-              <a href="product-list.html" class="btn btn-success btn-hover"
-                ><i class="bi bi-cart4 me-1 align-middle"></i> Shopping Now</a
-              >
-            </div>
+            <div class="ms-md-auto"></div>
           </div>
         </div>
       </div>
@@ -75,7 +70,7 @@
                   href="#custom-v-pills-address"
                   role="tab"
                   aria-selected="true"
-                  ><i class="bi bi-person-circle align-middle me-1"></i>
+                  ><i class="bi bi-house align-middle me-1"></i>
                   Addresses
                 </a>
               </li>
@@ -102,6 +97,18 @@
                   aria-selected="false"
                   tabindex="-1"
                   ><i class="bi bi-bag align-middle me-1"></i> Orders</a
+                >
+              </li>
+              <li class="nav-item" role="presentation">
+                <a
+                  id="wallet"
+                  class="nav-link fs-15"
+                  data-bs-toggle="tab"
+                  href="#custom-v-pills-wallet"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1"
+                  ><i class="bi bi-wallet2 align-middle me-1"></i> Wallet</a
                 >
               </li>
               <li class="nav-item" role="presentation">
@@ -197,6 +204,39 @@
               </div>
               <!--end col-->
             </div>
+            <!--  -->
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex mb-4">
+                      <h6
+                        class="fs-16 text-decoration-underline flex-grow-1 mb-0"
+                      >
+                        Reffer and get ₹ 500
+                      </h6>
+                    </div>
+
+                    <div class="table-responsive table-card px-1">
+                      <table class="table table-borderless table-sm">
+                        <tbody>
+                          <tr>
+                            <td>You'r refferal code</td>
+                            <td class="fw-medium text-black">
+                              <p><%=user.refferalCode %></p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <!-- end row -->
+                  </div>
+                </div>
+                <!--end card-->
+              </div>
+              <!--end col-->
+            </div>
           </div>
           <!--end tab-pane-->
           <div
@@ -233,7 +273,7 @@
             </div>
           </div>
           <!--wishlist-->
-          <!-- <div class="tab-pane fade" id="custom-v-pills-list" role="tabpanel">
+          <div class="tab-pane fade" id="custom-v-pills-list" role="tabpanel">
             <div class="row">
               <div class="col-lg-12">
                 <div class="card overflow-hidden">
@@ -248,289 +288,15 @@
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <div class="d-flex gap-3">
-                                <div class="avatar-sm flex-shrink-0">
-                                  <div
-                                    class="avatar-title bg-dark-subtle rounded"
-                                  >
-                                    <img
-                                      src="/static/frontend/images/products/img-19.png"
-                                      alt=""
-                                      class="avatar-xs"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                  <a href="product-details.html">
-                                    <h6 class="fs-16">
-                                      World's Most Expensive T Shirt
-                                    </h6>
-                                  </a>
-                                  <p class="mb-0 text-muted fs-13">
-                                    Women's Clothes
-                                  </p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>$154.49</td>
-                            <td>
-                              <span class="badge bg-success-subtle text-success"
-                                >In Stock</span
-                              >
-                            </td>
-                            <td>
-                              <ul class="list-unstyled d-flex gap-3 mb-0">
-                                <li>
-                                  <a
-                                    href="shop-cart.html"
-                                    class="btn btn-soft-info btn-icon btn-sm"
-                                    ><i
-                                      class="ri-shopping-cart-2-line fs-13"
-                                    ></i
-                                  ></a>
-                                </li>
-                                <li>
-                                  <a
-                                    href="#!"
-                                    class="btn btn-soft-danger btn-icon btn-sm"
-                                    ><i class="ri-close-line fs-13"></i
-                                  ></a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex gap-3">
-                                <div class="avatar-sm flex-shrink-0">
-                                  <div
-                                    class="avatar-title bg-danger-subtle rounded"
-                                  >
-                                    <img
-                                      src="/static/frontend/images/products/img-12.png"
-                                      alt=""
-                                      class="avatar-xs"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                  <a href="product-details.html">
-                                    <h6 class="fs-16">
-                                      Onyx SmartGRID Chair Red
-                                    </h6>
-                                  </a>
-                                  <p class="mb-0 text-muted fs-13">
-                                    Furniture &amp; Decor
-                                  </p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>$39.99</td>
-                            <td>
-                              <span class="badge bg-danger-subtle text-danger"
-                                >Out Of Stock</span
-                              >
-                            </td>
-                            <td>
-                              <ul class="list-unstyled d-flex gap-3 mb-0">
-                                <li>
-                                  <a
-                                    href="shop-cart.html"
-                                    class="btn btn-soft-info btn-icon btn-sm"
-                                    ><i
-                                      class="ri-shopping-cart-2-line fs-13"
-                                    ></i
-                                  ></a>
-                                </li>
-                                <li>
-                                  <a
-                                    href="#!"
-                                    class="btn btn-soft-danger btn-icon btn-sm"
-                                    ><i class="ri-close-line fs-13"></i
-                                  ></a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex gap-3">
-                                <div class="avatar-sm flex-shrink-0">
-                                  <div
-                                    class="avatar-title bg-success-subtle rounded"
-                                  >
-                                    <img
-                                      src="/static/frontend/images/products/img-4.png"
-                                      alt=""
-                                      class="avatar-xs"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                  <a href="product-details.html">
-                                    <h6 class="fs-16">Slippers Open Toe</h6>
-                                  </a>
-                                  <p class="mb-0 text-muted fs-13">Footwear</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>$74.32</td>
-                            <td>
-                              <span class="badge bg-success-subtle text-success"
-                                >In Stock</span
-                              >
-                            </td>
-                            <td>
-                              <ul class="list-unstyled d-flex gap-3 mb-0">
-                                <li>
-                                  <a
-                                    href="shop-cart.html"
-                                    class="btn btn-soft-info btn-icon btn-sm"
-                                    ><i
-                                      class="ri-shopping-cart-2-line fs-13"
-                                    ></i
-                                  ></a>
-                                </li>
-                                <li>
-                                  <a
-                                    href="#!"
-                                    class="btn btn-soft-danger btn-icon btn-sm"
-                                    ><i class="ri-close-line fs-13"></i
-                                  ></a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex gap-3">
-                                <div class="avatar-sm flex-shrink-0">
-                                  <div
-                                    class="avatar-title bg-secondary-subtle rounded"
-                                  >
-                                    <img
-                                      src="/static/frontend/images/products/img-1.png"
-                                      alt=""
-                                      class="avatar-xs"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                  <a href="product-details.html">
-                                    <h6 class="fs-16">
-                                      Hp Trendsetter Backpack
-                                    </h6>
-                                  </a>
-                                  <p class="mb-0 text-muted fs-13">
-                                    Handbags &amp; Clutches
-                                  </p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>$32.00</td>
-                            <td>
-                              <span class="badge bg-success-subtle text-success"
-                                >In Stock</span
-                              >
-                            </td>
-                            <td>
-                              <ul class="list-unstyled d-flex gap-3 mb-0">
-                                <li>
-                                  <a
-                                    href="shop-cart.html"
-                                    class="btn btn-soft-info btn-icon btn-sm"
-                                    ><i
-                                      class="ri-shopping-cart-2-line fs-13"
-                                    ></i
-                                  ></a>
-                                </li>
-                                <li>
-                                  <a
-                                    href="#!"
-                                    class="btn btn-soft-danger btn-icon btn-sm"
-                                    ><i class="ri-close-line fs-13"></i
-                                  ></a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div class="d-flex gap-3">
-                                <div class="avatar-sm flex-shrink-0">
-                                  <div
-                                    class="avatar-title bg-info-subtle rounded"
-                                  >
-                                    <img
-                                      src="/static/frontend/images/products/img-7.png"
-                                      alt=""
-                                      class="avatar-xs"
-                                    />
-                                  </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                  <a href="product-details.html">
-                                    <h6 class="fs-16">
-                                      Innovative education book
-                                    </h6>
-                                  </a>
-                                  <p class="mb-0 text-muted fs-13">Books</p>
-                                </div>
-                              </div>
-                            </td>
-                            <td>$18.32</td>
-                            <td>
-                              <span class="badge bg-danger-subtle text-danger"
-                                >Out Of Stock</span
-                              >
-                            </td>
-                            <td>
-                              <ul class="list-unstyled d-flex gap-3 mb-0">
-                                <li>
-                                  <a
-                                    href="shop-cart.html"
-                                    class="btn btn-soft-info btn-icon btn-sm"
-                                    ><i
-                                      class="ri-shopping-cart-2-line fs-13"
-                                    ></i
-                                  ></a>
-                                </li>
-                                <li>
-                                  <a
-                                    href="#!"
-                                    class="btn btn-soft-danger btn-icon btn-sm"
-                                    ><i class="ri-close-line fs-13"></i
-                                  ></a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                        </tbody>
+                        <tbody id="wishlistContent"></tbody>
                       </table>
                     </div>
-                    <div class="hstack gap-2 justify-content-end mt-4">
-                      <a
-                        href="product-list.html"
-                        class="btn btn-hover btn-secondary"
-                        >Continue Shopping
-                        <i class="ri-arrow-right-line align-bottom"></i
-                      ></a>
-                      <a href="checkout.html" class="btn btn-hover btn-primary"
-                        >Check Out
-                        <i class="ri-arrow-right-line align-bottom"></i
-                      ></a>
-                    </div>
+                    <div class="hstack gap-2 justify-content-end mt-4"></div>
                   </div>
-                 
                 </div>
-             
               </div>
-              
             </div>
-          </div> -->
+          </div>
           <!--orders-->
           <div class="tab-pane fade" id="custom-v-pills-order" role="tabpanel">
             <div class="card">
@@ -557,6 +323,53 @@
                     <i class="ri-arrow-right-line align-middle ms-1"></i
                   ></a>
                 </div>
+              </div>
+            </div>
+          </div>
+          <!--end tab-pane-->
+          <!--wallet-->
+          <div class="tab-pane fade" id="custom-v-pills-wallet" role="tabpanel">
+            <div class="d-flex justify-content-between">
+              <div class="">
+                <!-- <p class="mb-0">Toner Member Since Jan 2020</p> -->
+                <div class="bg-success text-white rounded px-2 fs-3">
+                  <i class="bi bi-currency-rupee me-1 align-middle"></i>
+                  <%=wallet.balance %>
+                </div>
+              </div>
+              <div class="ms-md-auto">
+                <!-- <p class="mb-0">Toner Member Since Jan 2020</p> -->
+                <a href="#" class="btn btn-primary btn-hover"
+                  ><i class="bi bi-bank me-1 align-middle"></i> Withdraw Now</a
+                >
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive table-card">
+                  <table class="table fs-15 align-middle table-nowrap">
+                    <thead>
+                      <tr>
+                        <th scope="col">Method</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="walletContent">
+                      <!-- here histery list will display -->
+                      <!-- <% wallet.history.forEach(history => {%>
+                      <tr>
+                        <td><%=history.name %></td>
+                        <td><%=history.description %></td>
+                        <td><%=history.amount %></td>
+                      </tr>
+
+                      <% }); %> -->
+                    </tbody>
+                  </table>
+                </div>
+                <div class="text-end mt-4"></div>
               </div>
             </div>
           </div>
@@ -1361,5 +1174,7 @@ Hi I'm Raquel Murillo, It will be as simple as Occidental; in fact, it will be O
 <script src="/static/script/accountPage.js"></script>
 <script src="/static/script/addressPage.js"></script>
 <script src="/static/script/orderPage.js"></script>
+<script src="/static/script/wishlistPage.js"></script>
+<script src="/static/script/walletPage.js"></script>
 
 <%- include("./layouts/footer") %>
