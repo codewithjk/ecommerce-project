@@ -1,0 +1,377 @@
+<%- include("./layouts/header") %>
+
+<div id="layout-wrapper">
+  <%- include("./layouts/topbar") %>
+  <!-- ========== App Menu ========== -->
+  <%-include("./layouts/menubar") %>
+  <!-- Left Sidebar End -->
+
+  <div class="main-content">
+    <div class="page-content">
+      <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="page-title-box d-sm-flex align-items-center justify-content-between"
+            >
+              <h4 class="mb-sm-0">Overview</h4>
+
+              <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">
+                    <a href="javascript: void(0);">Orders</a>
+                  </li>
+                  <li class="breadcrumb-item active">Overview</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row mb-4 align-items-center">
+          <div class="col">
+            <% if(order.is_cancelled){%>
+              <h4 class="text-danger">Order cancelled</h4>
+           <% } %>
+            
+          </div>
+          <div class="col text-end d-flex justify-content-end gap-2">
+            <% if(order.is_cancelled && !order.is_refunded){ %>
+              <span type="button" class="btn btn-primary"    data-custom-data="<%=order._id %>"
+                data-bs-toggle="modal"
+                data-bs-target="#refundModal" >
+              Refund
+              </span>
+           <% } %>
+            <% if(!order.is_cancelled){ %>
+            <div class="bg-success-subtle">
+              <select class="form-control" required id="delivered-status">
+                <option value="">Delivery Status</option>
+                <option value="Pending" <% if (order.status === 'Pending') { %> selected <% } %>>Pending</option>
+                <option value="Processing" <% if (order.status === 'Processing') { %> selected <% } %>>Processing</option>
+                <option value="Shipped" <% if (order.status === 'Shipped') { %> selected <% } %>>Shipped</option>
+                <option value="Delivered" <% if (order.status === 'Delivered') { %> selected <% } %>>Delivered</option>
+                <!-- <option value="Cancelled" <% if (order.status === 'Cancelled') { %> selected <% } %>>Cancelled</option> -->
+                <option value="Returns" <% if (order.status === 'Returns') { %> selected <% } %>>Returns</option>
+              </select>
+            </div>
+           <% } %>
+            
+              
+              
+            <button type="button" class="btn btn-secondary">
+              <i class="ph-download-simple me-1 align-middle"></i> Invoice
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xxl-3 col-lg-6">
+            <div class="card bg-success bg-opacity-10 border-0">
+              <div class="card-body">
+                <div class="d-flex gap-3">
+                  <div class="flex-grow-1">
+                    <h6 class="fs-18 mb-3">Customer Info</h6>
+                    <p class="mb-0 fw-medium"><%=order.customer %></p>
+                    <p class="mb-1"><%=order.userData.email %></p>
+                    <% if(order.userData.phoneNumber){%>
+                    <p class="mb-0"><%=order.userData.phoneNumber %></p>
+                    <% } %>
+                  </div>
+                  <div class="avatar-sm flex-shrink-0">
+                    <div
+                      class="avatar-title bg-success-subtle text-success rounded fs-3"
+                    >
+                      <i class="ph-user-circle"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-3 col-lg-6">
+            <div class="card bg-primary bg-opacity-10 border-0">
+              <div class="card-body">
+                <div class="d-flex gap-3">
+                  <div class="flex-grow-1">
+                    <h6 class="fs-18 mb-3">Shipping Address</h6>
+                    <p class="mb-0"><%=order.address.addressLine1 %></p>
+                    <p class="mb-1">
+                      <%=order.address.city%>, <%=order.address.state %>
+                    </p>
+                    <p class="mb-0"><%=order.address.phoneNumber%></p>
+                  </div>
+                  <div class="avatar-sm flex-shrink-0">
+                    <div
+                      class="avatar-title bg-primary-subtle text-primary rounded fs-3"
+                    >
+                      <i class="ph-map-pin"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xxl-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive table-card">
+                  <table class="table align-middle table-nowrap mb-0">
+                    <thead class="text-muted table-light">
+                      <tr>
+                        
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col" class="text-end">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% order.products.forEach(product => {%>
+                      <tr>
+                        
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0 me-2">
+                              <img
+                                src="<%=product.image %>"
+                                alt=""
+                                class="avatar-xs rounded-circle"
+                              />
+                            </div>
+                            <div class="flex-grow-1"><%=product.title %></div>
+                          </div>
+                        </td>
+
+                        <td>
+                          <span class="text-secondary"
+                            ><%=product.price %></span
+                          >
+                        </td>
+
+                        <td><%=product.quantity %> PCS</td>
+                        <td class="text-end">
+                          ₹ <%=product.price * product.quantity%>
+                        </td>
+                      </tr>
+                      <% }); %>
+
+                      <tr>
+                        <td colspan="3"></td>
+                        <td colspan="2" class="p-0">
+                          <table class="table table-borderless mb-0">
+                            <tbody>
+                              <tr>
+                                <td>Sub Total:</td>
+                                <td class="text-end">$1715.97(not dynamic)</td>
+                              </tr>
+
+                              <tr>
+                                <td>Discount:</td>
+                                <% if(order.discount){ %>
+                                <td class="text-end"><%=order.discount %></td>
+                                <% } %>
+                              </tr>
+                              <tr class="border-top">
+                                <th>Total (INR) :</th>
+                                <th class="text-end">
+                                  ₹ <%=order.totalAmount %>
+                                </th>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!--end card-->
+          </div>
+          <!--end col-->
+          
+
+          <div class="col-lg-12">
+            <div class="card" id="track-order">
+              <div class="card-header d-flex align-items-center gap-3">
+                <h5 class="card-title flex-grow-1 mb-0">Order Status</h5>
+                
+              </div>
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-lg-2 order-tracking text-center completed">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Order Process</h6>
+                        <p class="text-muted fs-15 mb-0">Mon, 24 Dec, 2022</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center completed">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Packed</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 28 Dec, 2022</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center completed">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Order Shipped</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 02 Jan, 2023</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Out Of Delivery</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 10 Jan, 2023</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                  <div class="col-lg-2 order-tracking text-center">
+                    <span class="is-complete"></span>
+                    <div class="card mt-3 mb-0">
+                      <div class="card-body">
+                        <h6 class="fs-17">Delivered</h6>
+                        <p class="text-muted fs-15 mb-0">Thu, 16 Jan, 2023</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                </div>
+                <!--end row-->
+              </div>
+            </div>
+          </div>
+          <!--end container-->
+        </div>
+      </div>
+      <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6">
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            © FASCO.
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+<!-- END layout-wrapper -->
+
+<!--preloader-->
+<div id="preloader">
+  <div id="status">
+    <div class="spinner-border text-primary avatar-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- response modal -->
+<div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="responseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="responseModalLabel">Response</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Modal body content will be populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- refund modal -->
+
+  <div
+  id="refundModal"
+  class="modal fade zoomIn"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          id="close-modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mt-2 text-center">
+          <lord-icon
+            src="https://cdn.lordicon.com/gsqxdxog.json"
+            trigger="loop"
+            colors="primary:#f7b84b,secondary:#f06548"
+            style="width: 100px; height: 100px"
+          ></lord-icon>
+          <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+            <h4>Are you sure ?</h4>
+            <p class="text-muted mx-4 mb-0">
+              Are you sure you want to refund full Amount ?
+            </p>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <p id="order-cancel-error" class="text-danger"></p>
+          <p id="order-cancel-succcess" class="text-succcess"></p>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+          <button
+            type="button"
+            class="btn w-sm btn-light"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn w-sm btn-primary"
+            id="refund-button"
+          >
+            Yes, Refund
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<%- include("./layouts/footer") %>
+<script src="/static/script/admin/orderDetails.js"></script>

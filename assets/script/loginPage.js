@@ -10,10 +10,7 @@ let passwordError = document.getElementById("passwordError");
 // Function to validate form on submit
 let form = document.getElementById("loginForm");
 form.addEventListener("submit", function (event) {
-  // Prevent form submission
   event.preventDefault();
-
-  // Clear previous error messages
 
   // Get form values
   const email = document.getElementById("email").value.trim();
@@ -52,6 +49,8 @@ form.addEventListener("submit", function (event) {
       } else if (data.passwordError) {
         let paragraph = document.querySelector(".passwordError");
         paragraph.innerHTML = data.passwordError;
+      } else if (data.blocked) {
+        alert("you are blocked by admin");
       } else {
         console.log(data);
         window.location.href = data.redirect;
@@ -73,4 +72,40 @@ document.addEventListener("click", (event) => {
       p.innerHTML = "";
     });
   }
+});
+
+///////
+// google auth
+
+const google = document.getElementById("google");
+google.addEventListener("click", () => {
+  console.log("google");
+  fetch("/auth/google")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = data.redirect;
+    })
+    .catch((error) => {
+      error;
+    });
+});
+
+const facebook = document.getElementById("facebook");
+facebook.addEventListener("click", () => {
+  console.log("facebook");
+  fetch("/auth/facebook")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      window.location.href = data.redirect;
+    });
 });

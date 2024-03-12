@@ -226,7 +226,7 @@
                                               </div>
                                           </td>
                                           <td class="email_id"><%= user.email %></td>
-                                          <% const date = user.created;
+                                          <% const date = user.created_at;
                                                 const day = date.getDate();
                                                 const month = date.toLocaleString('en', { month: 'long' }).slice(0,3); 
                                                 const year = date.getFullYear();

@@ -1,5 +1,5 @@
 const { generateOtp } = require("../../helper/generateOtp");
-const {setJwtToCookiesAdmin} = require("../../helper/setJwtToken")
+const { setJwtToCookiesAdmin } = require("../../helper/setJwtToken");
 const adminModel = require("../../models/admin");
 exports.getLogin = (req, res) => {
   res.render("login");
@@ -19,17 +19,23 @@ exports.postLogin = async (req, res) => {
     } else {
       // const data = await generateOtp(email);
       // if (data.success) {
-      setJwtToCookiesAdmin(res,admin).then(()=>{
+      setJwtToCookiesAdmin(res, admin).then(() => {
         res.json({
           success: "login success",
           // redirect: "/otp-verification",
           redirect: "/admin/dashboard",
         });
-      })
-      
+      });
+
       // }
     }
   } catch (error) {
     throw error;
   }
+};
+
+exports.logout = async (req, res) => {
+  res.clearCookie("adminToken");
+  console.log("eh");
+  res.redirect("/admin/login");
 };

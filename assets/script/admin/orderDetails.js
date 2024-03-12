@@ -1,0 +1,94 @@
+console.log("order details");
+
+const selectElement = document.getElementById("delivered-status");
+console.log(selectElement);
+const responseModal = new bootstrap.Modal(
+  document.getElementById("responseModal")
+);
+if (selectElement !== null) {
+  selectElement.addEventListener("change", function () {
+    console.log("sdjflaks");
+    const selectedOption = this.options[this.selectedIndex];
+    const bgColor = selectedOption.classList.contains("bg-success-subtle")
+      ? "bg-success-subtle"
+      : "";
+
+    this.classList.remove(
+      "bg-success-subtle",
+      "bg-danger-subtle",
+      "bg-info-subtle",
+      "bg-warning-subtle"
+    ); // Remove all background classes
+    if (bgColor) {
+      this.classList.add(bgColor); // Add background class based on selected option
+    }
+
+    const selectedValue = selectedOption.value;
+    const orderId = new URLSearchParams(window.location.search).get("orderId");
+
+    fetch("/admin/order/update-status", {
+      method: "patch",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: selectedValue, orderId: orderId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const modalBody = document.querySelector(".modal-body");
+        modalBody.textContent = data.message; // Assuming response contains a message
+        responseModal.show();
+      })
+      .catch((error) => {
+        console.log("made req");
+        console.error("Error:", error);
+      });
+  });
+}
+
+console.log("order detailsss ");
+
+const refund_order_modal = document.getElementById("refundModal");
+refund_order_modal.addEventListener(
+  "show.bs.modal",
+  function (event) {
+    const button = event.relatedTarget;
+    console.log("adsfkdaakldsfaldkadskll");
+
+    const orderId = button.getAttribute("data-custom-data");
+    console.log(orderId);
+    const cancelOrderButton = document.getElementById("refund-button");
+    cancelOrderButton.addEventListener(
+      "click",
+      async (event) => {
+        event.preventDefault();
+        try {
+          const response = await fetch(
+            `/admin/refund-order?orderId=${orderId}`,
+            {
+              method: "patch",
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Something went wrong. Please try again.");
+          } else {
+            const data = await response.json();
+            document.getElementById("order-cancel-succcess").innerHTML =
+              data.message;
+            const modal = bootstrap.Modal.getInstance(refund_order_modal);
+            modal.hide();
+            location.reload();
+          }
+        } catch (error) {
+          console.log(error);
+          // if (error) {
+          //   document.getElementById("cart-delete-error").innerHTML =
+          //     "something went wrong try again!";
+          // }
+        }
+      },
+      { once: true }
+    );
+  },
+  { once: true }
+);

@@ -25,7 +25,10 @@ exports.addCategory = async (req, res) => {
       redirect: "/admin/categories",
     });
   } catch (error) {
-    console.error(error);
+    if (error.code === 11000) {
+      res.json({ error: "This category already exists" });
+    }
+    console.error(error.code);
   }
 };
 
@@ -73,6 +76,9 @@ exports.editCategory = async (req, res) => {
       redirect: "/admin/categories",
     });
   } catch (error) {
+    if (error.code === 11000) {
+      res.json({ error: "This category already exists" });
+    }
     console.error(error);
   }
 };

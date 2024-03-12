@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express();
 const { isAdmin } = require("../middleware/authentication");
-const { getLogin, postLogin } = require("../controller/admin/auth");
+const { getLogin, postLogin, logout } = require("../controller/admin/auth");
 const { getDashboard } = require("../controller/admin/dashboard");
 const {
   getProductsPage,
@@ -9,6 +9,14 @@ const {
   postAddProduct,
   removeProduct,
   editProduct,
+  removeImage,
+  orderDetails,
+  refundOrder,
+  getEditPage,
+  updateOrderStatus,
+  getWeeklyOrders,
+  getMonthlyOrders,
+  getYearlyOrders,
 } = require("../controller/admin/product");
 const {
   getCategoryPage,
@@ -41,6 +49,7 @@ router.get("/feedback", isAdmin, getFeedbackPage);
 router.get("/coupons", isAdmin, getCouponPage);
 router.get("/banners", isAdmin, getBannerPage);
 router.get("/add-product", isAdmin, getAddProduct);
+router.get("/edit-product", isAdmin, getEditPage);
 
 router.patch("/block-user", blockUser);
 router.patch("/unblock-user", unblockUser);
@@ -48,9 +57,20 @@ router.patch("/unblock-user", unblockUser);
 router.post("/login", postLogin);
 router.post("/add-category", addCategory);
 router.post("/add-product", postAddProduct);
-
+router.patch("/remove-image", removeImage);
 router.delete("/remove-product", removeProduct);
 router.delete("/remove-category", removeCategory);
 router.patch("/edit-category", editCategory);
 router.patch("/edit-product", editProduct);
+router.get("/order-details", orderDetails);
+router.patch("/order/update-status", updateOrderStatus);
+router.patch("/refund-order", refundOrder);
+
+//for chart
+router.get("/get-weekly-orders", getWeeklyOrders);
+router.get("/get-monthly-orders", getMonthlyOrders);
+router.get("/get-yearly-orders", getYearlyOrders);
+
+router.get("/logout", logout);
+
 module.exports = router;

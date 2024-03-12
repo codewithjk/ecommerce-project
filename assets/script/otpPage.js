@@ -148,6 +148,9 @@ resend.addEventListener("click", (event) => {
     .then((data) => {
       if (data.success) {
         // timer(data.timer);
+        alert("The otp is sent to your email");
+        document.getElementById("resend-message").innerHTML =
+          "The otp is sent to your email";
         location.reload();
       }
     })

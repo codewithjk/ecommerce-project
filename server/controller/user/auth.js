@@ -1,8 +1,11 @@
 const { userModel } = require("../../models/user");
+const { walletModel } = require("../../models/wallet");
 const otpModel = require("../../models/otp");
 const { setJwtToCookies } = require("../../helper/setJwtToken");
 const { generateOtp } = require("../../helper/generateOtp");
 const { getLogger } = require("nodemailer/lib/shared");
+const { createNewWallet } = require("../../helper/dbQueries");
+const crypto = require("crypto");
 
 // const GoogleStrategy = require("passport-google-oidc");
 
@@ -18,6 +21,11 @@ exports.postRegister = async (req, res) => {
     if (userExist) {
       res.json({ error: "email is already used" });
     } else {
+      const code = req.body.code;
+
+      await sendMoneyToRefferedUser(code, req.body.firstName);
+      const refferalCode = await generateRandomCode();
+
       const user = new userModel({
         email: req.body.email,
         phoneNumber: "1234567890",
@@ -25,8 +33,13 @@ exports.postRegister = async (req, res) => {
         lastName: req.body.lastName,
         password: req.body.password,
         phoneNumber: req.body.phone,
+        refferalCode: refferalCode,
       });
-      await user.save();
+      const newUser = await user.save();
+      const userId = newUser._id;
+      //for create the wallet
+      const wallet = await createNewWallet(userId);
+
       res.cookie("email", email);
       generateOtp(email).then((data) => {
         if (data.success) {
@@ -59,6 +72,8 @@ exports.postLogin = async (req, res) => {
   } else if (password !== user.password) {
     res.json({ passwordError: "incorrect password" });
     // res.render("login", { invalidPassword: "incorrect password" });
+  } else if (user.status === "Blocked") {
+    res.json({ blocked: true });
   } else {
     generateOtp(email).then((data) => {
       if (data.success) {
@@ -85,27 +100,27 @@ exports.getOtpPage = async (req, res) => {
 exports.postOtp = async (req, res) => {
   console.log("otp body ==", req.body);
   const user_otp = Number(Object.values(req.body).join(""));
-
-  otpModel.findOne({ otp: user_otp }).then((otpData) => {
+  try {
+    const otpData = await otpModel.findOne({ otp: user_otp });
     if (otpData === null) {
       res.json({ error: "invalid otp" });
     } else if (otpData.is_verified === true) {
       res.json({ error: "Otp is already used" });
     } else {
-      otpModel
-        .findOneAndUpdate({ _id: otpData._id }, { is_verified: true })
-        .then(() => {
-          // ==== set jwt token to cookies
-          setJwtToCookies(res, otpData).then(() => {
-            res.status(200).json({
-              success: "otp successfully verified",
-              // redirect: "/products",
-            });
-          });
-          console.log("is verified is now true");
-        });
+      await otpModel.findOneAndUpdate(
+        { _id: otpData._id },
+        { is_verified: true }
+      );
+      const userData = await userModel.findOne({ _id: otpData.user_id });
+      await setJwtToCookies(res, userData);
+      res.status(200).json({
+        success: "otp successfully verified",
+        // redirect: "/products",
+      });
     }
-  });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // verify email for reset password
@@ -160,7 +175,7 @@ exports.getSetNewPassword = (req, res) => {
 exports.postSetNewPassword = (req, res) => {
   console.log(req.body);
   console.log(req.user);
-  const userId = req.user.userId;
+  const userId = req.user.sub;
   if (req.body.password[0] !== req.body.password[1]) {
     res.json({ error: "password not matching" });
   } else {
@@ -198,3 +213,46 @@ exports.getOTPTime = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.logout = async (req, res) => {
+  res.clearCookie("userToken");
+  res.clearCookie("email");
+  res.redirect("/");
+};
+
+// Function to generate a refferal code
+function generateRandomCode() {
+  return new Promise((resolve, reject) => {
+    crypto.randomBytes(8, (err, buffer) => {
+      if (err) {
+        reject(err);
+      } else {
+        const code = buffer.toString("hex").toUpperCase().slice(0, 8);
+        resolve(code);
+      }
+    });
+  });
+}
+
+//funtion to send money
+async function sendMoneyToRefferedUser(code, newUser) {
+  console.log(code);
+  const user = await userModel.findOne({ refferalCode: code });
+  if (user !== null) {
+    const wallet = await walletModel.findOneAndUpdate(
+      { userId: user._id },
+      {
+        $push: {
+          history: {
+            name: "Referral Bonus",
+            description: `${newUser} joined using your code`,
+            amount: 500,
+          },
+        },
+        $inc: { balance: 500 },
+      },
+      { new: true }
+    );
+    console.log(wallet);
+  }
+}

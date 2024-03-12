@@ -8,7 +8,6 @@ createCategoryForm.addEventListener("submit", (event) => {
   // var categoryImg = document.getElementById("category-img").src.split(",");
   var categoryImg = document.getElementById("category-img").src;
   var categoryDesc = document.getElementById("descriptionInput").value;
-  console.log(categoryImg);
 
   if (inputTitle == "" || categoryDesc == "" || categoryImg == "") {
     document.querySelector(".formError").innerHTML =
@@ -37,6 +36,8 @@ createCategoryForm.addEventListener("submit", (event) => {
           console.log("category added");
           document.querySelector(".formSuccess").innerHTML = data.message;
           document.location.href = data.redirect;
+        } else if (data.error) {
+          document.querySelector(".formSuccess").innerHTML = data.error;
         }
       })
       .catch((error) => {
@@ -57,7 +58,6 @@ delete_modal.addEventListener("show.bs.modal", function (event) {
   delete_button.addEventListener("click", (event) => {
     event.preventDefault();
 
-    console.log(category_id);
     fetch(`/admin/remove-category/?id=${category_id}`, {
       method: "delete",
     })
@@ -125,11 +125,13 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
       })
       .then((data) => {
         console.log(data);
-        if (data) {
+        if (data.message) {
           // document.getElementById("yes-delete").innerHTML = data.message;
           // alert(data.message);
           window.location.href = data.redirect;
           // document.getElementById("no-delete").innerHTML = data.error;
+        } else if (data.error) {
+          document.getElementById("edit-error").innerHTML = data.error;
         }
       })
       .catch((error) => {
