@@ -260,3 +260,9 @@ async function updateWishlistContent(wishlistContent) {
     console.log(error);
   }
 }
+
+//////
+// document.addEventListener("DOMContentLoaded", function () {
+//   var table = document.getElementById("wishlistTable");
+//   var dataTable = new DataTable(table);
+// });

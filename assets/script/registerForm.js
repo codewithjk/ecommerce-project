@@ -15,9 +15,11 @@ form.addEventListener("submit", async (e) => {
   });
   const prePayload = new FormData(form);
   const payload = new URLSearchParams(prePayload);
+  const queryParams = new URLSearchParams(window.location.search);
+  const referralId = queryParams.get("referralId");
 
   console.log([...payload]);
-  await fetch("/register", {
+  await fetch(`/register?referralId=${referralId}`, {
     method: "POST",
     body: payload,
   })

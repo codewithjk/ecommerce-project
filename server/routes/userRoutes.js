@@ -65,12 +65,15 @@ const {
   orderDetails,
   cancelOrder,
   getWallet,
+  returnProduct,
+  addFundToWallet,
 } = require("../controller/user/account");
 const {
   getAllOrders,
   placeOrderCOD,
   placeOrderRazorpay,
   renderSuccess,
+  applyCoupon,
 } = require("../controller/user/order");
 
 //set views directory
@@ -78,8 +81,8 @@ router.set("views", path.join(__dirname, "../../views/user"));
 router.get("/", checkAuthenticated, (req, res) => {
   res.render("landingPage");
 });
-router.get("/login", getLogin);
-router.get("/register", getRegister);
+router.get("/login", checkAuthenticated, getLogin);
+router.get("/register", checkAuthenticated, getRegister);
 router.get("/forgot-password", getForgotPassword);
 router.get("/otp-verification", getOtpPage);
 router.get("/products", verifyToken, isBlocked, getAllProducts); // this is for page
@@ -117,7 +120,7 @@ router.get("/wishlist-page", verifyToken, isBlocked, renderWishlistPage);
 router.get("/get-wallet", verifyToken, isBlocked, getWallet);
 router.get("/order-details", verifyToken, isBlocked, orderDetails);
 
-router.delete("/cancel-order", verifyToken, isBlocked, cancelOrder);
+router.patch("/cancel-order", verifyToken, isBlocked, cancelOrder);
 
 //product
 router.put("/add-to-cart", verifyToken, isBlocked, addToCart);
@@ -135,6 +138,15 @@ router.get("/checkout", verifyToken, isBlocked, getCheckoutPage);
 router.get("/payment", verifyToken, isBlocked, getPaymentPage);
 router.get("/place-order-cod", verifyToken, isBlocked, placeOrderCOD);
 router.get("/place-order-razorpay", verifyToken, isBlocked, placeOrderRazorpay);
+
+//coupon
+router.get("/apply-coupon", verifyToken, isBlocked, applyCoupon);
+
+//return product
+router.patch("/return-product", verifyToken, isBlocked, returnProduct);
+
+//wallet
+router.get("/add-fund", verifyToken, isBlocked, addFundToWallet);
 
 router.get("/payment/success", verifyToken, isBlocked, renderSuccess);
 router.get("/blocked-message", renderBlockedMessage);

@@ -17,6 +17,7 @@ const path = require("path");
 
 const imgur = require("imgur");
 const { log } = require("console");
+const { logout } = require("./auth");
 
 /////
 
@@ -117,7 +118,16 @@ exports.removeProduct = async (req, res) => {
 
 exports.editProduct = async (req, res) => {
   try {
+    const urls = [];
+
+    for (const image of req.body.image) {
+      const url = await saveBase64ImageToFile(image, "image.jpg");
+      urls.push(url);
+    }
+
+    console.log(urls);
     const id = req.body.id;
+    console.log("id === ", id);
 
     let totalStock = 0;
     const allvarients = req.body.size;
@@ -129,7 +139,7 @@ exports.editProduct = async (req, res) => {
       title: req.body.title,
       description: req.body.description,
       category: req.body.category,
-      images: req.body.image,
+      $push: { images: { $each: urls } },
       price: req.body.price,
       discount: req.body.discount,
       sizes: req.body.size,
@@ -169,6 +179,17 @@ exports.getEditPage = async (req, res) => {
     const categories = await categoryModel.find();
     const product = await productModel.findById(productId);
     res.render("editProduct", { product: product, categories: categories });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getProductById = async (req, res) => {
+  try {
+    const productId = req.query.productId;
+    const product = await productModel.findById(productId);
+    console.log(product);
+    res.status(200).json({ product: product });
   } catch (error) {
     console.log(error);
   }

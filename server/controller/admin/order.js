@@ -7,5 +7,4 @@ exports.getOrdersPage = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  // res.render("orders");
 };

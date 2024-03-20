@@ -48,6 +48,14 @@ order_tab.addEventListener("shown.bs.tab", async function (event) {
     orderContent.appendChild(tableRow);
   });
 
+  ////////
+  let table = new DataTable("#orderTableUser", {
+    layout: {
+      topStart: {},
+    },
+  });
+  ///////
+
   try {
   } catch (error) {
     console.log(error);

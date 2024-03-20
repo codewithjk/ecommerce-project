@@ -292,23 +292,14 @@
                 style="width: 100%"
               >
                 <div class="gridjs-wrapper" style="height: auto">
-                  <table role="grid" class="gridjs-table" style="height: auto">
+                  <table
+                    role="grid"
+                    class="gridjs-table"
+                    style="height: auto"
+                    id="productsTable"
+                  >
                     <thead class="gridjs-thead">
                       <tr class="gridjs-tr">
-                        <th
-                          data-column-id="#"
-                          class="gridjs-th gridjs-th-sort"
-                          tabindex="0"
-                          style="width: 40px"
-                        >
-                          <div class="gridjs-th-content">#</div>
-                          <button
-                            tabindex="-1"
-                            aria-label="Sort column ascending"
-                            title="Sort column ascending"
-                            class="gridjs-sort gridjs-sort-neutral"
-                          ></button>
-                        </th>
                         <th
                           data-column-id="productName"
                           class="gridjs-th gridjs-th-sort"
@@ -316,12 +307,6 @@
                           style="width: 400px"
                         >
                           <div class="gridjs-th-content">Product name</div>
-                          <button
-                            tabindex="-1"
-                            aria-label="Sort column ascending"
-                            title="Sort column ascending"
-                            class="gridjs-sort gridjs-sort-neutral"
-                          ></button>
                         </th>
                         <th
                           data-column-id="stock"
@@ -330,12 +315,6 @@
                           style="width: 94px"
                         >
                           <div class="gridjs-th-content">Stock</div>
-                          <button
-                            tabindex="-1"
-                            aria-label="Sort column ascending"
-                            title="Sort column ascending"
-                            class="gridjs-sort gridjs-sort-neutral"
-                          ></button>
                         </th>
                         <!-- <th
                           data-column-id="rate"
@@ -358,12 +337,6 @@
                           style="width: 60px"
                         >
                           <div class="gridjs-th-content">Price</div>
-                          <button
-                            tabindex="-1"
-                            aria-label="Sort column ascending"
-                            title="Sort column ascending"
-                            class="gridjs-sort gridjs-sort-neutral"
-                          ></button>
                         </th>
                         <!-- <th
                           data-column-id="orders"
@@ -386,12 +359,6 @@
                           style="width: 120px"
                         >
                           <div class="gridjs-th-content">Publish</div>
-                          <button
-                            tabindex="-1"
-                            aria-label="Sort column ascending"
-                            title="Sort column ascending"
-                            class="gridjs-sort gridjs-sort-neutral"
-                          ></button>
                         </th>
                         <th
                           data-column-id="action"
@@ -400,12 +367,6 @@
                           style="width: 80px"
                         >
                           <div class="gridjs-th-content">Action</div>
-                          <button
-                            tabindex="-1"
-                            aria-label="Sort column ascending"
-                            title="Sort column ascending"
-                            class="gridjs-sort gridjs-sort-neutral"
-                          ></button>
                         </th>
                       </tr>
                     </thead>
@@ -413,21 +374,6 @@
                       <% products.forEach(product => {%>
 
                       <tr class="gridjs-tr">
-                        <td data-column-id="#" class="gridjs-td">
-                          <span
-                            ><div class="form-check checkbox-product-list">
-                              <input
-                                class="form-check-input"
-                                type="checkbox"
-                                value="1"
-                                id="checkbox-1"
-                              />
-                              <label
-                                class="form-check-label"
-                                for="checkbox-1"
-                              ></label></div
-                          ></span>
-                        </td>
                         <td data-column-id="productName" class="gridjs-td">
                           <span
                             ><div class="d-flex align-items-center">
@@ -565,10 +511,11 @@
                             >
                               <li>
                                 <% const productObj = JSON.stringify(product) %>
-                                <a
-                                  data-custom-data="<%=productObj %>"
+                                <!-- data-custom-data="<%=productObj %>"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#editModal"
+                                  data-bs-target="#editModal"  -->
+                                <a
+                                  href="/admin/edit-product?productId=<%=product._id %>"
                                   class="btn p-1 bg-info-subtle text-info"
                                 >
                                   Edit
@@ -1219,3 +1166,26 @@
 <script src="/static/script/admin/productPage.js"></script>
 
 <%-include("./layouts/footer") %>
+
+<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
+<script>
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   var table = document.getElementById("productsTable");
+  //   var dataTable = new DataTable(table);
+  // });
+
+  new DataTable("#productsTable", {
+    layout: {
+      topStart: {
+        buttons: ["copy", "csv", "excel", "pdf", "print"],
+      },
+    },
+  });
+</script>

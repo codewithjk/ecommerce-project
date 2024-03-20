@@ -14,6 +14,7 @@ const {
   getOrdersByUserId,
   removeAllItemFromCart,
   getAllCategories,
+  getOfferByCategoryId,
 } = require("../../helper/dbQueries");
 
 exports.getAllProducts = async (req, res) => {
@@ -34,6 +35,9 @@ exports.getProductPage = async (req, res) => {
   const sumOfRatings = reviews.reduce((acc, curr) => acc + curr.rating, 0);
   const averageRating = sumOfRatings / reviews.length;
   const productsByCategory = await getAllProductByCategory(product.category);
+  const categoryOffers = await getOfferByCategoryId(product.category);
+  console.log(categoryOffers);
+  console.log("adskfldaskdflaskfalsddfksalk");
 
   res.render("productDetails", {
     user: user,
@@ -41,21 +45,38 @@ exports.getProductPage = async (req, res) => {
     reviews: reviews,
     averageRating: averageRating,
     similar: productsByCategory,
+    categoryOffers: categoryOffers,
   });
 };
 
 //cart
 exports.getCartItems = async (req, res) => {
   const userId = req.user.sub;
-  const cartItems = await getCartByUserId(userId);
+  const cart = await getCartByUserId(userId);
+  //get cart  coupon discount
+
+  const cartItems = cart.cartItems;
+
+  const couponDiscount = cart?.couponDiscount?.couponDiscount;
+
+  console.log(couponDiscount);
+
   let total = 0;
 
   cartItems.forEach((item) => {
-    total += item.price * item.quantity;
+    const itemPrice = Math.round(
+      item.price - (item.price * item.discount) / 100
+    );
+
+    total += itemPrice * item.quantity;
   });
   console.log(total);
   if (cartItems !== null) {
-    res.json({ items: cartItems, total: total });
+    res.json({
+      items: cartItems,
+      total: total,
+      couponDiscount: couponDiscount ?? 0,
+    });
   } else {
     res.json({ error: "Something went wrong" });
   }
@@ -81,10 +102,11 @@ exports.removeCartItem = async (req, res) => {
 exports.addToCart = async (req, res) => {
   const userId = req.user.sub;
   const itemId = req.query.itemId;
+  const size = req.query.size;
+  const quantity = req.query.quantity;
   try {
-    const deletedItem = await addItemToCart(userId, itemId);
+    const deletedItem = await addItemToCart(userId, itemId, size, quantity);
 
-    console.log("========kdfal======", deletedItem);
     if (deletedItem === undefined) {
       res.status(200).json({ message: "product already added to cart" });
     } else {
@@ -151,8 +173,8 @@ exports.getCheckoutPage = async (req, res) => {
   try {
     const userId = req.user.sub;
     const user = await getUserById(userId);
-    const cartItems = await getCartByUserId(userId);
-    res.render("checkoutPage", { user: user, items: cartItems });
+    const cart = await getCartByUserId(userId);
+    res.render("checkoutPage", { user: user, items: cart.cartItems });
   } catch (error) {
     console.log(error);
   }

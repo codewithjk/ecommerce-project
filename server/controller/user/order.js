@@ -1,4 +1,5 @@
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 const { RAZORPAY_CLIENT_ID, RAZORPAY_CLIENT_SECRET } = process.env;
 
 const razorpayInstance = new Razorpay({
@@ -14,42 +15,17 @@ const {
   removeAllItemFromCart,
   getOrdersByUserId,
   createNewWallet,
+  decreaseProductQuantities,
+  findCoupon,
+  giveCouponToUser,
+  applyCouponToCart,
 } = require("../../helper/dbQueries");
+const { log } = require("console");
 
 exports.placeOrderCOD = async (req, res) => {
   try {
-    // const userId = req.user.sub;
-    // const user = await getUserById(userId);
-    // const userName = user.firstName + " " + user.lastName;
     const addressId = req.query.addressId;
-    // const address = await getAddressById(addressId);
-    // const items = await getCartByUserId(userId);
-    // const method = "COD";
-
-    // let total_amount = 0;
-    // items.forEach((item) => {
-    //   total_amount += item.price * item.quantity;
-    // });
-
-    // const newOrder = await createOrder(
-    //   userId,
-    //   userName,
-    //   user,
-    //   address,
-    //   items,
-    //   total_amount,
-    //   method
-    // );
-    // console.log(newOrder);
-    // if (newOrder !== null) {
-    //remove all items from cart
-    //   const remove = await removeAllItemFromCart(userId);
-    //   console.log("cart is now empty ====", remove);
-    //   res
-    //     .status(200)
-    //     .render("confirmation", { user: user, orderId: newOrder._id });
     res.redirect(`/payment/success?method="COD"&addressId=${addressId}`);
-    // }
   } catch (error) {
     console.log(error);
   }
@@ -79,13 +55,21 @@ exports.placeOrderRazorpay = async (req, res) => {
     const email = user.email;
 
     const addressId = req.query.addressId;
+    console.log("this is address id ===== ", addressId);
     const address = await getAddressById(addressId);
-    const items = await getCartByUserId(userId);
+    const cart = await getCartByUserId(userId);
+    const items = cart.cartItems;
     const method = "Razorpay";
     let total_amount = 0;
     items.forEach((item) => {
-      total_amount += item.price * item.quantity;
+      total_amount +=
+        Math.round(item.price - (item.price * item.discount) / 100) *
+        item.quantity;
     });
+
+    total_amount = Math.round(
+      total_amount - (total_amount * cart.couponDiscount.couponDiscount) / 100
+    );
 
     const options = {
       amount: total_amount * 100,
@@ -108,6 +92,7 @@ exports.placeOrderRazorpay = async (req, res) => {
           email: email,
         });
       } else {
+        console.log("error === ", err);
         res.status(400).json({ success: false, msg: "Something went wrong!" });
       }
     });
@@ -127,31 +112,84 @@ exports.renderSuccess = async (req, res) => {
 
     const addressId = req.query.addressId;
     const address = await getAddressById(addressId);
-    const items = await getCartByUserId(userId);
+    const cart = await getCartByUserId(userId);
+    const items = cart.cartItems;
+    const discount = cart.couponDiscount.couponDiscount;
+    const updateStock = await decreaseProductQuantities(items);
     const method = req.query.method;
-    let total_amount = 0;
-    items.forEach((item) => {
-      total_amount += item.price * item.quantity;
-    });
-    // const orderId = req.query.orderId;
-
-    const newOrder = await createOrder(
-      userId,
-      userName,
-      user,
-      address,
-      items,
-      total_amount,
-      method
-    );
-    if (newOrder !== null) {
-      //remove all items from cart
-      const remove = await removeAllItemFromCart(userId);
-      res
-        .status(200)
-        .render("confirmation", { user: user, orderId: newOrder._id });
+    if (items.length === 0) {
+      res.status(400).render("clientError");
+    } else {
+      let total_amount = 0;
+      items.forEach((item) => {
+        total_amount +=
+          Math.round(item.price - (item.price * item.discount) / 100) *
+          item.quantity;
+      });
+      total_amount = Math.round(total_amount - (total_amount * discount) / 100);
+      // const orderId = req.query.orderId;
+      const couponData = await findCoupon(total_amount);
+      //generate coupon if there is a coupon is available
+      if (couponData !== null) {
+        const couponCode = await generateRandomCode();
+        const newCoupon = await giveCouponToUser(
+          userId,
+          couponData,
+          couponCode
+        );
+      }
+      const newOrder = await createOrder(
+        userId,
+        userName,
+        user,
+        address,
+        items,
+        total_amount,
+        method,
+        discount
+      );
+      if (newOrder !== null) {
+        //remove all items from cart
+        const remove = await removeAllItemFromCart(userId);
+        res
+          .status(200)
+          .render("confirmation", { user: user, orderId: newOrder._id });
+      }
     }
   } catch (error) {
     console.log(error);
   }
 };
+
+exports.applyCoupon = async (req, res) => {
+  try {
+    const userId = req.user.sub;
+    const code = req.query.code;
+    const amount = req.query.amount;
+    console.log(code, amount);
+    const couponApplied = await applyCouponToCart(userId, code, amount);
+    if (couponApplied) {
+      res.status(200).json({
+        message: couponApplied.message,
+        discount: couponApplied.discount || 0,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+///////////////////////////
+// Function to generate a refferal code
+function generateRandomCode() {
+  return new Promise((resolve, reject) => {
+    crypto.randomBytes(8, (err, buffer) => {
+      if (err) {
+        reject(err);
+      } else {
+        const code = buffer.toString("hex").toUpperCase().slice(0, 8);
+        resolve(code);
+      }
+    });
+  });
+}

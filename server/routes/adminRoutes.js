@@ -13,6 +13,7 @@ const {
   orderDetails,
   refundOrder,
   getEditPage,
+  getProductById,
   updateOrderStatus,
   getWeeklyOrders,
   getMonthlyOrders,
@@ -31,8 +32,12 @@ const {
 } = require("../controller/admin/customer");
 const { getOrdersPage } = require("../controller/admin/order");
 const { getFeedbackPage } = require("../controller/admin/feedback");
-const { getCouponPage } = require("../controller/admin/coupon");
-const { getBannerPage } = require("../controller/admin/banner");
+const {
+  getCouponPage,
+  addCoupon,
+  removeCoupon,
+} = require("../controller/admin/coupon");
+const { getOfferPage, addCategoryOffer } = require("../controller/admin/offer");
 
 const path = require("path");
 
@@ -47,9 +52,10 @@ router.get("/orders", isAdmin, getOrdersPage);
 router.get("/customers", isAdmin, getCustomerPage);
 router.get("/feedback", isAdmin, getFeedbackPage);
 router.get("/coupons", isAdmin, getCouponPage);
-router.get("/banners", isAdmin, getBannerPage);
+router.get("/offers", isAdmin, getOfferPage);
 router.get("/add-product", isAdmin, getAddProduct);
 router.get("/edit-product", isAdmin, getEditPage);
+router.get("/get-product", isAdmin, getProductById);
 
 router.patch("/block-user", blockUser);
 router.patch("/unblock-user", unblockUser);
@@ -70,6 +76,13 @@ router.patch("/refund-order", refundOrder);
 router.get("/get-weekly-orders", getWeeklyOrders);
 router.get("/get-monthly-orders", getMonthlyOrders);
 router.get("/get-yearly-orders", getYearlyOrders);
+
+//coupon
+router.post("/add-coupon", addCoupon);
+router.delete("/delete-coupon", removeCoupon);
+
+//offer
+router.post("/add-category-offer", addCategoryOffer);
 
 router.get("/logout", logout);
 

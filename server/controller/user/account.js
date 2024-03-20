@@ -11,10 +11,20 @@ const {
   getDetailedWishlist,
   getOrderById,
   getWalletByUserId,
+  increaseProductQuantities,
+  addMoneyToWallet,
 } = require("../../helper/dbQueries");
 const { orderModel } = require("../../models/order");
 const { walletModel } = require("../../models/wallet");
-const { response } = require("../../routes/userRoutes");
+
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+const { RAZORPAY_CLIENT_ID, RAZORPAY_CLIENT_SECRET } = process.env;
+
+const razorpayInstance = new Razorpay({
+  key_id: RAZORPAY_CLIENT_ID,
+  key_secret: RAZORPAY_CLIENT_SECRET,
+});
 
 exports.getAccountPage = async (req, res) => {
   const userId = req.user.sub;
@@ -195,11 +205,20 @@ exports.orderDetails = async (req, res) => {
 //cancel order
 exports.cancelOrder = async (req, res) => {
   try {
-    const orderId = req.query.orderId;
-    const cancelledOrder = await orderModel.findByIdAndUpdate(orderId, {
-      is_cancelled: true,
-      status: "Cancelled",
-    });
+    const orderId = req.body.id;
+    const reason = req.body.reason;
+    console.log(req.body);
+    const cancelledOrder = await orderModel.findByIdAndUpdate(
+      orderId,
+      {
+        is_cancelled: true,
+        status: "Cancelled",
+        cancelReason: reason,
+      },
+      { new: true }
+    );
+    const items = cancelledOrder.products;
+    const updatedData = increaseProductQuantities(items);
     if (cancelledOrder !== null) {
       res.status(200).json({ message: "oreder is cancelled" });
     } else {
@@ -207,6 +226,81 @@ exports.cancelOrder = async (req, res) => {
     }
 
     console.log("from cancel order ===", cancelledOrder);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.returnProduct = async (req, res) => {
+  try {
+    const orderId = req.query.orderId;
+    const productId = req.query.productId;
+    const reason = req.body.reason;
+    console.log(orderId, productId, reason);
+    const returnedOrder = await orderModel.findOneAndUpdate(
+      { _id: orderId, products: { $elemMatch: { _id: productId } } },
+      {
+        $set: {
+          status: "Returns",
+          "products.$.is_returned": true,
+          "products.$.returnReason": reason,
+        },
+      },
+      { new: true }
+    );
+    if (returnedOrder !== null) {
+      res.status(200).json({ message: "oreder is cancelled" });
+    } else {
+      res.status(500).json({ message: "something went wrong" });
+    }
+    console.log("returned order ==", returnedOrder);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.addFundToWallet = async (req, res) => {
+  try {
+    const amount = req.query.amount;
+    const userId = req.user.sub;
+    const user = await getUserById(userId);
+    const userName = user.firstName + " " + user.lastName;
+    const mobile = user.phoneNumber;
+    const email = user.email;
+
+    const options = {
+      amount: amount * 100,
+      currency: "INR",
+      receipt: "jeevankumar8943@gmail.com",
+    };
+
+    razorpayInstance.orders.create(options, async (err, order) => {
+      if (!err) {
+        console.log("order ==== ", order);
+        await addMoneyToWallet(
+          userId,
+          "Deposit",
+          "You added money to wallet",
+          amount
+        );
+
+        res.status(200).json({
+          success: true,
+          msg: "Money added to wallet",
+          order_id: order.id,
+          amount: amount * 100,
+          key_id: RAZORPAY_CLIENT_ID,
+          title: "Pay now",
+          description: "Thanks for using our service",
+          contact: mobile,
+          name: userName,
+          email: email,
+        });
+      } else {
+        console.log("error === ", err);
+        res.status(400).json({ success: false, msg: "Something went wrong!" });
+      }
+    });
   } catch (error) {
     console.log(error);
   }

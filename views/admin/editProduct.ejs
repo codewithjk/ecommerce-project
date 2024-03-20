@@ -88,6 +88,7 @@
                   <div class="mb-3">
                     <label class="form-label">Product description</label>
                     <textarea
+                      value="<%=product.description %>"
                       name="description"
                       type="text"
                       class="form-control h-auto"
@@ -171,20 +172,6 @@
                 <div id="images" class="card-body d-flex gap-2">
                   <div id="image-list" class="d-flex gap-2 overflow-scroll">
                     <!-- here existing image -->
-                    <% product.images.forEach(image => {%>
-                    <div
-                      class="w-auto position-relative rounded overflow-hidden"
-                    >
-                      <span
-                        onclick="removeImage(image,product._id)"
-                        data-custom-data="<%=image %>"
-                        class="position-absolute top-0 end-0 badge badge-danger text-danger"
-                        ><i class="bi bi-x-circle"></i
-                      ></span>
-                      <img src="<%=image %>" alt="" width="150" />
-                    </div>
-
-                    <% }); %>
                   </div>
                   <div
                     data-bs-toggle="modal"
@@ -261,9 +248,10 @@
                           <span
                             class="input-group-text"
                             id="product-price-addon"
-                            >$</span
+                            >₹</span
                           >
                           <input
+                            value="<%=product.price %>"
                             name="price"
                             type="text"
                             class="form-control"
@@ -291,6 +279,7 @@
                             >%</span
                           >
                           <input
+                            value="<%=product.discount %>"
                             name="discount"
                             type="text"
                             class="form-control"
@@ -310,23 +299,6 @@
                     <!-- end col -->
                   </div>
                   <!-- end row -->
-                  <% const size = product.sizes %>
-
-                  <script>
-                    // Display sizes
-                    <% size.forEach((obj) => { %>
-                      var id = `<%= Object.keys(obj)[0] %>`;
-                      console.log(id);
-                      var input = document.getElementById(id);
-                      var checkbox = document.getElementById('size' + id);
-                      console.log(checkbox);
-
-                      checkbox.checked = true;
-
-                      input.disabled = false;
-                      input.value = '<%= Object.values(obj)[0] %>';
-                    <% }); %>
-                  </script>
 
                   <div class="row">
                     <div class="col-lg-6">
@@ -451,12 +423,12 @@
                               name="size"
                               type="checkbox"
                               value="xl"
-                              id="sizeXl"
+                              id="sizeXL"
                               onchange="toggleStocksInput('XL')"
                             />
                             <label
                               class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="sizeXl"
+                              for="sizeXL"
                               >XL</label
                             >
                             <div class="">
@@ -478,12 +450,12 @@
                               name="size"
                               type="checkbox"
                               value="2xl"
-                              id="size2xl"
+                              id="size2XL"
                               onchange="toggleStocksInput('2XL')"
                             />
                             <label
                               class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="size2xl"
+                              for="size2XL"
                               >2XL</label
                             >
                             <div class="">
@@ -505,12 +477,12 @@
                               name="size"
                               type="checkbox"
                               value="3xl"
-                              id="size3xl"
+                              id="size3XL"
                               onchange="toggleStocksInput('3XL')"
                             />
                             <label
                               class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="size3xl"
+                              for="size3XL"
                               >3XL</label
                             >
                             <div class="">
@@ -618,7 +590,7 @@
         <div
           class="d-flex flex-column gap-2 justify-content-center align-items-center mt-4 mb-2"
         >
-          <h2 class="my-3 px-3 text-success">Product successfully added</h2>
+          <h2 class="my-3 px-3 text-success">Product successfully edited</h2>
           <button id="btn-next" type="button" class="btn btn-success">
             Next
           </button>
@@ -699,9 +671,6 @@
 
 <!-- '''''''''''''''' -->
 <script>
-  const product = `<%=product%>`;
-  console.log(product);
-  console.log("hoels");
   function toggleStocksInput(inputId) {
     var input = document.getElementById(inputId);
     input.disabled = !input.disabled;

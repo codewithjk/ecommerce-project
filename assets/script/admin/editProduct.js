@@ -1,3 +1,87 @@
+async function productData(id) {
+  const response = await fetch(`/admin/get-product?productId=${id}`);
+  const responseData = await response.json();
+  return responseData.product;
+}
+window.onload = async function () {
+  try {
+    const productId = new URLSearchParams(window.location.search).get(
+      "productId"
+    );
+    console.log(productId);
+    const product = await productData(productId);
+    let size = product.sizes;
+    document.getElementById("descriptionInput").value = product.description;
+    //display image
+    var imageRow = document.getElementById("image-list");
+    imageRow.innerHTML = "";
+
+    product.images.forEach((image, i) => {
+      var div = document.createElement("div");
+      div.id = `${i}`;
+      div.classList.add(
+        "w-auto",
+        "position-relative",
+        "rounded",
+        "overflow-hidden"
+      );
+      let span = document.createElement("span");
+      span.classList.add(
+        "position-absolute",
+        "top-0",
+        "end-0",
+        "badge",
+        "badge-danger",
+        "text-danger"
+      );
+      span.innerHTML = `<i class="bi bi-x-circle"></i>`;
+      span.setAttribute("data-custom-data", `${image}`);
+      // span.setAttribute("href", "#deleteImageModal");
+      // span.setAttribute("data-bs-toggle", "modal");
+      // Add event listener to the span for confirmation modal
+      span.addEventListener("click", async function () {
+        const response = await fetch(
+          `/admin/remove-image?url=${image}&pid=${product._id}`,
+          {
+            method: "patch",
+          }
+        );
+        if (!response.ok) {
+          alert("failed to remove");
+        } else {
+          alert("iamage removed");
+          document.getElementById(`${i}`).hidden = true;
+        }
+      });
+      div.appendChild(span);
+
+      var img = document.createElement("img");
+      img.src = image;
+      img.width = 150;
+      div.appendChild(img);
+      imageRow.appendChild(div);
+    });
+
+    //display sizes
+    size.forEach((obj) => {
+      let id = Object.keys(obj)[0];
+      console.log(id);
+      let input = document.getElementById(id);
+      var checkbox = document.getElementById(`size${id}`);
+      console.log(checkbox);
+
+      checkbox.checked = true;
+
+      input.disabled = false;
+      input.value = Object.values(obj)[0];
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+///////////////////////////////////////////////////
+
 async function removeImage(image, productId) {
   const response = await fetch(
     `/admin/remove-image?url=${image}&pid=${productId}`,
@@ -117,18 +201,13 @@ createCategoryForm.addEventListener("submit", (event) => {
   // var images = document.getElementById("category-img").src;
   var price = document.getElementById("product-price-input").value;
   var discount = document.getElementById("product-discount-input").value;
-  var colors = document.querySelectorAll(".stock-of-color:enabled");
+
   var sizes = document.querySelectorAll(".stock-of-size:enabled");
   var imageField = document.querySelectorAll(".product-image");
 
-  var color = [];
   var size = [];
   var images = [];
 
-  colors.forEach((element) => {
-    let obj = { [element.name]: Number(element.value) };
-    color.push(obj);
-  });
   sizes.forEach((element) => {
     let obj = { [element.name]: Number(element.value) };
     size.push(obj);
@@ -139,20 +218,23 @@ createCategoryForm.addEventListener("submit", (event) => {
   });
 
   let filled = true;
-  inputFields.forEach((input) => {
-    if (input.value.trim() == "") {
-      filled = false;
-      return;
-    }
-  });
+  // inputFields.forEach((input) => {
+  //   if (input.value.trim() == "") {
+  //     filled = false;
+  //     return;
+  //   }
+  // });
   if (filled) {
+    const productId = new URLSearchParams(window.location.search).get(
+      "productId"
+    );
     let data = {
+      id: productId,
       title: productTitle,
       description: description,
       category: category,
       price: price,
       discount: discount,
-      color: color,
       size: size,
       image: images,
     };

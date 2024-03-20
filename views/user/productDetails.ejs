@@ -90,6 +90,7 @@
             <div class="mt-3">
               <div class="hstack gap-2">
                 <a
+                  id="addToCartButton"
                   href="#ecommerceCart"
                   type="button"
                   class="btn btn-success btn-hover w-100"
@@ -167,14 +168,27 @@
                 ></i
                 >Hurry, Only a few left!
               </li>
-              <% } %>
+              <% } %> <% categoryOffers.forEach(offer => {%>
+              <li class="">
+                <i class="bi bi-tag-fill me-2 align-middle text-warning"></i
+                >"<%= offer.title %>" Get <%=offer.discount %> % Off
+              </li>
+
+              <% }); %>
             </ul>
           </div>
           <div class="d-flex align-items-center mb-4">
             <% const max = (product.total_stock < 10)? product.total_stock:10 %>
             <h5 class="fs-15 mb-0">Quantity:</h5>
             <div class="input-step ms-2">
-              <button id="minus" type="button" class="minus">–</button>
+              <button
+                onclick="changeQuantity()"
+                id="minus"
+                type="button"
+                class="minus"
+              >
+                –
+              </button>
               <input
                 id="product-quantity1"
                 type="number"
@@ -197,6 +211,7 @@
                   <% product.sizes.forEach(size => { %>
                   <li>
                     <input
+                      onclick="toggleAddToCartButton('<%= Object.keys(size)[0] %>', this.checked)"
                       type="radio"
                       name="sizes7"
                       id="<%= Object.keys(size)[0] %>"
