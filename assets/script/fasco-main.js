@@ -51,6 +51,9 @@ async function listCartItems() {
 
     document.querySelector(".cart-total").innerHTML = total;
     items.forEach((item) => {
+      const itemPrice =
+        item.price - Math.round((item.price * item.discount) / 100);
+
       const listItem = document.createElement("li");
       listItem.id = `item${item._id}`;
       listItem.classList.add("list-group-item", "product");
@@ -68,9 +71,7 @@ async function listCartItems() {
                 <h5 class="fs-15">${item.title}</h5>
             </a>
             <div class="d-flex mb-3 gap-2">
-                <div class="text-muted fw-medium mb-0">$<span class="product-price">${
-                  item.price
-                }</span></div>
+                <div class="text-muted fw-medium mb-0">$<span class="product-price">${itemPrice}</span></div>
                 <div class="vr"></div>
                 ${
                   item.total_stock > item.quantity
@@ -92,7 +93,7 @@ async function listCartItems() {
               item._id
             }><i class="ri-close-fill fs-16"></i></button>
             <div class="fw-medium mb-0 fs-16">$<span class="product-line-price">${
-              item.price * item.quantity
+              itemPrice * item.quantity
             }</span></div>
         </div>
     </div>`;
@@ -125,14 +126,14 @@ async function listCartItems() {
           // Update the quantity based on the button clicked
           if (target.classList.contains("minus") && quantity > 1) {
             quantity--;
-            totalBill = totalBill - item.price;
+            totalBill = totalBill - itemPrice;
             total_amount.forEach((element) => (element.innerHTML = totalBill));
           } else if (target.classList.contains("plus") && quantity < max) {
             quantity++;
-            totalBill = totalBill + item.price;
+            totalBill = totalBill + itemPrice;
             total_amount.forEach((element) => (element.innerHTML = totalBill));
           }
-          totalperItem.innerHTML = quantity * item.price;
+          totalperItem.innerHTML = quantity * itemPrice;
           // Update the input value
           input.value = quantity;
           await fetch(
@@ -190,13 +191,20 @@ cart_canvas.addEventListener("show.bs.offcanvas", async function (event) {
   const button = event.relatedTarget;
   const itemId = button.getAttribute("data-custom-data");
   console.log(itemId);
+  const size = button.getAttribute("data-custom-data-size") ?? "S";
+  const quantity = button.getAttribute("data-custom-data-quantity") ?? 1;
+  console.log("this is size that selected", size);
+  console.log("this is quantity that selected", quantity);
 
   //in the case of navbar cartbutton itemId will be null
   if (itemId != null) {
     try {
-      const response = await fetch(`/add-to-cart?itemId=${itemId}`, {
-        method: "put",
-      });
+      const response = await fetch(
+        `/add-to-cart?itemId=${itemId}&size=${size}&quantity=${quantity}`,
+        {
+          method: "put",
+        }
+      );
       if (!response.ok) {
         throw new Error("something went wrong cant add to cart");
       } else {

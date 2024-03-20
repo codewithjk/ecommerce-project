@@ -18,7 +18,17 @@ const orderSchema = new mongoose.Schema({
   method: {
     type: String,
   },
-  products: { type: Array, required: true },
+  products: {
+    type: [
+      {
+        type: Object,
+        default: function () {
+          return { is_returned: false };
+        },
+      },
+    ],
+    required: true,
+  },
   totalAmount: { type: Number, required: true },
   orderDate: { type: Date, default: Date.now },
   status: {
@@ -47,6 +57,9 @@ const orderSchema = new mongoose.Schema({
   is_refunded: {
     type: Boolean,
     default: false,
+  },
+  cancelReason: {
+    type: String,
   },
 });
 

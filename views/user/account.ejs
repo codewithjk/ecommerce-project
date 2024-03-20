@@ -113,6 +113,18 @@
               </li>
               <li class="nav-item" role="presentation">
                 <a
+                  id="coupon"
+                  class="nav-link fs-15"
+                  data-bs-toggle="tab"
+                  href="#custom-v-pills-coupon"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1"
+                  ><i class="bi bi-wallet2 align-middle me-1"></i> Coupons</a
+                >
+              </li>
+              <li class="nav-item" role="presentation">
+                <a
                   class="nav-link fs-15"
                   id="settings"
                   data-bs-toggle="tab"
@@ -164,7 +176,10 @@
                     </div>
 
                     <div class="table-responsive table-card px-1">
-                      <table class="table table-borderless table-sm">
+                      <table
+                        id="orderTable"
+                        class="table table-borderless table-sm"
+                      >
                         <tbody>
                           <tr>
                             <td>Customer Name</td>
@@ -213,7 +228,7 @@
                       <h6
                         class="fs-16 text-decoration-underline flex-grow-1 mb-0"
                       >
-                        Reffer and get ₹ 500
+                        Refer and get ₹ 500
                       </h6>
                     </div>
 
@@ -221,9 +236,24 @@
                       <table class="table table-borderless table-sm">
                         <tbody>
                           <tr>
-                            <td>You'r refferal code</td>
+                            <td>You'r referal code</td>
                             <td class="fw-medium text-black">
                               <p><%=user.refferalCode %></p>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="table-responsive table-card px-1">
+                      <table class="table table-borderless table-sm">
+                        <tbody>
+                          <tr>
+                            <td>You'r referal link</td>
+                            <td class="fw-medium text-black">
+                              <a
+                                >http://localhost:8080/register?referralId=<%=user._id
+                                %></a
+                              >
                             </td>
                           </tr>
                         </tbody>
@@ -239,6 +269,7 @@
             </div>
           </div>
           <!--end tab-pane-->
+          <!-- address -->
           <div
             class="tab-pane fade show"
             id="custom-v-pills-address"
@@ -279,7 +310,10 @@
                 <div class="card overflow-hidden">
                   <div class="card-body">
                     <div class="table-responsive table-card">
-                      <table class="table fs-15 align-middle">
+                      <table
+                        class="table fs-15 align-middle"
+                        id="wishlistTable"
+                      >
                         <thead>
                           <tr>
                             <th scope="col">Product</th>
@@ -302,26 +336,23 @@
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive table-card">
-                  <table class="table fs-15 align-middle table-nowrap">
+                  <table
+                    class="table align-middle table-nowrap"
+                    id="orderTableUser"
+                  >
                     <thead>
                       <tr>
                         <th scope="col">Product</th>
                         <th scope="col">Date</th>
                         <th scope="col">Total Amount</th>
                         <th scope="col">Status</th>
-                        <th scope="col"></th>
+                        <th scope="col">Details</th>
                       </tr>
                     </thead>
                     <tbody id="orderContent">
                       <!-- here order list will display -->
                     </tbody>
                   </table>
-                </div>
-                <div class="text-end mt-4">
-                  <a href="/products" class="btn btn-hover btn-primary"
-                    >Continue Shopping
-                    <i class="ri-arrow-right-line align-middle ms-1"></i
-                  ></a>
                 </div>
               </div>
             </div>
@@ -338,6 +369,14 @@
                 </div>
               </div>
               <div class="ms-md-auto">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addMoneyModal"
+                >
+                  Add Money
+                </button>
                 <!-- <p class="mb-0">Toner Member Since Jan 2020</p> -->
                 <a href="#" class="btn btn-primary btn-hover"
                   ><i class="bi bi-bank me-1 align-middle"></i> Withdraw Now</a
@@ -371,6 +410,112 @@
                 </div>
                 <div class="text-end mt-4"></div>
               </div>
+            </div>
+          </div>
+          <!-- coupons -->
+          <div
+            class="tab-pane fade show"
+            id="custom-v-pills-coupon"
+            role="tabpanel"
+          >
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div id="couponContent" class="row mt-4">
+                      <% user.coupons.forEach(coupon => { %> <% const endDate =
+                      new Date(coupon.coupon.endDate); %> <% const remainingDays
+                      = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 *
+                      24)); %> <% if (remainingDays > 0 && coupon.is_expired ==
+                      false) { %>
+                      <div class="col-md-6">
+                        <div class="card mb-md-0 mt-3">
+                          <div
+                            class="card-body"
+                            style="
+                              background-image: url('<%= coupon.coupon.image %>');
+                              background-size: cover;
+                              background-position: center;
+                            "
+                          >
+                            <div class="float-end clearfix">
+                              <a
+                                class="badge bg-warning-subtle text-danger fs-14"
+                              >
+                                <%= remainingDays %> days left</a
+                              >
+                              <div style="height: 100px"></div>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <p
+                              class="mb-3 fw-semibold fs-12 d-block text-muted text-uppercase"
+                            >
+                              <%=coupon.coupon.title %>
+                            </p>
+
+                            <h5 class="mb-2 d-block">
+                              Spend ₹ <%=coupon.coupon.condition %>,Get
+                              <%=coupon.coupon.discount %>% Off
+                            </h5>
+                            <div class="d-flex gap-3">
+                              <p>copy code :</p>
+                              <h4><%=coupon.code %></h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <% } else { %>
+                      <div class="col-md-6" style="position: relative">
+                        <div class="card mb-md-0 mt-3">
+                          <div
+                            style="
+                              position: absolute;
+                              top: 50%;
+                              left: 50%;
+                              transform: translate(-50%, -50%);
+                              font-size: 24px;
+                              text-align: center;
+                            "
+                          >
+                            <h3 class="text-danger">Expired</h3>
+                          </div>
+                          <div class="card-body" style="filter: blur(2px)">
+                            <div class="float-end clearfix">
+                              <a
+                                class="badge bg-warning-subtle text-danger fs-14"
+                              >
+                                Expired
+                              </a>
+                              <div style="height: 100px"></div>
+                            </div>
+                          </div>
+                          <div class="card-body" style="filter: blur(2px)">
+                            <p
+                              class="mb-3 fw-semibold fs-12 d-block text-muted text-uppercase"
+                            >
+                              <%=coupon.coupon.title %>
+                            </p>
+                            <h5 class="mb-2 d-block">
+                              Spend ₹ <%=coupon.coupon.condition %>, Get
+                              <%=coupon.coupon.discount %>% Off
+                            </h5>
+                            <div class="d-flex gap-3">
+                              <p>copy code :</p>
+                              <h4>XXXXXXXX</h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <% } %> <% }); %>
+                    </div>
+                    <!-- end row -->
+                  </div>
+                </div>
+                <!--end card-->
+              </div>
+              <!--end col-->
             </div>
           </div>
           <!--end tab-pane-->
@@ -1171,10 +1316,86 @@ Hi I'm Raquel Murillo, It will be as simple as Occidental; in fact, it will be O
   </div>
 </div>
 
+<!--add money to wallet modal-->
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="addMoneyModal"
+  tabindex="-1"
+  aria-labelledby="addMoneyModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addMoneyModalLabel">Add Money</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Input field to enter amount -->
+        <div class="mb-3">
+          <label for="amountInput" class="form-label">Amount:</label>
+          <input
+            type="number"
+            class="form-control"
+            id="amountInput"
+            placeholder="Enter amount (in paise)"
+            required
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- Button to add money and close modal -->
+        <button type="button" class="btn btn-primary" id="addMoneyBtn">
+          Add Money
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .expired-card {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .expired-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    text-align: center;
+  }
+</style>
+
+<%- include("./layouts/footer") %>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <script src="/static/script/accountPage.js"></script>
 <script src="/static/script/addressPage.js"></script>
 <script src="/static/script/orderPage.js"></script>
 <script src="/static/script/wishlistPage.js"></script>
 <script src="/static/script/walletPage.js"></script>
-
-<%- include("./layouts/footer") %>

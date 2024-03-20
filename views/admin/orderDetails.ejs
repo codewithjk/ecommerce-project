@@ -31,9 +31,12 @@
         <!-- end page title -->
 
         <div class="row mb-4 align-items-center">
-          <div class="col">
+          <div class="col d-flex gap-2 align-items-center">
             <% if(order.is_cancelled){%>
-              <h4 class="text-danger">Order cancelled</h4>
+              <h4 class="text-danger m-0">Order cancelled</h4>
+              <span  class="text-danger" data-bs-toggle="popover" title="Reason for cancel" data-bs-content="<%=order.cancelReason %>">
+                <i class="bi bi-info-circle"></i>
+              </span>
            <% } %>
             
           </div>

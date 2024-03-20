@@ -15,36 +15,28 @@
             <div
               class="page-title-box d-sm-flex align-items-center justify-content-between"
             >
-              <h4 class="mb-sm-0">Coupons</h4>
+              <h4 class="mb-sm-0">offers</h4>
 
               <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">
                     <a href="javascript: void(0);">Toner</a>
                   </li>
-                  <li class="breadcrumb-item active">Coupons</li>
+                  <li class="breadcrumb-item active">offers</li>
                 </ol>
               </div>
             </div>
           </div>
         </div>
         <!-- end page title -->
-        <div id="couponsList">
+        <div id="offersList">
           <div class="row">
             <div class="col-xxl-12">
               <div class="card">
                 <div class="card-body">
                   <div class="row align-items-center">
                     <div class="col-xxl-3 col-md-5">
-                      <div class="search-box mb-3 mb-md-0">
-                        <input
-                          type="text"
-                          class="form-control search"
-                          id="searchProductList"
-                          placeholder="Search by coupons code &amp; name..."
-                        />
-                        <i class="ri-search-line search-icon"></i>
-                      </div>
+                      <div class="search-box mb-3 mb-md-0"></div>
                     </div>
                     <!--end col-->
                     <div class="col-md-auto ms-auto">
@@ -54,7 +46,7 @@
                         class="btn btn-success add-btn"
                       >
                         <i class="bi bi-plus-circle me-1 align-middle"></i>Add
-                        Coupon
+                        offer
                       </button>
                     </div>
                     <!--end col-->
@@ -75,14 +67,13 @@
                   <div class="table-responsive table-card">
                     <table
                       class="table align-middle table-nowrap"
-                      id="couponTable"
+                      id="offerTable"
                     >
                       <thead class="table-light">
                         <tr>
                           <th scope="col">Discount</th>
-                          <th scope="col">Coupon Title</th>
+                          <th scope="col">offer Title</th>
 
-                          <th scope="col">Total Coupons</th>
                           <th scope="col">Start Date</th>
                           <th scope="col">End Date</th>
 
@@ -90,35 +81,34 @@
                         </tr>
                       </thead>
                       <tbody class="list">
-                        <% coupons.forEach(coupon => {%>
+                        <% offers.forEach(offer => {%>
                         <tr>
                           <td class="discount">
-                            <h5 class="mb-0 fs-16"><%=coupon.discount %> %</h5>
+                            <h5 class="mb-0 fs-16"><%=offer.discount %> %</h5>
                           </td>
-                          <td class="couponTitle"><%=coupon.title %></td>
+                          <td class="offerTitle"><%=offer.title %></td>
 
-                          <td class="productType"><%=coupon.count %></td>
                           <td class="startDate">
-                            <%=coupon.startDate.toLocaleString('en-US', {
+                            <%=offer.startDate.toLocaleString('en-US', {
                             weekday: 'short', year: 'numeric', month: 'short',
                             day: 'numeric', hour: '2-digit', minute: '2-digit',
                             second: '2-digit' }) %>
                           </td>
                           <td class="endDate">
-                            <%=coupon.endDate.toLocaleString('en-US', { weekday:
+                            <%=offer.endDate.toLocaleString('en-US', { weekday:
                             'short', year: 'numeric', month: 'short', day:
                             'numeric', hour: '2-digit', minute: '2-digit',
                             second: '2-digit' }) %>
                           </td>
 
                           <td>
-                            <% const couponObj = JSON.stringify(coupon) %>
+                            <% const offerObj = JSON.stringify(offer) %>
                             <ul class="hstack gap-2 list-unstyled mb-0">
                               <li>
                                 <a
-                                  href="#couponDetails"
+                                  href="#offerDetails"
                                   data-bs-toggle="offcanvas"
-                                  data-custom-data="<%=couponObj %>"
+                                  data-custom-data="<%=offerObj %>"
                                   class="badge bg-dark-subtle text-dark view-item-btn"
                                   >View</a
                                 >
@@ -127,16 +117,15 @@
                                 <a
                                   class="badge bg-primary-subtle text-primary edit-item-btn"
                                   href="#showModal"
-                                  data-custom-data="<%=couponObj %>"
+                                  data-custom-data="<%=offerObj %>"
                                   data-bs-toggle="modal"
                                   >Edit</a
                                 >
                               </li>
                               <li>
                                 <a
-                                  href="#removeCouponModal"
+                                  href="#deleteModal"
                                   data-bs-toggle="modal"
-                                  data-custom-data="<%=coupon._id%>"
                                   class="badge bg-danger-subtle text-danger remove-item-btn"
                                   >Delete</a
                                 >
@@ -199,15 +188,15 @@
 </div>
 <!-- END layout-wrapper -->
 
-<!-- coupon details -->
+<!-- offer details -->
 <div
   class="offcanvas offcanvas-end"
   tabindex="-1"
-  id="couponDetails"
-  aria-labelledby="couponDetailsLabel"
+  id="offerDetails"
+  aria-labelledby="offerDetailsLabel"
 >
   <div class="offcanvas-header bg-warning-subtle">
-    <h5 class="offcanvas-title" id="couponDetails">Winter Gift Voucher</h5>
+    <h5 class="offcanvas-title" id="offerDetails">Winter Gift Voucher</h5>
     <button
       type="button"
       class="btn-close"
@@ -246,18 +235,11 @@
               <td><span class="text-muted">END Date</span></td>
               <td><span class="fw-medium" id="cendDate"></span></td>
             </tr>
-            <tr>
-              <td><span class="text-muted">Min. limit to apply</span></td>
-              <td><span class="fw-medium" id="climit"></span></td>
-            </tr>
-            <tr>
-              <td><span class="text-muted">Condition to claim</span></td>
-              <td><span class="fw-medium" id="ccondition"></span></td>
-            </tr>
-            <tr>
-              <td><span class="text-muted">Total count</span></td>
-              <td><span class="fw-medium" id="ccount"></span></td>
-            </tr>
+
+            <!-- <tr>
+              <td><span class="text-muted">category</span></td>
+              <td><span class="fw-medium" id="ccategory"></span></td>
+            </tr> -->
           </tbody>
         </table>
       </div>
@@ -267,7 +249,7 @@
 
 <!-- delete modal -->
 <div
-  id="removeCouponModal"
+  id="deleteModal"
   class="modal fade zoomIn"
   tabindex="-1"
   aria-hidden="true"
@@ -290,7 +272,7 @@
           <div class="mt-4 fs-15">
             <h4 class="mb-1">Are you sure ?</h4>
             <p class="text-muted mx-4 mb-0">
-              Are you sure you want to remove this coupons ?
+              Are you sure you want to remove this offers ?
             </p>
           </div>
         </div>
@@ -303,11 +285,10 @@
           >
             Close
           </button>
-
           <button
             type="button"
             class="btn w-sm btn-danger btn-hover"
-            id="remove-coupon-btn"
+            id="delete-record"
           >
             Yes, Delete It!
           </button>
@@ -318,12 +299,12 @@
   </div>
   <!--end modal-dialog -->
 </div>
-<!-- add coupon modal -->
+<!-- add offer modal -->
 <div id="addModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content border-0">
       <div class="modal-header px-4 pt-4">
-        <h5 class="modal-title fs-18" id="exampleModalLabel">Add Coupons</h5>
+        <h5 class="modal-title fs-18" id="exampleModalLabel">Add offers</h5>
         <button
           type="button"
           class="btn-close"
@@ -333,11 +314,7 @@
         ></button>
       </div>
       <div class="modal-body p-4">
-        <form
-          class="tablelist-form addCoupon-form"
-          novalidate
-          autocomplete="off"
-        >
+        <form class="addOffer-form" novalidate autocomplete="off">
           <div class="row">
             <div
               id="alert-error-msg"
@@ -346,90 +323,29 @@
             <input type="hidden" id="id-field" />
             <div class="col-lg-12">
               <div class="mb-3">
-                <label for="couponTitle" class="form-label">Coupon Title</label>
+                <label for="offerTitle" class="form-label">offer Title</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="couponTitle-field"
-                  placeholder="Coupon title"
+                  id="offerTitle-field"
+                  placeholder="offer title"
                   required
                 />
               </div>
             </div>
-            <div class="col-xxl-12 col-lg-6">
-              <div class="mb-3">
-                <label for="category-image-input" class="form-label d-block"
-                  >Image <span class="text-danger">*</span></label
-                >
+            <div>
+              <select
+                class="form-select"
+                id="category-field"
+                name="choices-category-input"
+              >
+                <% categories.forEach(category => { %>
+                <option value="<%=category._id  %>">
+                  <%=category.title %>
+                </option>
 
-                <div class="position-relative d-inline-block">
-                  <div
-                    class="position-absolute top-100 start-100 translate-middle"
-                  >
-                    <label
-                      for="category-image-input"
-                      class="mb-0"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="right"
-                      title="Select Category Image"
-                    >
-                      <span class="avatar-xs d-inline-block">
-                        <span
-                          class="avatar-title bg-light border rounded-circle text-muted cursor-pointer"
-                        >
-                          <i class="ri-image-fill"></i>
-                        </span>
-                      </span>
-                    </label>
-                    <input
-                      class="form-control d-none"
-                      id="category-image-input"
-                      type="file"
-                      accept="image/png, image/gif, image/jpeg"
-                    />
-                  </div>
-                  <div class="avatar-lg">
-                    <div class="avatar-title bg-light rounded-3">
-                      <img
-                        src="/static/images/profile.jpg"
-                        alt=""
-                        id="category-img"
-                        class="avatar-md h-auto rounded-3 object-fit-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="error-msg mt-1">Please add a category images.</div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="couponCode" class="form-label"
-                  >Coupon applying condition ₹</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="condition-field"
-                  placeholder="Enter amount"
-                  required
-                />
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="couponCode" class="form-label"
-                  >Minimum purchase amount (to claim) ₹</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="limit-field"
-                  placeholder="Enter amount"
-                  required
-                />
-              </div>
+                <% }); %>
+              </select>
             </div>
 
             <div class="col-lg-6">
@@ -473,20 +389,6 @@
                 />
               </div>
             </div>
-            <div class="col-lg-6">
-              <div class="mb-3">
-                <label for="amountPercentage" class="form-label"
-                  >Total coupons (count)</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="count-field"
-                  placeholder="Enter the count"
-                  required
-                />
-              </div>
-            </div>
 
             <div class="col-lg-12 modal-footer">
               <p class="formError text-danger"></p>
@@ -500,7 +402,7 @@
                   <i class="ri-close-line align-bottom me-1"></i> Close
                 </button>
                 <button type="submit" class="btn btn-primary" id="add-btn">
-                  Add Coupons
+                  Add Offer
                 </button>
               </div>
             </div>
@@ -527,9 +429,9 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     console.log("loaded");
-    var table = document.getElementById("couponTable");
+    var table = document.getElementById("offerTable");
     console.log(table);
     var dataTable = new DataTable(table);
   });
 </script>
-<script src="/static/script/admin/couponPage.js"></script>
+<script src="/static/script/admin/offerPage.js"></script>

@@ -28,8 +28,9 @@ function displayProducts(products) {
   console.log(products);
   // productRow.innerHTML = "";
   products.forEach((product) => {
-    const discount_price =
-      product.price - (product.price * product.discount) / 100;
+    const discount_price = Math.round(
+      product.price - (product.price * product.discount) / 100
+    );
     const div = document.createElement("div");
     div.id = product._id;
     div.classList.add("col-xxl-4", "col-lg-4", "col-md-6");

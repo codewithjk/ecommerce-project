@@ -7,7 +7,9 @@ const { cartModel } = require("../models/cart");
 const { orderModel } = require("../models/order");
 const { wishlistModel } = require("../models/wishlist");
 const { walletModel } = require("../models/wallet");
+const { couponModel } = require("../models/coupon");
 const mongoose = require("mongoose");
+const { offerModel } = require("../models/offer");
 
 const getAllProducts = async (limit, skip) => {
   return await productModel.find().limit(limit).skip(skip);
@@ -77,6 +79,7 @@ const getUserById = async (id) => {
       avatar: 1,
       status: 1,
       refferalCode: 1,
+      coupons: 1,
     }
   );
   return user;
@@ -125,12 +128,20 @@ const getCartByUserId = async (userId) => {
           title: "$product.title",
           price: "$product.price",
           total_stock: "$product.total_stock",
+          discount: "$product.discount",
           quantity: "$items.quantity",
           image: { $arrayElemAt: ["$product.images", 0] }, // Get the first image
+          size: "$items.size",
+          couponDiscount: 1,
         },
       },
     ]);
-    return cartItems;
+    console.log(cartItems);
+    couponDiscount = await cartModel.findOne(
+      { userId: userId },
+      { couponDiscount: 1 }
+    );
+    return { cartItems, couponDiscount };
   } catch (error) {
     console.log(error);
   }
@@ -149,17 +160,21 @@ const deleteFromCart = async (userId, itemId) => {
   }
 };
 
-const addItemToCart = async (userId, itemId) => {
+const addItemToCart = async (userId, itemId, size, quantity) => {
   try {
     const newItem = await cartModel.findOneAndUpdate(
       {
         userId: userId,
         items: { $not: { $elemMatch: { productId: itemId } } },
       },
-      { $addToSet: { items: { productId: itemId } } },
+      {
+        $addToSet: {
+          items: { productId: itemId, size: size, quantity: quantity },
+        },
+      },
       { new: true, upsert: true }
     );
-
+    console.log("this is cart item added now", newItem);
     return newItem;
   } catch (error) {
     console.log(error);
@@ -783,6 +798,261 @@ async function getMonthlyDataOfYear() {
   }
 }
 
+//stock management
+// Function to decrease quantity for each product
+async function decreaseProductQuantities(data) {
+  console.log(data);
+  try {
+    for (const item of data) {
+      const product = await productModel.findById(item._id, { _id: 0 });
+      if (!product) {
+        console.log(`Product with ID ${item._id} not found.`);
+        continue;
+      }
+      const sizeIndex = product.sizes.findIndex((size) =>
+        size.hasOwnProperty(item.size)
+      );
+      if (sizeIndex === -1) {
+        console.log(
+          `Size ${item.size} not found for product with ID ${item._id}.`
+        );
+        continue;
+      }
+      const sizeKey = Object.keys(product.sizes[sizeIndex])[0]; // Extract the size key
+      product.sizes[sizeIndex][sizeKey] -= item.quantity;
+      product.total_stock -= item.quantity;
+      console.log(sizeKey, sizeIndex);
+      console.log("asdfghjkl=========", product.sizes[sizeIndex][sizeKey]);
+      const updated = await productModel.findByIdAndUpdate(item._id, product, {
+        new: true,
+      });
+      console.log("updated ======== === ", updated);
+    }
+
+    console.log("Product quantities updated successfully.");
+    return true;
+  } catch (error) {
+    console.error("Error updating product quantities:", error);
+  }
+}
+//function to increase the quantity when use cancel and return
+async function increaseProductQuantities(data) {
+  console.log(data);
+  try {
+    for (const item of data) {
+      const product = await productModel.findById(item._id, { _id: 0 });
+      if (!product) {
+        console.log(`Product with ID ${item._id} not found.`);
+        continue;
+      }
+      const sizeIndex = product.sizes.findIndex((size) =>
+        size.hasOwnProperty(item.size)
+      );
+      if (sizeIndex === -1) {
+        console.log(
+          `Size ${item.size} not found for product with ID ${item._id}.`
+        );
+        continue;
+      }
+      const sizeKey = Object.keys(product.sizes[sizeIndex])[0]; // Extract the size key
+      product.sizes[sizeIndex][sizeKey] += item.quantity;
+      product.total_stock += item.quantity;
+      console.log(sizeKey, sizeIndex);
+      console.log("asdfghjkl=========", product.sizes[sizeIndex][sizeKey]);
+      const updated = await productModel.findByIdAndUpdate(item._id, product, {
+        new: true,
+      });
+      console.log("updated ======== === ", updated);
+    }
+
+    console.log("Product quantities updated successfully.");
+    return true;
+  } catch (error) {
+    console.error("Error updating product quantities:", error);
+  }
+}
+
+//coupon
+async function createCoupon(data) {
+  try {
+    const Coupon = new couponModel(data);
+    const newCoupon = await Coupon.save();
+    return newCoupon;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function getAllCoupons() {
+  try {
+    const coupons = await couponModel.find();
+    return coupons;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function findCoupon(amount) {
+  try {
+    console.log(amount);
+    const coupon = await couponModel.findOne({
+      limit: { $lt: amount },
+    });
+    return coupon;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function giveCouponToUser(userId, coupon, code) {
+  try {
+    const addCoupon = await userModel.findByIdAndUpdate(
+      userId,
+      { $push: { coupons: { coupon, code, is_expired: false } } },
+      { new: true }
+    );
+    return addCoupon;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// async function applyCouponToCart(userId, code) {
+//   // const user = await userModel.findById(userId);
+
+//   try {
+//     const user = await userModel.findOneAndUpdate(
+//       { "coupons.code": code, "coupons.is_expired": false },
+//       { $set: { "coupons.$.is_expired": true } },
+//       { new: true }
+//     );
+
+//     console.log("user after updating coupon=====", user);
+//     if (user !== null) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+async function applyCouponToCart(userId, code, totalAmount) {
+  try {
+    const user = await userModel.findById(userId);
+
+    const coupon = user.coupons.find((c) => c.code === code);
+
+    if (!coupon) {
+      return { message: "Invalid coupon code!" };
+    }
+
+    if (coupon.is_expired) {
+      return { message: "Coupon is already expired." };
+    }
+
+    const couponDiscount = coupon.coupon.discount;
+    const couponCondition = coupon.coupon.condition;
+
+    if (couponCondition <= totalAmount) {
+      const updatedUser = await userModel.findOneAndUpdate(
+        { _id: userId, "coupons.code": code, "coupons.is_expired": false },
+        { $set: { "coupons.$.is_expired": true } },
+        { new: true }
+      );
+
+      await cartModel.findOneAndUpdate(
+        { userId: userId },
+        { couponDiscount: couponDiscount }
+      );
+
+      console.log("User after updating coupon:", updatedUser);
+
+      if (updatedUser) {
+        return {
+          message: "coupon successfully applied ",
+          discount: couponDiscount,
+        };
+      } else {
+        return { message: "Error updating coupon." };
+      }
+    } else {
+      return {
+        message: `Coupon condition not met. bill amount lesser then ${couponCondition}`,
+      };
+    }
+  } catch (error) {
+    console.log("Error applying coupon to cart:", error);
+    throw error; // Or handle the error appropriately
+  }
+}
+
+async function deleteCoupon(id) {
+  try {
+    const deletedCoupon = await couponModel.findByIdAndDelete(id, {
+      new: true,
+    });
+    if (deletedCoupon !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//Offer
+async function createOffer(data) {
+  try {
+    const Offer = new offerModel(data);
+    const newOffer = await Offer.save();
+    return newOffer;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function getAllOffers() {
+  try {
+    const offer = await offerModel.find();
+    return offer;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getOfferByCategoryId(categoryId) {
+  try {
+    const offers = await offerModel.find({ category: categoryId });
+    return offers;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function addMoneyToWallet(userId, title, message, amount) {
+  try {
+    const user = await userModel.findById(userId);
+    if (user !== null) {
+      const wallet = await walletModel.findOneAndUpdate(
+        { userId: user._id },
+        {
+          $push: {
+            history: {
+              name: title,
+              description: message,
+              amount: amount,
+            },
+          },
+          $inc: { balance: amount },
+        },
+        { new: true }
+      );
+      console.log(wallet);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getAllProducts,
   getOneProduct,
@@ -821,4 +1091,16 @@ module.exports = {
   getWeeklyDataOfMonth,
   getMonthlyDataOfYear,
   refundOrderById,
+  decreaseProductQuantities,
+  increaseProductQuantities,
+  createCoupon,
+  deleteCoupon,
+  getAllCoupons,
+  findCoupon,
+  giveCouponToUser,
+  applyCouponToCart,
+  createOffer,
+  getAllOffers,
+  getOfferByCategoryId,
+  addMoneyToWallet,
 };

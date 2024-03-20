@@ -58,13 +58,18 @@
               </div>
               <div class="hstack gap-3 px-3 mx-n3">
                 <input
+                  id="codeInput"
                   class="form-control me-auto"
                   type="text"
                   placeholder="Enter coupon code"
                   value="Toner15"
                   aria-label="Add Promo Code here..."
                 />
-                <button type="button" class="btn btn-primary w-xs">
+                <button
+                  id="applybutton"
+                  type="button"
+                  class="btn btn-primary w-xs"
+                >
                   Apply
                 </button>
               </div>
@@ -80,20 +85,22 @@
                   <tbody>
                     <tr>
                       <td>Sub Total :</td>
-                      <td class="text-end cart-subtotal">₹1361.97</td>
+                      <td class="text-end cart-subtotal cart-total">
+                        ₹1361.97
+                      </td>
                     </tr>
                     <tr>
                       <td>
-                        Discount <span class="text-muted">(Toner15)</span>:
+                        Discount <span class="text-muted">(coupon)</span>:
                       </td>
-                      <td class="text-end cart-discount">-₹204.30</td>
+                      <td class="text-end cart-discount">0 %</td>
                     </tr>
 
                     <tr class="table-active">
                       <th>Total amount :</th>
                       <td class="text-end">
-                        <span id="cart-total" class="fw-semibold cart-total"
-                          >$1392.92</span
+                        <span id="cart-total" class="fw-semibold grand-total"
+                          >1392.92</span
                         >
                       </td>
                     </tr>

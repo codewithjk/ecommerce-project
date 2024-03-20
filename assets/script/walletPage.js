@@ -32,3 +32,51 @@ async function updatewalletContent(walletContent) {
     console.log(error);
   }
 }
+
+const addMoneyBtn = document.getElementById("addMoneyBtn");
+// const addressId = new URLSearchParams(window.location.search).get("addressId");
+addMoneyBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const amount = document.getElementById("amountInput").value;
+  console.log(amount);
+  try {
+    const response = await fetch(`/add-fund?amount=${amount}`);
+    if (!response.ok) {
+      console.log(response);
+      alert("somthing gone wrong");
+    } else {
+      const res = await response.json();
+      console.log(res);
+      var options = {
+        key: "" + res.key_id + "",
+        amount: "" + res.amount + "",
+        currency: "INR",
+        name: "" + res.title + "",
+        description: "" + res.description + "",
+        image: "https://dummyimage.com/600x400/000/fff",
+        order_id: "" + res.order_id + "",
+        handler: function (response) {
+          window.location.reload();
+        },
+        prefill: {
+          contact: "" + res.contact + "",
+          name: "" + res.name + "",
+          email: "" + res.email + "",
+        },
+        notes: {
+          description: "" + res.description + "",
+        },
+        theme: {
+          color: "#2300a3",
+        },
+      };
+      var razorpayObject = new Razorpay(options);
+      razorpayObject.on("payment.failed", function (response) {
+        alert("Payment Failed");
+      });
+      razorpayObject.open();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});

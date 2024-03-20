@@ -188,9 +188,8 @@
                     type="button"
                     class="btn btn-hover w-md btn-primary"
                   >
-                    Continue<i
-                      class="ri-logout-box-r-line align-bottom ms-2"
-                    ></i>
+                    Continue
+                    <i class="ri-logout-box-r-line align-bottom ms-2"></i>
                   </a>
                 </div>
               </div>
@@ -217,6 +216,7 @@
         `/place-order-razorpay?addressId=${addressId}`
       );
       if (!response.ok) {
+        console.log(response);
         alert("somthing gone wrong");
       } else {
         const res = await response.json();

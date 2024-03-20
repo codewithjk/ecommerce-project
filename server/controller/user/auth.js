@@ -6,16 +6,23 @@ const { generateOtp } = require("../../helper/generateOtp");
 const { getLogger } = require("nodemailer/lib/shared");
 const { createNewWallet } = require("../../helper/dbQueries");
 const crypto = require("crypto");
+const { log } = require("console");
+const { default: mongoose } = require("mongoose");
 
 // const GoogleStrategy = require("passport-google-oidc");
 
 // ====Register controllers
 exports.getRegister = (req, res) => {
-  res.render("register");
+  const referralId = req.query.referralId;
+  const referredByLink = referralId ? true : false;
+
+  res.render("register", { referredByLink: referredByLink });
 };
 exports.postRegister = async (req, res) => {
   const email = req.body.email;
+  const referredUserId = req.query.referralId;
   console.log(req.body);
+  console.log("refferal === ", referredUserId);
   try {
     const userExist = await userModel.findOne({ email: email });
     if (userExist) {
@@ -23,7 +30,11 @@ exports.postRegister = async (req, res) => {
     } else {
       const code = req.body.code;
 
-      await sendMoneyToRefferedUser(code, req.body.firstName);
+      await sendMoneyToReferredUser(code, req.body.firstName);
+      if (referredUserId !== undefined || referredUserId !== null) {
+        // referredUserId = new mongoose.Types.ObjectId(referredUserId);
+        await sendMoneyToReferredUserByLink(referredUserId, req.body.firstName);
+      }
       const refferalCode = await generateRandomCode();
 
       const user = new userModel({
@@ -215,6 +226,7 @@ exports.getOTPTime = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
+  console.log(req.cookies);
   res.clearCookie("userToken");
   res.clearCookie("email");
   res.redirect("/");
@@ -234,8 +246,8 @@ function generateRandomCode() {
   });
 }
 
-//funtion to send money
-async function sendMoneyToRefferedUser(code, newUser) {
+//funtion to send money by referral code
+async function sendMoneyToReferredUser(code, newUser) {
   console.log(code);
   const user = await userModel.findOne({ refferalCode: code });
   if (user !== null) {
@@ -254,5 +266,30 @@ async function sendMoneyToRefferedUser(code, newUser) {
       { new: true }
     );
     console.log(wallet);
+  }
+}
+
+async function sendMoneyToReferredUserByLink(id, name) {
+  try {
+    const user = await userModel.findById(id);
+    if (user !== null) {
+      const wallet = await walletModel.findOneAndUpdate(
+        { userId: user._id },
+        {
+          $push: {
+            history: {
+              name: "Referral Bonus",
+              description: `${name} joined using your code`,
+              amount: 500,
+            },
+          },
+          $inc: { balance: 500 },
+        },
+        { new: true }
+      );
+      console.log(wallet);
+    }
+  } catch (error) {
+    console.log(error);
   }
 }

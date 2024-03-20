@@ -25,7 +25,7 @@ const userSchema = new Schema({
   },
   avatar: {
     type: String,
-    default: "/static/frontend/images/users/avatar-1.jpg",
+    default: "/static/images/avatar-1.jpg",
   },
   facebookId: {
     type: String,
@@ -46,6 +46,7 @@ const userSchema = new Schema({
   refferalCode: {
     type: String,
   },
+  coupons: { type: Array },
 });
 
 const userModel = mongoose.model("user", userSchema);

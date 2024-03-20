@@ -38,6 +38,21 @@
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive table-card mb-1">
+                  <table border="0" cellspacing="5" cellpadding="5">
+                    <tbody>
+                      <tr>
+                        <td>Minimum date:</td>
+                        <td><input type="text" id="min" name="min" /></td>
+                      </tr>
+                      <tr>
+                        <td>Maximum date:</td>
+                        <td><input type="text" id="max" name="max" /></td>
+                      </tr>
+                      <tr>
+                        <td><button id="week">Week</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
                   <table
                     class="table align-middle table-nowrap"
                     id="orderTable"
@@ -70,9 +85,7 @@
                         <th class="sort fw-medium" data-sort="order_date">
                           Order Date
                         </th>
-                        <th class="sort fw-medium" data-sort="delivery_date">
-                          Delivery Date
-                        </th>
+
                         <th class="sort fw-medium" data-sort="payment_method">
                           Payment Method
                         </th>
@@ -104,8 +117,21 @@
                             >
                           </td> -->
                         <td class="customer_name"><%=order.customerName %></td>
+                        <style>
+                          .product_name {
+                            max-width: 100px !important; /* Adjust as needed */
+                            overflow: hidden;
+                            text-overflow: ellipsis; /* Truncate text with ellipsis */
+                            white-space: nowrap; /* Prevent wrapping */
+                          }
+
+                          .product-list {
+                            margin: 0; /* Remove default margin for ul */
+                            padding: 0; /* Remove default padding for ul */
+                          }
+                        </style>
                         <td class="product_name">
-                          <ul>
+                          <ul class="product-list">
                             <% order.productNames.forEach(product => {%>
                             <li><%=product %></li>
                             <% }); %>
@@ -118,11 +144,11 @@
                           day: '2-digit', month: 'short', year: 'numeric' }); %>
                           <%= dateString %>
                         </td>
-                        <td class="delivery_date">13 Mar, 2024</td>
+
                         <td class="payment_method"><%=order.method %></td>
                         <td class="status">
                           <span
-                            class="badge bg-info-subtle text-info text-uppercase"
+                            class="badge bg-info-subtle <%= order.status === 'Cancelled' ? 'bg-danger-subtle text-danger': 'bg-info-subtle text-info' %> text-info text-uppercase"
                             ><%=order.status %></span
                           >
                         </td>
@@ -235,3 +261,150 @@
 </div>
 
 <%- include("./layouts/footer") %>
+
+<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.5.2/js/dataTables.dateTime.min.js"></script>
+<script>
+  let minDate, maxDate;
+
+  // Custom filtering function which will search data in column four between two values
+  DataTable.ext.search.push(function (settings, data, dataIndex) {
+    let min = minDate.val();
+    let max = maxDate.val();
+    let date = new Date(data[4]);
+    console.log("min == ", min, minDate);
+
+    if (
+      (min === null && max === null) ||
+      (min === null && date <= max) ||
+      (min <= date && max === null) ||
+      (min <= date && date <= max)
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  // Create date inputs
+  minDate = new DateTime("#min", {
+    format: "MMMM Do YYYY",
+  });
+  maxDate = new DateTime("#max", {
+    format: "MMMM Do YYYY",
+  });
+
+  let table = new DataTable("#orderTable", {
+    layout: {
+      topStart: {
+        buttons: ["copy", "csv", "excel", "pdf", "print"],
+      },
+    },
+  });
+
+  // Refilter the table
+  document.querySelectorAll("#min, #max").forEach((el) => {
+    el.addEventListener("change", () => {
+      table.draw();
+      console.log(maxDate);
+    });
+  });
+
+  document.querySelector("#week").addEventListener("click", (e) => {
+    // Get the selected day
+    var selectedDay = moment().startOf("day"); // Assuming today by default
+
+    // Set the selected day as both minDate and maxDate
+    var now = moment(); //creating another now variable which is an instance of the current date
+    var monday = now.clone().weekday(1); //creating an instance of the current week Monday Date
+    var friday = now.clone().weekday(5); //creating an instance of the current week Friday Date
+
+    let mondayF = monday.format("MM/DD/YYYY"); //formatting the monday date to MM/DD/YYYY
+    let fridayF = friday.format("MM/DD/YYYY"); //formatting the friday date to MM/DD/YYYY
+
+    minDate = moment(minDate, "MM/DD/YYYY"); //parse minDate to moment object
+    maxDate = moment(maxDate, "MM/DD/YYYY"); //parse maxDate to moment object
+
+    console.log(minDate);
+    console.log(maxDate);
+
+    // Apply minDate and maxDate to datetime picker
+    // Assuming you're using datetime picker from DataTables
+    // table.datetimepicker({
+    //   minDate: minDate,
+    //   maxDate: maxDate,
+    // });
+
+    table.draw();
+  });
+</script>
+
+<!-- <script>
+  // Custom filtering function to filter by date range
+  $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+    var minDate = $("#min").val();
+    var maxDate = $("#max").val();
+    var date = data[4]; // Assuming the date is in the 5th column
+
+    if (
+      minDate === "" ||
+      maxDate === "" ||
+      (moment(date) >= moment(minDate) && moment(date) <= moment(maxDate))
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  // Initialize DataTable
+  var table = $("#orderTable").DataTable({
+    dom: "Bfrtip", // Include buttons
+    buttons: ["copy", "csv", "excel", "pdf", "print"],
+  });
+
+  // Initialize DateTime objects for date inputs
+  var minDate = new DateTime("#min", {
+    format: "MMMM Do YYYY",
+  });
+  var maxDate = new DateTime("#max", {
+    format: "MMMM Do YYYY",
+  });
+
+  // Apply filters on change
+  $("#min, #max").on("change", function () {
+    table.draw();
+  });
+
+  // Filter by day
+  $("#day").on("click", function () {
+    var today = moment();
+    minDate.date(today);
+    maxDate.date(today);
+    table.draw();
+  });
+
+  // Filter by week
+  $("#week").on("click", function () {
+    var startOfWeek = moment().startOf("week");
+    var endOfWeek = moment().endOf("week");
+    minDate.date(startOfWeek);
+    maxDate.date(endOfWeek);
+    table.draw();
+  });
+
+  // Filter by month
+  $("#month").on("click", function () {
+    var startOfMonth = moment().startOf("month");
+    var endOfMonth = moment().endOf("month");
+    minDate.date(startOfMonth);
+    maxDate.date(endOfMonth);
+    table.draw();
+  });
+</script> -->

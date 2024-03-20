@@ -1,12 +1,17 @@
 console.log("this is cart page");
+let totalBill;
+let grandTotal;
 listCartItemsPage();
 async function listCartItemsPage() {
   try {
     const cartList = document.getElementById("cartItems");
     cartList.innerHTML = "";
     const response = await fetch("/get-cart");
-    const { items, total } = await response.json();
-    let totalBill = total;
+    const { items, total, couponDiscount } = await response.json();
+    console.log(couponDiscount);
+    document.querySelector(".cart-discount").innerHTML = couponDiscount + "%";
+    totalBill = total;
+    grandTotal = Math.round(total - (total * couponDiscount) / 100);
     console.log(items.length);
     console.log(document.querySelectorAll(".cartitem-badge"));
     document
@@ -17,10 +22,17 @@ async function listCartItemsPage() {
     const total_amount = document.querySelectorAll(".cart-total");
     total_amount.forEach((element) => (element.innerHTML = totalBill));
 
+    let grand_total = document.querySelector(".grand-total");
+    grand_total.innerHTML = grandTotal;
+
     console.log(total_amount);
     document.querySelector(".product-count").innerHTML = items.length;
 
     items.forEach((item) => {
+      const itemPrice = Math.round(
+        item.price - (item.price * item.discount) / 100
+      );
+
       const listItem = document.createElement("li");
       listItem.classList.add("list-group-item", "product");
       listItem.id = `item${item._id}`;
@@ -44,11 +56,9 @@ async function listCartItemsPage() {
               <h5 class="fs-16 lh-base mb-1">${item.title}</h5>
             </a>
             <ul class="list-inline text-muted fs-13 mb-3">
+              
               <li class="list-inline-item">
-                Color : <span class="fw-medium">Red</span>
-              </li>
-              <li class="list-inline-item">
-                Size : <span class="fw-medium">M</span>
+                Size : <span class="fw-medium">${item.size}</span>
               </li>
             </ul>
             <div id="input${item._id}" class="input-step">
@@ -68,7 +78,7 @@ async function listCartItemsPage() {
             <div class="text-lg-end">
               <p class="text-muted mb-1 fs-12">Item Price:</p>
               <h5 class="fs-16">
-                ₹<span class="product-price">${item.price}</span>
+                ₹<span class="product-price">${itemPrice}</span>
               </h5>
             </div>
           </div>
@@ -104,7 +114,7 @@ async function listCartItemsPage() {
               <div>Total :</div>
               <h5 class="fs-14 mb-0">
                 ₹<span class="product-line-price">${
-                  item.price * item.quantity
+                  itemPrice * item.quantity
                 }</span>
               </h5>
             </div>
@@ -142,14 +152,18 @@ async function listCartItemsPage() {
           // Update the quantity based on the button clicked
           if (target.classList.contains("minus") && quantity > 1) {
             quantity--;
-            totalBill = totalBill - item.price;
+            totalBill = totalBill - itemPrice;
             total_amount.forEach((element) => (element.innerHTML = totalBill));
+            grandTotal = grandTotal - itemPrice;
+            grand_total.innerHTML = grandTotal;
           } else if (target.classList.contains("plus") && quantity < max) {
             quantity++;
-            totalBill = totalBill + item.price;
+            totalBill = totalBill + itemPrice;
             total_amount.forEach((element) => (element.innerHTML = totalBill));
+            grandTotal = grandTotal + itemPrice;
+            grand_total.innerHTML = grandTotal;
           }
-          totalperItem.innerHTML = quantity * item.price;
+          totalperItem.innerHTML = quantity * itemPrice;
           // Update the input value
           input.value = quantity;
           await fetch(
@@ -162,3 +176,21 @@ async function listCartItemsPage() {
     console.log(error);
   }
 }
+
+//apply coupon
+const apply_button = document.getElementById("applybutton");
+apply_button.addEventListener("click", async (event) => {
+  const amount = document.querySelectorAll(".cart-total");
+  const code = document.getElementById("codeInput").value;
+  console.log(code);
+  const response = await fetch(`/apply-coupon?code=${code}&amount=${amount}`);
+  if (!response.ok) {
+    alert("something went wrong");
+    location.reload();
+  } else {
+    const data = await response.json();
+    console.log(data.discount);
+    alert(data.message);
+    location.reload();
+  }
+});

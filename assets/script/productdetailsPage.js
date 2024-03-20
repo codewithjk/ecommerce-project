@@ -41,13 +41,13 @@ var productqty = document.getElementById("product-quantity1");
 const max = Number(productqty.getAttribute("max"));
 
 plus.addEventListener("click", (event) => {
-  console.log("clicked");
   event.preventDefault();
   minus.disabled = false;
   if (productqty.value >= max) {
     plus.disabled = true;
   } else {
     productqty.value = Number(productqty.value) + 1;
+    addToCartButton.setAttribute("data-custom-data-quantity", productqty.value);
   }
 });
 minus.addEventListener("click", (event) => {
@@ -57,5 +57,23 @@ minus.addEventListener("click", (event) => {
     minus.disabled = true;
   } else {
     productqty.value = Number(productqty.value) - 1;
+    addToCartButton.setAttribute("data-custom-data-quantity", productqty.value);
   }
 });
+
+///pass size to cart
+
+function toggleAddToCartButton(size, isChecked) {
+  var addToCartButton = document.getElementById("addToCartButton");
+  if (isChecked) {
+    addToCartButton.setAttribute("data-custom-data-size", size);
+  } else {
+    addToCartButton.removeAttribute("data-custom-data-size");
+  }
+}
+
+///pass quantity to cart
+function changeQuantity() {
+  var quantity = document.getElementById("product-quantity1").value;
+  // addToCartButton.setAttribute("data-custom-data-quantity", quantity);
+}
