@@ -150,16 +150,18 @@
                             <div class="flex-grow-1"><%=product.title %></div>
                           </div>
                         </td>
+                        <% const price = Math.round(product.price -
+                        (product.price *product.discount/100)) %>
 
                         <td>
                           <span class="text-secondary"
-                            ><%=product.price %></span
+                            ><%=price %> </span
                           >
                         </td>
 
                         <td><%=product.quantity %> PCS</td>
                         <td class="text-end">
-                          ₹ <%=product.price * product.quantity%>
+                          ₹ <%=price * product.quantity%>
                         </td>
                       </tr>
                       <% }); %>
@@ -171,13 +173,15 @@
                             <tbody>
                               <tr>
                                 <td>Sub Total:</td>
-                                <td class="text-end">$1715.97(not dynamic)</td>
+                                <% const subtotal = Math.round(order.totalAmount
+                                + (order.totalAmount *order.discount/100 )) %>
+                                <td class="text-end">₹ <%=subtotal%></td>
                               </tr>
 
                               <tr>
                                 <td>Discount:</td>
                                 <% if(order.discount){ %>
-                                <td class="text-end"><%=order.discount %></td>
+                                <td class="text-end"><%=order.discount %> %</td>
                                 <% } %>
                               </tr>
                               <tr class="border-top">

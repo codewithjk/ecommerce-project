@@ -3,167 +3,6 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
   <%- include("./layouts/topbar") %>
-  <!-- Modal -->
-  <div class="modal fade" id="searchModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content rounded">
-        <div class="modal-header p-3">
-          <div class="position-relative w-100">
-            <input
-              type="text"
-              class="form-control form-control-lg border-2"
-              placeholder="Search for Toner..."
-              autocomplete="off"
-              id="search-options"
-              value=""
-            />
-            <span class="bi bi-search search-widget-icon fs-17"></span>
-            <a
-              href="javascript:void(0);"
-              class="search-widget-icon fs-14 link-secondary text-decoration-underline search-widget-icon-close d-none"
-              id="search-close-options"
-              >Clear</a
-            >
-          </div>
-        </div>
-        <div
-          class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 overflow-hidden"
-          id="search-dropdown"
-        >
-          <div class="dropdown-head rounded-top">
-            <div class="p-3">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="m-0 fs-14 text-muted fw-semibold">
-                    RECENT SEARCHES
-                  </h6>
-                </div>
-              </div>
-            </div>
-
-            <div class="dropdown-item bg-transparent text-wrap">
-              <a
-                href="index-2.html"
-                class="btn btn-soft-secondary btn-sm btn-rounded"
-                >how to setup <i class="mdi mdi-magnify ms-1 align-middle"></i
-              ></a>
-              <a
-                href="index-2.html"
-                class="btn btn-soft-secondary btn-sm btn-rounded"
-                >buttons <i class="mdi mdi-magnify ms-1 align-middle"></i
-              ></a>
-            </div>
-          </div>
-
-          <div data-simplebar style="max-height: 300px" class="pe-2 ps-3 mt-3">
-            <div class="list-group list-group-flush border-dashed">
-              <div class="notification-group-list">
-                <h5
-                  class="text-overflow text-muted fs-13 mb-2 mt-3 text-uppercase notification-title"
-                >
-                  Apps Pages
-                </h5>
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                  ><i class="bi bi-speedometer2 me-2"></i>
-                  <span>Analytics Dashboard</span></a
-                >
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                  ><i class="bi bi-filetype-psd me-2"></i>
-                  <span>Toner.psd</span></a
-                >
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                  ><i class="bi bi-ticket-detailed me-2"></i>
-                  <span>Support Tickets</span></a
-                >
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                  ><i class="bi bi-file-earmark-zip me-2"></i>
-                  <span>Toner.zip</span></a
-                >
-              </div>
-
-              <div class="notification-group-list">
-                <h5
-                  class="text-overflow text-muted fs-13 mb-2 mt-3 text-uppercase notification-title"
-                >
-                  Links
-                </h5>
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                  ><i class="bi bi-link-45deg me-2 align-middle"></i>
-                  <span>www.themesbrand.com</span></a
-                >
-              </div>
-
-              <div class="notification-group-list">
-                <h5
-                  class="text-overflow text-muted fs-13 mb-2 mt-3 text-uppercase notification-title"
-                >
-                  People
-                </h5>
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                >
-                  <div class="d-flex align-items-center">
-                    <img
-                      src="/static/backend/images/users/avatar-1.jpg"
-                      alt=""
-                      class="avatar-xs rounded-circle flex-shrink-0 me-2"
-                    />
-                    <div>
-                      <h6 class="mb-0">Ayaan Bowen</h6>
-                      <span class="fs-12 text-muted">React Developer</span>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                >
-                  <div class="d-flex align-items-center">
-                    <img
-                      src="/static/backend/images/users/avatar-7.jpg"
-                      alt=""
-                      class="avatar-xs rounded-circle flex-shrink-0 me-2"
-                    />
-                    <div>
-                      <h6 class="mb-0">Alexander Kristi</h6>
-                      <span class="fs-12 text-muted">React Developer</span>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href="javascript:void(0);"
-                  class="list-group-item dropdown-item notify-item"
-                >
-                  <div class="d-flex align-items-center">
-                    <img
-                      src="/static/backend/images/users/avatar-5.jpg"
-                      alt=""
-                      class="avatar-xs rounded-circle flex-shrink-0 me-2"
-                    />
-                    <div>
-                      <h6 class="mb-0">Alan Carla</h6>
-                      <span class="fs-12 text-muted">React Developer</span>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- removeNotificationModal -->
   <div
@@ -390,7 +229,7 @@
           <!--end col-->
 
           <!-- chart start -->
-          <div class="col-xxl-12 order-last">
+          <div class="col-xxl-12">
             <div class="card">
               <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
@@ -483,6 +322,249 @@
             <!-- end card -->
           </div>
           <!-- chart end -->
+          <!-- top products start -->
+          <div class="col-xl-12 col-lg-12">
+            <div class="row g-4 mb-4">
+              <h4>Top Products</h4>
+            </div>
+
+            <!-- <div id="product-list" class="gridjs-border-none mb-4"></div> -->
+
+            <!-- product list start -->
+            <div id="product-list" class="gridjs-border-none mb-4">
+              <div
+                role="complementary"
+                class="gridjs gridjs-container"
+                style="width: 100%"
+              >
+                <div class="gridjs-wrapper" style="height: auto">
+                  <table
+                    role="grid"
+                    class="gridjs-table"
+                    style="height: auto"
+                    id="productsTable"
+                  >
+                    <thead class="gridjs-thead">
+                      <tr class="gridjs-tr">
+                        <th
+                          data-column-id="productName"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 400px"
+                        >
+                          <div class="gridjs-th-content">Product name</div>
+                        </th>
+                        <th
+                          data-column-id="stock"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 94px"
+                        >
+                          <div class="gridjs-th-content">Stock</div>
+                        </th>
+                        <!-- <th
+                          data-column-id="rate"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 80px"
+                        >
+                          <div class="gridjs-th-content">Rate</div>
+                          <button
+                            tabindex="-1"
+                            aria-label="Sort column ascending"
+                            title="Sort column ascending"
+                            class="gridjs-sort gridjs-sort-neutral"
+                          ></button>
+                        </th> -->
+                        <th
+                          data-column-id="price"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 60px"
+                        >
+                          <div class="gridjs-th-content">Price</div>
+                        </th>
+                        <!-- <th
+                          data-column-id="orders"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 84px"
+                        >
+                          <div class="gridjs-th-content">Orders</div>
+                          <button
+                            tabindex="-1"
+                            aria-label="Sort column ascending"
+                            title="Sort column ascending"
+                            class="gridjs-sort gridjs-sort-neutral"
+                          ></button>
+                        </th> -->
+                        <th
+                          data-column-id="publish"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 120px"
+                        >
+                          <div class="gridjs-th-content">Product discount</div>
+                        </th>
+                        <th
+                          data-column-id="action"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 80px"
+                        >
+                          <div class="gridjs-th-content">Quantity sold</div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="gridjs-tbody">
+                      <% topProducts.forEach(product => {%> <%
+                      console.log(topProducts); %>
+                      <tr class="gridjs-tr">
+                        <td data-column-id="productName" class="gridjs-td">
+                          <span
+                            ><div class="d-flex align-items-center">
+                              <div class="flex-shrink-0 me-2 avatar-sm">
+                                <div class="avatar-title bg-light rounded">
+                                  <img
+                                    src="<%=product.image %>"
+                                    alt=""
+                                    class="avatar-xs"
+                                  />
+                                </div>
+                              </div>
+                              <div class="flex-grow-1">
+                                <h6 class="mb-1">
+                                  <a
+                                    href="product-create.html"
+                                    class="d-block text-reset"
+                                    ><%=product.title %></a
+                                  >
+                                </h6>
+                                <p class="mb-0 text-muted">
+                                  Size :
+                                  <span class="fw-medium"
+                                    ><%=product.size %></span
+                                  >
+                                </p>
+                              </div>
+                            </div>
+                          </span>
+                        </td>
+                        <td data-column-id="stock" class="gridjs-td">
+                          <%=product.total_stock %>
+                        </td>
+                        <!-- <td data-column-id="rate" class="gridjs-td">
+                          <span
+                            ><span
+                              class="badge bg-light text-body fs-13 fw-medium"
+                              ><i class="mdi mdi-star text-warning me-1"></i
+                              >4.9</span
+                            ></span
+                          >
+                        </td> -->
+                        <td data-column-id="price" class="gridjs-td">
+                          <span><div><%=product.price %></div></span>
+                        </td>
+                        <!-- <td data-column-id="orders" class="gridjs-td">48</td> -->
+                        <td data-column-id="publish" class="gridjs-td">
+                          <%= product.discount %>
+                        </td>
+                        <td data-column-id="action" class="gridjs-td">
+                          <%=product.quantitySold %>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- product list end -->
+          </div>
+          <!-- top products ends -->
+          <!-- top categories start -->
+          <div class="col-xl-6 col-lg-6">
+            <div class="row g-4 mb-4">
+              <h4>Top Categories</h4>
+            </div>
+
+            <!-- <div id="product-list" class="gridjs-border-none mb-4"></div> -->
+
+            <!-- product list start -->
+            <div id="product-list" class="gridjs-border-none mb-4">
+              <div
+                role="complementary"
+                class="gridjs gridjs-container"
+                style="width: 100%"
+              >
+                <div class="gridjs-wrapper" style="height: auto">
+                  <table
+                    role="grid"
+                    class="gridjs-table"
+                    style="height: auto"
+                    id="productsTable"
+                  >
+                    <thead class="gridjs-thead">
+                      <tr class="gridjs-tr">
+                        <th
+                          data-column-id="productName"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 400px"
+                        >
+                          <div class="gridjs-th-content">Category name</div>
+                        </th>
+                        <th
+                          data-column-id="action"
+                          class="gridjs-th gridjs-th-sort"
+                          tabindex="0"
+                          style="width: 80px"
+                        >
+                          <div class="gridjs-th-content">Quantity sold</div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="gridjs-tbody">
+                      <% topCategories.forEach(product => {%>
+                      <tr class="gridjs-tr">
+                        <td data-column-id="productName" class="gridjs-td">
+                          <span
+                            ><div class="d-flex align-items-center">
+                              <div class="flex-shrink-0 me-2 avatar-sm">
+                                <div class="avatar-title bg-light rounded">
+                                  <img
+                                    src="<%=product.image %>"
+                                    alt=""
+                                    class="avatar-xs"
+                                  />
+                                </div>
+                              </div>
+                              <div class="flex-grow-1">
+                                <h6 class="mb-1">
+                                  <a
+                                    href="product-create.html"
+                                    class="d-block text-reset"
+                                    ><%=product.categoryName %></a
+                                  >
+                                </h6>
+                              </div>
+                            </div>
+                          </span>
+                        </td>
+
+                        <td data-column-id="action" class="gridjs-td">
+                          <%=product.totalQuantitySold %>
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- product list end -->
+          </div>
+          <!-- top categories end-->
         </div>
 
         <!-- end row-->

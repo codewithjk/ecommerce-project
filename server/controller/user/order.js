@@ -25,7 +25,28 @@ const { log } = require("console");
 exports.placeOrderCOD = async (req, res) => {
   try {
     const addressId = req.query.addressId;
-    res.redirect(`/payment/success?method="COD"&addressId=${addressId}`);
+    const userId = req.user.sub;
+    const cart = await getCartByUserId(userId);
+    const items = cart.cartItems;
+    let total_amount = 0;
+    items.forEach((item) => {
+      total_amount +=
+        Math.round(item.price - (item.price * item.discount) / 100) *
+        item.quantity;
+    });
+    total_amount = Math.round(
+      total_amount - (total_amount * cart.couponDiscount.couponDiscount) / 100
+    );
+    if (total_amount > 1000) {
+      res.status(200).json({
+        message:
+          "Unable to proceed with COD. minimum amount for COD is 1000 .Try other method.",
+      });
+    } else {
+      res
+        .status(301)
+        .redirect(`/payment/success?method="COD"&addressId=${addressId}`);
+    }
   } catch (error) {
     console.log(error);
   }

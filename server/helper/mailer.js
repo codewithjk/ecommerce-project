@@ -24,8 +24,9 @@ const sendMail = async (email, subject, content) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log("transport ===== ", error);
+      } else {
+        console.log("Message sent: %s", info.messageId);
       }
-      console.log("Message sent: %s", info.messageId);
     });
   } catch (error) {
     console.log("catch error === ", error.message);
