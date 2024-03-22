@@ -50,7 +50,8 @@ form.addEventListener("submit", function (event) {
         let paragraph = document.querySelector(".passwordError");
         paragraph.innerHTML = data.passwordError;
       } else if (data.blocked) {
-        alert("you are blocked by admin");
+        window.location.href = "/blocked-message";
+        // alert("you are blocked by admin");
       } else {
         console.log(data);
         window.location.href = data.redirect;

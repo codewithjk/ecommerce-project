@@ -136,7 +136,6 @@ const getCartByUserId = async (userId) => {
         },
       },
     ]);
-    console.log(cartItems);
     couponDiscount = await cartModel.findOne(
       { userId: userId },
       { couponDiscount: 1 }
@@ -1053,6 +1052,123 @@ async function addMoneyToWallet(userId, title, message, amount) {
   }
 }
 
+//admin
+
+async function getTopTenProducts() {
+  try {
+    const products = await orderModel.aggregate([
+      // Unwind the products array to deconstruct it
+      {
+        $unwind: "$products",
+      },
+      // Group by product ID and sum the quantity sold
+      {
+        $group: {
+          _id: "$products._id",
+          quantitySold: {
+            $sum: "$products.quantity",
+          },
+          productData: {
+            $first: "$products",
+          },
+        },
+      },
+      // Sort by quantity sold in descending order
+      {
+        $sort: {
+          quantitySold: -1,
+        },
+      },
+      // Limit to top 10 selling products
+      {
+        $limit: 10,
+      },
+      // Project the desired fields
+      {
+        $project: {
+          _id: "$productData._id",
+          quantitySold: 1,
+          title: "$productData.title",
+          image: "$productData.image",
+          price: "$productData.price",
+          discount: "$productData.discount",
+          size: "$productData.size",
+          total_stock: "$productData.total_stock",
+        },
+      },
+    ]);
+    return products;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function getTopCategories() {
+  try {
+    const categories = await orderModel.aggregate([
+      // Unwind the products array to deconstruct it
+      {
+        $unwind: "$products",
+      },
+      // Lookup to get category details for each product
+      {
+        $lookup: {
+          from: "products",
+          localField: "products._id",
+          foreignField: "_id",
+          as: "productDetails",
+        },
+      },
+      // Unwind the productDetails array
+      {
+        $unwind: "$productDetails",
+      },
+      // Group by category and sum the quantity sold
+      {
+        $group: {
+          _id: "$productDetails.category",
+          totalQuantitySold: {
+            $sum: "$products.quantity",
+          },
+        },
+      },
+      // Lookup to get category details
+      {
+        $lookup: {
+          from: "categories",
+          localField: "_id",
+          foreignField: "_id",
+          as: "categoryDetails",
+        },
+      },
+      // Unwind the categoryDetails array
+      {
+        $unwind: "$categoryDetails",
+      },
+      // Sort by total quantity sold in descending order
+      {
+        $sort: {
+          totalQuantitySold: -1,
+        },
+      },
+      // Limit to top 10 categories
+      {
+        $limit: 10,
+      },
+      // Project the desired fields
+      {
+        $project: {
+          _id: "$categoryDetails._id",
+          categoryName: "$categoryDetails.title",
+          image: "$categoryDetails.image",
+          totalQuantitySold: 1,
+        },
+      },
+    ]);
+    return categories;
+  } catch (error) {
+    console.log(error);
+  }
+}
 module.exports = {
   getAllProducts,
   getOneProduct,
@@ -1103,4 +1219,6 @@ module.exports = {
   getAllOffers,
   getOfferByCategoryId,
   addMoneyToWallet,
+  getTopTenProducts,
+  getTopCategories,
 };

@@ -1,5 +1,9 @@
 const { categoryModel } = require("../../models/category");
 const { deleteCategory } = require("../../helper/dbQueries");
+const fs = require("fs");
+const path = require("path");
+
+const imgur = require("imgur");
 
 exports.getCategoryPage = async (req, res) => {
   try {
@@ -14,9 +18,10 @@ exports.addCategory = async (req, res) => {
   try {
     // const encodedData = Buffer.from(req.body.image[1], "base64");
     // const imageData = [req.body.image[0], encodedData];
+    const url = await saveBase64ImageToFile(req.body.image, "image.jpg");
     const category = new categoryModel({
       title: req.body.title,
-      image: req.body.image,
+      image: url,
       description: req.body.description,
     });
     await category.save();
@@ -64,9 +69,10 @@ exports.removeCategory = async (req, res) => {
 exports.editCategory = async (req, res) => {
   try {
     const id = req.body.id;
+    const url = await saveBase64ImageToFile(req.body.image, "image.jpg");
     const category = {
       title: req.body.title,
-      image: req.body.image,
+      image: url,
       description: req.body.description,
     };
 
@@ -82,3 +88,26 @@ exports.editCategory = async (req, res) => {
     console.error(error);
   }
 };
+
+///////////////////////////////////////////////////////////////////
+
+async function saveBase64ImageToFile(base64Data, filePath) {
+  return new Promise((resolve, reject) => {
+    const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, "");
+    const buffer = Buffer.from(base64Image, "base64");
+    fs.writeFile(filePath, buffer, async (err) => {
+      if (err) {
+        console.error("Error saving image:", err);
+        reject(err);
+      } else {
+        try {
+          const obj = await imgur.uploadFile(filePath);
+          resolve(obj.data.link);
+        } catch (error) {
+          console.log(error);
+          reject(error);
+        }
+      }
+    });
+  });
+}
