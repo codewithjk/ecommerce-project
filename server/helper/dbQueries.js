@@ -80,6 +80,7 @@ const getUserById = async (id) => {
       status: 1,
       refferalCode: 1,
       coupons: 1,
+      googleId: 1,
     }
   );
   return user;
@@ -109,7 +110,6 @@ const updateProfile = async (id, data) => {
 const getCartByUserId = async (userId) => {
   try {
     const cartItems = await cartModel.aggregate([
-      { $match: { userId: new mongoose.Types.ObjectId(userId) } }, // Match cart for specific user
       { $unwind: "$items" }, // Unwind cart items array
       {
         $lookup: {
@@ -122,17 +122,100 @@ const getCartByUserId = async (userId) => {
       },
       { $unwind: "$product" }, // Unwind the product array
       {
+        $lookup: {
+          from: "offers",
+          let: {
+            categoryId: "$product.category",
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    {
+                      $eq: ["$category", "$$categoryId"],
+                    },
+                    {
+                      $gte: ["$endDate", new Date()],
+                    }, // Ensure the offer is still valid
+                    {
+                      $lte: ["$startDate", new Date()],
+                    }, // Ensure the offer has started
+                  ],
+                },
+              },
+            },
+          ],
+          as: "categoryOffers",
+        },
+      },
+      {
+        $addFields: {
+          // Calculate total discount for category
+          categoryDiscount: { $sum: "$categoryOffers.discount" },
+        },
+      },
+      {
         $project: {
-          // Project only the required fields
+          // Project required fields and calculate final price after discounts
           _id: "$product._id",
           title: "$product.title",
           price: "$product.price",
+          size: "$items.size",
+          stock_per_size: "$product.sizes",
           total_stock: "$product.total_stock",
           discount: "$product.discount",
           quantity: "$items.quantity",
           image: { $arrayElemAt: ["$product.images", 0] }, // Get the first image
           size: "$items.size",
           couponDiscount: 1,
+          offers: "$categoryOffers",
+          PriceAfterProductDiscount: {
+            $round: [
+              {
+                $subtract: [
+                  "$product.price",
+                  {
+                    $multiply: [
+                      "$product.price",
+                      { $divide: ["$product.discount", 100] },
+                    ],
+                  }, // Calculate discounted price
+                ],
+              },
+              0,
+            ],
+          },
+          PriceAfterCategoryDiscount: {
+            $round: [
+              {
+                $subtract: [
+                  {
+                    $subtract: [
+                      "$product.price",
+                      {
+                        $multiply: [
+                          "$product.price",
+                          { $divide: ["$product.discount", 100] },
+                        ],
+                      }, // Calculate discounted price
+                    ],
+                  },
+                  {
+                    $add: [
+                      {
+                        $multiply: [
+                          "$product.price",
+                          { $divide: ["$categoryDiscount", 100] },
+                        ],
+                      }, // Calculate category discount
+                    ],
+                  },
+                ],
+              },
+              2,
+            ],
+          },
         },
       },
     ]);
@@ -224,8 +307,13 @@ const createOrder = async (
   address,
   products,
   amount,
-  method
+  method,
+  discount,
+  paymentStatus,
+  shipping,
+  subTotal
 ) => {
+  console.log("from db query == ", paymentStatus);
   try {
     const order = new orderModel({
       userId: userId,
@@ -235,6 +323,10 @@ const createOrder = async (
       products: products,
       totalAmount: amount,
       method: method,
+      discount: discount,
+      paymentStatus: paymentStatus,
+      shippingCharge: shipping,
+      subTotal: subTotal,
     });
     const newOrder = await order.save();
     return newOrder;
@@ -244,7 +336,7 @@ const createOrder = async (
 };
 const getAllOrderAdmin = async () => {
   try {
-    const orders = await orderModel.find();
+    const orders = await orderModel.find().sort({ orderDate: -1 });
 
     const formattedOrders = orders.map((order) => ({
       orderId: order._id,
@@ -261,10 +353,25 @@ const getAllOrderAdmin = async () => {
   }
 };
 
+const updatePaymentOfOrder = async (id) => {
+  try {
+    const updatedOrder = orderModel.findByIdAndUpdate(
+      id,
+      { paymentStatus: true },
+      { new: true }
+    );
+    return updatedOrder;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //user orders
 const getOrdersByUserId = async (id) => {
   try {
-    const orders = await orderModel.find({ userId: id });
+    const orders = await orderModel
+      .find({ userId: id })
+      .sort({ orderDate: -1 });
 
     const formattedOrders = orders.map((order) => ({
       // customerName: order.customer,
@@ -274,6 +381,7 @@ const getOrdersByUserId = async (id) => {
       status: order.status,
       // method: order.method,
       orderDate: order.orderDate,
+      paymentStatus: order.paymentStatus,
     }));
 
     return formattedOrders;
@@ -295,6 +403,21 @@ const removeAllItemFromCart = async (userId) => {
   try {
     const deletedCart = await cartModel.findOneAndDelete({ userId: userId });
     return deletedCart;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createNewReview = async (productId, userId, message) => {
+  try {
+    const Review = new reviewModal({
+      product: productId,
+      user: userId,
+      message: message,
+    });
+    const newReview = await Review.save();
+    console.log("new reivwe=====", newReview);
+    return newReview;
   } catch (error) {
     console.log(error);
   }
@@ -1051,6 +1174,14 @@ async function addMoneyToWallet(userId, title, message, amount) {
     console.log(error);
   }
 }
+async function deleteOffer(id) {
+  try {
+    const deletedOffer = offerModel.findByIdAndDelete(id, { new: true });
+    return deletedOffer;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 //admin
 
@@ -1169,6 +1300,27 @@ async function getTopCategories() {
     console.log(error);
   }
 }
+
+async function findCategoryByName(name) {
+  try {
+    const category = categoryModel.findOne({
+      title: { $regex: new RegExp(`^${name}$`, "i") },
+    });
+    return category;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getProductByName(name) {
+  try {
+    const product = productModel.findOne({ title: name });
+    return product;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getAllProducts,
   getOneProduct,
@@ -1216,9 +1368,14 @@ module.exports = {
   giveCouponToUser,
   applyCouponToCart,
   createOffer,
+  deleteOffer,
   getAllOffers,
   getOfferByCategoryId,
   addMoneyToWallet,
   getTopTenProducts,
   getTopCategories,
+  updatePaymentOfOrder,
+  createNewReview,
+  findCategoryByName,
+  getProductByName,
 };

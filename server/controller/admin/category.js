@@ -1,5 +1,8 @@
 const { categoryModel } = require("../../models/category");
-const { deleteCategory } = require("../../helper/dbQueries");
+const {
+  deleteCategory,
+  findCategoryByName,
+} = require("../../helper/dbQueries");
 const fs = require("fs");
 const path = require("path");
 
@@ -24,11 +27,16 @@ exports.addCategory = async (req, res) => {
       image: url,
       description: req.body.description,
     });
-    await category.save();
-    res.json({
-      message: "Category is successfully added",
-      redirect: "/admin/categories",
-    });
+    const ifExist = await findCategoryByName(req.body.title.trim());
+    if (ifExist === null) {
+      await category.save();
+      res.json({
+        message: "Category is successfully added",
+        redirect: "/admin/categories",
+      });
+    } else {
+      res.json({ error: "This category already exists" });
+    }
   } catch (error) {
     if (error.code === 11000) {
       res.json({ error: "This category already exists" });
@@ -70,17 +78,23 @@ exports.editCategory = async (req, res) => {
   try {
     const id = req.body.id;
     const url = await saveBase64ImageToFile(req.body.image, "image.jpg");
+    console.log("this is url  === ", url);
     const category = {
       title: req.body.title,
       image: url,
       description: req.body.description,
     };
+    const ifExist = await findCategoryByName(req.body.title.trim());
 
-    await categoryModel.findByIdAndUpdate(id, category);
-    res.json({
-      message: "Category is successfully edited",
-      redirect: "/admin/categories",
-    });
+    if (ifExist === null) {
+      await categoryModel.findByIdAndUpdate(id, category);
+      res.json({
+        message: "Category is successfully edited",
+        redirect: "/admin/categories",
+      });
+    } else {
+      res.json({ error: "This category is already exists" });
+    }
   } catch (error) {
     if (error.code === 11000) {
       res.json({ error: "This category already exists" });
@@ -93,6 +107,10 @@ exports.editCategory = async (req, res) => {
 
 async function saveBase64ImageToFile(base64Data, filePath) {
   return new Promise((resolve, reject) => {
+    if (base64Data.startsWith("https")) {
+      resolve(base64Data);
+      return;
+    }
     const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, "");
     const buffer = Buffer.from(base64Image, "base64");
     fs.writeFile(filePath, buffer, async (err) => {
@@ -104,7 +122,7 @@ async function saveBase64ImageToFile(base64Data, filePath) {
           const obj = await imgur.uploadFile(filePath);
           resolve(obj.data.link);
         } catch (error) {
-          console.log(error);
+          console.log("erororoor ", error);
           reject(error);
         }
       }

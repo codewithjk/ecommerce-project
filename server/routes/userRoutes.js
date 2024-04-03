@@ -29,6 +29,7 @@ const {
   setUser,
   renderBlockedMessage,
   logout,
+  updatePassword,
 } = require("../controller/user/auth");
 const {
   getAllProducts,
@@ -42,6 +43,7 @@ const {
   searchProduct,
   getCheckoutPage,
   getPaymentPage,
+  addReview,
 } = require("../controller/user/product");
 const path = require("path");
 const {
@@ -67,12 +69,16 @@ const {
   getWallet,
   returnProduct,
   addFundToWallet,
+  confirmAddFundToWallet,
 } = require("../controller/user/account");
 const {
   getAllOrders,
   placeOrderCOD,
   placeOrderRazorpay,
   renderSuccess,
+  renderFailure,
+  continuePayment,
+  continuePaymentHandler,
   applyCoupon,
 } = require("../controller/user/order");
 
@@ -85,7 +91,7 @@ router.get("/login", checkAuthenticated, getLogin);
 router.get("/register", checkAuthenticated, getRegister);
 router.get("/forgot-password", getForgotPassword);
 router.get("/otp-verification", getOtpPage);
-router.get("/products", verifyToken, isBlocked, getAllProducts); // this is for page
+router.get("/products", verifyToken, isBlocked, getAllProducts);
 router.get("/verify-confirmation-code", getConfirmationPage);
 router.get("/set-new-password", verifyToken, isBlocked, getSetNewPassword);
 
@@ -105,6 +111,7 @@ router.post("/otp-verification", postOtp);
 router.post("/resend-otp", resendOtp);
 router.post("/verify-email", verifyEmail);
 router.post("/change-password", verifyToken, isBlocked, postSetNewPassword);
+router.post("/update-password", verifyToken, isBlocked, updatePassword);
 
 //profile
 router.get("/account", verifyToken, isBlocked, getAccountPage);
@@ -130,6 +137,7 @@ router.get("/get-cart-page", verifyToken, isBlocked, getCartPage);
 router.get("/update-item-count", verifyToken, isBlocked, updateItemCountInCart);
 router.get("/products/all-products", verifyToken, isBlocked, listAllProduct); //list all product
 router.get("/products/search", verifyToken, isBlocked, searchProduct);
+router.post("/add-review", verifyToken, isBlocked, addReview);
 
 router.get("/orders", verifyToken, isBlocked, getAllOrders);
 
@@ -138,6 +146,18 @@ router.get("/checkout", verifyToken, isBlocked, getCheckoutPage);
 router.get("/payment", verifyToken, isBlocked, getPaymentPage);
 router.get("/place-order-cod", verifyToken, isBlocked, placeOrderCOD);
 router.get("/place-order-razorpay", verifyToken, isBlocked, placeOrderRazorpay);
+router.get(
+  "/payment/continue-payment",
+  verifyToken,
+  isBlocked,
+  continuePayment
+);
+router.get(
+  "/payment/continue-payment-handler",
+  verifyToken,
+  isBlocked,
+  continuePaymentHandler
+);
 
 //coupon
 router.get("/apply-coupon", verifyToken, isBlocked, applyCoupon);
@@ -147,10 +167,20 @@ router.patch("/return-product", verifyToken, isBlocked, returnProduct);
 
 //wallet
 router.get("/add-fund", verifyToken, isBlocked, addFundToWallet);
+router.get("/confirm-add-fund", verifyToken, isBlocked, confirmAddFundToWallet);
 
 router.get("/payment/success", verifyToken, isBlocked, renderSuccess);
+router.get("/payment/failed", verifyToken, isBlocked, renderFailure);
 router.get("/blocked-message", renderBlockedMessage);
 
 router.get("/logout", verifyToken, logout);
+
+// router.post("/testform", (req, res) => {
+//   console.log(req.body);
+//   res.json({ message: "success" });
+// });
+// router.get("/form", (req, res) => {
+//   res.render("form");
+// });
 
 module.exports = router;

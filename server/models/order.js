@@ -61,6 +61,15 @@ const orderSchema = new mongoose.Schema({
   cancelReason: {
     type: String,
   },
+  paymentStatus: {
+    type: Boolean,
+  },
+  shippingCharge: {
+    type: Number,
+  },
+  subTotal: {
+    type: Number,
+  },
 });
 
 const orderModel = mongoose.model("order", orderSchema);

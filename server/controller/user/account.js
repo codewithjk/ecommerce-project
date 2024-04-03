@@ -27,10 +27,15 @@ const razorpayInstance = new Razorpay({
 });
 
 exports.getAccountPage = async (req, res) => {
-  const userId = req.user.sub;
-  const user = await getUserById(userId);
-  const wallet = await walletModel.findOne({ userId: userId });
-  res.render("account", { user: user, wallet: wallet });
+  try {
+    const userId = req.user.sub;
+    const user = await getUserById(userId);
+    console.log(user);
+    const wallet = await walletModel.findOne({ userId: userId });
+    res.render("account", { user: user, wallet: wallet });
+  } catch (error) {
+    res.render("clientError");
+  }
 };
 
 exports.getAddressOfUser = async (req, res) => {
@@ -191,13 +196,14 @@ exports.orderDetails = async (req, res) => {
     const user = await getUserById(userId);
     const orderId = req.query.orderId;
     const order = await getOrderById(orderId);
-    if (order !== null) {
+    if (order !== null && order !== undefined) {
       console.log(order);
       res.status(200).render("orderDetails", { order: order, user: user });
     } else {
       res.status(500).render("serverError");
     }
   } catch (error) {
+    res.render("clientError");
     console.log(error);
   }
 };
@@ -277,18 +283,12 @@ exports.addFundToWallet = async (req, res) => {
     razorpayInstance.orders.create(options, async (err, order) => {
       if (!err) {
         console.log("order ==== ", order);
-        await addMoneyToWallet(
-          userId,
-          "Deposit",
-          "You added money to wallet",
-          amount
-        );
 
         res.status(200).json({
           success: true,
           msg: "Money added to wallet",
           order_id: order.id,
-          amount: amount * 100,
+          amount: amount,
           key_id: RAZORPAY_CLIENT_ID,
           title: "Pay now",
           description: "Thanks for using our service",
@@ -301,6 +301,22 @@ exports.addFundToWallet = async (req, res) => {
         res.status(400).json({ success: false, msg: "Something went wrong!" });
       }
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.confirmAddFundToWallet = async (req, res) => {
+  try {
+    const amount = req.query.amount;
+    const userId = req.user.sub;
+    await addMoneyToWallet(
+      userId,
+      "Deposit",
+      "You added money to wallet",
+      amount
+    );
+    res.status(200).json({ message: "amount successfully added" });
   } catch (error) {
     console.log(error);
   }

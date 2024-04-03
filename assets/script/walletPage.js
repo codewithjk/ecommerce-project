@@ -56,7 +56,16 @@ addMoneyBtn.addEventListener("click", async (event) => {
         image: "https://dummyimage.com/600x400/000/fff",
         order_id: "" + res.order_id + "",
         handler: function (response) {
-          window.location.reload();
+          // alert("Payment Succeeded");
+          fetch(`/confirm-add-fund?amount=${res.amount}`)
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              }
+            })
+            .then((data) => {
+              window.location.reload();
+            });
         },
         prefill: {
           contact: "" + res.contact + "",

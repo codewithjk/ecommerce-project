@@ -100,6 +100,7 @@
                               accept="image/png, image/gif, image/jpeg"
                             />
                           </div>
+
                           <div class="avatar-lg">
                             <div class="avatar-title bg-light rounded-3">
                               <img
@@ -111,11 +112,8 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="error-msg mt-1">
-                          Please add a category images.
-                        </div>
                       </div>
+                      <p class="text-danger" id="addImageError"></p>
                     </div>
                     <div class="col-xxl-12 col-lg-6">
                       <div class="mb-3">
@@ -150,41 +148,6 @@
             <!-- end card -->
           </div>
           <div class="col-xxl-9">
-            <div class="row justify-content-between mb-4">
-              <div class="col-xxl-3 col-lg-6">
-                <div class="search-box mb-3 mb-lg-0">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="searchInputList"
-                    placeholder="Search Category..."
-                  />
-                  <i class="ri-search-line search-icon"></i>
-                </div>
-              </div>
-              <!--end col-->
-              <div class="col-xxl-2 col-lg-6">
-                <select
-                  class="form-control"
-                  data-choices
-                  data-choices-search-false
-                  name="choices-single-default"
-                  id="idStatus"
-                >
-                  <option value="">Status</option>
-                  <option value="all" selected>All</option>
-                  <option value="Today">Today</option>
-                  <option value="Yesterday">Yesterday</option>
-                  <option value="Last 7 Days">Last 7 Days</option>
-                  <option value="Last 30 Days">Last 30 Days</option>
-                  <option value="This Month">This Month</option>
-                  <option value="Last Month">Last Month</option>
-                </select>
-              </div>
-              <!--end col-->
-            </div>
-            <!--end row-->
-
             <div class="row" id="categories-list">
               <% categories.forEach(category => { %>
               <div class="col-xxl-4 col-md-6">
@@ -231,32 +194,6 @@
               <% }); %>
             </div>
             <!--end row-->
-
-            <div class="row" id="pagination-element">
-              <div class="col-lg-12">
-                <div
-                  class="pagination-block pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0"
-                >
-                  <div class="page-item">
-                    <a
-                      href="javascript:void(0);"
-                      class="page-link"
-                      id="page-prev"
-                      >←</a
-                    >
-                  </div>
-                  <span id="page-num" class="pagination"></span>
-                  <div class="page-item">
-                    <a
-                      href="javascript:void(0);"
-                      class="page-link"
-                      id="page-next"
-                      >→</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <!--end col-->
         </div>
@@ -441,6 +378,7 @@
                       Please add a category images.
                     </div>
                   </div>
+                  <p class="text-danger" id="editImageError"></p>
                 </div>
                 <div class="col-xxl-12 col-lg-6">
                   <div class="mb-3">

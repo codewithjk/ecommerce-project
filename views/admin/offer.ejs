@@ -20,7 +20,7 @@
               <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">
-                    <a href="javascript: void(0);">Toner</a>
+                    <a href="/admin/dashboard">dashboard</a>
                   </li>
                   <li class="breadcrumb-item active">offers</li>
                 </ol>
@@ -113,19 +113,12 @@
                                   >View</a
                                 >
                               </li>
+
                               <li>
                                 <a
-                                  class="badge bg-primary-subtle text-primary edit-item-btn"
-                                  href="#showModal"
-                                  data-custom-data="<%=offerObj %>"
+                                  href="#deleteOfferModal"
                                   data-bs-toggle="modal"
-                                  >Edit</a
-                                >
-                              </li>
-                              <li>
-                                <a
-                                  href="#deleteModal"
-                                  data-bs-toggle="modal"
+                                  data-custom-data="<%=offer._id %>"
                                   class="badge bg-danger-subtle text-danger remove-item-btn"
                                   >Delete</a
                                 >
@@ -249,7 +242,7 @@
 
 <!-- delete modal -->
 <div
-  id="deleteModal"
+  id="deleteOfferModal"
   class="modal fade zoomIn"
   tabindex="-1"
   aria-hidden="true"
@@ -288,11 +281,13 @@
           <button
             type="button"
             class="btn w-sm btn-danger btn-hover"
-            id="delete-record"
+            id="remove-offer"
           >
             Yes, Delete It!
           </button>
         </div>
+        <p id="yes-delete" class="text-success"></p>
+        <p id="no-delete" class="text-danger"></p>
       </div>
     </div>
     <!--end modal-content -->
@@ -330,7 +325,9 @@
                   id="offerTitle-field"
                   placeholder="offer title"
                   required
+                  oninput="removeError('titleError')"
                 />
+                <p id="titleError" class="text-danger"></p>
               </div>
             </div>
             <div>
@@ -359,6 +356,7 @@
                   placeholder="Select date"
                   required
                 />
+                <p id="dateError" class="text-danger"></p>
               </div>
             </div>
             <div class="col-lg-6">
@@ -386,7 +384,9 @@
                   id="discount-field"
                   placeholder="Enter percentage"
                   required
+                  oninput="removeError('priceError')"
                 />
+                <p id="priceError" class="text-danger"></p>
               </div>
             </div>
 
@@ -431,7 +431,11 @@
     console.log("loaded");
     var table = document.getElementById("offerTable");
     console.log(table);
-    var dataTable = new DataTable(table);
+    var dataTable = new DataTable(table, {
+      layout: {
+        topStart: {},
+      },
+    });
   });
 </script>
 <script src="/static/script/admin/offerPage.js"></script>

@@ -1,4 +1,4 @@
-const { createOffer } = require("../../helper/dbQueries");
+const { createOffer, deleteOffer } = require("../../helper/dbQueries");
 const { categoryModel } = require("../../models/category");
 const { offerModel } = require("../../models/offer");
 
@@ -22,6 +22,24 @@ exports.addCategoryOffer = async (req, res) => {
       res.status(200).json({ message: "offer added successfully" });
     } else {
       res.status(200).json({ error: "something is wrong " });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.removeOffer = async (req, res) => {
+  try {
+    const offerId = req.query.offerId;
+    const deletedOffer = await deleteOffer(offerId);
+    if (deletedOffer !== null) {
+      res
+        .status(200)
+        .json({ message: "offer removed !", redirect: "/admin/offers" });
+    } else {
+      res
+        .status(200)
+        .json({ error: "something went wrong.", redirect: "/admin/offers" });
     }
   } catch (error) {
     console.log(error);

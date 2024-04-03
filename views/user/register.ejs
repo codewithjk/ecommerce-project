@@ -37,8 +37,10 @@
                       placeholder="Enter username"
                       required
                       name="firstName"
+                      oninput="nameValidation()"
                     />
                     <div class="invalid-feedback">Please enter first name</div>
+                    <span class="text-danger" id="firstNameError"></span>
                   </div>
                   <div class="mb-3">
                     <label for="username" class="form-label"
@@ -66,8 +68,10 @@
                       id="useremail"
                       placeholder="Enter email address"
                       required
+                      oninput="emailValidation()"
                     />
                     <div class="invalid-feedback">Please enter email</div>
+                    <span class="text-danger" id="errorMessage"></span>
                   </div>
                   <div class="mb-3">
                     <label for="useremail" class="form-label"

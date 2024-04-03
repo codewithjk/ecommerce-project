@@ -201,6 +201,26 @@ exports.postSetNewPassword = (req, res) => {
   }
 };
 
+exports.updatePassword = async (req, res) => {
+  console.log(req.body);
+  console.log(req.user);
+  const userId = req.user.sub;
+  const oldPassword = req.body.oldPassword;
+  const newPassword = req.body.newPassword;
+  const user = await userModel.findById(userId);
+  if (oldPassword !== user.password) {
+    res.json({ error: "old password not matching" });
+  } else {
+    userModel
+      .findOneAndUpdate({ _id: userId }, { password: newPassword })
+      .then((user) => {
+        res.json({
+          success: "password change successfull",
+        });
+      });
+  }
+};
+
 exports.renderBlockedMessage = (req, res) => {
   res.render("BlockedPage");
 };
