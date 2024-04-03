@@ -203,17 +203,7 @@ async function updateWishlistContent(wishlistContent) {
     </td>
     <td>
       <ul class="list-unstyled d-flex gap-3 mb-0">
-        <li>
-          <a
-            data-custom-data="${product._id}"
-            data-bs-toggle="offcanvas"
-            href="#ecommerceCart"
-            class="btn btn-soft-info btn-icon btn-sm"
-            ><i
-              class="ri-shopping-cart-2-line fs-13"
-            ></i
-          ></a>
-        </li>
+        
         <li>
           <button
           

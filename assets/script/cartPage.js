@@ -27,11 +27,21 @@ async function listCartItemsPage() {
 
     console.log(total_amount);
     document.querySelector(".product-count").innerHTML = items.length;
-
+    console.log(items);
     items.forEach((item) => {
-      const itemPrice = Math.round(
-        item.price - (item.price * item.discount) / 100
-      );
+      // let itemPrice = Math.round(
+      //   item.price - (item.price * item.discount) / 100
+      // );
+      let itemPrice = item.PriceAfterCategoryDiscount;
+
+      let totalCategoryDiscount = 0;
+      if (item.offers.length !== 0) {
+        item.offers.map((offer) => (totalCategoryDiscount += offer.discount));
+      }
+      console.log("fklfwel [[[[[", totalCategoryDiscount);
+      // itemPrice = Math.round(
+      //   itemPrice - (itemPrice * totalCategoryDiscount) / 100
+      // );
 
       const listItem = document.createElement("li");
       listItem.classList.add("list-group-item", "product");
@@ -53,8 +63,9 @@ async function listCartItemsPage() {
           </div>
           <div class="col-sm">
             <a href="/product-details?id=${item._id}">
-              <h5 class="fs-16 lh-base mb-1">${item.title}</h5>
+              <h5 class="fs-16 lh-base mb-1">${item.title} </h5>
             </a>
+            
             <ul class="list-inline text-muted fs-13 mb-3">
               
               <li class="list-inline-item">
@@ -68,21 +79,63 @@ async function listCartItemsPage() {
                 class="product-quantity"
                 value="${item.quantity}"
                 min="0"
-                max="${item.total_stock < 10 ? item.total_stock : 10}"
+                max="${getMaxStock(item) > 10 ? 10 : getMaxStock(item)}"
                 readonly
               />
+
               <button type="button" class="plus">+</button>
+              
             </div>
+            ${
+              getMaxStock(item) < item.quantity
+                ? `<span class="badge bg-danger-subtle text-danger" data-max="${getMaxStock(
+                    item
+                  )}" data-title="${
+                    item.title
+                  }" id="outofstock">Out of Stock</span>`
+                : ""
+            }
+            
           </div>
+          
           <div class="col-sm-auto">
             <div class="text-lg-end">
               <p class="text-muted mb-1 fs-12">Item Price:</p>
               <h5 class="fs-16">
-                ₹<span class="product-price">${itemPrice}</span>
+                ₹<span class="product-price">${
+                  item.PriceAfterProductDiscount
+                }</span>
               </h5>
             </div>
           </div>
         </div>
+
+        <div class="col-sm-auto ">
+        <div class="text-lg my-2">
+          <!-- Display offers here -->
+          ${item.offers
+            .map(
+              (offer) => `
+            <div class="d-flex gap-3">
+            <i class="bi bi-tag-fill me-2 align-middle text-warning"></i>
+              <h5>${offer.title}</h5>
+              
+              <p>Start Date: ${new Date(
+                offer.startDate
+              ).toLocaleDateString()}</p>
+              <p>End Date: ${new Date(offer.endDate).toLocaleDateString()}</p>
+              <p>Discount: ${offer.discount}%</p>
+             
+            </div>
+          `
+            )
+            .join("")}
+            <div>Price after offers  : ${item.PriceAfterCategoryDiscount}</div>
+        </div>
+      </div>
+      
+
+
       </div>
       <div class="card-footer">
         <div class="row align-items-center gy-3">
@@ -114,7 +167,7 @@ async function listCartItemsPage() {
               <div>Total :</div>
               <h5 class="fs-14 mb-0">
                 ₹<span class="product-line-price">${
-                  itemPrice * item.quantity
+                  item.PriceAfterCategoryDiscount * item.quantity
                 }</span>
               </h5>
             </div>
@@ -143,10 +196,6 @@ async function listCartItemsPage() {
           target.classList.contains("minus") ||
           target.classList.contains("plus")
         ) {
-          // Get the input element associated with the clicked button
-          //   const input = inputStepsContainer.querySelector(".product-quantity");
-
-          // Get the current quantity value
           let quantity = parseInt(input.value);
 
           // Update the quantity based on the button clicked
@@ -192,5 +241,37 @@ apply_button.addEventListener("click", async (event) => {
     console.log(data.discount);
     alert(data.message);
     location.reload();
+  }
+});
+
+function getMaxStock(item) {
+  // Iterate over the stock_per_size array to find the stock for the selected size
+  for (let i = 0; i < item.stock_per_size.length; i++) {
+    const sizeObj = item.stock_per_size[i];
+    // Check if the size in the stock_per_size array matches the selected size
+    if (sizeObj.hasOwnProperty(item.size)) {
+      return sizeObj[item.size]; // Return the stock for the selected size
+    }
+  }
+  return 0; // Return 0 if the size is not found
+}
+
+const checkoutButton = document.getElementById("checkoutButton");
+checkoutButton.addEventListener("click", async (event) => {
+  console.log("kdfkaskldf");
+  // window.location.reload();
+  await listCartItemsPage();
+  const outOfStockProduct = document.getElementById("outofstock");
+
+  if (outOfStockProduct !== null) {
+    const title = outOfStockProduct.getAttribute("data-title");
+    const maxCount = outOfStockProduct.getAttribute("data-max");
+    // alert(`${title} has only ${maxCount} left`);
+
+    document.getElementById(
+      "cart-error"
+    ).innerHTML = `${title} has only ${maxCount} left`;
+  } else {
+    window.location.href = "/checkout";
   }
 });

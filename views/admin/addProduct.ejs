@@ -79,10 +79,12 @@
                       id="product-title-input"
                       placeholder="Enter product title"
                       required
+                      oninput="removeError('titleError')"
                     />
                     <div class="invalid-feedback">
                       Please enter a product title.
                     </div>
+                    <p id="titleError" class="text-danger"></p>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Product description</label>
@@ -93,6 +95,7 @@
                       id="descriptionInput"
                       placeholder="Enter product description"
                       rows="5"
+                      oninput="removeError('descriptionError')"
                     ></textarea>
 
                     <!-- <div id="ckeditor-classic">
@@ -111,6 +114,7 @@
                         <li>4 Different Color</li>
                       </ul>
                     </div> -->
+                    <p id="descriptionError" class="text-danger"></p>
                   </div>
 
                   <div>
@@ -179,6 +183,7 @@
                     <input type="file" id="uploadFile" style="display: none" />
                   </div>
                   <div class="error-msg mt-1">Please add a product images.</div>
+                  <p class="text-danger" id="imageError"></p>
                 </div>
               </div>
               <!-- end card -->
@@ -242,7 +247,7 @@
                           <span
                             class="input-group-text"
                             id="product-price-addon"
-                            >$</span
+                            >₹</span
                           >
                           <input
                             name="price"
@@ -253,6 +258,7 @@
                             aria-label="Price"
                             aria-describedby="product-price-addon"
                             required
+                            oninput="removeError('priceError')"
                           />
                           <div class="invalid-feedback">
                             Please enter a product price.
@@ -280,6 +286,7 @@
                             aria-label="discount"
                             aria-describedby="product-discount-addon"
                             required
+                            oninput="removeError('priceError')"
                           />
                           <div class="invalid-feedback">
                             Please enter a product discount.
@@ -289,6 +296,8 @@
                     </div>
 
                     <!-- end col -->
+
+                    <p class="text-danger" id="priceError"></p>
                   </div>
                   <!-- end row -->
 

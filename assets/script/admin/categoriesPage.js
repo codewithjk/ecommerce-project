@@ -4,13 +4,20 @@ var createCategoryForm = document.querySelector(".createCategory-form");
 createCategoryForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  var inputTitle = document.getElementById("categoryTitle").value;
+  var inputTitle = document.getElementById("categoryTitle").value.trim();
   var categoryImg = document.getElementById("category-img").src;
-  var categoryDesc = document.getElementById("descriptionInput").value;
+  var categoryDesc = document.getElementById("descriptionInput").value.trim();
 
-  if (inputTitle == "" || categoryDesc == "" || categoryImg == "") {
+  if (!inputTitle || !categoryDesc) {
     document.querySelector(".formError").innerHTML =
-      "Please fill all the fields";
+      "Please fill all the fields ";
+  } else if (!categoryImg.startsWith("data:image")) {
+    document.getElementById("imageError").innerHTML =
+      "select a valid image file";
+  } else if (categoryImg.size === 0 || categoryImg.size > 5 * 1024 * 1024) {
+    document.getElementById("addImageError").innerHTML =
+      "Please select an image file between 0 bytes and 5 MB.";
+    return;
   } else {
     let data = {
       title: inputTitle,
@@ -97,15 +104,22 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
     categoryobj.description;
 
   console.log(categoryobj.title);
+
   const edit_button = document.getElementById("edit-category");
 
   edit_button.addEventListener("click", (event) => {
     event.preventDefault();
+
+    let titleInput = document.getElementById("editcategoryTitle").value.trim();
+    let imageInput = document.getElementById("edit-category-img").src;
+    let descriptionInput = document
+      .getElementById("edit-descriptionInput")
+      .value.trim();
     const data = {
       id: categoryobj._id,
-      title: document.getElementById("editcategoryTitle").value,
-      image: document.getElementById("edit-category-img").src,
-      description: document.getElementById("edit-descriptionInput").value,
+      title: titleInput,
+      image: imageInput,
+      description: descriptionInput,
     };
 
     fetch(`/admin/edit-category`, {

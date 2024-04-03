@@ -21,33 +21,86 @@ document
   });
 
 //
+
 var createCouponForm = document.querySelector(".addCoupon-form");
 
 createCouponForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  var inputTitle = document.getElementById("couponTitle-field").value;
+  var inputTitle = document.getElementById("couponTitle-field").value.trim();
   var couponImg = document.getElementById("category-img").src;
-  var condition = document.getElementById("condition-field").value;
-  var limit = document.getElementById("limit-field").value;
-  var start = document.getElementById("startdate-field").value;
-  var end = document.getElementById("enddate-field").value;
-  var discount = document.getElementById("discount-field").value;
-  var count = document.getElementById("count-field").value;
+  var condition = document.getElementById("condition-field").value.trim();
+  var limit = document.getElementById("limit-field").value.trim();
+  var start = document.getElementById("startdate-field").value.trim();
+  var end = document.getElementById("enddate-field").value.trim();
+  var discount = document.getElementById("discount-field").value.trim();
+  var count = document.getElementById("count-field").value.trim();
 
+  var inputValidation = true;
+
+  // Validate input title
+  if (inputTitle == "") {
+    document.getElementById("titleError").innerHTML = "Please fill this field";
+    inputValidation = false;
+  }
+
+  // Validate discount
   if (
-    inputTitle == "" ||
-    discount === "" ||
-    limit === "" ||
-    start === "" ||
-    end === "" ||
-    discount == "" ||
-    count == "" ||
-    couponImg == ""
+    !/^\d+(\.\d+)?$/.test(discount) ||
+    Number(discount) >= 100 ||
+    Number(discount) <= 0
   ) {
-    document.querySelector(".formError").innerHTML =
-      "Please fill all the fields";
-  } else {
+    document.getElementById("discountError").innerHTML =
+      "Discount should be a positive number less than 100";
+    inputValidation = false;
+  }
+
+  // Validate limit
+  if (!/^\d+(\.\d+)?$/.test(limit) || Number(limit) <= 0) {
+    document.getElementById("limitError").innerHTML =
+      "Please enter a valid amount";
+    inputValidation = false;
+  }
+
+  // Validate condition
+  if (!/^\d+(\.\d+)?$/.test(condition) || Number(condition) <= 0) {
+    document.getElementById("conditionError").innerHTML =
+      "Please enter a valid amount";
+    inputValidation = false;
+  }
+
+  // Validate start date
+  var currentDate = new Date();
+  var startDate = new Date(start);
+  if (startDate <= currentDate) {
+    document.getElementById("dateError").innerHTML =
+      "Start date must be after the current date";
+    inputValidation = false;
+  }
+
+  // Validate end date
+  var endDate = new Date(end);
+  if (endDate <= startDate) {
+    document.getElementById("dateError").innerHTML =
+      "End date must be after the start date";
+    inputValidation = false;
+  }
+
+  // Validate image
+  if (!couponImg || !couponImg.startsWith("data:image")) {
+    document.getElementById("imageError").innerHTML =
+      "Please select a valid image file";
+    inputValidation = false;
+  }
+
+  // Validate count
+  if (!/^\d+$/.test(count) || Number(count) <= 0) {
+    document.getElementById("countError").innerHTML =
+      "Please enter a valid count";
+    inputValidation = false;
+  }
+
+  if (inputValidation) {
     let data = {
       title: inputTitle,
       image: couponImg,
@@ -159,3 +212,7 @@ modal.addEventListener("show.bs.modal", function (event) {
       });
   });
 });
+
+function removeError(id) {
+  document.getElementById(id).innerHTML = "";
+}

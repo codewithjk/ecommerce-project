@@ -123,15 +123,7 @@
                                   >View</a
                                 >
                               </li>
-                              <li>
-                                <a
-                                  class="badge bg-primary-subtle text-primary edit-item-btn"
-                                  href="#showModal"
-                                  data-custom-data="<%=couponObj %>"
-                                  data-bs-toggle="modal"
-                                  >Edit</a
-                                >
-                              </li>
+
                               <li>
                                 <a
                                   href="#removeCouponModal"
@@ -353,7 +345,9 @@
                   id="couponTitle-field"
                   placeholder="Coupon title"
                   required
+                  oninput="removeError('titleError')"
                 />
+                <p id="titleError" class="text-danger"></p>
               </div>
             </div>
             <div class="col-xxl-12 col-lg-6">
@@ -386,6 +380,7 @@
                       id="category-image-input"
                       type="file"
                       accept="image/png, image/gif, image/jpeg"
+                      oninput="removeError('imageError')"
                     />
                   </div>
                   <div class="avatar-lg">
@@ -402,6 +397,7 @@
 
                 <div class="error-msg mt-1">Please add a category images.</div>
               </div>
+              <p id="imageError" class="text-danger"></p>
             </div>
             <div class="col-lg-6">
               <div class="mb-3">
@@ -414,7 +410,9 @@
                   id="condition-field"
                   placeholder="Enter amount"
                   required
+                  oninput="removeError('conditionError')"
                 />
+                <p id="conditionError" class="text-danger"></p>
               </div>
             </div>
             <div class="col-lg-6">
@@ -428,7 +426,9 @@
                   id="limit-field"
                   placeholder="Enter amount"
                   required
+                  oninput="removeError('limitError')"
                 />
+                <p id="limitError" class="text-danger"></p>
               </div>
             </div>
 
@@ -442,6 +442,7 @@
                   data-provider="flatpickr"
                   placeholder="Select date"
                   required
+                  oninput="removeError('dateError')"
                 />
               </div>
             </div>
@@ -456,9 +457,12 @@
                   data-date-format="d M, Y"
                   placeholder="Select date"
                   required
+                  oninput="removeError('dateError')"
                 />
               </div>
             </div>
+            <p id="dateError" class="text-danger"></p>
+
             <div class="col-lg-6">
               <div class="mb-3">
                 <label for="amountPercentage" class="form-label"
@@ -470,7 +474,9 @@
                   id="discount-field"
                   placeholder="Enter percentage"
                   required
+                  oninput="removeError('discountError')"
                 />
+                <p id="discountError" class="text-danger"></p>
               </div>
             </div>
             <div class="col-lg-6">
@@ -484,7 +490,9 @@
                   id="count-field"
                   placeholder="Enter the count"
                   required
+                  oninput="removeError('countError')"
                 />
+                <p id="countError" class="text-danger"></p>
               </div>
             </div>
 

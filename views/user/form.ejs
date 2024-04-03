@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="form" enctype="text/plain">
+      <input type="text" name="fname" id="" placeholder="name" value="jeevan" />
+      <button type="submit">submit</button>
+    </form>
+  </body>
+  <script>
+    var form = document.getElementById("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      var formdata = new FormData(form);
+      formdata.set("name", "jeevan");
+      console.log(formdata);
+      fetch("/testform", {
+        method: "post",
+        body: formdata,
+      }).then((response) => {
+        console.log(response);
+      });
+    });
+  </script>
+</html>

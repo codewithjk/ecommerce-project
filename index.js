@@ -8,15 +8,12 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 ///////////////////////
 
-////////////////////////
 connectDB();
 const app = express();
 
 // app.use(cors());
 
 require("./server/helper/OAuth");
-
-// app.use(passport.initialize());
 
 //parse body data
 app.use(express.json({ limit: "10mb" }));

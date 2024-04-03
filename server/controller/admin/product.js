@@ -9,6 +9,7 @@ const {
   getDailyDataOfWeek,
   getWeeklyDataOfMonth,
   getMonthlyDataOfYear,
+  getProductByName,
 } = require("../../helper/dbQueries");
 ///////
 
@@ -75,8 +76,7 @@ exports.postAddProduct = async (req, res) => {
     //////////////////////////////
 
     let totalStock = 0;
-    const allvarients =
-      req.body.color.length == 0 ? req.body.size : req.body.color;
+    const allvarients = req.body.size;
     allvarients.forEach((obj) => {
       totalStock += Object.values(obj)[0];
     });
@@ -88,7 +88,6 @@ exports.postAddProduct = async (req, res) => {
       images: urls,
       price: req.body.price,
       discount: req.body.discount,
-      colors: req.body.color,
       sizes: req.body.size,
       total_stock: totalStock,
     });
@@ -271,6 +270,16 @@ exports.getYearlyOrders = async (req, res) => {
     console.log("get Yearly data");
     console.log(data);
     res.status(200).json({ data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.checkProductExists = async (req, res) => {
+  try {
+    const name = req.query.title;
+    const data = await getProductByName(name);
+    res.status(200).json({ product: data });
   } catch (error) {
     console.log(error);
   }

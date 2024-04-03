@@ -4,6 +4,13 @@ var skip = 0;
 var limit = 10;
 var wishlist = [];
 
+//focus on input
+const searchModal = document.getElementById("searchModal");
+searchModal.addEventListener("shown.bs.modal", function () {
+  const searchInput = document.getElementById("search-options");
+  searchInput.focus();
+});
+
 //get user wishlists
 async function getWishlist() {
   const response = await fetch("/wishlist");
@@ -84,18 +91,19 @@ function displayProducts(products) {
           <h5 class="text-secondary mb-0">
              ₹${discount_price}
             <span class="text-muted fs-12"
-              ><del>₹ ${product.price} </del></span
+              > ${
+                product.discount > 0 ? `<del>₹${product.price}</del>` : ""
+              } </span
             >
           </h5>
         </div>
         <div class="tn mt-3">
           <a
-            data-bs-toggle="offcanvas"
-            href="#ecommerceCart"
-            data-custom-data="${product._id}"
+            
+            href="/product-details?id=${product._id}"
             id="${product._id}"
             class="btn btn-primary btn-hover w-100 add-btn"
-            ><i class="mdi mdi-cart me-1"></i> Add To Cart</a
+            > View product</a
           >
         </div>
       </div>

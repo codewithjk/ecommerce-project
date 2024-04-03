@@ -99,9 +99,9 @@
                 >
                   <i class="bi bi-basket2 me-2"></i> Add To Cart
                 </a>
-                <button type="button" class="btn btn-primary btn-hover w-100">
+                <!-- <button type="button" class="btn btn-primary btn-hover w-100">
                   <i class="bi bi-cart2 me-2"></i> Buy Now
-                </button>
+                </button> -->
                 <button
                   class="btn btn-soft-danger custom-toggle btn-hover"
                   data-bs-toggle="button"
@@ -139,16 +139,18 @@
             </p>
             <h5 class="fs-24 mb-4">
               <% const discount_price = product.price -
-              (product.price*product.discount/100) %> ₹<%=discount_price %>
+              (product.price*product.discount/100) %> ₹<%=discount_price %> <%
+              if(product.discount > 0){%>
               <span class="text-muted fs-14"
-                ><del>$₹<%=product.price %></del></span
+                >₹<del><%=product.price %></del></span
               >
               <span class="fs-14 ms-2 text-danger">
                 (<%=product.discount %>% off)</span
               >
+              <%} %>
             </h5>
             <ul class="list-unstyled vstack gap-2">
-              <% if(product.total_stock >0){ %>
+              <% if(product.total_stock > 0){ %>
               <li class="">
                 <i
                   class="bi bi-check2-circle me-2 align-middle text-success"
@@ -156,12 +158,13 @@
                 >In stock
                 <span class="text-secondary">(<%=product.total_stock %>)</span>
               </li>
-              <% } %> <% if(product.total_stock == 0){ %>
+              <% } %> <% if(product.total_stock <= 0){ %>
               <li class="">
                 <i class="bi bi-x-circle me-2 align-middle text-danger"></i>Out
                 of stock
               </li>
-              <% } %> <% if(product.total_stock < 100){ %>
+              <% } %> <% if(product.total_stock < 100 && product.total_stock !==
+              0 ){ %>
               <li class="">
                 <i
                   class="bi bi-exclamation-circle me-2 align-middle text-warning"
@@ -208,7 +211,9 @@
                 <ul
                   class="clothe-size list-unstyled hstack gap-2 mb-0 flex-wrap"
                 >
-                  <% product.sizes.forEach(size => { %>
+                  <% product.sizes.forEach(size => { %> <% const sizeKey =
+                  Object.keys(size)[0]; %> <% const stockQuantity =
+                  size[sizeKey]; %> <% if (stockQuantity > 0) { %>
                   <li>
                     <input
                       onclick="toggleAddToCartButton('<%= Object.keys(size)[0] %>', this.checked)"
@@ -222,8 +227,7 @@
                       ><%= Object.keys(size)[0] %></label
                     >
                   </li>
-
-                  <% }); %>
+                  <% } %> <% }); %>
                 </ul>
               </div>
             </div>
@@ -316,7 +320,7 @@
                   <div class="flex-shrink-0 me-3">
                     <img
                       class="avatar-xs rounded-circle"
-                      src="/static/frontend/images/users/avatar-5.jpg"
+                      src="/static/images/avatar-1.jpg"
                       alt=""
                     />
                   </div>
@@ -368,7 +372,11 @@
               <div class="pt-3">
                 <h5 class="fs-18">Add a Review</h5>
                 <div>
-                  <form action="#" class="form">
+                  <form
+                    action="/add-review?productId=<%=product._id%>"
+                    class="form"
+                    method="post"
+                  >
                     <div class="d-flex align-items-center mb-3">
                       <span class="fs-14">Your rating:</span>
                       <div class="ms-3">
@@ -391,18 +399,11 @@
                         ></span>
                       </div>
                     </div>
-                    <div class="mb-3">
-                      <input
-                        class="form-control"
-                        name="your-name"
-                        placeholder="Title"
-                        type="text"
-                      />
-                    </div>
+
                     <div class="mb-3">
                       <textarea
                         class="form-control"
-                        name="your-comment"
+                        name="comment"
                         placeholder="Enter your comments & reviews"
                         rows="4"
                       ></textarea>

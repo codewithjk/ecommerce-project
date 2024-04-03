@@ -206,6 +206,21 @@ add_form.addEventListener("submit", async function (event) {
       phoneNumber: document.getElementById("addaddress-phone").value,
     };
 
+    const postalCode = document.getElementById("addaddress-postalCode").value;
+    const pincodeVerifyResponse = await fetch(
+      `https://api.postalpincode.in/pincode/${postalCode}`
+    );
+    if (!pincodeVerifyResponse.ok) {
+      document.getElementById("invalid-pincode").innerHTML = "invalid pincode";
+    } else {
+      const validPincode = await pincodeVerifyResponse.json();
+      if (validPincode[0].Status === "Error") {
+        document.getElementById("invalid-pincode").innerHTML =
+          "invalid pincode";
+        return;
+      }
+    }
+
     const response = await fetch("/add-address", {
       method: "POST",
       headers: {

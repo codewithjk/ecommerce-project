@@ -1,6 +1,7 @@
 // Function to validate email format
 function isValidEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   return regex.test(email);
 }
 

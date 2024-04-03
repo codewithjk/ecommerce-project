@@ -31,7 +31,17 @@ order_tab.addEventListener("shown.bs.tab", async function (event) {
     
   </td>
   <td><span class="text-muted">${dateString}</span></td>
-  <td class="fw-medium">₹ ${order.totalAmount}</td>
+  <td class="fw-medium">₹ ${order.totalAmount}
+  ${
+    !order.paymentStatus
+      ? `
+  <span class="text-danger" data-bs-toggle="popover" title="Payment Failed">
+    <i class="bi bi-info-circle"></i>
+  </span>
+`
+      : ""
+  }
+  </td>
   <td>
     <span class="badge bg-info-subtle text-info"
       >${order.status}</span

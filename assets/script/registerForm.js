@@ -1,5 +1,34 @@
 console.log("register");
 
+function emailValidation() {
+  const emailInput = document.getElementById("useremail");
+  const email = emailInput.value.trim();
+
+  const emailPattern =
+    /^[^\s@]+@(gmail|yahoo|hotmail|outlook|aol|icloud|protonmail|mail|yandex|zoho)\.(com|in|org|net|edu|gov|mil|biz|info|name|coop|aero|eu|int|pro|museum|arpa|[a-z]{2})$/;
+
+  if (!emailPattern.test(email)) {
+    errorMessage.innerHTML = "please Enter a valid Email address";
+  } else {
+    errorMessage.innerHTML = "";
+  }
+}
+
+function nameValidation() {
+  const firstNameInput = document.getElementById("username");
+  const firstname = firstNameInput.value.trim();
+
+  if (firstname == "") {
+    firstNameError.innerHTML = "Please enter First Name.";
+  }
+
+  if (!/^[a-zA-Z]+$/.test(firstname)) {
+    firstNameError.innerHTML = "First name can only contain letters.";
+  } else {
+    firstNameError.innerHTML = "";
+  }
+}
+
 let form = document.getElementById("register");
 let submit = document.getElementById("submit");
 // submit.setAttribute("disabled", "disabled");

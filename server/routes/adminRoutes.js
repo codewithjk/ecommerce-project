@@ -18,6 +18,7 @@ const {
   getWeeklyOrders,
   getMonthlyOrders,
   getYearlyOrders,
+  checkProductExists,
 } = require("../controller/admin/product");
 const {
   getCategoryPage,
@@ -37,7 +38,11 @@ const {
   addCoupon,
   removeCoupon,
 } = require("../controller/admin/coupon");
-const { getOfferPage, addCategoryOffer } = require("../controller/admin/offer");
+const {
+  getOfferPage,
+  addCategoryOffer,
+  removeOffer,
+} = require("../controller/admin/offer");
 
 const path = require("path");
 
@@ -56,6 +61,8 @@ router.get("/offers", isAdmin, getOfferPage);
 router.get("/add-product", isAdmin, getAddProduct);
 router.get("/edit-product", isAdmin, getEditPage);
 router.get("/get-product", isAdmin, getProductById);
+
+router.get("/check-product-exists", isAdmin, checkProductExists);
 
 router.patch("/block-user", blockUser);
 router.patch("/unblock-user", unblockUser);
@@ -83,6 +90,7 @@ router.delete("/delete-coupon", removeCoupon);
 
 //offer
 router.post("/add-category-offer", addCategoryOffer);
+router.delete("/remove-offer", removeOffer);
 
 router.get("/logout", logout);
 

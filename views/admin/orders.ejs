@@ -48,8 +48,10 @@
                         <td>Maximum date:</td>
                         <td><input type="text" id="max" name="max" /></td>
                       </tr>
-                      <tr>
+                      <tr class="d-flex justify-content-between">
                         <td><button id="week">Week</button></td>
+                        <td><button id="month">Month</button></td>
+                        <td><button id="year">Year</button></td>
                       </tr>
                     </tbody>
                   </table>
@@ -301,10 +303,110 @@
     format: "MMMM Do YYYY",
   });
 
+  // let table = new DataTable("#orderTable", {
+  //   layout: {
+  //     topStart: {
+  //       buttons: [
+  //         "copy",
+  //         "csv",
+  //         "excel",
+  //         "print",
+  //         {
+  //           extend: "pdf",
+  //           text: "Download PDF",
+  //           customize: function (doc) {
+  //             // Calculate total of the third column
+  //             var filteredRows = table.rows({ search: "applied" }).data();
+
+  //             var total = filteredRows
+  //               .pluck(3, "data")
+  //               .reduce(function (acc, val) {
+  //                 return acc + parseFloat(val);
+  //               }, 0);
+
+  //             var totalText = {
+  //               text: "Total amount (INR):          " + total,
+  //               alignment: "right",
+  //             };
+
+  //             var marginBeforeTotal = {
+  //               text: "",
+  //               margin: [0, 10], // Margin before the total section
+  //             };
+
+  //             doc.content.push(marginBeforeTotal, totalText);
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   },
+  // });
+
   let table = new DataTable("#orderTable", {
     layout: {
       topStart: {
-        buttons: ["copy", "csv", "excel", "pdf", "print"],
+        buttons: [
+          "copy",
+          "csv",
+          {
+            extend: "excel",
+            text: "Download Excel",
+            customize: function (xlsx) {
+              console.log(xlsx);
+              // Handle Excel customization
+              if (xlsx && xlsx[0] && xlsx[0].body && xlsx[0].body.length > 0) {
+                var body = xlsx[0].body;
+
+                // Remove last column from each row
+                body.forEach(function (row) {
+                  row.splice(-1, 1);
+                });
+
+                // Calculate total of the third column for filtered rows
+                var filteredRows = table.rows({ search: "applied" }).data();
+                var total = filteredRows
+                  .pluck(3, "data")
+                  .reduce(function (acc, val) {
+                    return acc + parseFloat(val);
+                  }, 0);
+
+                // Add total amount to the last row
+                body.push(["Total amount (INR):", "", "", total]);
+              }
+            },
+          },
+          "print",
+          {
+            extend: "pdf",
+            text: "Download PDF",
+            customize: function (doc) {
+              // Remove last column from the table
+              doc.content[1].table.body.forEach(function (col) {
+                col.pop(); // Remove content of last column
+              });
+
+              // Calculate total of the third column for filtered rows
+              var filteredRows = table.rows({ search: "applied" }).data();
+              var total = filteredRows
+                .pluck(3, "data")
+                .reduce(function (acc, val) {
+                  return acc + parseFloat(val);
+                }, 0);
+
+              var totalText = {
+                text: "Total amount (INR):          " + total,
+                alignment: "right",
+              };
+
+              var marginBeforeTotal = {
+                text: "",
+                margin: [0, 10], // Margin before the total section
+              };
+              // Add the text elements to the PDF document
+              doc.content.push(marginBeforeTotal, totalText);
+            },
+          },
+        ],
       },
     },
   });
@@ -312,99 +414,46 @@
   // Refilter the table
   document.querySelectorAll("#min, #max").forEach((el) => {
     el.addEventListener("change", () => {
+      var total = table
+        .column(3) // Change 3 to the index of the column you want to calculate the total for
+        .data()
+        .reduce(function (acc, val) {
+          return acc + parseFloat(val);
+        }, 0);
+      console.log(total);
+
+      table.row.add(["Total", "", "", total, "", "", "", ""]);
       table.draw();
-      console.log(maxDate);
     });
   });
 
   document.querySelector("#week").addEventListener("click", (e) => {
-    // Get the selected day
-    var selectedDay = moment().startOf("day"); // Assuming today by default
+    var startOfWeek = moment().startOf("week");
+    var endOfWeek = moment().endOf("week");
+    var startOfWeekFormatted = startOfWeek.format("MMMM Do YYYY");
+    var endOfWeekFormatted = endOfWeek.format("MMMM Do YYYY");
+    minDate.val(startOfWeekFormatted); // this is the mistake i did in previous code
+    maxDate.val(endOfWeekFormatted);
+    table.draw();
+  });
 
-    // Set the selected day as both minDate and maxDate
-    var now = moment(); //creating another now variable which is an instance of the current date
-    var monday = now.clone().weekday(1); //creating an instance of the current week Monday Date
-    var friday = now.clone().weekday(5); //creating an instance of the current week Friday Date
+  document.querySelector("#month").addEventListener("click", (e) => {
+    var startOfMonth = moment().startOf("month");
+    var endOfMonth = moment().endOf("month");
+    var startOfMonthFormatted = startOfMonth.format("MMMM Do YYYY");
+    var endOfMonthFormatted = endOfMonth.format("MMMM Do YYYY");
+    minDate.val(startOfMonthFormatted);
+    maxDate.val(endOfMonthFormatted);
+    table.draw();
+  });
 
-    let mondayF = monday.format("MM/DD/YYYY"); //formatting the monday date to MM/DD/YYYY
-    let fridayF = friday.format("MM/DD/YYYY"); //formatting the friday date to MM/DD/YYYY
-
-    minDate = moment(minDate, "MM/DD/YYYY"); //parse minDate to moment object
-    maxDate = moment(maxDate, "MM/DD/YYYY"); //parse maxDate to moment object
-
-    console.log(minDate);
-    console.log(maxDate);
-
-    // Apply minDate and maxDate to datetime picker
-    // Assuming you're using datetime picker from DataTables
-    // table.datetimepicker({
-    //   minDate: minDate,
-    //   maxDate: maxDate,
-    // });
-
+  document.querySelector("#year").addEventListener("click", (e) => {
+    var startOfYear = moment().startOf("year");
+    var endOfYear = moment().endOf("year");
+    var startOfYearFormatted = startOfYear.format("MMMM Do YYYY");
+    var endOfYearFormatted = endOfYear.format("MMMM Do YYYY");
+    minDate.val(startOfYearFormatted);
+    maxDate.val(endOfYearFormatted);
     table.draw();
   });
 </script>
-
-<!-- <script>
-  // Custom filtering function to filter by date range
-  $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-    var minDate = $("#min").val();
-    var maxDate = $("#max").val();
-    var date = data[4]; // Assuming the date is in the 5th column
-
-    if (
-      minDate === "" ||
-      maxDate === "" ||
-      (moment(date) >= moment(minDate) && moment(date) <= moment(maxDate))
-    ) {
-      return true;
-    }
-    return false;
-  });
-
-  // Initialize DataTable
-  var table = $("#orderTable").DataTable({
-    dom: "Bfrtip", // Include buttons
-    buttons: ["copy", "csv", "excel", "pdf", "print"],
-  });
-
-  // Initialize DateTime objects for date inputs
-  var minDate = new DateTime("#min", {
-    format: "MMMM Do YYYY",
-  });
-  var maxDate = new DateTime("#max", {
-    format: "MMMM Do YYYY",
-  });
-
-  // Apply filters on change
-  $("#min, #max").on("change", function () {
-    table.draw();
-  });
-
-  // Filter by day
-  $("#day").on("click", function () {
-    var today = moment();
-    minDate.date(today);
-    maxDate.date(today);
-    table.draw();
-  });
-
-  // Filter by week
-  $("#week").on("click", function () {
-    var startOfWeek = moment().startOf("week");
-    var endOfWeek = moment().endOf("week");
-    minDate.date(startOfWeek);
-    maxDate.date(endOfWeek);
-    table.draw();
-  });
-
-  // Filter by month
-  $("#month").on("click", function () {
-    var startOfMonth = moment().startOf("month");
-    var endOfMonth = moment().endOf("month");
-    minDate.date(startOfMonth);
-    maxDate.date(endOfMonth);
-    table.draw();
-  });
-</script> -->

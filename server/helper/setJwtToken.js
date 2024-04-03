@@ -7,13 +7,13 @@ const setJwtToCookies = async (res, data) => {
     { sub: data._id, role: "user" },
     process.env.JWT_SECRET,
     {
-      expiresIn: "3h",
+      expiresIn: "1y",
     }
   );
   // Set token to cookies
   res.cookie("userToken", token, {
     httpOnly: true,
-    maxAge: 10800000, //3h
+    maxAge: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Expires in 1 year
     secure: process.env.NODE_ENV === "production",
     sameSite: "none",
   });
@@ -22,10 +22,10 @@ const setJwtToCookies = async (res, data) => {
 //  ---ADMIN
 const setJwtToCookiesAdmin = async (res, data) => {
   console.log(data);
-  const token = jwt.sign({ data }, process.env.JWT_SECRET, { expiresIn: "3h" });
+  const token = jwt.sign({ data }, process.env.JWT_SECRET, { expiresIn: "1y" });
   res.cookie("adminToken", token, {
     httpOnly: true,
-    maxAge: 3600000,
+    maxAge: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Expires in 1 year
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
   });

@@ -30,25 +30,6 @@
 
           <li class="nav-item" role="presentation">
             <a
-              class="nav-link py-3"
-              data-bs-toggle="tab"
-              href="#credit"
-              role="tab"
-              aria-selected="false"
-              tabindex="-1"
-            >
-              <span class="d-block d-sm-none"
-                ><i class="ri-bank-card-fill align-bottom"></i
-              ></span>
-              <span class="d-none d-sm-block">
-                <i class="ri-bank-card-fill align-bottom pe-2"></i> Credit /
-                Debit Card</span
-              >
-            </a>
-          </li>
-
-          <li class="nav-item" role="presentation">
-            <a
               class="nav-link py-3 active"
               data-bs-toggle="tab"
               href="#cash"
@@ -277,6 +258,7 @@
               `/payment/success?orderId=${res.order_id}&method="razorpay"&addressId=${addressId}`,
               "_self"
             );
+            console.log(response);
           },
           prefill: {
             contact: "" + res.contact + "",
@@ -292,7 +274,12 @@
         };
         var razorpayObject = new Razorpay(options);
         razorpayObject.on("payment.failed", function (response) {
-          alert("Payment Failed");
+          // alert("Payment Failed");
+          window.open(
+            `/payment/failed?orderId=${res.order_id}&method="razorpay"&addressId=${addressId}`,
+            "_self"
+          );
+          console.log(response);
         });
         razorpayObject.open();
       }

@@ -191,28 +191,34 @@ cart_canvas.addEventListener("show.bs.offcanvas", async function (event) {
   const button = event.relatedTarget;
   const itemId = button.getAttribute("data-custom-data");
   console.log(itemId);
-  const size = button.getAttribute("data-custom-data-size") ?? "S";
+  const size = button.getAttribute("data-custom-data-size");
   const quantity = button.getAttribute("data-custom-data-quantity") ?? 1;
   console.log("this is size that selected", size);
   console.log("this is quantity that selected", quantity);
 
-  //in the case of navbar cartbutton itemId will be null
   if (itemId != null) {
-    try {
-      const response = await fetch(
-        `/add-to-cart?itemId=${itemId}&size=${size}&quantity=${quantity}`,
-        {
-          method: "put",
+    //in the case of navbar cartbutton itemId will be null
+    let Validation = true;
+    if (size == null) {
+      alert("select a size");
+      Validation = false;
+    } else {
+      try {
+        const response = await fetch(
+          `/add-to-cart?itemId=${itemId}&size=${size}&quantity=${quantity}`,
+          {
+            method: "put",
+          }
+        );
+        if (!response.ok) {
+          throw new Error("something went wrong cant add to cart");
+        } else {
+          listCartItems();
         }
-      );
-      if (!response.ok) {
-        throw new Error("something went wrong cant add to cart");
-      } else {
-        listCartItems();
+      } catch (error) {
+        console.log(error.message.code);
+        alert("error 500");
       }
-    } catch (error) {
-      console.log(error.message.code);
-      alert("error 500");
     }
   } else {
   }

@@ -35,7 +35,7 @@ var swiper2 = new Swiper(".productSwiper2", {
 
 //quantity of product
 var plus = document.getElementById("plus");
-var minus = document.getElementById("minus");
+let minus = document.getElementById("minus");
 var productqty = document.getElementById("product-quantity1");
 
 const max = Number(productqty.getAttribute("max"));

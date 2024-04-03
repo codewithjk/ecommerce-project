@@ -42,9 +42,10 @@
                         </div>
                       </div>
                     </td>
-                    <td>₹ <%=item.price %></td>
+                    <% const price = item.PriceAfterCategoryDiscount %>
+                    <td>₹ <%=price %></td>
                     <td><%=item.quantity %></td>
-                    <% const sum = item.price*item.quantity %>
+                    <% const sum = price*item.quantity %>
                     <td class="text-end">₹ <%=sum %></td>
                   </tr>
                   <% }); %>

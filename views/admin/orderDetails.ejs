@@ -63,10 +63,7 @@
            <% } %>
             
               
-              
-            <button type="button" class="btn btn-secondary">
-              <i class="ph-download-simple me-1 align-middle"></i> Invoice
-            </button>
+        
           </div>
         </div>
 
@@ -150,8 +147,7 @@
                             <div class="flex-grow-1"><%=product.title %></div>
                           </div>
                         </td>
-                        <% const price = Math.round(product.price -
-                        (product.price *product.discount/100)) %>
+                        <% const price = product.PriceAfterCategoryDiscount %>
 
                         <td>
                           <span class="text-secondary"
@@ -171,11 +167,14 @@
                         <td colspan="2" class="p-0">
                           <table class="table table-borderless mb-0">
                             <tbody>
+                              
+                              
                               <tr>
                                 <td>Sub Total:</td>
-                                <% const subtotal = Math.round(order.totalAmount
-                                + (order.totalAmount *order.discount/100 )) %>
-                                <td class="text-end">₹ <%=subtotal%></td>
+                                <% const subtotal =
+                                Math.round((order.totalAmount +
+                                (order.totalAmount *order.discount/100 ))) %>
+                                <td class="text-end">₹ <%=order.subTotal%></td>
                               </tr>
 
                               <tr>
@@ -183,6 +182,12 @@
                                 <% if(order.discount){ %>
                                 <td class="text-end"><%=order.discount %> %</td>
                                 <% } %>
+                              </tr>
+                              <tr>
+                                <td>Shipping Charge (₹10 per KM)</td>
+                                <td class="text-end">
+                                  + ₹ <%=order.shippingCharge%>
+                                </td>
                               </tr>
                               <tr class="border-top">
                                 <th>Total (INR) :</th>
@@ -211,58 +216,51 @@
                 
               </div>
               <div class="card-body">
-                <div class="row justify-content-between">
-                  <div class="col-lg-2 order-tracking text-center completed">
-                    <span class="is-complete"></span>
-                    <div class="card mt-3 mb-0">
-                      <div class="card-body">
-                        <h6 class="fs-17">Order Process</h6>
-                        <p class="text-muted fs-15 mb-0">Mon, 24 Dec, 2022</p>
-                      </div>
-                    </div>
+            <div class="row justify-content-between">
+              <div class="col-lg-2 order-tracking text-center <% if (order.status === 'Pending') { %> completed <% } %>">
+                <span   class="is-complete" ></span>
+                <div class="card mt-3 mb-0">
+                  <div class="card-body">
+                    <h6 class="fs-17">Pending</h6>
+                    
                   </div>
-                  <!--end col-->
-                  <div class="col-lg-2 order-tracking text-center completed">
-                    <span class="is-complete"></span>
-                    <div class="card mt-3 mb-0">
-                      <div class="card-body">
-                        <h6 class="fs-17">Packed</h6>
-                        <p class="text-muted fs-15 mb-0">Thu, 28 Dec, 2022</p>
-                      </div>
-                    </div>
-                  </div>
-                  <!--end col-->
-                  <div class="col-lg-2 order-tracking text-center completed">
-                    <span class="is-complete"></span>
-                    <div class="card mt-3 mb-0">
-                      <div class="card-body">
-                        <h6 class="fs-17">Order Shipped</h6>
-                        <p class="text-muted fs-15 mb-0">Thu, 02 Jan, 2023</p>
-                      </div>
-                    </div>
-                  </div>
-                  <!--end col-->
-                  <div class="col-lg-2 order-tracking text-center">
-                    <span class="is-complete"></span>
-                    <div class="card mt-3 mb-0">
-                      <div class="card-body">
-                        <h6 class="fs-17">Out Of Delivery</h6>
-                        <p class="text-muted fs-15 mb-0">Thu, 10 Jan, 2023</p>
-                      </div>
-                    </div>
-                  </div>
-                  <!--end col-->
-                  <div class="col-lg-2 order-tracking text-center">
-                    <span class="is-complete"></span>
-                    <div class="card mt-3 mb-0">
-                      <div class="card-body">
-                        <h6 class="fs-17">Delivered</h6>
-                        <p class="text-muted fs-15 mb-0">Thu, 16 Jan, 2023</p>
-                      </div>
-                    </div>
-                  </div>
-                  <!--end col-->
                 </div>
+              </div>
+              <!--end col-->
+              <div class="col-lg-2 order-tracking text-center <% if (order.status === 'Processing') { %> completed <% } %>">
+                <span  class="is-complete" ></span>
+                <div class="card mt-3 mb-0">
+                  <div class="card-body">
+                    <h6 class="fs-17">Processing</h6>
+                    
+                  </div>
+                </div>
+              </div>
+              <!--end col-->
+              <div class="col-lg-2 order-tracking text-center <% if (order.status === 'Shipped') { %> completed <% } %>">
+                <span class="is-complete" ></span>
+                <div class="card mt-3 mb-0">
+                  <div class="card-body">
+                    <h6 class="fs-17">Order Shipped</h6>
+                
+                  </div>
+                </div>
+              </div>
+              <!--end col-->
+             
+              <!--end col-->
+              <div class="col-lg-2 order-tracking text-center  <% if (order.status === 'Delivered') { %> completed <% } %>" >
+                <span class="is-complete" ></span>
+                <div class="card mt-3 mb-0">
+                  <div class="card-body">
+                    <h6 class="fs-17">Delivered</h6>
+                    
+
+                  </div>
+                </div>
+              </div>
+              <!--end col-->
+            </div>
                 <!--end row-->
               </div>
             </div>
