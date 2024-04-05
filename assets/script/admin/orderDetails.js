@@ -1,13 +1,10 @@
-console.log("order details");
-
 const selectElement = document.getElementById("delivered-status");
-console.log(selectElement);
+
 const responseModal = new bootstrap.Modal(
   document.getElementById("responseModal")
 );
 if (selectElement !== null) {
   selectElement.addEventListener("change", function () {
-    console.log("sdjflaks");
     const selectedOption = this.options[this.selectedIndex];
     const bgColor = selectedOption.classList.contains("bg-success-subtle")
       ? "bg-success-subtle"
@@ -40,23 +37,18 @@ if (selectElement !== null) {
         responseModal.show();
       })
       .catch((error) => {
-        console.log("made req");
         console.error("Error:", error);
       });
   });
 }
-
-console.log("order detailsss ");
 
 const refund_order_modal = document.getElementById("refundModal");
 refund_order_modal.addEventListener(
   "show.bs.modal",
   function (event) {
     const button = event.relatedTarget;
-    console.log("adsfkdaakldsfaldkadskll");
 
     const orderId = button.getAttribute("data-custom-data");
-    console.log(orderId);
     const cancelOrderButton = document.getElementById("refund-button");
     cancelOrderButton.addEventListener(
       "click",
@@ -81,10 +73,6 @@ refund_order_modal.addEventListener(
           }
         } catch (error) {
           console.log(error);
-          // if (error) {
-          //   document.getElementById("cart-delete-error").innerHTML =
-          //     "something went wrong try again!";
-          // }
         }
       },
       { once: true }

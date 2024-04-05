@@ -1,4 +1,3 @@
-console.log("this is cart page");
 let totalBill;
 let grandTotal;
 listCartItemsPage();
@@ -8,16 +7,13 @@ async function listCartItemsPage() {
     cartList.innerHTML = "";
     const response = await fetch("/get-cart");
     const { items, total, couponDiscount } = await response.json();
-    console.log(couponDiscount);
     document.querySelector(".cart-discount").innerHTML = couponDiscount + "%";
     totalBill = total;
     grandTotal = Math.round(total - (total * couponDiscount) / 100);
-    console.log(items.length);
-    console.log(document.querySelectorAll(".cartitem-badge"));
+
     document
       .querySelectorAll(".cartitem-badge")
       .forEach((element) => (element.innerHTML = items.length));
-    console.log(items);
 
     const total_amount = document.querySelectorAll(".cart-total");
     total_amount.forEach((element) => (element.innerHTML = totalBill));
@@ -25,23 +21,14 @@ async function listCartItemsPage() {
     let grand_total = document.querySelector(".grand-total");
     grand_total.innerHTML = grandTotal;
 
-    console.log(total_amount);
     document.querySelector(".product-count").innerHTML = items.length;
-    console.log(items);
     items.forEach((item) => {
-      // let itemPrice = Math.round(
-      //   item.price - (item.price * item.discount) / 100
-      // );
       let itemPrice = item.PriceAfterCategoryDiscount;
 
       let totalCategoryDiscount = 0;
       if (item.offers.length !== 0) {
         item.offers.map((offer) => (totalCategoryDiscount += offer.discount));
       }
-      console.log("fklfwel [[[[[", totalCategoryDiscount);
-      // itemPrice = Math.round(
-      //   itemPrice - (itemPrice * totalCategoryDiscount) / 100
-      // );
 
       const listItem = document.createElement("li");
       listItem.classList.add("list-group-item", "product");
@@ -180,7 +167,7 @@ async function listCartItemsPage() {
       cartList.appendChild(listItem);
       // Get the container element for input steps
       const inputStepsContainer = document.getElementById(`item${item._id}`);
-      console.log(inputStepsContainer);
+
       // Add event listener to the container element
       inputStepsContainer.addEventListener("click", async function (event) {
         const target = event.target;
@@ -231,14 +218,14 @@ const apply_button = document.getElementById("applybutton");
 apply_button.addEventListener("click", async (event) => {
   const amount = document.querySelectorAll(".cart-total");
   const code = document.getElementById("codeInput").value;
-  console.log(code);
+
   const response = await fetch(`/apply-coupon?code=${code}&amount=${amount}`);
   if (!response.ok) {
     alert("something went wrong");
     location.reload();
   } else {
     const data = await response.json();
-    console.log(data.discount);
+
     alert(data.message);
     location.reload();
   }
@@ -258,7 +245,6 @@ function getMaxStock(item) {
 
 const checkoutButton = document.getElementById("checkoutButton");
 checkoutButton.addEventListener("click", async (event) => {
-  console.log("kdfkaskldf");
   // window.location.reload();
   await listCartItemsPage();
   const outOfStockProduct = document.getElementById("outofstock");

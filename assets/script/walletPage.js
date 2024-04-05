@@ -1,11 +1,6 @@
-console.log("wallet page");
-
 const wallet_tab = document.getElementById("wallet"); //here id of triggering element (a tag)
 wallet_tab.addEventListener("shown.bs.tab", async function (event) {
   try {
-    // event.preventDefault();
-    console.log("wallet clicked");
-
     const walletContent = document.getElementById("walletContent");
     await updatewalletContent(walletContent);
   } catch (error) {
@@ -19,7 +14,7 @@ async function updatewalletContent(walletContent) {
   try {
     const response = await fetch("/get-wallet");
     const data = await response.json();
-    console.log(data.wallet);
+
     const historys = data.wallet.history;
     historys.forEach((history) => {
       const tableRow = document.createElement("tr");
@@ -38,15 +33,14 @@ const addMoneyBtn = document.getElementById("addMoneyBtn");
 addMoneyBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   const amount = document.getElementById("amountInput").value;
-  console.log(amount);
+
   try {
     const response = await fetch(`/add-fund?amount=${amount}`);
     if (!response.ok) {
-      console.log(response);
       alert("somthing gone wrong");
     } else {
       const res = await response.json();
-      console.log(res);
+
       var options = {
         key: "" + res.key_id + "",
         amount: "" + res.amount + "",

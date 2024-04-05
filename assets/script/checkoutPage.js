@@ -8,7 +8,7 @@ window.addEventListener("load", async () => {
 async function loadAdress() {
   const addressContent = document.getElementById("addressContent");
   addressContent.innerHTML = "";
-  console.log("address");
+
   const response = await fetch(`/address`);
   const data = await response.json();
   data.addresses.forEach((address) => {
@@ -129,7 +129,6 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
 
   const address = button.getAttribute("data-custom-data");
   const addressobj = JSON.parse(address);
-  console.log(addressobj);
 
   document.getElementById("editaddress-Name").value = addressobj.fullName;
   document.getElementById("editaddress-textarea").value =
@@ -173,7 +172,6 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
       });
       const message = await response.json();
       if (message) {
-        console.log(message);
         document.getElementById("success").innerHTML =
           "address successfully edited";
 
@@ -213,7 +211,6 @@ add_form.addEventListener("submit", async function (event) {
   });
 
   if (filled) {
-    console.log("add address");
     const data = {
       fullName: document.getElementById("addaddress-Name").value,
       addressLine1: document.getElementById("addaddress-textarea").value,
@@ -232,7 +229,6 @@ add_form.addEventListener("submit", async function (event) {
     });
     const message = await response.json();
     if (message) {
-      console.log(message);
       document.getElementById("addsuccess").innerHTML =
         "address successfully  added";
 

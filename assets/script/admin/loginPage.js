@@ -27,7 +27,6 @@ form.addEventListener("submit", (event) => {
   const prePayload = new FormData(form);
   const payload = new URLSearchParams(prePayload);
 
-  console.log([...payload]);
   fetch("/admin/login", {
     method: "POST",
     body: payload,

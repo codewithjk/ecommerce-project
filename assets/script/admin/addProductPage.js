@@ -6,7 +6,6 @@ document
     document.getElementById("imageError").innerHTML = "";
 
     let file = event.target.files[0];
-    console.log(file);
 
     if (!file.type.startsWith("image")) {
       document.getElementById("imageError").innerHTML =
@@ -128,7 +127,6 @@ createCategoryForm.addEventListener("submit", (event) => {
       })
       .then((data) => {
         const product = data.product;
-        console.log("product ==== ", product);
         if (product !== null) {
           titleError.innerHTML = "this product is already exists";
           validInput = false;
@@ -169,12 +167,6 @@ createCategoryForm.addEventListener("submit", (event) => {
     images.push(img.src);
   });
 
-  // inputFields.forEach((input) => {
-  //   if (input.value.trim() == "") {
-  //     validInput = false;
-  //     return;
-  //   }
-  // });
   if (!/^[0-9]+$/.test(price)) {
     priceError.innerHTML = "price should be greater then 0.";
     validInput = false;
@@ -237,18 +229,3 @@ nextbtn.addEventListener("click", (event) => {
 function removeError(id) {
   document.getElementById(id).innerHTML = "";
 }
-
-// function priceValidation() {
-//   const firstNameInput = document.getElementById("product-price-input");
-//   const firstname = firstNameInput.value.trim();
-
-//   if (firstname == "") {
-//     priceError.innerHTML = "price should be greater then 0.";
-//   }
-
-//   if (!/^[0-9]+$/.test(firstname)) {
-//     priceError.innerHTML = "price should be greater then 0.";
-//   } else {
-//     priceError.innerHTML = "";
-//   }
-// }

@@ -27,7 +27,6 @@ form.addEventListener("submit", (event) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.error) {
           let paragraph = document.querySelector(".hideError");
           paragraph.innerHTML = data.error;

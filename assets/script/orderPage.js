@@ -1,5 +1,3 @@
-console.log("orderPage is loaded");
-
 const orderContent = document.getElementById("orderContent");
 orderContent.innerHTML = "";
 const order_tab = document.getElementById("orders"); //here id of triggering element (a tag)
@@ -7,11 +5,10 @@ order_tab.addEventListener("shown.bs.tab", async function (event) {
   // event.preventDefault();
   const orderContent = document.getElementById("orderContent");
   orderContent.innerHTML = "";
-  console.log("orders clicked");
 
   const response = await fetch(`/orders`);
   const data = await response.json();
-  console.log(data.orders);
+
   data.orders.forEach((order) => {
     let productNamesHTML = "";
     order.productNames.forEach((product) => {

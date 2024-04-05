@@ -86,8 +86,6 @@ async function reload() {
   }
 }
 
-// const addressContent = document.getElementById("addressContent");
-// addressContent.innerHTML = "";
 const address_tab = document.getElementById("shippingAddress"); //here id of triggering element (a tag)
 address_tab.addEventListener("shown.bs.tab", async function (event) {
   // event.preventDefault();
@@ -102,7 +100,6 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
   addressContent.innerHTML = "";
   const address = button.getAttribute("data-custom-data");
   const addressobj = JSON.parse(address);
-  console.log(addressobj);
 
   document.getElementById("editaddress-Name").value = addressobj.fullName;
   document.getElementById("editaddress-textarea").value =
@@ -147,21 +144,9 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
       });
       const message = await response.json();
       if (message) {
-        console.log(message);
         document.getElementById("success").innerHTML =
           "address successfully edited";
 
-        // Trigger 'shown.bs.tab' event on address tab to refresh data
-        // const addressTab = document.getElementById("shippingAddress");
-        // const shownEvent = new Event("shown.bs.tab", {
-        //   bubbles: true,
-        //   cancelable: true,
-        // });
-        // addressTab.dispatchEvent(shownEvent);
-
-        // Close modal
-        // const modal = bootstrap.Modal.getInstance(edit_modal);
-        // modal.hide();
         await reload();
         const add_modal = document.getElementById("editAddressModal");
         const modal = bootstrap.Modal.getInstance(add_modal);
@@ -196,7 +181,6 @@ add_form.addEventListener("submit", async function (event) {
   });
 
   if (filled) {
-    console.log("add address");
     const data = {
       fullName: document.getElementById("addaddress-Name").value,
       addressLine1: document.getElementById("addaddress-textarea").value,
@@ -230,7 +214,6 @@ add_form.addEventListener("submit", async function (event) {
     });
     const message = await response.json();
     if (message) {
-      console.log(message);
       document.getElementById("addsuccess").innerHTML =
         "address successfully  added";
 
@@ -256,9 +239,9 @@ add_form.addEventListener("submit", async function (event) {
 const remove_address_modal = document.getElementById("removeAddressModal");
 remove_address_modal.addEventListener("show.bs.modal", function (event) {
   const button = event.relatedTarget;
-  console.log("remove address");
+
   const addressId = button.getAttribute("data-custom-data");
-  console.log(addressId);
+
   const removeButton = document.getElementById("remove-address-button");
   removeButton.addEventListener("click", async (event) => {
     event.preventDefault();

@@ -1,6 +1,3 @@
-console.log("offer page");
-
-//
 var createOfferForm = document.querySelector(".addOffer-form");
 
 createOfferForm.addEventListener("submit", (event) => {
@@ -23,7 +20,6 @@ createOfferForm.addEventListener("submit", (event) => {
   }
   // Validate start date
   var currentDate = new Date();
-  console.log(currentDate, start);
 
   if (new Date(start) < currentDate) {
     document.querySelector("#dateError").innerHTML =
@@ -57,7 +53,7 @@ createOfferForm.addEventListener("submit", (event) => {
       discount: discount,
       category: category,
     };
-    console.log(data);
+
     fetch("/admin/add-category-offer", {
       method: "POST",
       headers: {
@@ -69,13 +65,11 @@ createOfferForm.addEventListener("submit", (event) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log(response);
+
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.message) {
-          console.log(data);
           document.querySelector(".formSuccess").innerHTML = data.message;
           document.location.href = "/admin/offers";
         } else if (data.error) {
@@ -97,7 +91,6 @@ viewOffer_modal.addEventListener("show.bs.offcanvas", function (event) {
   const button = event.relatedTarget;
   const offerObj = button.getAttribute("data-custom-data");
   const offer = JSON.parse(offerObj);
-  console.log(offer);
 
   document.getElementById("img-thumbnail").src = offer.image;
   document.getElementById("ctitle").innerHTML = offer.title;
@@ -133,27 +126,22 @@ const deleteOffer_modal = document.getElementById("deleteOfferModal");
 deleteOffer_modal.addEventListener("show.bs.modal", function (showevent) {
   showevent.stopPropagation();
   const delete_offer_button = document.getElementById("remove-offer");
-  console.log("hello");
 
   delete_offer_button.addEventListener("click", (event) => {
     event.preventDefault();
     const button = showevent.relatedTarget;
     const offer_id = button.getAttribute("data-custom-data");
 
-    console.log(offer_id);
-
     fetch(`/admin/remove-offer/?offerId=${offer_id}`, {
       method: "delete",
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data) {
           document.getElementById("yes-delete").innerHTML =
             data.message ?? data.error;

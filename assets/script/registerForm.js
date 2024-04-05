@@ -1,5 +1,3 @@
-console.log("register");
-
 function emailValidation() {
   const emailInput = document.getElementById("useremail");
   const email = emailInput.value.trim();
@@ -47,7 +45,6 @@ form.addEventListener("submit", async (e) => {
   const queryParams = new URLSearchParams(window.location.search);
   const referralId = queryParams.get("referralId");
 
-  console.log([...payload]);
   await fetch(`/register?referralId=${referralId}`, {
     method: "POST",
     body: payload,
@@ -59,12 +56,10 @@ form.addEventListener("submit", async (e) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       if (data.error) {
         let paragraph = document.querySelector(".hideError");
         paragraph.innerHTML = data.error;
       } else {
-        console.log(data);
         window.location.href = data.redirect;
       }
     })
@@ -88,7 +83,6 @@ document.addEventListener("click", (event) => {
 
 const google = document.getElementById("google");
 google.addEventListener("click", () => {
-  console.log("google");
   fetch("/auth/google")
     .then((response) => {
       if (!response.ok) {
@@ -106,7 +100,6 @@ google.addEventListener("click", () => {
 
 const facebook = document.getElementById("facebook");
 facebook.addEventListener("click", () => {
-  console.log("facebook");
   fetch("/auth/facebook")
     .then((response) => {
       if (!response.ok) {

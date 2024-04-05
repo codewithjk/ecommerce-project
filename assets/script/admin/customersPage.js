@@ -24,6 +24,9 @@ modal.addEventListener("show.bs.modal", function (event) {
         } else {
           window.location.href = data.redirect;
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   });
 });
@@ -54,6 +57,9 @@ modal2.addEventListener("show.bs.modal", function (event) {
         } else {
           window.location.href = data.redirect;
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   });
 });

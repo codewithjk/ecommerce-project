@@ -31,7 +31,6 @@ form.addEventListener("submit", function (event) {
   const prePayload = new FormData(form);
   const payload = new URLSearchParams(prePayload);
 
-  console.log([...payload]);
   fetch("/login", {
     method: "POST",
     body: payload,
@@ -43,7 +42,6 @@ form.addEventListener("submit", function (event) {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       if (data.emailError) {
         let paragraph = document.querySelector(".emailError");
         paragraph.innerHTML = data.emailError;
@@ -54,7 +52,6 @@ form.addEventListener("submit", function (event) {
         window.location.href = "/blocked-message";
         // alert("you are blocked by admin");
       } else {
-        console.log(data);
         window.location.href = data.redirect;
       }
     })
@@ -65,7 +62,6 @@ form.addEventListener("submit", function (event) {
 
 document.addEventListener("click", (event) => {
   if (event.target.tagName === "INPUT") {
-    // var paragraph = document.querySelector(".Error");
     if (emailError) {
       emailError.classList.add("d-none");
     }
@@ -76,7 +72,6 @@ document.addEventListener("click", (event) => {
   }
 });
 
-///////
 // google auth
 
 const google = document.getElementById("google");

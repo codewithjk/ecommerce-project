@@ -22,18 +22,14 @@ async function getWishlist() {
 
 window.onload = async () => {
   wishlist = await getWishlist();
-  console.log(wishlist);
+
   globalproducts = await getProducts(searchQuery, skip);
   displayProducts(globalproducts);
 };
 
-console.log("this is product page");
-
 //display product
 const productRow = document.getElementById("product-list");
 function displayProducts(products) {
-  console.log(products);
-  // productRow.innerHTML = "";
   products.forEach((product) => {
     const discount_price = Math.round(
       product.price - (product.price * product.discount) / 100
@@ -112,7 +108,6 @@ function displayProducts(products) {
     productRow.appendChild(div);
   });
 
-  //////////////////
   // Get the wishlist button element
   const wishlistButtons = document.querySelectorAll(
     ".btn.btn-danger.avatar-xs.p-0.btn-soft-warning.custom-toggle.product-action"
@@ -121,13 +116,11 @@ function displayProducts(products) {
   for (let wishlistButton of wishlistButtons) {
     // Add click event listener to the wishlist button
     wishlistButton.addEventListener("click", async () => {
-      console.log("whislist ckickie");
       const itemId = wishlistButton.getAttribute("data-custom-data").trim(); // objectid has a space at the end
 
       // Check if the button is currently active (item is in the wishlist)
       const isActive = wishlistButton.classList.contains("active");
-      console.log(itemId);
-      console.log(isActive);
+
       try {
         // Send a request to the server to add or remove the item from the wishlist
         const response = await fetch(`/edit-wishlist?itemId=${itemId}`, {
@@ -137,11 +130,10 @@ function displayProducts(products) {
           },
           body: JSON.stringify({ itemId }),
         });
-        console.log(response);
 
         // Check if the request was successful
         if (response.ok) {
-          console.log("addetdakfkdalafadlkfladsfjaldfaldfkjalk whislist");
+          console.log(" whislist updated");
         } else {
           // Handle error response
           console.error("Failed to update wishlist");
@@ -151,20 +143,27 @@ function displayProducts(products) {
       }
     });
   }
+
+  // show and hide loadmore button.
+
+  const loadmoreButton = document.getElementById("loadmore-button");
+  if (products.length < 9) {
+    loadmoreButton.hidden = true;
+  } else {
+    loadmoreButton.hidden = false;
+  }
 }
 
 //loadmore button action
 async function loadmore() {
-  console.log("heloo");
   skip++;
   const products = await getProducts(searchQuery, skip * limit);
-  console.log(products);
+
   if (products.length === 0 || products.message) {
     document.getElementById("no-result").innerHTML = "No more results found...";
   } else {
     globalproducts.push(...products);
     displayProducts(products);
-    console.log(globalproducts.length);
   }
 }
 
@@ -232,13 +231,12 @@ async function getProducts(searchQuery, skip) {
 
 //function to filter by category
 function filterByCategory(category) {
-  console.log("hlooooo", category);
   const filteredProducts = globalproducts.filter((product) => {
     if (product.category === category) {
       return product;
     }
   });
-  console.log(filteredProducts);
+
   productRow.innerHTML = "";
   displayProducts(filteredProducts);
 }
@@ -252,7 +250,7 @@ function filterProductsBySize(size) {
       }
     }
   });
-  console.log(filteredProducts);
+
   productRow.innerHTML = "";
   displayProducts(filteredProducts);
 }
@@ -262,8 +260,7 @@ function filterProductsByDiscount(Discount) {
   const filteredProducts = globalproducts.filter(
     (product) => product.discount >= Discount
   );
-  console.log("discount");
-  console.log(filteredProducts);
+
   productRow.innerHTML = "";
   displayProducts(filteredProducts);
 }
@@ -276,12 +273,11 @@ const toValue = document.getElementById("toValue");
 costRange.addEventListener("input", function () {
   fromValue.textContent = costRange.min;
   toValue.textContent = costRange.value;
-  console.log(costRange.value);
+
   const filteredProducts = globalproducts.filter(
     (product) => product.price <= costRange.value
   );
-  console.log("price based");
-  console.log(filteredProducts);
+
   productRow.innerHTML = "";
   displayProducts(filteredProducts);
 });

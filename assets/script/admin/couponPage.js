@@ -1,10 +1,7 @@
-console.log("couon page");
-
 // ADD coupon image
 document
   .querySelector("#category-image-input")
   .addEventListener("change", function () {
-    console.log("change");
     var preview = document.querySelector("#category-img");
     var file = document.querySelector("#category-image-input").files[0];
     var reader = new FileReader();
@@ -122,13 +119,11 @@ createCouponForm.addEventListener("submit", (event) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log(response);
+
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.message) {
-          console.log(data);
           document.querySelector(".formSuccess").innerHTML = data.message;
           document.location.href = "/admin/coupons";
         } else if (data.error) {
@@ -149,7 +144,6 @@ viewCoupon_modal.addEventListener("show.bs.offcanvas", function (event) {
   const button = event.relatedTarget;
   const couponObj = button.getAttribute("data-custom-data");
   const coupon = JSON.parse(couponObj);
-  console.log(coupon);
 
   document.getElementById("img-thumbnail").src = coupon.image;
   document.getElementById("ctitle").innerHTML = coupon.title;
@@ -194,7 +188,6 @@ modal.addEventListener("show.bs.modal", function (event) {
 
   block_button.addEventListener("click", (event) => {
     event.preventDefault();
-    console.log(coupon_id);
 
     fetch(`/admin/delete-coupon?couponId=${coupon_id}`, {
       method: "delete",
@@ -209,6 +202,9 @@ modal.addEventListener("show.bs.modal", function (event) {
           window.location.reload();
           // window.location.href = data.redirect;
         }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   });
 });

@@ -6,7 +6,6 @@ exports.getLogin = (req, res) => {
 };
 
 exports.postLogin = async (req, res) => {
-  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
   try {

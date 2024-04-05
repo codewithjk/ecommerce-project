@@ -81,7 +81,6 @@ form.addEventListener("submit", async function (event) {
   // Create a FormData object to collect form data
   const prePayload = new FormData(form);
   const payload = new URLSearchParams(prePayload);
-  console.log([...payload]);
 
   // Make an AJAX request to the server
   await fetch("/otp-verification", {
@@ -98,7 +97,6 @@ form.addEventListener("submit", async function (event) {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       if (data.error) {
         let paragraph = document.querySelector(".hideError");
         paragraph.innerHTML = data.error;
@@ -114,7 +112,6 @@ form.addEventListener("submit", async function (event) {
 
         // window.location.href = data.redirect;
         window.location.href = "/products";
-        console.log(window.location);
       }
     })
     .catch((error) => {
@@ -172,14 +169,13 @@ window.addEventListener("load", (event) => {
         return response.json();
       })
       .then((responseData) => {
-        console.log(responseData.data);
         const createdAtTimestamp = responseData.data;
         const createdAt = new Date(createdAtTimestamp);
         const ttlMinutes = 5;
         const expirationTime = new Date(
           createdAt.getTime() + ttlMinutes * 60000
         );
-        console.log(expirationTime);
+
         const remainingTime = Math.max(
           0,
           expirationTime.getTime() - Date.now()

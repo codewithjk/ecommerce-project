@@ -10,8 +10,6 @@ form.addEventListener("submit", async (event) => {
   await fetch("/otp-verification", {
     method: "POST",
     body: payload,
-    // contentType: "application/json; charset=utf-8",
-    // dataType: "json",
   })
     .then((response) => {
       if (!response.ok) {
@@ -20,14 +18,11 @@ form.addEventListener("submit", async (event) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       if (data.error) {
         let paragraph = document.querySelector(".hideError");
         paragraph.innerHTML = "code is already used";
       } else {
-        // window.location.href = data.redirect;
         window.location.href = "/set-new-password";
-        console.log(window.location);
       }
     })
     .catch((error) => {

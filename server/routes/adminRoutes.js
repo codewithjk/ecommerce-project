@@ -64,33 +64,33 @@ router.get("/get-product", isAdmin, getProductById);
 
 router.get("/check-product-exists", isAdmin, checkProductExists);
 
-router.patch("/block-user", blockUser);
-router.patch("/unblock-user", unblockUser);
+router.patch("/block-user", isAdmin, blockUser);
+router.patch("/unblock-user", isAdmin, unblockUser);
 
 router.post("/login", postLogin);
-router.post("/add-category", addCategory);
-router.post("/add-product", postAddProduct);
-router.patch("/remove-image", removeImage);
-router.delete("/remove-product", removeProduct);
-router.delete("/remove-category", removeCategory);
-router.patch("/edit-category", editCategory);
-router.patch("/edit-product", editProduct);
-router.get("/order-details", orderDetails);
-router.patch("/order/update-status", updateOrderStatus);
-router.patch("/refund-order", refundOrder);
+router.post("/add-category", isAdmin, addCategory);
+router.post("/add-product", isAdmin, postAddProduct);
+router.patch("/remove-image", isAdmin, removeImage);
+router.delete("/remove-product", isAdmin, removeProduct);
+router.delete("/remove-category", isAdmin, removeCategory);
+router.patch("/edit-category", isAdmin, editCategory);
+router.patch("/edit-product", isAdmin, editProduct);
+router.get("/order-details", isAdmin, orderDetails);
+router.patch("/order/update-status", isAdmin, updateOrderStatus);
+router.patch("/refund-order", isAdmin, refundOrder);
 
 //for chart
-router.get("/get-weekly-orders", getWeeklyOrders);
-router.get("/get-monthly-orders", getMonthlyOrders);
-router.get("/get-yearly-orders", getYearlyOrders);
+router.get("/get-weekly-orders", isAdmin, getWeeklyOrders);
+router.get("/get-monthly-orders", isAdmin, getMonthlyOrders);
+router.get("/get-yearly-orders", isAdmin, getYearlyOrders);
 
 //coupon
-router.post("/add-coupon", addCoupon);
-router.delete("/delete-coupon", removeCoupon);
+router.post("/add-coupon", isAdmin, addCoupon);
+router.delete("/delete-coupon", isAdmin, removeCoupon);
 
 //offer
-router.post("/add-category-offer", addCategoryOffer);
-router.delete("/remove-offer", removeOffer);
+router.post("/add-category-offer", isAdmin, addCategoryOffer);
+router.delete("/remove-offer", isAdmin, removeOffer);
 
 router.get("/logout", logout);
 

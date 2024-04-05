@@ -46,7 +46,6 @@ const isAdmin = (req, res, next) => {
     });
   } else {
     return res.redirect("/admin/login");
-    // return res.status(401).json({ error: "Unauthorized access" });
   }
 };
 

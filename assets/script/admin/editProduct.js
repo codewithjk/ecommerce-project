@@ -8,7 +8,7 @@ window.onload = async function () {
     const productId = new URLSearchParams(window.location.search).get(
       "productId"
     );
-    console.log(productId);
+
     const product = await productData(productId);
     let size = product.sizes;
     document.getElementById("descriptionInput").value = product.description;
@@ -65,10 +65,9 @@ window.onload = async function () {
     //display sizes
     size.forEach((obj) => {
       let id = Object.keys(obj)[0];
-      console.log(id);
+
       let input = document.getElementById(id);
       var checkbox = document.getElementById(`size${id}`);
-      console.log(checkbox);
 
       checkbox.checked = true;
 
@@ -235,10 +234,6 @@ createCategoryForm.addEventListener("submit", (event) => {
     return;
   }
 
-  // sizes.forEach((element) => {
-  //   let obj = { [element.name]: Number(element.value) };
-  //   size.push(obj);
-  // });
   sizes.forEach((element) => {
     const value = Number(element.value);
     const errorDiv = element.nextElementSibling;

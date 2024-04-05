@@ -9,25 +9,18 @@ delete_modal.addEventListener("show.bs.modal", function (event) {
 
   delete_button.addEventListener("click", (event) => {
     event.preventDefault();
-
-    console.log(product_id);
     fetch(`/admin/remove-product/?id=${product_id}`, {
       method: "delete",
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data) {
-          // document.getElementById("yes-delete").innerHTML = data.message;
-          //   alert(data.message);
           window.location.href = data.redirect;
-          // document.getElementById("no-delete").innerHTML = data.error;
         }
       })
       .catch((error) => {
@@ -45,7 +38,6 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
   const productobj = JSON.parse(product);
 
   document.getElementById("product-title-input").value = productobj.title;
-  // document.getElementById("edit-category-img").src = productobj.image;
   document.getElementById("descriptionInput").value = productobj.description;
   document.getElementById("product-price-input").value = productobj.price;
   document.getElementById("product-discount-input").value = productobj.discount;
@@ -56,10 +48,9 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
   //display sizes
   size.forEach((obj) => {
     let id = Object.keys(obj)[0];
-    console.log(id);
+
     let input = document.getElementById(id);
     var checkbox = document.getElementById(`size${id}`);
-    console.log(checkbox);
 
     checkbox.checked = true;
 
@@ -91,9 +82,7 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
     );
     span.innerHTML = `<i class="bi bi-x-circle"></i>`;
     span.setAttribute("data-custom-data", `${image}`);
-    // span.setAttribute("href", "#deleteImageModal");
-    // span.setAttribute("data-bs-toggle", "modal");
-    // Add event listener to the span for confirmation modal
+
     span.addEventListener("click", async function () {
       const response = await fetch(
         `/admin/remove-image?url=${image}&pid=${productobj._id}`,
@@ -122,7 +111,6 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
     size.push(obj);
   });
 
-  console.log(productobj.description);
   const edit_button = document.getElementById("edit-product");
 
   edit_button.addEventListener("click", (event) => {
@@ -149,7 +137,6 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
       discount: Number(document.getElementById("product-discount-input").value),
       size: size,
     };
-    console.log("upadated data === ", data);
 
     fetch(`/admin/edit-product`, {
       method: "patch",
@@ -159,27 +146,20 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
       body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data) {
-          // document.getElementById("yes-delete").innerHTML = data.message;
-          // alert(data.message);
           window.location.href = data.redirect;
-          // document.getElementById("no-delete").innerHTML = data.error;
         }
       })
       .catch((error) => {
         console.log(error);
       });
   });
-  // Mark the element to indicate that the event listener has been attached
-  // edit_modal.setAttribute("data-bs-bound", "true");
 });
 
 // delete image
@@ -188,35 +168,9 @@ delete_modal.addEventListener("show.bs.modal", function (event) {
   const button = event.relatedTarget;
 
   const url = button.getAttribute("data-custom-data");
-  console.log(url);
-
   const delete_button = document.getElementById("remove-image");
 
   delete_button.addEventListener("click", (event) => {
     event.preventDefault();
-
-    console.log(url);
-    // fetch(`/admin/remove-product/?id=${product_id}`, {
-    //   method: "delete",
-    // })
-    //   .then((response) => {
-    //     console.log(response);
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     if (data) {
-    //       // document.getElementById("yes-delete").innerHTML = data.message;
-    //       //   alert(data.message);
-    //       window.location.href = data.redirect;
-    //       // document.getElementById("no-delete").innerHTML = data.error;
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   });
 });

@@ -1,35 +1,4 @@
-console.log("fasco main is loaded");
 listCartItems();
-// const cart_button = document.getElementById("ecommerceCart");
-// cart_button.addEventListener("show.bs.offcanvas", async function (event) {
-//   //   event.preventDefault();
-// });
-
-//quantity of product
-// var plus = document.querySelector("plus");
-// var minus = document.querySelector("minus");
-// var productqty = document.querySelector("product-quantity");
-
-// const max = Number(productqty.getAttribute("max"));
-
-// plus.addEventListener("click", (event) => {
-//   event.preventDefault();
-//   minus.disabled = false;
-//   if (productqty.value >= max) {
-//     plus.disabled = true;
-//   } else {
-//     productqty.value = Number(productqty.value) + 1;
-//   }
-// });
-// minus.addEventListener("click", (event) => {
-//   event.preventDefault();
-//   plus.disabled = false;
-//   if (Number(productqty.value) < 2) {
-//     minus.disabled = true;
-//   } else {
-//     productqty.value = Number(productqty.value) - 1;
-//   }
-// });
 
 // function for list the cart items
 async function listCartItems() {
@@ -117,9 +86,6 @@ async function listCartItems() {
           target.classList.contains("minus") ||
           target.classList.contains("plus")
         ) {
-          // Get the input element associated with the clicked button
-          //   const input = inputStepsContainer.querySelector(".product-quantity");
-
           // Get the current quantity value
           let quantity = parseInt(input.value);
 
@@ -176,10 +142,6 @@ remove_modal.addEventListener("show.bs.modal", function (event) {
       }
     } catch (error) {
       console.log(error);
-      // if (error) {
-      //   document.getElementById("cart-delete-error").innerHTML =
-      //     "something went wrong try again!";
-      // }
     }
   });
 });
@@ -190,11 +152,9 @@ const cart_canvas = document.getElementById("ecommerceCart");
 cart_canvas.addEventListener("show.bs.offcanvas", async function (event) {
   const button = event.relatedTarget;
   const itemId = button.getAttribute("data-custom-data");
-  console.log(itemId);
+
   const size = button.getAttribute("data-custom-data-size");
   const quantity = button.getAttribute("data-custom-data-quantity") ?? 1;
-  console.log("this is size that selected", size);
-  console.log("this is quantity that selected", quantity);
 
   if (itemId != null) {
     //in the case of navbar cartbutton itemId will be null

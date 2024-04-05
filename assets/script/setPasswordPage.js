@@ -10,8 +10,6 @@ form.addEventListener("submit", async (event) => {
   await fetch("/change-password", {
     method: "POST",
     body: payload,
-    // contentType: "application/json; charset=utf-8",
-    // dataType: "json",
   })
     .then((response) => {
       if (!response.ok) {
@@ -20,14 +18,11 @@ form.addEventListener("submit", async (event) => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       if (data.error) {
         let paragraph = document.querySelector(".hideError");
         paragraph.innerHTML = data.error;
       } else {
         window.location.href = data.redirect;
-        // window.location.href = "/products";
-        console.log(window.location);
       }
     })
     .catch((error) => {

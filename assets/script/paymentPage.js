@@ -1,16 +1,13 @@
-console.log("payment page");
-
 const cod_btn = document.getElementById("cod-payment");
 cod_btn.addEventListener("click", async (event) => {
   event.preventDefault();
   const addressId = cod_btn.getAttribute("data-custom-data");
-  console.log(addressId);
+
   try {
     const response = await fetch(`/place-order-cod?addressId=${addressId}`);
     if (response) {
-      console.log(response);
       const responseData = await response.json();
-      console.log("response ===", responseData);
+
       if (responseData.message) {
         const modal = document.getElementById("codModal");
         document.querySelector(".modal-message").innerHTML =
@@ -30,7 +27,6 @@ cod_btn.addEventListener("click", async (event) => {
           }
         });
       } else {
-        console.log(responseData);
         window.location.href = responseData.redirectURL;
       }
     }

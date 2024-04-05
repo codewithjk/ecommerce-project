@@ -39,7 +39,6 @@ createCategoryForm.addEventListener("submit", (event) => {
       })
       .then((data) => {
         if (data.message) {
-          console.log("category added");
           document.querySelector(".formSuccess").innerHTML = data.message;
           document.location.href = data.redirect;
         } else if (data.error) {
@@ -68,14 +67,12 @@ delete_modal.addEventListener("show.bs.modal", function (event) {
       method: "delete",
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data) {
           // document.getElementById("yes-delete").innerHTML = data.message;
           // alert(data.message);
@@ -96,14 +93,11 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
 
   const category = button.getAttribute("data-custom-data");
   const categoryobj = JSON.parse(category);
-  console.log(category);
 
   document.getElementById("editcategoryTitle").value = categoryobj.title;
   document.getElementById("edit-category-img").src = categoryobj.image;
   document.getElementById("edit-descriptionInput").value =
     categoryobj.description;
-
-  console.log(categoryobj.title);
 
   const edit_button = document.getElementById("edit-category");
 
@@ -130,14 +124,12 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
       body: JSON.stringify(data),
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.message) {
           // document.getElementById("yes-delete").innerHTML = data.message;
           // alert(data.message);

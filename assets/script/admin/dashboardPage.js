@@ -1,4 +1,3 @@
-console.log("dashboard");
 const totalOrders = document.getElementById("totalOrders");
 const toatalEarnings = document.getElementById("totalEarnings");
 const totalRefunds = document.getElementById("totalRefunds");
@@ -7,7 +6,7 @@ const mainEarnings = document.getElementById("main-total-earnigs");
 async function getInitialData() {
   const response = await fetch("/admin/get-weekly-orders");
   const responseData = await response.json();
-  console.log(responseData.data);
+
   return responseData.data;
 }
 
@@ -122,7 +121,6 @@ async function changeAxis(axisType) {
   if (axisType === "days") {
     const response = await fetch("/admin/get-weekly-orders");
     const responseData = await response.json();
-    console.log(responseData.data);
 
     categories = timePeriods;
     orders = responseData.data.orders;
@@ -131,7 +129,7 @@ async function changeAxis(axisType) {
   } else if (axisType === "weeks") {
     const response = await fetch("/admin/get-monthly-orders");
     const responseData = await response.json();
-    console.log(responseData.data);
+
     categories = ["Week 1", "Week 2", "Week 3", "Week 4"];
     orders = responseData.data.orders;
     earnings = responseData.data.earnings;
@@ -149,7 +147,7 @@ async function changeAxis(axisType) {
   } else if (axisType === "months") {
     const response = await fetch("/admin/get-yearly-orders");
     const responseData = await response.json();
-    console.log(responseData.data);
+
     categories = [
       "Jan",
       "Feb",
@@ -199,6 +197,4 @@ async function changeAxis(axisType) {
       },
     ],
   });
-
-  //   main_chart.updateSeries([]);
 }

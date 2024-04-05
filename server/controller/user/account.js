@@ -34,6 +34,7 @@ exports.getAccountPage = async (req, res) => {
     const wallet = await walletModel.findOne({ userId: userId });
     res.render("account", { user: user, wallet: wallet });
   } catch (error) {
+    console.log(error);
     res.render("clientError");
   }
 };

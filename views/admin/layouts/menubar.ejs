@@ -1,7 +1,14 @@
+<style>
+  .active-bar {
+    background-color: #e8ebee;
+    font-weight: bold;
+  }
+</style>
+
 <div class="app-menu navbar-menu">
   <!-- LOGO -->
   <div class="navbar-brand-box py-3">
-    <a href="index-2.html" class="logo logo-dark">
+    <a href="/admin/dashboard" class="logo logo-dark">
       <span class="logo-lg">
         <h2 class="m-0">FASCO</h2>
       </span>
@@ -19,8 +26,22 @@
             <span data-key="t-dashboard">Dashboard</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="/admin/products" class="nav-link" data-key="t-list-view">
+            <i class="bi bi-box-seam"></i>
+            Products List</a
+          >
+        </li>
 
         <li class="nav-item">
+          <a href="/admin/categories" class="nav-link" data-key="t-categories">
+            <i class="bi bi-box-seam"></i>
+
+            Categories</a
+          >
+        </li>
+
+        <!-- <li class="nav-item">
           <a
             class="nav-link menu-link"
             href="#sidebarProducts"
@@ -53,7 +74,7 @@
               </li>
             </ul>
           </div>
-        </li>
+        </li> -->
 
         <li class="nav-item">
           <a class="nav-link menu-link" href="/admin/orders">
@@ -101,3 +122,14 @@
 
   <div class="sidebar-background"></div>
 </div>
+
+<script>
+  var path = window.location.pathname;
+  var menuLinks = document.querySelectorAll(".navbar-nav .nav-link");
+  menuLinks.forEach(function (link) {
+    var href = link.getAttribute("href");
+    if (path === href) {
+      link.closest(".nav-item").classList.add("active-bar", "rounded");
+    }
+  });
+</script>
