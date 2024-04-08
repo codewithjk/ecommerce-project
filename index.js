@@ -6,7 +6,7 @@ const adminRouter = require("./server/routes/adminRoutes");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-///////////////////////
+const nocache = require("nocache");
 
 connectDB();
 const app = express();
@@ -26,6 +26,8 @@ app.use("/static", express.static(path.resolve(__dirname, "assets")));
 app.set("view engine", "ejs");
 
 app.use(cookieParser());
+
+app.use(nocache());
 
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
