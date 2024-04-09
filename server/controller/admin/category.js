@@ -48,22 +48,7 @@ exports.addCategory = async (req, res) => {
 exports.removeCategory = async (req, res) => {
   const id = req.query.id;
   try {
-    // const deletedCategory = await deleteCategory(id);
     const deletedCategory = await categoryModel.findByIdAndDelete(id);
-
-    // console.log(deletedCategory);
-    // if (deletedCategory == null) {
-    //   console.log("deleterde is null");
-    //   res.json({
-    //     message: "Something went wrong ",
-    //   });
-    // } else {
-    //   console.log("deleterde is not null====456789");
-    //   res.json({
-    //     message: "Category is successfully deleted",
-    //     redirect: "/admin/categories",
-    //   });
-    // }
 
     res.json({
       message: "Category is successfully deleted",
@@ -78,7 +63,7 @@ exports.editCategory = async (req, res) => {
   try {
     const id = req.body.id;
     const url = await saveBase64ImageToFile(req.body.image, "image.jpg");
-    console.log("this is url  === ", url);
+
     const category = {
       title: req.body.title,
       image: url,
@@ -122,7 +107,7 @@ async function saveBase64ImageToFile(base64Data, filePath) {
           const obj = await imgur.uploadFile(filePath);
           resolve(obj.data.link);
         } catch (error) {
-          console.log("erororoor ", error);
+          console.log("image upload error", error);
           reject(error);
         }
       }

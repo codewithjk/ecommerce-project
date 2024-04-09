@@ -19,8 +19,8 @@ async function updatewalletContent(walletContent) {
     historys.forEach((history) => {
       const tableRow = document.createElement("tr");
       tableRow.innerHTML = `<td>${history.name}</td>
-      <td>${history.description}</td>
-      <td>${history.amount} </td>`;
+      <td >${history.description}</td>
+      <td >${history.amount} </td>`;
       walletContent.appendChild(tableRow);
     });
   } catch (error) {

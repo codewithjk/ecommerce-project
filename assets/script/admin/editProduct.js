@@ -220,7 +220,7 @@ createCategoryForm.addEventListener("submit", (event) => {
       })
       .then((data) => {
         const product = data.product;
-        console.log("product ==== ", product);
+
         if (product !== null) {
           titleError.innerHTML = "this product is already exists";
           validInput = false;
@@ -260,13 +260,6 @@ createCategoryForm.addEventListener("submit", (event) => {
   imageField.forEach((img) => {
     images.push(img.src);
   });
-
-  // inputFields.forEach((input) => {
-  //   if (input.value.trim() == "") {
-  //     validInput = false;
-  //     return;
-  //   }
-  // });
 
   if (!/^[0-9]+$/.test(price)) {
     priceError.innerHTML = "price should be greater then 0.";

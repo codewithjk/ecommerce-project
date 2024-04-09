@@ -11,13 +11,11 @@ exports.getOfferPage = async (req, res) => {
 
 exports.addCategoryOffer = async (req, res) => {
   try {
-    console.log(req.body);
     const { title, startDate, endDate, discount, category } = req.body;
 
     const data = { title, startDate, endDate, discount, category };
 
     const newOffer = await createOffer(data);
-    console.log("new offer", newOffer);
     if (newOffer !== null) {
       res.status(200).json({ message: "offer added successfully" });
     } else {

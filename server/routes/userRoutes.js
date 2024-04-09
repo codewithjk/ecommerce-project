@@ -26,7 +26,8 @@ const {
   googleAuthResult,
   facebookAuthResult,
   getOTPTime,
-  setUser,
+  getLandingPage,
+
   renderBlockedMessage,
   logout,
   updatePassword,
@@ -70,6 +71,7 @@ const {
   returnProduct,
   addFundToWallet,
   confirmAddFundToWallet,
+  getAboutusPage,
 } = require("../controller/user/account");
 const {
   getAllOrders,
@@ -84,9 +86,7 @@ const {
 
 //set views directory
 router.set("views", path.join(__dirname, "../../views/user"));
-router.get("/", checkAuthenticated, (req, res) => {
-  res.render("landingPage");
-});
+router.get("/", checkAuthenticated, getLandingPage);
 router.get("/login", checkAuthenticated, getLogin);
 router.get("/register", checkAuthenticated, getRegister);
 router.get("/forgot-password", getForgotPassword);
@@ -94,6 +94,7 @@ router.get("/otp-verification", getOtpPage);
 router.get("/products", verifyToken, isBlocked, getAllProducts);
 router.get("/verify-confirmation-code", getConfirmationPage);
 router.get("/set-new-password", verifyToken, isBlocked, getSetNewPassword);
+router.get("/about-us", verifyToken, isBlocked, getAboutusPage);
 
 router.get("/product-details", verifyToken, isBlocked, getProductPage);
 
@@ -175,12 +176,9 @@ router.get("/blocked-message", renderBlockedMessage);
 
 router.get("/logout", verifyToken, logout);
 
-// router.post("/testform", (req, res) => {
-//   console.log(req.body);
-//   res.json({ message: "success" });
-// });
-// router.get("/form", (req, res) => {
-//   res.render("form");
-// });
+router.use((req, res, next) => {
+  res.status(404).render("clientError", { error: "Page not found" });
+  return;
+});
 
 module.exports = router;

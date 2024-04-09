@@ -252,7 +252,7 @@ btn.addEventListener("click", () => {
   if (addressId !== null) {
     window.location.href = `/payment?addressId=${addressId}`;
   } else {
-    window.getElementById("selectAddress").innerHTML =
+    document.getElementById("selectAddress").innerHTML =
       "Please Select an address";
   }
 });

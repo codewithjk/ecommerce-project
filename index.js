@@ -7,6 +7,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const nocache = require("nocache");
+const morgan = require("morgan");
 
 connectDB();
 const app = express();
@@ -29,8 +30,10 @@ app.use(cookieParser());
 
 app.use(nocache());
 
-app.use("/", userRouter);
+app.use(morgan("common"));
+
 app.use("/admin", adminRouter);
+app.use("/", userRouter);
 
 app.listen(port || 8000, () => {
   console.log(`✅Listening on port ${port}. Visit http://localhost:${port}/`);

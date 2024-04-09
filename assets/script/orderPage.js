@@ -1,26 +1,27 @@
 const orderContent = document.getElementById("orderContent");
+let table;
 orderContent.innerHTML = "";
 const order_tab = document.getElementById("orders"); //here id of triggering element (a tag)
 order_tab.addEventListener("shown.bs.tab", async function (event) {
   // event.preventDefault();
   const orderContent = document.getElementById("orderContent");
   orderContent.innerHTML = "";
+  try {
+    const response = await fetch(`/orders`);
+    const data = await response.json();
 
-  const response = await fetch(`/orders`);
-  const data = await response.json();
-
-  data.orders.forEach((order) => {
-    let productNamesHTML = "";
-    order.productNames.forEach((product) => {
-      productNamesHTML += `<h6 class="fs-15 mb-1">✹ ${product}</h6>`;
-    });
-    const dateString = new Date(order.orderDate).toLocaleDateString("en-US", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-    const tableRow = document.createElement("tr");
-    tableRow.innerHTML = `
+    data.orders.forEach((order) => {
+      let productNamesHTML = "";
+      order.productNames.forEach((product) => {
+        productNamesHTML += `<h6 class="fs-15 mb-1">✹ ${product}</h6>`;
+      });
+      const dateString = new Date(order.orderDate).toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+      const tableRow = document.createElement("tr");
+      tableRow.innerHTML = `
   <td>
     <p >
       ${productNamesHTML}
@@ -52,18 +53,19 @@ order_tab.addEventListener("shown.bs.tab", async function (event) {
       >View</a
     >
   </td>`;
-    orderContent.appendChild(tableRow);
-  });
+      orderContent.appendChild(tableRow);
+    });
 
-  ////////
-  let table = new DataTable("#orderTableUser", {
-    layout: {
-      topStart: {},
-    },
-  });
-  ///////
+    ////////
+    if (table === undefined) {
+      table = new DataTable("#orderTableUser", {
+        layout: {
+          topStart: {},
+        },
+      });
+    }
 
-  try {
+    ///////
   } catch (error) {
     console.log(error);
   }

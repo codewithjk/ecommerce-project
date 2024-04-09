@@ -11,7 +11,6 @@ const verifyToken = (req, res, next) => {
   // Verify the token
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      console.log("frbife n errord", err);
       return res.status(403).json({ error: "Forbidden: Invalid token" });
     }
     req.user = user;
@@ -23,7 +22,6 @@ const checkAuthenticated = (req, res, next) => {
   const token = req.cookies.userToken;
 
   if (token) {
-    console.log(token);
     return res.redirect("/products");
   } else {
     next();

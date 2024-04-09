@@ -1,7 +1,7 @@
 const totalOrders = document.getElementById("totalOrders");
 const toatalEarnings = document.getElementById("totalEarnings");
 const totalRefunds = document.getElementById("totalRefunds");
-const mainEarnings = document.getElementById("main-total-earnigs");
+const mainEarnings = document.getElementById("main-total-earnings");
 //////
 async function getInitialData() {
   const response = await fetch("/admin/get-weekly-orders");
@@ -13,6 +13,7 @@ async function getInitialData() {
 window.onload = async function () {
   try {
     const initialData = await getInitialData();
+
     let ordersData = initialData.orders;
     let earningsData = initialData.earnings;
     let refundsData = initialData.refunds;
@@ -23,6 +24,7 @@ window.onload = async function () {
     totalOrders.innerHTML = totalOrder;
     toatalEarnings.innerHTML = totalEarning;
     totalRefunds.innerHTML = totalRefund;
+
     mainEarnings.innerHTML = totalEarning;
     createApexChart(timePeriods, ordersData, earningsData, refundsData);
   } catch (error) {

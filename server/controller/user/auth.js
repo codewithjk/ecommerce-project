@@ -4,12 +4,25 @@ const otpModel = require("../../models/otp");
 const { setJwtToCookies } = require("../../helper/setJwtToken");
 const { generateOtp } = require("../../helper/generateOtp");
 const { getLogger } = require("nodemailer/lib/shared");
-const { createNewWallet } = require("../../helper/dbQueries");
+const {
+  createNewWallet,
+  getTopTenProducts,
+} = require("../../helper/dbQueries");
 const crypto = require("crypto");
 const { log } = require("console");
 const { default: mongoose } = require("mongoose");
 
 // const GoogleStrategy = require("passport-google-oidc");
+
+exports.getLandingPage = async (req, res) => {
+  try {
+    const topProducts = await getTopTenProducts();
+    topProducts.pop();
+    res.render("landingPage", { products: topProducts });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // ====Register controllers
 exports.getRegister = (req, res) => {
@@ -21,8 +34,7 @@ exports.getRegister = (req, res) => {
 exports.postRegister = async (req, res) => {
   const email = req.body.email;
   const referredUserId = req.query.referralId;
-  console.log(req.body);
-  console.log("refferal === ", referredUserId);
+
   try {
     const userExist = await userModel.findOne({ email: email });
     if (userExist) {
@@ -71,8 +83,6 @@ exports.getLogin = (req, res) => {
   res.render("login");
 };
 exports.postLogin = async (req, res) => {
-  console.log(req.body);
-
   const email = req.body.email;
   const password = req.body.password;
 
@@ -109,7 +119,6 @@ exports.getOtpPage = async (req, res) => {
 };
 
 exports.postOtp = async (req, res) => {
-  console.log("otp body ==", req.body);
   const user_otp = Number(Object.values(req.body).join(""));
   try {
     const otpData = await otpModel.findOne({ otp: user_otp });
@@ -184,8 +193,6 @@ exports.getSetNewPassword = (req, res) => {
 };
 
 exports.postSetNewPassword = (req, res) => {
-  console.log(req.body);
-  console.log(req.user);
   const userId = req.user.sub;
   if (req.body.password[0] !== req.body.password[1]) {
     res.json({ error: "password not matching" });
@@ -202,8 +209,6 @@ exports.postSetNewPassword = (req, res) => {
 };
 
 exports.updatePassword = async (req, res) => {
-  console.log(req.body);
-  console.log(req.user);
   const userId = req.user.sub;
   const oldPassword = req.body.oldPassword;
   const newPassword = req.body.newPassword;
@@ -225,12 +230,6 @@ exports.renderBlockedMessage = (req, res) => {
   res.render("BlockedPage");
 };
 
-exports.setUser = async (req, res) => {
-  console.log("user data ========================== ");
-  console.log(req);
-  console.log();
-};
-
 //timer
 exports.getOTPTime = async (req, res) => {
   try {
@@ -246,7 +245,6 @@ exports.getOTPTime = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  console.log(req.cookies);
   res.clearCookie("userToken");
   res.clearCookie("email");
   res.redirect("/");
@@ -268,24 +266,26 @@ function generateRandomCode() {
 
 //funtion to send money by referral code
 async function sendMoneyToReferredUser(code, newUser) {
-  console.log(code);
-  const user = await userModel.findOne({ refferalCode: code });
-  if (user !== null) {
-    const wallet = await walletModel.findOneAndUpdate(
-      { userId: user._id },
-      {
-        $push: {
-          history: {
-            name: "Referral Bonus",
-            description: `${newUser} joined using your code`,
-            amount: 500,
+  try {
+    const user = await userModel.findOne({ refferalCode: code });
+    if (user !== null) {
+      const wallet = await walletModel.findOneAndUpdate(
+        { userId: user._id },
+        {
+          $push: {
+            history: {
+              name: "Referral Bonus",
+              description: `${newUser} joined using your code`,
+              amount: 500,
+            },
           },
+          $inc: { balance: 500 },
         },
-        $inc: { balance: 500 },
-      },
-      { new: true }
-    );
-    console.log(wallet);
+        { new: true }
+      );
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -307,7 +307,6 @@ async function sendMoneyToReferredUserByLink(id, name) {
         },
         { new: true }
       );
-      console.log(wallet);
     }
   } catch (error) {
     console.log(error);

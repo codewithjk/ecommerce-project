@@ -256,7 +256,7 @@ const addItemToCart = async (userId, itemId, size, quantity) => {
       },
       { new: true, upsert: true }
     );
-    console.log("this is cart item added now", newItem);
+
     return newItem;
   } catch (error) {
     console.log(error);
@@ -276,7 +276,6 @@ const updateItemCount = async (userId, itemId, count) => {
   return updatedItem;
 };
 
-/////////
 const searchProducts = async (query, limit, skip) => {
   try {
     const result = await productModel
@@ -303,7 +302,7 @@ const getAddressById = async (id) => {
 const createOrder = async (
   userId,
   username,
-  user,
+
   address,
   products,
   amount,
@@ -313,12 +312,11 @@ const createOrder = async (
   shipping,
   subTotal
 ) => {
-  console.log("from db query == ", paymentStatus);
   try {
     const order = new orderModel({
       userId: userId,
       customer: username,
-      userData: user,
+
       address: address,
       products: products,
       totalAmount: amount,
@@ -346,6 +344,7 @@ const getAllOrderAdmin = async () => {
       status: order.status,
       method: order.method,
       orderDate: order.orderDate,
+      is_refunded: order.is_refunded,
     }));
     return formattedOrders;
   } catch (error) {
@@ -416,7 +415,7 @@ const createNewReview = async (productId, userId, message) => {
       message: message,
     });
     const newReview = await Review.save();
-    console.log("new reivwe=====", newReview);
+
     return newReview;
   } catch (error) {
     console.log(error);
@@ -432,13 +431,13 @@ const deleteImage = async (stringToRemove, id) => {
     );
 
     if (!updatedProduct) {
-      console.log("Failed to update product");
+      // console.log("Failed to update product");
       return false;
     }
 
-    console.log(
-      `Successfully pulled "${stringToRemove}" from images and updated product`
-    );
+    // console.log(
+    //   `Successfully pulled "${stringToRemove}" from images and updated product`
+    // );
     return true;
   } catch (error) {
     console.error("Error:", error);
@@ -478,22 +477,7 @@ const addItemToWishlist = async (userId, itemId) => {
       update,
       options
     );
-    console.log(newItem);
-    // const newWishlist = await wishlistModel.findOne(
-    //   { userId: userId },
-    //   { new: true, upsert: true }
-    // );
-    // console.log("new whish list=========", newWishlist);
-    // const wishlistId = newWishlist._id;
-    // console.log(wishlistId);
-    // const newItem = await walletModel.findOneAndUpdate(
-    //   { _id: wishlistId },
-    //   {
-    //     $addToSet: { items: itemId },
-    //   },
-    //   { new: true }
-    // );
-    // console.log("pushed item===", newItem);
+
     return newItem;
   } catch (error) {
     console.log(error);
@@ -590,7 +574,6 @@ async function refundOrderById(orderId) {
     const order = await orderModel.findById(orderId);
     const userId = order.userId;
     const totalAmount = order.totalAmount;
-    console.log(userId, totalAmount);
     const updatedOrder = await orderModel.findByIdAndUpdate(orderId, {
       is_refunded: true,
     });
@@ -655,7 +638,6 @@ async function getDailyDataOfWeek() {
       const dayOfWeek = order.orderDate.getDay();
       refundedAmount[dayOfWeek] += order.totalAmount;
     });
-    console.log("refunded orders amount sum ===  ", refundedAmount);
 
     //fetch successfull orders
     const successfullOrders = await orderModel.find({
@@ -668,7 +650,6 @@ async function getDailyDataOfWeek() {
       const dayOfWeek = order.orderDate.getDay();
       earnings[dayOfWeek] += order.totalAmount;
     });
-    console.log("total earnings ===  ", earnings);
 
     return { orders: ordersByDay, earnings: earnings, refunds: refundedAmount };
   } catch (error) {
@@ -923,35 +904,27 @@ async function getMonthlyDataOfYear() {
 //stock management
 // Function to decrease quantity for each product
 async function decreaseProductQuantities(data) {
-  console.log(data);
   try {
     for (const item of data) {
       const product = await productModel.findById(item._id, { _id: 0 });
       if (!product) {
-        console.log(`Product with ID ${item._id} not found.`);
         continue;
       }
       const sizeIndex = product.sizes.findIndex((size) =>
         size.hasOwnProperty(item.size)
       );
       if (sizeIndex === -1) {
-        console.log(
-          `Size ${item.size} not found for product with ID ${item._id}.`
-        );
         continue;
       }
       const sizeKey = Object.keys(product.sizes[sizeIndex])[0]; // Extract the size key
       product.sizes[sizeIndex][sizeKey] -= item.quantity;
       product.total_stock -= item.quantity;
-      console.log(sizeKey, sizeIndex);
-      console.log("asdfghjkl=========", product.sizes[sizeIndex][sizeKey]);
+
       const updated = await productModel.findByIdAndUpdate(item._id, product, {
         new: true,
       });
-      console.log("updated ======== === ", updated);
     }
 
-    console.log("Product quantities updated successfully.");
     return true;
   } catch (error) {
     console.error("Error updating product quantities:", error);
@@ -959,35 +932,27 @@ async function decreaseProductQuantities(data) {
 }
 //function to increase the quantity when use cancel and return
 async function increaseProductQuantities(data) {
-  console.log(data);
   try {
     for (const item of data) {
       const product = await productModel.findById(item._id, { _id: 0 });
       if (!product) {
-        console.log(`Product with ID ${item._id} not found.`);
         continue;
       }
       const sizeIndex = product.sizes.findIndex((size) =>
         size.hasOwnProperty(item.size)
       );
       if (sizeIndex === -1) {
-        console.log(
-          `Size ${item.size} not found for product with ID ${item._id}.`
-        );
         continue;
       }
       const sizeKey = Object.keys(product.sizes[sizeIndex])[0]; // Extract the size key
       product.sizes[sizeIndex][sizeKey] += item.quantity;
       product.total_stock += item.quantity;
-      console.log(sizeKey, sizeIndex);
-      console.log("asdfghjkl=========", product.sizes[sizeIndex][sizeKey]);
+
       const updated = await productModel.findByIdAndUpdate(item._id, product, {
         new: true,
       });
-      console.log("updated ======== === ", updated);
     }
 
-    console.log("Product quantities updated successfully.");
     return true;
   } catch (error) {
     console.error("Error updating product quantities:", error);
@@ -1014,7 +979,6 @@ async function getAllCoupons() {
 }
 async function findCoupon(amount) {
   try {
-    console.log(amount);
     const coupon = await couponModel.findOne({
       limit: { $lt: amount },
     });
@@ -1035,27 +999,6 @@ async function giveCouponToUser(userId, coupon, code) {
     console.log(error);
   }
 }
-
-// async function applyCouponToCart(userId, code) {
-//   // const user = await userModel.findById(userId);
-
-//   try {
-//     const user = await userModel.findOneAndUpdate(
-//       { "coupons.code": code, "coupons.is_expired": false },
-//       { $set: { "coupons.$.is_expired": true } },
-//       { new: true }
-//     );
-
-//     console.log("user after updating coupon=====", user);
-//     if (user !== null) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
 
 async function applyCouponToCart(userId, code, totalAmount) {
   try {
@@ -1086,8 +1029,6 @@ async function applyCouponToCart(userId, code, totalAmount) {
         { couponDiscount: couponDiscount }
       );
 
-      console.log("User after updating coupon:", updatedUser);
-
       if (updatedUser) {
         return {
           message: "coupon successfully applied ",
@@ -1103,7 +1044,7 @@ async function applyCouponToCart(userId, code, totalAmount) {
     }
   } catch (error) {
     console.log("Error applying coupon to cart:", error);
-    throw error; // Or handle the error appropriately
+    throw error;
   }
 }
 
@@ -1168,7 +1109,6 @@ async function addMoneyToWallet(userId, title, message, amount) {
         },
         { new: true }
       );
-      console.log(wallet);
     }
   } catch (error) {
     console.log(error);
@@ -1188,11 +1128,10 @@ async function deleteOffer(id) {
 async function getTopTenProducts() {
   try {
     const products = await orderModel.aggregate([
-      // Unwind the products array to deconstruct it
       {
         $unwind: "$products",
       },
-      // Group by product ID and sum the quantity sold
+
       {
         $group: {
           _id: "$products._id",

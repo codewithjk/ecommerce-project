@@ -21,7 +21,6 @@ const setJwtToCookies = async (res, data) => {
 
 //  ---ADMIN
 const setJwtToCookiesAdmin = async (res, data) => {
-  console.log(data);
   const token = jwt.sign({ data }, process.env.JWT_SECRET, { expiresIn: "1y" });
   res.cookie("adminToken", token, {
     httpOnly: true,

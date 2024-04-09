@@ -31,9 +31,4 @@ async function calculateDistanceBetweenPINs(pin1, pin2) {
   }
 }
 
-// Example usage
-calculateDistanceBetweenPINs("682011", "683572")
-  .then((distance) => console.log("Distance:", distance, "kms"))
-  .catch((error) => console.error("Error:", error.message));
-
 module.exports = { calculateDistanceBetweenPINs };

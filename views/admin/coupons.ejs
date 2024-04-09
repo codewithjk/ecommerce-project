@@ -35,17 +35,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="row align-items-center">
-                    <div class="col-xxl-3 col-md-5">
-                      <div class="search-box mb-3 mb-md-0">
-                        <input
-                          type="text"
-                          class="form-control search"
-                          id="searchProductList"
-                          placeholder="Search by coupons code &amp; name..."
-                        />
-                        <i class="ri-search-line search-icon"></i>
-                      </div>
-                    </div>
+                    <div class="col-xxl-3 col-md-5"></div>
                     <!--end col-->
                     <div class="col-md-auto ms-auto">
                       <button
@@ -177,12 +167,10 @@
             <script>
               document.write(new Date().getFullYear());
             </script>
-            2024 © Toner.
+            © FASCO.
           </div>
           <div class="col-sm-6">
-            <div class="text-sm-end d-none d-sm-block">
-              Design &amp; Develop by Themesbrand
-            </div>
+            <div class="text-sm-end d-none d-sm-block"></div>
           </div>
         </div>
       </div>
@@ -211,7 +199,7 @@
     <div>
       <img
         id="img-thumbnail"
-        src="../assets/images/ecommerce/offer-banner.jpg"
+        src="/static/backend/images/ecommerce/offer-banner.jpg"
         alt=""
         class="img-thumbnail"
       />
@@ -386,7 +374,7 @@
                   <div class="avatar-lg">
                     <div class="avatar-title bg-light rounded-3">
                       <img
-                        src="/static/images/profile.jpg"
+                        src="/static/images/avatar-1.jpg"
                         alt=""
                         id="category-img"
                         class="avatar-md h-auto rounded-3 object-fit-cover"
@@ -534,9 +522,8 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    console.log("loaded");
     var table = document.getElementById("couponTable");
-    console.log(table);
+
     var dataTable = new DataTable(table);
   });
 </script>

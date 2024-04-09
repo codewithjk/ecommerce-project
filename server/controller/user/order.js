@@ -61,7 +61,7 @@ exports.getAllOrders = async (req, res) => {
   try {
     const userId = req.user.sub;
     const orders = await getOrdersByUserId(userId);
-    console.log("order === ", orders);
+
     if (orders !== null) {
       res.status(200).json({ orders: orders });
     } else {
@@ -81,14 +81,14 @@ exports.placeOrderRazorpay = async (req, res) => {
     const email = user.email;
 
     const addressId = req.query.addressId;
-    console.log("this is address id ===== ", addressId);
+
     const address = await getAddressById(addressId);
     const pincode = address.postalCode;
-    console.log("pincode ==", typeof pincode);
+
     const distance = await calculateDistanceBetweenPINs(pincode, "683572");
-    console.log(distance);
+
     const shipping = distance * 10;
-    console.log(shipping);
+
     const cart = await getCartByUserId(userId);
     const items = cart.cartItems;
     const method = "Razorpay";
@@ -146,7 +146,6 @@ exports.continuePayment = async (req, res) => {
     const orderId = req.query.orderId;
     const order = await getOrderById(orderId);
     const total_amount = order.totalAmount;
-    console.log("this is address id === ", order);
 
     const options = {
       amount: total_amount * 100,
@@ -212,11 +211,10 @@ exports.renderSuccess = async (req, res) => {
     let subTotal = 0;
 
     const pincode = address.postalCode;
-    console.log("pincode zzzz==", pincode);
+
     const distance = await calculateDistanceBetweenPINs(pincode, "683572");
-    console.log(distance);
+
     const shipping = distance * 10;
-    console.log(shipping);
 
     if (items.length === 0) {
       res.status(400).render("clientError");
@@ -245,7 +243,7 @@ exports.renderSuccess = async (req, res) => {
       const newOrder = await createOrder(
         userId,
         userName,
-        user,
+
         address,
         items,
         total_amount,
@@ -256,7 +254,6 @@ exports.renderSuccess = async (req, res) => {
         subTotal
       );
 
-      console.log(newOrder);
       if (newOrder !== null) {
         //remove all items from cart
         const remove = await removeAllItemFromCart(userId);
@@ -288,11 +285,10 @@ exports.renderFailure = async (req, res) => {
     let subTotal = 0;
 
     const pincode = address.postalCode;
-    console.log("pincode zzzz==", pincode);
+
     const distance = await calculateDistanceBetweenPINs(pincode, "683572");
-    console.log(distance);
+
     const shipping = distance * 10;
-    console.log(shipping);
 
     if (items.length === 0) {
       res.status(400).render("clientError");
@@ -320,7 +316,7 @@ exports.renderFailure = async (req, res) => {
       const newOrder = await createOrder(
         userId,
         userName,
-        user,
+
         address,
         items,
         total_amount,
@@ -330,7 +326,7 @@ exports.renderFailure = async (req, res) => {
         shipping,
         subTotal
       );
-      console.log("failure stauts ==", paymentStatus);
+
       if (newOrder !== null) {
         //remove all items from cart
         const remove = await removeAllItemFromCart(userId);
@@ -349,7 +345,7 @@ exports.applyCoupon = async (req, res) => {
     const userId = req.user.sub;
     const code = req.query.code;
     const amount = req.query.amount;
-    console.log(code, amount);
+
     const couponApplied = await applyCouponToCart(userId, code, amount);
     if (couponApplied) {
       res.status(200).json({

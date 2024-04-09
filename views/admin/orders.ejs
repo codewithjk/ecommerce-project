@@ -282,7 +282,6 @@
     let min = minDate.val();
     let max = maxDate.val();
     let date = new Date(data[4]);
-    console.log("min == ", min, minDate);
 
     if (
       (min === null && max === null) ||
@@ -302,45 +301,6 @@
   maxDate = new DateTime("#max", {
     format: "MMMM Do YYYY",
   });
-
-  // let table = new DataTable("#orderTable", {
-  //   layout: {
-  //     topStart: {
-  //       buttons: [
-  //         "copy",
-  //         "csv",
-  //         "excel",
-  //         "print",
-  //         {
-  //           extend: "pdf",
-  //           text: "Download PDF",
-  //           customize: function (doc) {
-  //             // Calculate total of the third column
-  //             var filteredRows = table.rows({ search: "applied" }).data();
-
-  //             var total = filteredRows
-  //               .pluck(3, "data")
-  //               .reduce(function (acc, val) {
-  //                 return acc + parseFloat(val);
-  //               }, 0);
-
-  //             var totalText = {
-  //               text: "Total amount (INR):          " + total,
-  //               alignment: "right",
-  //             };
-
-  //             var marginBeforeTotal = {
-  //               text: "",
-  //               margin: [0, 10], // Margin before the total section
-  //             };
-
-  //             doc.content.push(marginBeforeTotal, totalText);
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   },
-  // });
 
   let table = new DataTable("#orderTable", {
     layout: {

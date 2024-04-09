@@ -117,7 +117,9 @@ async function listCartItemsPage() {
           `
             )
             .join("")}
-            <div>Price after offers  : ${item.PriceAfterCategoryDiscount}</div>
+            <div>Price after offers  : ${Math.floor(
+              item.PriceAfterCategoryDiscount
+            )}</div>
         </div>
       </div>
       
@@ -141,12 +143,7 @@ async function listCartItemsPage() {
                   Remove</a
                 >
               </div>
-              <div>
-                <a href="#!" class="d-block text-body p-1 px-2"
-                  ><i class="ri-star-fill text-muted align-bottom me-1"></i>
-                  Add Wishlist</a
-                >
-              </div>
+              
             </div>
           </div>
           <div class="col-sm-auto">

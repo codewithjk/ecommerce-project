@@ -59,8 +59,7 @@ exports.removeCoupon = async (req, res) => {
   try {
     const couponId = req.query.couponId;
     const deletedCoupon = await deleteCoupon(couponId);
-    console.log(couponId);
-    console.log(deletedCoupon);
+
     if (deletedCoupon) {
       res.status(200).json({ message: "coupon deleted" });
     } else {

@@ -43,8 +43,6 @@ exports.getProductPage = async (req, res) => {
     const averageRating = sumOfRatings / reviews.length;
     const productsByCategory = await getAllProductByCategory(product.category);
     const categoryOffers = await getOfferByCategoryId(product.category);
-    console.log(categoryOffers);
-    console.log("adskfldaskdflaskfalsddfksalk");
 
     res.render("productDetails", {
       user: user,
@@ -64,13 +62,9 @@ exports.getCartItems = async (req, res) => {
   try {
     const userId = req.user.sub;
     const cart = await getCartByUserId(userId);
-    //get cart  coupon discount
-
     const cartItems = cart.cartItems;
 
     const couponDiscount = cart?.couponDiscount?.couponDiscount;
-
-    console.log(couponDiscount);
 
     let total = 0;
 
@@ -82,7 +76,7 @@ exports.getCartItems = async (req, res) => {
 
       total += item.PriceAfterCategoryDiscount * item.quantity;
     });
-    console.log(total);
+
     if (cartItems !== null) {
       res.json({
         items: cartItems,
@@ -100,8 +94,7 @@ exports.getCartItems = async (req, res) => {
 exports.removeCartItem = async (req, res) => {
   const userId = req.user.sub;
   const itemId = req.query.itemId;
-  console.log("uer id for cart", userId);
-  console.log(itemId);
+
   try {
     const deletedItem = await deleteFromCart(userId, itemId);
     if (deletedItem != null) {
@@ -131,7 +124,7 @@ exports.addToCart = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("error code====", error.code);
+    console.log("error ", error);
   }
 };
 
@@ -184,7 +177,9 @@ exports.updateItemCountInCart = async (req, res) => {
     } else {
       res.status(500).json({ message: "something went wrong! try again" });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: "something went wrong! try again" });
+  }
 };
 
 exports.getCheckoutPage = async (req, res) => {
@@ -212,8 +207,6 @@ exports.getPaymentPage = async (req, res) => {
 exports.addReview = async (req, res) => {
   try {
     const userId = req.user.sub;
-    console.log(req.query);
-    console.log(req.body);
     const productId = req.query.productId;
     const message = req.body.comment;
     const newReview = await createNewReview(productId, userId, message);

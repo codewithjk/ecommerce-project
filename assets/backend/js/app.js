@@ -651,7 +651,7 @@
   function q() {
     document
       .getElementById("vertical-hover")
-      .addEventListener("click", function () {
+      ?.addEventListener("click", function () {
         "sm-hover" ===
         document.documentElement.getAttribute("data-sidebar-size")
           ? document.documentElement.setAttribute(
@@ -1408,47 +1408,6 @@
           ? (s.classList.add("show"), o.classList.remove("d-none"))
           : (s.classList.remove("show"), o.classList.add("d-none"));
       }),
-      d.addEventListener("keyup", function (e) {
-        var n, t;
-        0 < d.value.length
-          ? (s.classList.add("show"),
-            o.classList.remove("d-none"),
-            (n = d.value.toLowerCase()),
-            (t = document.getElementsByClassName("notify-item")),
-            Array.from(t).forEach(function (e) {
-              var t,
-                a,
-                o = "";
-              e.querySelector("h6")
-                ? ((t = e
-                    .getElementsByTagName("span")[0]
-                    .innerText.toLowerCase()),
-                  (o = (a = e
-                    .querySelector("h6")
-                    .innerText.toLowerCase()).includes(n)
-                    ? a
-                    : t))
-                : e.getElementsByTagName("span") &&
-                  (o = e
-                    .getElementsByTagName("span")[0]
-                    .innerText.toLowerCase()),
-                o &&
-                  (o.includes(n)
-                    ? (e.classList.add("d-block"), e.classList.remove("d-none"))
-                    : (e.classList.remove("d-block"),
-                      e.classList.add("d-none"))),
-                Array.from(
-                  document.getElementsByClassName("notification-group-list")
-                ).forEach(function (e) {
-                  0 == e.querySelectorAll(".notify-item.d-block").length
-                    ? (e.querySelector(".notification-title").style.display =
-                        "none")
-                    : (e.querySelector(".notification-title").style.display =
-                        "block");
-                });
-            }))
-          : (s.classList.remove("show"), o.classList.add("d-none"));
-      }),
       o.addEventListener("click", function () {
         (d.value = ""), s.classList.remove("show"), o.classList.add("d-none");
       }),
@@ -1570,63 +1529,6 @@
       document.getElementById("checkout-elem") &&
         (document.getElementById("checkout-elem").style.display = "block"),
       N()),
-    document.getElementsByClassName("notification-check") &&
-      (M(),
-      Array.from(
-        document.querySelectorAll(".notification-check input")
-      ).forEach(function (t) {
-        t.addEventListener("change", function (e) {
-          e.target.closest(".notification-item").classList.toggle("active");
-          var t = document.querySelectorAll(
-            ".notification-check input:checked"
-          ).length;
-          e.target.closest(".notification-item").classList.contains("active"),
-            (document.getElementById("notification-actions").style.display =
-              0 < t ? "block" : "none"),
-            (document.getElementById("select-content").innerHTML = t);
-        });
-        var e = document.getElementById("notificationDropdown");
-        e &&
-          e.addEventListener("hide.bs.dropdown", function (e) {
-            (t.checked = !1),
-              document
-                .querySelectorAll(".notification-item")
-                .forEach(function (e) {
-                  e.classList.remove("active");
-                }),
-              M(),
-              (document.getElementById("notification-actions").style.display =
-                "");
-          });
-      }),
-      (m = document.getElementById("removeNotificationModal"))) &&
-      m.addEventListener("show.bs.modal", function (e) {
-        document
-          .getElementById("delete-notification")
-          .addEventListener("click", function () {
-            Array.from(document.querySelectorAll(".notification-item")).forEach(
-              function (e) {
-                e.classList.contains("active") && e.remove(),
-                  Array.from(
-                    document.querySelectorAll(".notification-badge")
-                  ).forEach(function (e) {
-                    e.innerHTML = document.querySelectorAll(
-                      ".notification-check input"
-                    ).length;
-                  }),
-                  Array.from(
-                    document.querySelectorAll(".notification-unread")
-                  ).forEach(function (e) {
-                    e.innerHTML = document.querySelectorAll(
-                      ".notification-item.unread-message"
-                    ).length;
-                  });
-              }
-            ),
-              M(),
-              document.getElementById("NotificationModalbtn-close").click();
-          });
-      }),
     [].slice
       .call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
       .map(function (e) {
@@ -1837,6 +1739,6 @@ mybutton &&
     // document.getElementById("current-time").innerHTML = t + " | " + a;
   }, 1e3);
 const chatCollapsible = document.getElementById("chatBot");
-chatCollapsible.addEventListener("shown.bs.collapse", (e) => {
+chatCollapsible?.addEventListener("shown.bs.collapse", (e) => {
   scrollToBottom("users-chat-widget");
 });

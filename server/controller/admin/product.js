@@ -10,6 +10,7 @@ const {
   getWeeklyDataOfMonth,
   getMonthlyDataOfYear,
   getProductByName,
+  getUserById,
 } = require("../../helper/dbQueries");
 ///////
 
@@ -48,7 +49,6 @@ exports.getProductsPage = async (req, res) => {
   ]);
 
   const categories = await getAllCategories();
-  console.log(data);
 
   res.render("products", { products: data, categories: categories });
 };
@@ -70,8 +70,6 @@ exports.postAddProduct = async (req, res) => {
       const url = await saveBase64ImageToFile(image, "image.jpg");
       urls.push(url);
     }
-
-    console.log(urls);
 
     //////////////////////////////
 
@@ -124,9 +122,7 @@ exports.editProduct = async (req, res) => {
       urls.push(url);
     }
 
-    console.log(urls);
     const id = req.body.id;
-    console.log("id === ", id);
 
     let totalStock = 0;
     const allvarients = req.body.size;
@@ -146,7 +142,7 @@ exports.editProduct = async (req, res) => {
     };
 
     const updatedData = await productModel.findByIdAndUpdate(id, product);
-    console.log(updatedData);
+
     res.json({
       message: "Product is successfully edited",
       redirect: "/admin/products",
@@ -159,7 +155,7 @@ exports.editProduct = async (req, res) => {
 exports.removeImage = async (req, res) => {
   const url = req.query.url;
   const pid = req.query.pid;
-  console.log(url, pid);
+
   try {
     const result = await deleteImage(url, pid);
     if (result) {
@@ -187,7 +183,6 @@ exports.getProductById = async (req, res) => {
   try {
     const productId = req.query.productId;
     const product = await productModel.findById(productId);
-    console.log(product);
     res.status(200).json({ product: product });
   } catch (error) {
     console.log(error);
@@ -199,9 +194,10 @@ exports.orderDetails = async (req, res) => {
   try {
     const orderId = req.query.orderId;
     const order = await getOrderById(orderId);
+    const userId = order.userId;
+    const user = await getUserById(userId);
     if (order !== null) {
-      console.log(order);
-      res.status(200).render("orderDetails", { order: order });
+      res.status(200).render("orderDetails", { order: order, user: user });
     } else {
       res.status(500).render("serverError");
     }
@@ -213,10 +209,9 @@ exports.orderDetails = async (req, res) => {
 exports.refundOrder = async (req, res) => {
   try {
     const orderId = req.query.orderId;
-    console.log(orderId);
+
     const order = await refundOrderById(orderId);
     if (order) {
-      console.log(order);
       res.status(200).json({ message: "sucessfully refunded" });
     } else {
       res.status(500).render("serverError");
@@ -228,7 +223,6 @@ exports.refundOrder = async (req, res) => {
 
 exports.updateOrderStatus = async (req, res) => {
   try {
-    console.log(req.body);
     const status = req.body.status;
     const orderId = req.body.orderId;
     const updated = await changeOrderStatus(orderId, status);
@@ -246,8 +240,6 @@ exports.updateOrderStatus = async (req, res) => {
 exports.getWeeklyOrders = async (req, res) => {
   try {
     const data = await getDailyDataOfWeek();
-    console.log("get weekly data");
-    console.log(data);
     res.status(200).json({ data });
   } catch (error) {
     console.log(error);
@@ -256,8 +248,7 @@ exports.getWeeklyOrders = async (req, res) => {
 exports.getMonthlyOrders = async (req, res) => {
   try {
     const data = await getWeeklyDataOfMonth();
-    console.log("get Monthly data");
-    console.log(data);
+
     res.status(200).json({ data });
   } catch (error) {
     console.log(error);
@@ -267,8 +258,6 @@ exports.getMonthlyOrders = async (req, res) => {
 exports.getYearlyOrders = async (req, res) => {
   try {
     const data = await getMonthlyDataOfYear();
-    console.log("get Yearly data");
-    console.log(data);
     res.status(200).json({ data });
   } catch (error) {
     console.log(error);

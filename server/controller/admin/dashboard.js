@@ -14,15 +14,29 @@ exports.getDashboard = async (req, res) => {
     const totalOrders = orders.length;
     const topProducts = await getTopTenProducts();
     const topCategories = await getTopCategories();
-    console.log("top pro ==== ", topCategories);
+
+    const earnings = orders
+      .filter((order) => {
+        if (order.is_refunded === false && order.status === "Delivered") {
+          return order;
+        }
+      })
+      .reduce(
+        (a, b) => {
+          return a.totalAmount + b.totalAmount;
+        },
+        { totalAmount: 0 }
+      );
+
     res.render("dashboard", {
       users: users,
       products: products,
       totalOrders: totalOrders,
+      totalEarnings: earnings,
       topProducts: topProducts,
       topCategories: topCategories,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };

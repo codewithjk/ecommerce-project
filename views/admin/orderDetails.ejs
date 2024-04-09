@@ -75,9 +75,9 @@
                   <div class="flex-grow-1">
                     <h6 class="fs-18 mb-3">Customer Info</h6>
                     <p class="mb-0 fw-medium"><%=order.customer %></p>
-                    <p class="mb-1"><%=order.userData.email %></p>
-                    <% if(order.userData.phoneNumber){%>
-                    <p class="mb-0"><%=order.userData.phoneNumber %></p>
+                    <p class="mb-1"><%=user.email %></p>
+                    <% if(user.phoneNumber){%>
+                    <p class="mb-0"><%=user.phoneNumber %></p>
                     <% } %>
                   </div>
                   <div class="avatar-sm flex-shrink-0">

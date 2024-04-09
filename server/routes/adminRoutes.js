@@ -94,4 +94,8 @@ router.delete("/remove-offer", isAdmin, removeOffer);
 
 router.get("/logout", logout);
 
+router.use((req, res, next) => {
+  res.status(404).render("serverError", { error: "Page not found" });
+  return;
+});
 module.exports = router;

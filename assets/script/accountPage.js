@@ -96,60 +96,66 @@ edit_profile_modal.addEventListener("show.bs.modal", function (event) {
 });
 
 const changePasswordForm = document.getElementById("changepasswordForm");
-changePasswordForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const oldPassword = document.getElementById("oldpasswordInput").value.trim();
-  const newPassword = document.getElementById("newpasswordInput").value.trim();
-  const confirmPassword = document
-    .getElementById("confirmpasswordInput")
-    .value.trim();
+if (changePasswordForm !== null) {
+  changePasswordForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const oldPassword = document
+      .getElementById("oldpasswordInput")
+      .value.trim();
+    const newPassword = document
+      .getElementById("newpasswordInput")
+      .value.trim();
+    const confirmPassword = document
+      .getElementById("confirmpasswordInput")
+      .value.trim();
 
-  let valid = true;
-  if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
-    document.getElementById("password-error").innerHTML = "fill all fields";
-    valid = false;
-    return;
-  }
-  const passwordPattern =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    let valid = true;
+    if (oldPassword == "" || newPassword == "" || confirmPassword == "") {
+      document.getElementById("password-error").innerHTML = "fill all fields";
+      valid = false;
+      return;
+    }
+    const passwordPattern =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  if (!passwordPattern.test(newPassword)) {
-    const errorMessage =
-      "Password must contain at least 8 characters, including one letter, one number, and one special character (@$!%*?&)";
-    document.getElementById("password-error").innerHTML = errorMessage;
-    valid = false;
-    return;
-  }
-  if (newPassword !== confirmPassword) {
-    document.getElementById("password-error").innerHTML =
-      "confirm password not matching";
-    valid = false;
-    return;
-  }
-  if (valid) {
-    const response = await fetch("/update-password", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-      }),
-    });
-    if (response.ok) {
-      const responseData = await response.json();
-      if (responseData.error) {
-        document.getElementById("password-error").innerHTML =
-          responseData.error;
-      } else {
-        document.getElementById("password-success").innerHTML =
-          responseData.success;
-        window.location.reload();
+    if (!passwordPattern.test(newPassword)) {
+      const errorMessage =
+        "Password must contain at least 8 characters, including one letter, one number, and one special character (@$!%*?&)";
+      document.getElementById("password-error").innerHTML = errorMessage;
+      valid = false;
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      document.getElementById("password-error").innerHTML =
+        "confirm password not matching";
+      valid = false;
+      return;
+    }
+    if (valid) {
+      const response = await fetch("/update-password", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        }),
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        if (responseData.error) {
+          document.getElementById("password-error").innerHTML =
+            responseData.error;
+        } else {
+          document.getElementById("password-success").innerHTML =
+            responseData.success;
+          window.location.reload();
+        }
       }
     }
-  }
-});
+  });
+}
 
 function removeError(id) {
   document.getElementById(id).innerHTML = "";

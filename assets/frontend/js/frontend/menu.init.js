@@ -519,8 +519,8 @@ function initActiveMenu() {
 
   if (currentPath) {
     var a = document
-      .getElementById("navigation-menu")
-      .querySelector('.nav-link[href="' + currentPath + '"]');
+      ?.getElementById("navigation-menu")
+      ?.querySelector('.nav-link[href="' + currentPath + '"]');
     if (a) {
       a.classList.add("active");
       var parentCollapseDiv = a.closest(".dropdown-menu");

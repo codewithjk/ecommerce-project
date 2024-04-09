@@ -30,7 +30,6 @@ exports.getAccountPage = async (req, res) => {
   try {
     const userId = req.user.sub;
     const user = await getUserById(userId);
-    console.log(user);
     const wallet = await walletModel.findOne({ userId: userId });
     res.render("account", { user: user, wallet: wallet });
   } catch (error) {
@@ -41,7 +40,6 @@ exports.getAccountPage = async (req, res) => {
 
 exports.getAddressOfUser = async (req, res) => {
   const userId = req.user.sub;
-  console.log(userId);
 
   const addresses = await getAddressByUid(userId);
 
@@ -51,7 +49,6 @@ exports.getAddressOfUser = async (req, res) => {
 exports.editAddress = async (req, res) => {
   try {
     const id = req.body.id;
-    console.log(req.body);
     const data = {
       fullName: req.body.fullName,
       addressLine1: req.body.addressLine1,
@@ -66,14 +63,13 @@ exports.editAddress = async (req, res) => {
       res.json({ message: "address updated !" });
     }
   } catch (error) {
-    console.log();
+    console.log(error);
   }
 };
 
 exports.addAddress = async (req, res) => {
   try {
     const userId = req.user.sub;
-    console.log(req.body);
     const data = {
       userId: userId,
       fullName: req.body.fullName,
@@ -96,7 +92,6 @@ exports.addAddress = async (req, res) => {
 exports.editProfile = async (req, res) => {
   try {
     const userId = req.user.sub;
-    console.log("edited data ===", req.body);
     const editedProfile = await updateProfile(userId, req.body);
     if (editedProfile !== null) {
       res.json({ message: "profile successfully updated" });
@@ -124,7 +119,6 @@ exports.addToWishlist = async (req, res) => {
   try {
     const userId = req.user.sub;
     const itemId = req.query.itemId;
-    console.log("patch wishlist =====", userId, itemId);
     const newItem = await addItemToWishlist(userId, itemId);
     if (newItem !== null) {
       res.status(200).json({ add: true, message: "item added to wishlist" });
@@ -139,7 +133,6 @@ exports.removeFromWishlist = async (req, res) => {
   try {
     const userId = req.user.sub;
     const itemId = req.query.itemId;
-    console.log("delete from wishlist =====", userId, itemId);
 
     const removedItem = await removeItemToWishlist(userId, itemId);
     if (removedItem !== null) {
@@ -172,7 +165,6 @@ exports.renderWishlistPage = async (req, res) => {
   try {
     const userId = req.user.sub;
     const wishlist = await getDetailedWishlist(userId);
-    console.log(wishlist);
     res.status(200).json({ wishlist: wishlist });
   } catch (error) {
     console.log(error);
@@ -184,7 +176,6 @@ exports.getWallet = async (req, res) => {
   try {
     const userId = req.user.sub;
     const wallet = await getWalletByUserId(userId);
-    console.log(wallet);
     res.status(200).json({ wallet: wallet });
   } catch (error) {
     console.log(error);
@@ -197,8 +188,8 @@ exports.orderDetails = async (req, res) => {
     const user = await getUserById(userId);
     const orderId = req.query.orderId;
     const order = await getOrderById(orderId);
+
     if (order !== null && order !== undefined) {
-      console.log(order);
       res.status(200).render("orderDetails", { order: order, user: user });
     } else {
       res.status(500).render("serverError");
@@ -214,7 +205,6 @@ exports.cancelOrder = async (req, res) => {
   try {
     const orderId = req.body.id;
     const reason = req.body.reason;
-    console.log(req.body);
     const cancelledOrder = await orderModel.findByIdAndUpdate(
       orderId,
       {
@@ -231,8 +221,6 @@ exports.cancelOrder = async (req, res) => {
     } else {
       res.status(500).json({ message: "something went wrong" });
     }
-
-    console.log("from cancel order ===", cancelledOrder);
   } catch (error) {
     console.log(error);
   }
@@ -243,7 +231,6 @@ exports.returnProduct = async (req, res) => {
     const orderId = req.query.orderId;
     const productId = req.query.productId;
     const reason = req.body.reason;
-    console.log(orderId, productId, reason);
     const returnedOrder = await orderModel.findOneAndUpdate(
       { _id: orderId, products: { $elemMatch: { _id: productId } } },
       {
@@ -260,7 +247,6 @@ exports.returnProduct = async (req, res) => {
     } else {
       res.status(500).json({ message: "something went wrong" });
     }
-    console.log("returned order ==", returnedOrder);
   } catch (error) {
     console.log(error);
   }
@@ -283,8 +269,6 @@ exports.addFundToWallet = async (req, res) => {
 
     razorpayInstance.orders.create(options, async (err, order) => {
       if (!err) {
-        console.log("order ==== ", order);
-
         res.status(200).json({
           success: true,
           msg: "Money added to wallet",
@@ -320,5 +304,17 @@ exports.confirmAddFundToWallet = async (req, res) => {
     res.status(200).json({ message: "amount successfully added" });
   } catch (error) {
     console.log(error);
+  }
+};
+
+exports.getAboutusPage = async (req, res) => {
+  try {
+    const userId = req.user.sub;
+
+    const user = await getUserById(userId);
+
+    return res.render("aboutusPage", { user: user });
+  } catch (error) {
+    res.render("clientError");
   }
 };

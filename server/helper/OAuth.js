@@ -23,7 +23,6 @@ const getUserFromGoogle = async (req, res) => {
     res.json({ redirect: "/" });
   } else {
     const code = req.query.code;
-    console.log(req.query);
 
     const data = await getGoogleToken(code);
 
@@ -40,7 +39,7 @@ const getUserFromGoogle = async (req, res) => {
       throw new Error("Network response was not ok");
     } else {
       const googleUser = await response.json();
-      console.log(googleUser);
+
       const email = googleUser.email;
       res.cookie("email", email);
       const existingUser = await getUserByEmail(email);
@@ -59,10 +58,10 @@ const getUserFromGoogle = async (req, res) => {
         });
         const newUser = await user.save();
         const userId = newUser._id;
-        console.log(userId);
+
         //create wallet
         const wallet = await createNewWallet(userId);
-        console.log("now created wallet ===== ", wallet);
+
         await setJwtToCookies(res, user);
         res.redirect("/products");
       }
@@ -85,8 +84,6 @@ const getUserFromFacebook = async (req, res) => {
     res.json({ redirect: "/" });
   } else {
     const code = req.query.code;
-    console.log(req.query);
-
     const data = await getFacebookToken(code);
 
     const urlForGettingUserInfo =
@@ -102,7 +99,7 @@ const getUserFromFacebook = async (req, res) => {
       throw new Error("Network response was not ok");
     } else {
       const facebookUser = await response.json();
-      console.log("Face book user ==== ", facebookUser);
+
       const email = facebookUser.email;
       res.cookie("email", email);
       const existingUser = await getUserByEmail(email);
@@ -146,7 +143,7 @@ function getGoogleToken(code) {
     grant_type: "authorization_code",
   });
   const url = `https://oauth2.googleapis.com/token?${query}`;
-  console.log(url);
+
   return fetch(url, {
     method: "POST",
     headers: {
@@ -175,7 +172,7 @@ function getFacebookToken(code) {
     grant_type: "authorization_code",
   });
   const url = `https://graph.facebook.com/v12.0/oauth/access_token?${query}`;
-  console.log(url);
+
   return fetch(url, {
     method: "POST",
     headers: {

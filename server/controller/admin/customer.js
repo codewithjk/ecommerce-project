@@ -21,8 +21,6 @@ exports.getCustomerPage = async (req, res) => {
 
 exports.blockUser = async (req, res) => {
   const userId = req.body.id;
-  console.log(userId);
-  console.log("block user");
   try {
     const result = await userModel.findByIdAndUpdate(userId, {
       status: "Blocked",
@@ -38,8 +36,7 @@ exports.blockUser = async (req, res) => {
 };
 exports.unblockUser = async (req, res) => {
   const userId = req.body.id;
-  console.log(userId);
-  console.log("block user");
+
   try {
     const result = await userModel.findByIdAndUpdate(userId, {
       status: "Active",

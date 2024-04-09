@@ -138,8 +138,8 @@
               <a href="#description-section" class="link-info">Read More</a>
             </p>
             <h5 class="fs-24 mb-4">
-              <% const discount_price = product.price -
-              (product.price*product.discount/100) %> ₹<%=discount_price %> <%
+              <% const discount_price = Math.floor( product.price -
+              (product.price*product.discount/100)) %> ₹<%=discount_price %> <%
               if(product.discount > 0){%>
               <span class="text-muted fs-14"
                 >₹<del><%=product.price %></del></span

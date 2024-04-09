@@ -1,7 +1,7 @@
 var globalproducts = [];
 var searchQuery = "";
 var skip = 0;
-var limit = 10;
+var limit = 9;
 var wishlist = [];
 
 //focus on input
@@ -63,11 +63,17 @@ function displayProducts(products) {
           <span class="icon-off"><i class="ri-heart-fill"></i></span>
         </button>
       </div>
-      <div class="avatar-xs label">
-        <div class="avatar-title bg-danger rounded-circle fs-11">
-          ${product.discount}%
-        </div>
-      </div>
+      ${
+        product.discount > 0
+          ? `
+  <div class="avatar-xs label">
+    <div class="avatar-title bg-danger rounded-circle fs-11">
+      ${product.discount}%
+    </div>
+  </div>
+`
+          : ""
+      }
     </div>
     <div class="pt-4">
       <div>
