@@ -20,9 +20,9 @@ require("./server/helper/OAuth");
 app.use(express.json({ limit: "10mb" }));
 
 app.use(express.urlencoded({ extended: true }));
-console.log("this is the root directory ",__dirname,"  ",path.resolve(__dirname, "assets"))
+console.log("this is the root directory ", __dirname, "  ", path.resolve(__dirname, "assets"))
 //load static assets
-app.use("/static", express.static(path.resolve(__dirname, "assets")));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
 
