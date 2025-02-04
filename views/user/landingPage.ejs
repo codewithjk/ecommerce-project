@@ -1,207 +1,166 @@
 <%- include("./layouts/header") %>
-<body style="background-color: rgb(255, 255, 255)">
-  <nav
-    class="navbar navbar-expand-lg ecommerce-navbar"
-    id="navbar"
-    style="background-color: rgba(211, 220, 231, 0.9)"
-  >
-    <div class="container-fluid container-custom">
-      <a class="navbar-brand d-none d-lg-block" href="/">
-        <h2>FASCO</h2>
-      </a>
-      <button
-        class="btn btn-soft-primary btn-icon d-lg-none"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <i class="bi bi-list fs-20"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
-      <div
-        class="bg-overlay navbar-overlay"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent.show"
-      ></div>
 
-      <div class="d-flex align-items-center">
-        <div class="topbar-head-dropdown ms-1 header-item">
-          <a href="/login">
-            <button class="btn btn-soft-primary w-100">Log In</button>
-          </a>
+  <body style="background-color: rgb(255, 255, 255)">
+    <nav class="navbar navbar-expand-lg ecommerce-navbar" id="navbar"
+      style="background-color: rgba(211, 220, 231, 0.9)">
+      <div class="container-fluid container-custom">
+        <a class="navbar-brand d-none d-lg-block" href="/">
+          <h2>FASCO</h2>
+        </a>
+        <button class="btn btn-soft-primary btn-icon d-lg-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <i class="bi bi-list fs-20"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+        <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show">
         </div>
 
-        <div class="topbar-head-dropdown ms-1 header-item">
-          <a href="/register">
-            <button class="btn btn-soft-info w-100" type="submit">
-              Sign Up
-            </button></a
-          >
-        </div>
-      </div>
-    </div>
-  </nav>
+        <div class="d-flex align-items-center">
+          <div class="topbar-head-dropdown ms-1 header-item">
+            <a href="/login">
+              <button class="btn btn-soft-primary w-100">Log In</button>
+            </a>
+          </div>
 
-  <section class="trend-fashion-home">
-    <div class="container-fluid container-custom">
-      <div class="row g-0">
-        <div class="col-lg-4">
-          <div
-            class="home-widgets card card-height-100 border-0 rounded-end-0"
-            style="
-              background-image: url('/static/frontend/images/ecommerce/instagram/img-2.jpg');
-              background-size: cover;
-            "
-          >
-            <div class="card-body"></div>
+          <div class="topbar-head-dropdown ms-1 header-item">
+            <a href="/register">
+              <button class="btn btn-soft-info w-100" type="submit">
+                Sign Up
+              </button></a>
           </div>
         </div>
-        <div class="col-lg-4">
-          <div class="card card-height-100 border-0 rounded-0 bg-info-subtle">
-            <div
-              class="card-body px-4 px-lg-5 text-center d-flex align-items-center"
-            >
-              <div>
-                <h3 class="text-capitalize lh-base mb-2">
-                  The World Most suitable
-                  <span class="ff-secondary">Fashion</span> Collection
-                </h3>
-                <p class="fs-16 mb-4">
-                  Fashion Academy recommends 10 to 12 styles for your first
-                  collection. As for how many items to produce within each style
-                  frame, test out the waters first.
-                </p>
-                <a
-                  href="/login"
-                  type="button"
-                  class="btn btn-info btn-hover rounded-0"
-                >
-                  Shop Now <i class="bi bi-bag align-baseline ms-1"></i>
-                </a>
+      </div>
+    </nav>
+
+    <section class="trend-fashion-home">
+      <div class="container-fluid container-custom">
+        <div class="row g-0">
+          <div class="col-lg-4">
+            <div class="home-widgets card card-height-100 border-0 rounded-end-0" style="
+              background-image: url('/frontend/images/ecommerce/instagram/img-2.jpg');
+              background-size: cover;
+            ">
+              <div class="card-body"></div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-height-100 border-0 rounded-0 bg-info-subtle">
+              <div class="card-body px-4 px-lg-5 text-center d-flex align-items-center">
+                <div>
+                  <h3 class="text-capitalize lh-base mb-2">
+                    The World Most suitable
+                    <span class="ff-secondary">Fashion</span> Collection
+                  </h3>
+                  <p class="fs-16 mb-4">
+                    Fashion Academy recommends 10 to 12 styles for your first
+                    collection. As for how many items to produce within each style
+                    frame, test out the waters first.
+                  </p>
+                  <a href="/login" type="button" class="btn btn-info btn-hover rounded-0">
+                    Shop Now <i class="bi bi-bag align-baseline ms-1"></i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!--end col-->
-        <div class="col-lg-4">
-          <div
-            class="card home-widgets card-height-100 border-0 rounded-start-0"
-            style="
-              background-image: url('/static/frontend/images/ecommerce/instagram/img-4.jpg');
+          <!--end col-->
+          <div class="col-lg-4">
+            <div class="card home-widgets card-height-100 border-0 rounded-start-0" style="
+              background-image: url('/frontend/images/ecommerce/instagram/img-4.jpg');
               background-size: cover;
-            "
-          >
-            <div class="card-body"></div>
+            ">
+              <div class="card-body"></div>
+            </div>
           </div>
         </div>
+        <!--end row-->
       </div>
-      <!--end row-->
-    </div>
-    <!--end container-fluid-->
-  </section>
+      <!--end container-fluid-->
+    </section>
 
-  <!-- START PRODUCT -->
-  <section class="section pt-0">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="text-center">
-            <h3 class="mb-3">Top Picks Products Of The Week</h3>
-            <p class="text-muted fs-15 mb-0">
-              This ranges from women and men's outfits to children's clothing,
-              shoes, accessories, and more. People love their clothes, and
-              fashion isn't going anywhere!
-            </p>
+    <!-- START PRODUCT -->
+    <section class="section pt-0">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <div class="text-center">
+              <h3 class="mb-3">Top Picks Products Of The Week</h3>
+              <p class="text-muted fs-15 mb-0">
+                This ranges from women and men's outfits to children's clothing,
+                shoes, accessories, and more. People love their clothes, and
+                fashion isn't going anywhere!
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="row mt-5">
-        <div class="col-lg-12">
-          <div class="row gallery-wrapper mt-4 pt-2">
-            <% products.forEach(product => {%>
-            <div
-              class="element-item col-xxl-3 col-xl-4 col-sm-6 seller hot arrival"
-              data-category="hot arrival"
-            >
-              <div class="card overflow-hidden">
-                <div class="bg-warning-subtle rounded-top py-4">
-                  <div class="gallery-product">
-                    <img
-                      src="<%=product.image %>"
-                      alt=""
-                      style="max-height: 215px; max-width: 100%"
-                      class="mx-auto d-block"
-                    />
-                  </div>
-                  <p
-                    class="fs-11 fw-medium badge bg-primary py-2 px-3 product-lable mb-0"
-                  >
-                    Best Arrival
-                  </p>
+        <div class="row mt-5">
+          <div class="col-lg-12">
+            <div class="row gallery-wrapper mt-4 pt-2">
+              <% products.forEach(product=> {%>
+                <div class="element-item col-xxl-3 col-xl-4 col-sm-6 seller hot arrival" data-category="hot arrival">
+                  <div class="card overflow-hidden">
+                    <div class="bg-warning-subtle rounded-top py-4">
+                      <div class="gallery-product">
+                        <img src="<%=product.image %>" alt="" style="max-height: 215px; max-width: 100%"
+                          class="mx-auto d-block" />
+                      </div>
+                      <p class="fs-11 fw-medium badge bg-primary py-2 px-3 product-lable mb-0">
+                        Best Arrival
+                      </p>
 
-                  <div class="product-btn px-3">
-                    <a href="/login" class="btn btn-primary btn-sm w-75 add-btn"
-                      ><i class="mdi mdi-cart me-1"></i> Add to cart</a
-                    >
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div>
-                    <a href="/login">
-                      <h6 class="fs-15 lh-base text-truncate mb-0">
-                        <%=product.title %>
-                      </h6>
-                    </a>
-                    <div class="mt-3">
-                      <span class="float-end">
-                        <i
-                          class="ri-star-half-fill text-warning align-bottom"
-                        ></i
-                      ></span>
-                      <% const discount_price = Math.round(product.price -
-                      (product.price * product.discount) / 100); %>
-                      <h5 class="mb-0">
-                        ₹<%=discount_price %>
-                        <span class="text-muted fs-12"
-                          ><del>₹<%=product.price %></del></span
-                        >
-                      </h5>
+                      <div class="product-btn px-3">
+                        <a href="/login" class="btn btn-primary btn-sm w-75 add-btn"><i class="mdi mdi-cart me-1"></i>
+                          Add to cart</a>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div>
+                        <a href="/login">
+                          <h6 class="fs-15 lh-base text-truncate mb-0">
+                            <%=product.title %>
+                          </h6>
+                        </a>
+                        <div class="mt-3">
+                          <span class="float-end">
+                            <i class="ri-star-half-fill text-warning align-bottom"></i></span>
+                          <% const discount_price=Math.round(product.price - (product.price * product.discount) / 100);
+                            %>
+                            <h5 class="mb-0">
+                              ₹<%=discount_price %>
+                                <span class="text-muted fs-12"><del>₹<%=product.price %></del></span>
+                            </h5>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+
+                <% }); %>
             </div>
 
-            <% }); %>
-          </div>
-
-          <div class="mt-4 text-center">
-            <a href="/login" class="btn btn-soft-primary btn-hover"
-              >View All Products
-              <i class="mdi mdi-arrow-right align-middle ms-1"></i
-            ></a>
+            <div class="mt-4 text-center">
+              <a href="/login" class="btn btn-soft-primary btn-hover">View All Products
+                <i class="mdi mdi-arrow-right align-middle ms-1"></i></a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!-- END PRODUCT -->
+    </section>
+    <!-- END PRODUCT -->
 
-  <!-- JAVASCRIPT -->
-  <script src="/static/frontend/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/static/frontend/libs/simplebar/simplebar.min.js"></script>
-  <script src="/static/frontend/js/plugins.js"></script>
+    <!-- JAVASCRIPT -->
+    <script src="/frontend/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/frontend/libs/simplebar/simplebar.min.js"></script>
+    <script src="/frontend/js/plugins.js"></script>
 
-  <!-- Swiper Js-->
-  <script src="/static/frontend/libs/swiper/swiper-bundle.min.js"></script>
+    <!-- Swiper Js-->
+    <script src="/frontend/libs/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Trend Fashion init js-->
+    <!-- Trend Fashion init js-->
 
-  <!-- menu init js -->
-  <script src="/static/frontend/js/frontend/menu.init.js"></script>
-</body>
-<%- include("./layouts/footer") %>
+    <!-- menu init js -->
+    <script src="/frontend/js/frontend/menu.init.js"></script>
+  </body>
+  <%- include("./layouts/footer") %>

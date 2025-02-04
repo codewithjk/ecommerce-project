@@ -4,9 +4,9 @@
   (document.writeln(
     "<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/toastify-js'></script>"
   ),
-  document.writeln(
-    "<script src='https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js'></script>"
-  ),
-  document.writeln(
-    "<script type='text/javascript' src='/static/frontend/libs/flatpickr/flatpickr.min.js'></script>"
-  ));
+    document.writeln(
+      "<script src='https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js'></script>"
+    ),
+    document.writeln(
+      "<script type='text/javascript' src='/frontend/libs/flatpickr/flatpickr.min.js'></script>"
+    ));

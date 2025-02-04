@@ -1,480 +1,365 @@
 <%- include("./layouts/header") %> <%- include("./layouts/navbar") %>
 
-<!-- start profile -->
-<section class="position-relative">
-  <div
-    class="profile-basic position-relative"
-    style="
-      background-image: url('/static/frontend/images/profile-bg.jpg');
+    <!-- start profile -->
+    <section class="position-relative">
+      <div class="profile-basic position-relative" style="
+      background-image: url('/frontend/images/profile-bg.jpg');
       background-size: cover;
       background-position: center;
       height: 300px;
-    "
-  >
-    <div class="bg-overlay bg-primary" style="--bs-bg-opacity: 0.99"></div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="pt-3">
-          <div class="mt-n5 d-flex gap-3 flex-wrap align-items-end">
-            <img
-              src="<%=user.avatar%>"
-              alt=""
-              class="avatar-xl rounded p-1 bg-light mt-n3"
-            />
-            <div>
-              <h5 class="fs-18"><%=user.firstName%> <%=user.lastName %></h5>
-              <div class="text-muted">
-                <i class="bi bi-envelope-at"></i> <%=user.email %>
+    ">
+        <div class="bg-overlay bg-primary" style="--bs-bg-opacity: 0.99"></div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="pt-3">
+              <div class="mt-n5 d-flex gap-3 flex-wrap align-items-end">
+                <img src="<%=user.avatar%>" alt="" class="avatar-xl rounded p-1 bg-light mt-n3" />
+                <div>
+                  <h5 class="fs-18">
+                    <%=user.firstName%>
+                      <%=user.lastName %>
+                  </h5>
+                  <div class="text-muted">
+                    <i class="bi bi-envelope-at"></i>
+                    <%=user.email %>
+                  </div>
+                </div>
+                <div class="ms-md-auto"></div>
               </div>
             </div>
-            <div class="ms-md-auto"></div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-<!-- end profile -->
+    </section>
+    <!-- end profile -->
 
-<!-- start tab-->
-<section class="py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3">
-        <div class="card">
-          <div class="card-body">
-            <ul
-              id="menu-tabs"
-              class="nav nav-pills flex-column gap-3"
-              role="tablist"
-            >
-              <li class="nav-item" role="presentation">
-                <a
-                  id="accountInfo"
-                  class="nav-link fs-15 active"
-                  data-bs-toggle="tab"
-                  href="#custom-v-pills-profile"
-                  role="tab"
-                  aria-selected="true"
-                  ><i class="bi bi-person-circle align-middle me-1"></i> Account
-                  Info</a
-                >
-              </li>
-              <li class="nav-item" role="presentation">
-                <a
-                  id="shippingAddress"
-                  class="nav-link fs-15"
-                  data-bs-toggle="tab"
-                  href="#custom-v-pills-address"
-                  role="tab"
-                  aria-selected="true"
-                  ><i class="bi bi-house align-middle me-1"></i>
-                  Addresses
-                </a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a
-                  id="wishlist"
-                  class="nav-link fs-15"
-                  data-bs-toggle="tab"
-                  href="#custom-v-pills-list"
-                  role="tab"
-                  aria-selected="false"
-                  tabindex="-1"
-                  ><i class="bi bi-bookmark-check align-middle me-1"></i> Wish
-                  list</a
-                >
-              </li>
-              <li class="nav-item" role="presentation">
-                <a
-                  id="orders"
-                  class="nav-link fs-15"
-                  data-bs-toggle="tab"
-                  href="#custom-v-pills-order"
-                  role="tab"
-                  aria-selected="false"
-                  tabindex="-1"
-                  ><i class="bi bi-bag align-middle me-1"></i> Orders</a
-                >
-              </li>
-              <li class="nav-item" role="presentation">
-                <a
-                  id="wallet"
-                  class="nav-link fs-15"
-                  data-bs-toggle="tab"
-                  href="#custom-v-pills-wallet"
-                  role="tab"
-                  aria-selected="false"
-                  tabindex="-1"
-                  ><i class="bi bi-wallet2 align-middle me-1"></i> Wallet</a
-                >
-              </li>
-              <li class="nav-item" role="presentation">
-                <a
-                  id="coupon"
-                  class="nav-link fs-15"
-                  data-bs-toggle="tab"
-                  href="#custom-v-pills-coupon"
-                  role="tab"
-                  aria-selected="false"
-                  tabindex="-1"
-                >
-                  <i class="bi bi-ticket align-middle me-1"></i> Coupons</a
-                >
-              </li>
+    <!-- start tab-->
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="card">
+              <div class="card-body">
+                <ul id="menu-tabs" class="nav nav-pills flex-column gap-3" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <a id="accountInfo" class="nav-link fs-15 active" data-bs-toggle="tab"
+                      href="#custom-v-pills-profile" role="tab" aria-selected="true"><i
+                        class="bi bi-person-circle align-middle me-1"></i> Account
+                      Info</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a id="shippingAddress" class="nav-link fs-15" data-bs-toggle="tab" href="#custom-v-pills-address"
+                      role="tab" aria-selected="true"><i class="bi bi-house align-middle me-1"></i>
+                      Addresses
+                    </a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a id="wishlist" class="nav-link fs-15" data-bs-toggle="tab" href="#custom-v-pills-list" role="tab"
+                      aria-selected="false" tabindex="-1"><i class="bi bi-bookmark-check align-middle me-1"></i> Wish
+                      list</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a id="orders" class="nav-link fs-15" data-bs-toggle="tab" href="#custom-v-pills-order" role="tab"
+                      aria-selected="false" tabindex="-1"><i class="bi bi-bag align-middle me-1"></i> Orders</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a id="wallet" class="nav-link fs-15" data-bs-toggle="tab" href="#custom-v-pills-wallet" role="tab"
+                      aria-selected="false" tabindex="-1"><i class="bi bi-wallet2 align-middle me-1"></i> Wallet</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a id="coupon" class="nav-link fs-15" data-bs-toggle="tab" href="#custom-v-pills-coupon" role="tab"
+                      aria-selected="false" tabindex="-1">
+                      <i class="bi bi-ticket align-middle me-1"></i> Coupons</a>
+                  </li>
 
-              <li class="nav-item">
-                <a id="logout" class="nav-link fs-15" href="/logout"
-                  ><i class="bi bi-box-arrow-right align-middle me-1"></i>
-                  Logout</a
-                >
-              </li>
-            </ul>
+                  <li class="nav-item">
+                    <a id="logout" class="nav-link fs-15" href="/logout"><i
+                        class="bi bi-box-arrow-right align-middle me-1"></i>
+                      Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <!--end col-->
-      <div class="col-lg-9">
-        <div class="tab-content text-muted">
-          <div
-            class="tab-pane fade show active"
-            id="custom-v-pills-profile"
-            role="tabpanel"
-          >
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex mb-4">
-                      <h6
-                        class="fs-16 text-decoration-underline flex-grow-1 mb-0"
-                      >
-                        Personal Info
-                      </h6>
-                      <div class="flex-shrink-0">
-                        <% const userObj = JSON.stringify(user) %>
-                        <a
-                          class="badge bg-dark-subtle text-dark"
-                          data-bs-toggle="modal"
-                          data-bs-target="#editProfileModal"
-                          data-custom-data="<%=userObj %>"
-                          >Edit</a
-                        >
+          <!--end col-->
+          <div class="col-lg-9">
+            <div class="tab-content text-muted">
+              <div class="tab-pane fade show active" id="custom-v-pills-profile" role="tabpanel">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="d-flex mb-4">
+                          <h6 class="fs-16 text-decoration-underline flex-grow-1 mb-0">
+                            Personal Info
+                          </h6>
+                          <div class="flex-shrink-0">
+                            <% const userObj=JSON.stringify(user) %>
+                              <a class="badge bg-dark-subtle text-dark" data-bs-toggle="modal"
+                                data-bs-target="#editProfileModal" data-custom-data="<%=userObj %>">Edit</a>
+                          </div>
+                        </div>
+
+                        <div class="table-responsive table-card px-1">
+                          <table id="orderTable" class="table table-borderless table-sm">
+                            <tbody>
+                              <tr>
+                                <td>Customer Name</td>
+                                <td class="fw-medium">
+                                  <%=user.firstName%>
+                                    <%=user.lastName %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Mobile / Phone Number</td>
+                                <td class="fw-medium">
+                                  <%=user.phoneNumber %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Email Address</td>
+                                <td class="fw-medium">
+                                  <%=user.email %>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>Since Member</td>
+                                <td class="fw-medium">
+                                  <% const dateString=new Date(user.created_at).toLocaleDateString('en-US', {
+                                    day: '2-digit' , month: 'short' , year: 'numeric' }); %>
+                                    <%= dateString %>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <!-- end row -->
                       </div>
                     </div>
-
-                    <div class="table-responsive table-card px-1">
-                      <table
-                        id="orderTable"
-                        class="table table-borderless table-sm"
-                      >
-                        <tbody>
-                          <tr>
-                            <td>Customer Name</td>
-                            <td class="fw-medium">
-                              <%=user.firstName%> <%=user.lastName %>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Mobile / Phone Number</td>
-                            <td class="fw-medium"><%=user.phoneNumber %></td>
-                          </tr>
-                          <tr>
-                            <td>Email Address</td>
-                            <td class="fw-medium"><%=user.email %></td>
-                          </tr>
-
-                          <tr>
-                            <td>Since Member</td>
-                            <td class="fw-medium">
-                              <% const dateString = new
-                              Date(user.created_at).toLocaleDateString('en-US',
-                              { day: '2-digit', month: 'short', year: 'numeric'
-                              }); %> <%= dateString %>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <!-- end row -->
+                    <!--end card-->
                   </div>
+                  <!--end col-->
                 </div>
-                <!--end card-->
-              </div>
-              <!--end col-->
-            </div>
-            <!--  -->
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex mb-4">
-                      <h6
-                        class="fs-16 text-decoration-underline flex-grow-1 mb-0"
-                      >
-                        Refer and get ₹ 500
-                      </h6>
-                    </div>
-
-                    <div class="table-responsive table-card px-1">
-                      <table class="table table-borderless table-sm">
-                        <tbody>
-                          <tr>
-                            <td>You'r referal code</td>
-                            <td class="fw-medium text-black">
-                              <p><%=user.refferalCode %></p>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="table-responsive table-card px-1">
-                      <table class="table table-borderless table-sm">
-                        <tbody>
-                          <tr>
-                            <td>You'r referal link</td>
-                            <td class="fw-medium text-black">
-                              <a
-                                >http://localhost:8080/register?referralId=<%=user._id
-                                %></a
-                              >
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <!-- end row -->
-                  </div>
-                </div>
-                <!--end card-->
-              </div>
-              <!--end col-->
-            </div>
-            <% if(!user.googleId){%>
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="mb-3" id="changePassword">
-                      <h5 class="fs-16 text-decoration-underline mb-4">
-                        Change Password
-                      </h5>
-                      <form id="changepasswordForm">
-                        <div class="row g-2">
-                          <div class="col-lg-4">
-                            <div>
-                              <label for="oldpasswordInput" class="form-label"
-                                >Old Password*</label
-                              >
-                              <input
-                                type="password"
-                                class="form-control"
-                                id="oldpasswordInput"
-                                placeholder="Enter current password"
-                                oninput="removeError('password-error')"
-                              />
-                            </div>
-                          </div>
-                          <!--end col-->
-                          <div class="col-lg-4">
-                            <div>
-                              <label for="newpasswordInput" class="form-label"
-                                >New Password*</label
-                              >
-                              <input
-                                type="password"
-                                class="form-control"
-                                id="newpasswordInput"
-                                placeholder="Enter new password"
-                                oninput="removeError('password-error')"
-                              />
-                            </div>
-                          </div>
-                          <!--end col-->
-                          <div class="col-lg-4">
-                            <div>
-                              <label
-                                for="confirmpasswordInput"
-                                class="form-label"
-                                >Confirm Password*</label
-                              >
-                              <input
-                                type="password"
-                                class="form-control"
-                                id="confirmpasswordInput"
-                                placeholder="Confirm password"
-                                oninput="removeError('password-error')"
-                              />
-                            </div>
-                          </div>
-                          <p id="password-error" class="text-danger"></p>
-                          <p id="password-success" class="text-success"></p>
-                          <!--end col-->
-                          <div class="col-lg-12 d-flex justify-content-between">
-                            <div class="mb-3">
-                              <a
-                                href="/forgot-password"
-                                class="link-primary text-decoration-underline"
-                                >Forgot Password ?</a
-                              >
-                            </div>
-                            <button
-                              type="submit"
-                              class="btn btn-secondary"
-                              id="changePasswordButton"
-                            >
-                              Change Password
-                            </button>
-                          </div>
-                          <!--end col-->
+                <!--  -->
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="d-flex mb-4">
+                          <h6 class="fs-16 text-decoration-underline flex-grow-1 mb-0">
+                            Refer and get ₹ 500
+                          </h6>
                         </div>
-                        <!--end row-->
-                      </form>
+
+                        <div class="table-responsive table-card px-1">
+                          <table class="table table-borderless table-sm">
+                            <tbody>
+                              <tr>
+                                <td>You'r referal code</td>
+                                <td class="fw-medium text-black">
+                                  <p>
+                                    <%=user.refferalCode %>
+                                  </p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="table-responsive table-card px-1">
+                          <table class="table table-borderless table-sm">
+                            <tbody>
+                              <tr>
+                                <td>You'r referal link</td>
+                                <td class="fw-medium text-black">
+                                  <a>http://localhost:8080/register?referralId=<%=user._id %></a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <!-- end row -->
+                      </div>
+                    </div>
+                    <!--end card-->
+                  </div>
+                  <!--end col-->
+                </div>
+                <% if(!user.googleId){%>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="mb-3" id="changePassword">
+                            <h5 class="fs-16 text-decoration-underline mb-4">
+                              Change Password
+                            </h5>
+                            <form id="changepasswordForm">
+                              <div class="row g-2">
+                                <div class="col-lg-4">
+                                  <div>
+                                    <label for="oldpasswordInput" class="form-label">Old Password*</label>
+                                    <input type="password" class="form-control" id="oldpasswordInput"
+                                      placeholder="Enter current password" oninput="removeError('password-error')" />
+                                  </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-lg-4">
+                                  <div>
+                                    <label for="newpasswordInput" class="form-label">New Password*</label>
+                                    <input type="password" class="form-control" id="newpasswordInput"
+                                      placeholder="Enter new password" oninput="removeError('password-error')" />
+                                  </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-lg-4">
+                                  <div>
+                                    <label for="confirmpasswordInput" class="form-label">Confirm Password*</label>
+                                    <input type="password" class="form-control" id="confirmpasswordInput"
+                                      placeholder="Confirm password" oninput="removeError('password-error')" />
+                                  </div>
+                                </div>
+                                <p id="password-error" class="text-danger"></p>
+                                <p id="password-success" class="text-success"></p>
+                                <!--end col-->
+                                <div class="col-lg-12 d-flex justify-content-between">
+                                  <div class="mb-3">
+                                    <a href="/forgot-password" class="link-primary text-decoration-underline">Forgot
+                                      Password ?</a>
+                                  </div>
+                                  <button type="submit" class="btn btn-secondary" id="changePasswordButton">
+                                    Change Password
+                                  </button>
+                                </div>
+                                <!--end col-->
+                              </div>
+                              <!--end row-->
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <!--end card-->
+                    </div>
+                    <!--end col-->
+                  </div>
+                  <% } %>
+              </div>
+              <!--end tab-pane-->
+              <!-- address -->
+              <div class="tab-pane fade show" id="custom-v-pills-address" role="tabpanel">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="mt-4 d-flex align-items-center justify-content-between">
+                          <h6 class="fs-16 text-decoration-underline m-0">
+                            Shipping Address
+                          </h6>
+                          <a type="button" class="btn btn-success btn-sm w-xs" data-bs-toggle="modal"
+                            data-bs-target="#addAddressModal">
+                            Add
+                          </a>
+                        </div>
+                        <div id="addressContent" class="row mt-4">
+                          <!-- address content -->
+                        </div>
+                        <!-- end row -->
+                      </div>
+                    </div>
+                    <!--end card-->
+                  </div>
+                  <!--end col-->
+                </div>
+              </div>
+              <!--wishlist-->
+              <div class="tab-pane fade" id="custom-v-pills-list" role="tabpanel">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card overflow-hidden">
+                      <div class="card-body">
+                        <div class="table-responsive table-card">
+                          <table class="table fs-15 align-middle" id="wishlistTable">
+                            <thead>
+                              <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Stock Status</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody id="wishlistContent"></tbody>
+                          </table>
+                        </div>
+                        <div class="hstack gap-2 justify-content-end mt-4"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <!--end card-->
               </div>
-              <!--end col-->
-            </div>
-            <% } %>
-          </div>
-          <!--end tab-pane-->
-          <!-- address -->
-          <div
-            class="tab-pane fade show"
-            id="custom-v-pills-address"
-            role="tabpanel"
-          >
-            <div class="row">
-              <div class="col-lg-12">
+              <!--orders-->
+              <div class="tab-pane fade" id="custom-v-pills-order" role="tabpanel">
                 <div class="card">
-                  <div class="card-body">
-                    <div
-                      class="mt-4 d-flex align-items-center justify-content-between"
-                    >
-                      <h6 class="fs-16 text-decoration-underline m-0">
-                        Shipping Address
-                      </h6>
-                      <a
-                        type="button"
-                        class="btn btn-success btn-sm w-xs"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addAddressModal"
-                      >
-                        Add
-                      </a>
-                    </div>
-                    <div id="addressContent" class="row mt-4">
-                      <!-- address content -->
-                    </div>
-                    <!-- end row -->
-                  </div>
-                </div>
-                <!--end card-->
-              </div>
-              <!--end col-->
-            </div>
-          </div>
-          <!--wishlist-->
-          <div class="tab-pane fade" id="custom-v-pills-list" role="tabpanel">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="card overflow-hidden">
                   <div class="card-body">
                     <div class="table-responsive table-card">
-                      <table
-                        class="table fs-15 align-middle"
-                        id="wishlistTable"
-                      >
+                      <table class="table align-middle table-nowrap" id="orderTableUser">
                         <thead>
                           <tr>
                             <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Stock Status</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Total Amount</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Details</th>
                           </tr>
                         </thead>
-                        <tbody id="wishlistContent"></tbody>
+                        <tbody id="orderContent">
+                          <!-- here order list will display -->
+                        </tbody>
                       </table>
                     </div>
-                    <div class="hstack gap-2 justify-content-end mt-4"></div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <!--orders-->
-          <div class="tab-pane fade" id="custom-v-pills-order" role="tabpanel">
-            <div class="card">
-              <div class="card-body">
-                <div class="table-responsive table-card">
-                  <table
-                    class="table align-middle table-nowrap"
-                    id="orderTableUser"
-                  >
-                    <thead>
-                      <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Total Amount</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Details</th>
-                      </tr>
-                    </thead>
-                    <tbody id="orderContent">
-                      <!-- here order list will display -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--end tab-pane-->
-          <!--wallet-->
-          <div class="tab-pane fade" id="custom-v-pills-wallet" role="tabpanel">
-            <div class="d-flex justify-content-between">
-              <div class="">
-                <!-- <p class="mb-0">Toner Member Since Jan 2020</p> -->
-                <div class="bg-success text-white rounded px-2 fs-3">
-                  <i class="bi bi-currency-rupee me-1 align-middle"></i>
-                  <%=wallet.balance %>
-                </div>
-              </div>
-              <div class="ms-md-auto">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addMoneyModal"
-                >
-                  Add Money
-                </button>
+              <!--end tab-pane-->
+              <!--wallet-->
+              <div class="tab-pane fade" id="custom-v-pills-wallet" role="tabpanel">
+                <div class="d-flex justify-content-between">
+                  <div class="">
+                    <!-- <p class="mb-0">Toner Member Since Jan 2020</p> -->
+                    <div class="bg-success text-white rounded px-2 fs-3">
+                      <i class="bi bi-currency-rupee me-1 align-middle"></i>
+                      <%=wallet.balance %>
+                    </div>
+                  </div>
+                  <div class="ms-md-auto">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                      data-bs-target="#addMoneyModal">
+                      Add Money
+                    </button>
 
-                <!-- <a href="#" class="btn btn-primary btn-hover"
+                    <!-- <a href="#" class="btn btn-primary btn-hover"
                   ><i class="bi bi-bank me-1 align-middle"></i> Withdraw Now</a
                 > -->
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-body">
-                <div class="table-responsive table-card">
-                  <table class="table fs-15 align-middle table-nowrap">
-                    <thead>
-                      <tr>
-                        <th scope="col">Method</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody id="walletContent">
-                      <!-- here histery list will display -->
-                      <!-- <% wallet.history.forEach(history => {%>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="table-responsive table-card">
+                      <table class="table fs-15 align-middle table-nowrap">
+                        <thead>
+                          <tr>
+                            <th scope="col">Method</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody id="walletContent">
+                          <!-- here histery list will display -->
+                          <!-- <% wallet.history.forEach(history => {%>
                       <tr>
                         <td><%=history.name %></td>
                         <td><%=history.description %></td>
@@ -482,612 +367,410 @@
                       </tr>
 
                       <% }); %> -->
-                    </tbody>
-                  </table>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="text-end mt-4"></div>
+                  </div>
                 </div>
-                <div class="text-end mt-4"></div>
               </div>
-            </div>
-          </div>
-          <!-- coupons -->
-          <div
-            class="tab-pane fade show"
-            id="custom-v-pills-coupon"
-            role="tabpanel"
-          >
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div id="couponContent" class="row mt-4">
-                      <% user.coupons.sort((a, b) => { if (a.is_expired ===
-                      false && b.is_expired !== false) { return -1; } else if
-                      (a.is_expired !== false && b.is_expired === false) {
-                      return 1; } else { return 0; } }).forEach(coupon => { %>
-                      <% const endDate = new Date(coupon.coupon.endDate); %> <%
-                      const remainingDays = Math.ceil((endDate - new Date()) /
-                      (1000 * 60 * 60 * 24)); %> <% if (remainingDays > 0 &&
-                      coupon.is_expired == false) { %>
-                      <div class="col-md-6">
-                        <div class="card mb-md-0 mt-3">
-                          <div
-                            class="card-body"
-                            style="
+              <!-- coupons -->
+              <div class="tab-pane fade show" id="custom-v-pills-coupon" role="tabpanel">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div id="couponContent" class="row mt-4">
+                          <% user.coupons.sort((a, b)=> { if (a.is_expired ===
+                            false && b.is_expired !== false) { return -1; } else if
+                            (a.is_expired !== false && b.is_expired === false) {
+                            return 1; } else { return 0; } }).forEach(coupon => { %>
+                            <% const endDate=new Date(coupon.coupon.endDate); %>
+                              <% const remainingDays=Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24)); %>
+                                <% if (remainingDays> 0 &&
+                                  coupon.is_expired == false) { %>
+                                  <div class="col-md-6">
+                                    <div class="card mb-md-0 mt-3">
+                                      <div class="card-body" style="
                               background-image: url('<%= coupon.coupon.image %>');
                               background-size: cover;
                               background-position: center;
-                            "
-                          >
-                            <div class="float-end clearfix">
-                              <a
-                                class="badge bg-warning-subtle text-danger fs-14"
-                              >
-                                <%= remainingDays %> days left</a
-                              >
-                              <div style="height: 100px"></div>
-                            </div>
-                          </div>
-                          <div class="card-body">
-                            <p
-                              class="mb-3 fw-semibold fs-12 d-block text-muted text-uppercase"
-                            >
-                              <%=coupon.coupon.title %>
-                            </p>
+                            ">
+                                        <div class="float-end clearfix">
+                                          <a class="badge bg-warning-subtle text-danger fs-14">
+                                            <%= remainingDays %> days left
+                                          </a>
+                                          <div style="height: 100px"></div>
+                                        </div>
+                                      </div>
+                                      <div class="card-body">
+                                        <p class="mb-3 fw-semibold fs-12 d-block text-muted text-uppercase">
+                                          <%=coupon.coupon.title %>
+                                        </p>
 
-                            <h5 class="mb-2 d-block">
-                              Spend ₹ <%=coupon.coupon.condition %>,Get
-                              <%=coupon.coupon.discount %>% Off
-                            </h5>
-                            <div class="d-flex gap-3">
-                              <p>copy code :</p>
-                              <h4><%=coupon.code %></h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <% } else { %>
-                      <div class="col-md-6" style="position: relative">
-                        <div class="card mb-md-0 mt-3">
-                          <div
-                            style="
+                                        <h5 class="mb-2 d-block">
+                                          Spend ₹ <%=coupon.coupon.condition %>,Get
+                                            <%=coupon.coupon.discount %>% Off
+                                        </h5>
+                                        <div class="d-flex gap-3">
+                                          <p>copy code :</p>
+                                          <h4>
+                                            <%=coupon.code %>
+                                          </h4>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <% } else { %>
+                                    <div class="col-md-6" style="position: relative">
+                                      <div class="card mb-md-0 mt-3">
+                                        <div style="
                               position: absolute;
                               top: 50%;
                               left: 50%;
                               transform: translate(-50%, -50%);
                               font-size: 24px;
                               text-align: center;
-                            "
-                          >
-                            <h3 class="text-danger">Expired</h3>
-                          </div>
-                          <div class="card-body" style="filter: blur(2px)">
-                            <div class="float-end clearfix">
-                              <a
-                                class="badge bg-warning-subtle text-danger fs-14"
-                              >
-                                Expired
-                              </a>
-                              <div style="height: 100px"></div>
-                            </div>
-                          </div>
-                          <div class="card-body" style="filter: blur(2px)">
-                            <p
-                              class="mb-3 fw-semibold fs-12 d-block text-muted text-uppercase"
-                            >
-                              <%=coupon.coupon.title %>
-                            </p>
-                            <h5 class="mb-2 d-block">
-                              Spend ₹ <%=coupon.coupon.condition %>, Get
-                              <%=coupon.coupon.discount %>% Off
-                            </h5>
-                            <div class="d-flex gap-3">
-                              <p>copy code :</p>
-                              <h4>XXXXXXXX</h4>
-                            </div>
-                          </div>
+                            ">
+                                          <h3 class="text-danger">Expired</h3>
+                                        </div>
+                                        <div class="card-body" style="filter: blur(2px)">
+                                          <div class="float-end clearfix">
+                                            <a class="badge bg-warning-subtle text-danger fs-14">
+                                              Expired
+                                            </a>
+                                            <div style="height: 100px"></div>
+                                          </div>
+                                        </div>
+                                        <div class="card-body" style="filter: blur(2px)">
+                                          <p class="mb-3 fw-semibold fs-12 d-block text-muted text-uppercase">
+                                            <%=coupon.coupon.title %>
+                                          </p>
+                                          <h5 class="mb-2 d-block">
+                                            Spend ₹ <%=coupon.coupon.condition %>, Get
+                                              <%=coupon.coupon.discount %>% Off
+                                          </h5>
+                                          <div class="d-flex gap-3">
+                                            <p>copy code :</p>
+                                            <h4>XXXXXXXX</h4>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <% } %>
+                                      <% }); %>
                         </div>
+                        <!-- end row -->
                       </div>
-
-                      <% } %> <% }); %>
                     </div>
-                    <!-- end row -->
+                    <!--end card-->
                   </div>
+                  <!--end col-->
                 </div>
-                <!--end card-->
               </div>
-              <!--end col-->
             </div>
+          </div>
+        </div>
+        <!-- end row-->
+      </div>
+    </section>
+    <!-- end tab-->
+
+    <!--edit address Modal -->
+    <div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="AddressModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editAddressModalLabel">
+              Edit Address
+            </h1>
+            <button type="button" id="editaddress-close" class="btn-close" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form autocomplete="off" class="needs-validation createAddress-form" id="editAddress-form" novalidate>
+              <div>
+                <div class="mb-3">
+                  <label for="editaddress-Name" class="form-label">Name</label>
+                  <input name="name" type="text" class="form-control" id="editaddress-Name" placeholder="Enter name"
+                    required />
+                  <div class="invalid-feedback">Please enter a name.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="editaddress-textarea" class="form-label">Address</label>
+                  <textarea name="address" class="form-control" id="editaddress-textarea" placeholder="Enter address"
+                    rows="2" required></textarea>
+                  <div class="invalid-feedback">Please enter address.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="editaddress-phone" class="form-label">Phone</label>
+                  <input name="phoneNumber" type="text" class="form-control" id="editaddress-phone"
+                    placeholder="Enter phone no." required />
+                  <div class="invalid-feedback">Please enter a phone no.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="editaddress-city" class="form-label">City</label>
+                  <input name="city" type="text" class="form-control" id="editaddress-city" placeholder="Enter city"
+                    required />
+                  <div class="invalid-feedback">Please enter a city</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="editaddress-state" class="form-label">State</label>
+                  <input name="state" type="text" class="form-control" id="editaddress-state" placeholder="Enter state"
+                    required />
+                  <div class="invalid-feedback">Please enter a state</div>
+                </div>
+                <div class="mb-3">
+                  <label for="editaddress-postalCode" class="form-label">Postal code</label>
+                  <input name="postalCode" type="text" class="form-control" id="editaddress-postalCode"
+                    placeholder="Enter postalCode" required />
+                  <div class="invalid-feedback">Please enter a postalCode</div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <p id="fillerrror" class="text-danger hideError"></p>
+                <p id="success" class="text-success"></p>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" id="addNewAddress" class="btn btn-primary">
+                  Edit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-    <!-- end row-->
-  </div>
-</section>
-<!-- end tab-->
 
-<!--edit address Modal -->
-<div
-  class="modal fade"
-  id="editAddressModal"
-  tabindex="-1"
-  aria-labelledby="AddressModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="editAddressModalLabel">
-          Edit Address
-        </h1>
-        <button
-          type="button"
-          id="editaddress-close"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+    <!--add address Modal -->
+    <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="addAddressModalLabel">
+              Add New Address
+            </h1>
+            <button type="button" id="addAddress-close" class="btn-close" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form autocomplete="off" class="needs-validation createAddress-form" id="createAddress-form" novalidate>
+              <div>
+                <div class="mb-3">
+                  <label for="addaddress-Name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="addaddress-Name" placeholder="Enter name" required />
+                  <div class="invalid-feedback">Please enter a name.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="addaddress-textarea" class="form-label">Address</label>
+                  <textarea class="form-control" id="addaddress-textarea" placeholder="Enter address" rows="2"
+                    required></textarea>
+                  <div class="invalid-feedback">Please enter address.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="addaddress-phone" class="form-label">Phone</label>
+                  <input type="text" class="form-control" id="addaddress-phone" placeholder="Enter phone no."
+                    required />
+                  <div class="invalid-feedback">Please enter a phone no.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="addaddress-city" class="form-label">City</label>
+                  <input name="city" type="text" class="form-control" id="addaddress-city" placeholder="Enter city"
+                    required />
+                  <div class="invalid-feedback">Please enter a city</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="addaddress-state" class="form-label">State</label>
+                  <input name="state" type="text" class="form-control" id="addaddress-state" placeholder="Enter state"
+                    required />
+                  <div class="invalid-feedback">Please enter a state</div>
+                </div>
+                <div class="mb-3">
+                  <label for="addaddress-postalCode" class="form-label">Postal code</label>
+                  <input name="postalCode" type="text" class="form-control" id="addaddress-postalCode"
+                    placeholder="Enter postalCode" required />
+                  <div class="invalid-feedback">Please enter a postalCode</div>
+                  <p class="text-danger" id="invalid-pincode"></p>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <p id="addfillerrror" class="text-danger hideError"></p>
+                <p id="addsuccess" class="text-success"></p>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" id="addNewAddress" class="btn btn-primary">
+                  Add
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <form
-          autocomplete="off"
-          class="needs-validation createAddress-form"
-          id="editAddress-form"
-          novalidate
-        >
-          <div>
-            <div class="mb-3">
-              <label for="editaddress-Name" class="form-label">Name</label>
-              <input
-                name="name"
-                type="text"
-                class="form-control"
-                id="editaddress-Name"
-                placeholder="Enter name"
-                required
-              />
-              <div class="invalid-feedback">Please enter a name.</div>
-            </div>
+    </div>
 
-            <div class="mb-3">
-              <label for="editaddress-textarea" class="form-label"
-                >Address</label
-              >
-              <textarea
-                name="address"
-                class="form-control"
-                id="editaddress-textarea"
-                placeholder="Enter address"
-                rows="2"
-                required
-              ></textarea>
-              <div class="invalid-feedback">Please enter address.</div>
+    <!-- remove address Modal -->
+    <div id="removeAddressModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" id="close-removeAddressModal" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mt-2 text-center">
+              <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
+                colors="primary:#f7b84b,secondary:#f06548" style="width: 100px; height: 100px"></lord-icon>
+              <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
+                <h4>Are you sure ?</h4>
+                <p class="text-muted mx-4 mb-0">
+                  Are you sure You want to remove this address ?
+                </p>
+              </div>
             </div>
+            <p id="address-delete-succcess" class="text-success text-center"></p>
+            <p id="address-delete-error" class="text-danger text-center"></p>
 
-            <div class="mb-3">
-              <label for="editaddress-phone" class="form-label">Phone</label>
-              <input
-                name="phoneNumber"
-                type="text"
-                class="form-control"
-                id="editaddress-phone"
-                placeholder="Enter phone no."
-                required
-              />
-              <div class="invalid-feedback">Please enter a phone no.</div>
-            </div>
-
-            <div class="mb-3">
-              <label for="editaddress-city" class="form-label">City</label>
-              <input
-                name="city"
-                type="text"
-                class="form-control"
-                id="editaddress-city"
-                placeholder="Enter city"
-                required
-              />
-              <div class="invalid-feedback">Please enter a city</div>
-            </div>
-
-            <div class="mb-3">
-              <label for="editaddress-state" class="form-label">State</label>
-              <input
-                name="state"
-                type="text"
-                class="form-control"
-                id="editaddress-state"
-                placeholder="Enter state"
-                required
-              />
-              <div class="invalid-feedback">Please enter a state</div>
-            </div>
-            <div class="mb-3">
-              <label for="editaddress-postalCode" class="form-label"
-                >Postal code</label
-              >
-              <input
-                name="postalCode"
-                type="text"
-                class="form-control"
-                id="editaddress-postalCode"
-                placeholder="Enter postalCode"
-                required
-              />
-              <div class="invalid-feedback">Please enter a postalCode</div>
+            <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+              <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="button" id="remove-address-button" class="btn w-sm btn-danger">
+                Yes, Delete It!
+              </button>
             </div>
           </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
-          <div class="d-flex justify-content-end gap-2 mt-4">
-            <p id="fillerrror" class="text-danger hideError"></p>
-            <p id="success" class="text-success"></p>
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+    <!-- edit profile modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="AddressModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editAddressModalLabel">
+              Edit Profile
+            </h1>
+            <button type="button" id="editaddress-close" class="btn-close" data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form autocomplete="off" class="needs-validation createAddress-form" id="editProfile-form" novalidate>
+              <div>
+                <div class="mb-3">
+                  <label for="editprofile-firstName" class="form-label">First Name</label>
+                  <input name="name" type="text" class="form-control" id="editprofile-firstName"
+                    placeholder="Enter name" required />
+                  <div class="invalid-feedback">Please enter first name.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="editprofile-lastName" class="form-label">Last Name</label>
+                  <input name="name" type="text" class="form-control" id="editprofile-lastName" placeholder="Enter name"
+                    required />
+                  <div class="invalid-feedback">Please enter first name.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="editprofile-phone" class="form-label">Phone</label>
+                  <input name="phoneNumber" type="text" class="form-control" id="editprofile-phone"
+                    placeholder="Enter phone no." required />
+                  <div class="invalid-feedback">Please enter a phone no.</div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <p id="fillerrror-profile" class="text-danger hideError"></p>
+                <p id="success-profile" class="text-success"></p>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                  Close
+                </button>
+                <button type="submit" id="addNewAddress" class="btn btn-primary">
+                  Edit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--add money to wallet modal-->
+    <!-- Modal -->
+    <div class="modal fade" id="addMoneyModal" tabindex="-1" aria-labelledby="addMoneyModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addMoneyModalLabel">Add Money</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Input field to enter amount -->
+            <div class="mb-3">
+              <label for="amountInput" class="form-label">Amount:</label>
+              <input type="number" class="form-control" id="amountInput" placeholder="Enter amount (in paise)"
+                required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!-- Button to add money and close modal -->
+            <button type="button" class="btn btn-primary" id="addMoneyBtn">
+              Add Money
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button type="submit" id="addNewAddress" class="btn btn-primary">
-              Edit
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--add address Modal -->
-<div
-  class="modal fade"
-  id="addAddressModal"
-  tabindex="-1"
-  aria-labelledby="addAddressModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="addAddressModalLabel">
-          Add New Address
-        </h1>
-        <button
-          type="button"
-          id="addAddress-close"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form
-          autocomplete="off"
-          class="needs-validation createAddress-form"
-          id="createAddress-form"
-          novalidate
-        >
-          <div>
-            <div class="mb-3">
-              <label for="addaddress-Name" class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="addaddress-Name"
-                placeholder="Enter name"
-                required
-              />
-              <div class="invalid-feedback">Please enter a name.</div>
-            </div>
-
-            <div class="mb-3">
-              <label for="addaddress-textarea" class="form-label"
-                >Address</label
-              >
-              <textarea
-                class="form-control"
-                id="addaddress-textarea"
-                placeholder="Enter address"
-                rows="2"
-                required
-              ></textarea>
-              <div class="invalid-feedback">Please enter address.</div>
-            </div>
-
-            <div class="mb-3">
-              <label for="addaddress-phone" class="form-label">Phone</label>
-              <input
-                type="text"
-                class="form-control"
-                id="addaddress-phone"
-                placeholder="Enter phone no."
-                required
-              />
-              <div class="invalid-feedback">Please enter a phone no.</div>
-            </div>
-            <div class="mb-3">
-              <label for="addaddress-city" class="form-label">City</label>
-              <input
-                name="city"
-                type="text"
-                class="form-control"
-                id="addaddress-city"
-                placeholder="Enter city"
-                required
-              />
-              <div class="invalid-feedback">Please enter a city</div>
-            </div>
-
-            <div class="mb-3">
-              <label for="addaddress-state" class="form-label">State</label>
-              <input
-                name="state"
-                type="text"
-                class="form-control"
-                id="addaddress-state"
-                placeholder="Enter state"
-                required
-              />
-              <div class="invalid-feedback">Please enter a state</div>
-            </div>
-            <div class="mb-3">
-              <label for="addaddress-postalCode" class="form-label"
-                >Postal code</label
-              >
-              <input
-                name="postalCode"
-                type="text"
-                class="form-control"
-                id="addaddress-postalCode"
-                placeholder="Enter postalCode"
-                required
-              />
-              <div class="invalid-feedback">Please enter a postalCode</div>
-              <p class="text-danger" id="invalid-pincode"></p>
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-end gap-2 mt-4">
-            <p id="addfillerrror" class="text-danger hideError"></p>
-            <p id="addsuccess" class="text-success"></p>
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-              Close
-            </button>
-            <button type="submit" id="addNewAddress" class="btn btn-primary">
-              Add
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- remove address Modal -->
-<div
-  id="removeAddressModal"
-  class="modal fade zoomIn"
-  tabindex="-1"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button
-          type="button"
-          class="btn-close"
-          id="close-removeAddressModal"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="mt-2 text-center">
-          <lord-icon
-            src="https://cdn.lordicon.com/gsqxdxog.json"
-            trigger="loop"
-            colors="primary:#f7b84b,secondary:#f06548"
-            style="width: 100px; height: 100px"
-          ></lord-icon>
-          <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
-            <h4>Are you sure ?</h4>
-            <p class="text-muted mx-4 mb-0">
-              Are you sure You want to remove this address ?
-            </p>
           </div>
         </div>
-        <p id="address-delete-succcess" class="text-success text-center"></p>
-        <p id="address-delete-error" class="text-danger text-center"></p>
-
-        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-          <button
-            type="button"
-            class="btn w-sm btn-light"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            id="remove-address-button"
-            class="btn w-sm btn-danger"
-          >
-            Yes, Delete It!
-          </button>
-        </div>
       </div>
     </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
-<!-- edit profile modal -->
-<div
-  class="modal fade"
-  id="editProfileModal"
-  tabindex="-1"
-  aria-labelledby="AddressModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="editAddressModalLabel">
-          Edit Profile
-        </h1>
-        <button
-          type="button"
-          id="editaddress-close"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form
-          autocomplete="off"
-          class="needs-validation createAddress-form"
-          id="editProfile-form"
-          novalidate
-        >
-          <div>
-            <div class="mb-3">
-              <label for="editprofile-firstName" class="form-label"
-                >First Name</label
-              >
-              <input
-                name="name"
-                type="text"
-                class="form-control"
-                id="editprofile-firstName"
-                placeholder="Enter name"
-                required
-              />
-              <div class="invalid-feedback">Please enter first name.</div>
-            </div>
-            <div class="mb-3">
-              <label for="editprofile-lastName" class="form-label"
-                >Last Name</label
-              >
-              <input
-                name="name"
-                type="text"
-                class="form-control"
-                id="editprofile-lastName"
-                placeholder="Enter name"
-                required
-              />
-              <div class="invalid-feedback">Please enter first name.</div>
-            </div>
+    <style>
+      .expired-card {
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.5);
+        background-size: cover;
+        background-position: center;
+      }
 
-            <div class="mb-3">
-              <label for="editprofile-phone" class="form-label">Phone</label>
-              <input
-                name="phoneNumber"
-                type="text"
-                class="form-control"
-                id="editprofile-phone"
-                placeholder="Enter phone no."
-                required
-              />
-              <div class="invalid-feedback">Please enter a phone no.</div>
-            </div>
-          </div>
+      .expired-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 24px;
+        text-align: center;
+      }
+    </style>
 
-          <div class="d-flex justify-content-end gap-2 mt-4">
-            <p id="fillerrror-profile" class="text-danger hideError"></p>
-            <p id="success-profile" class="text-success"></p>
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-              Close
-            </button>
-            <button type="submit" id="addNewAddress" class="btn btn-primary">
-              Edit
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+    <%- include("./layouts/footer") %>
 
-<!--add money to wallet modal-->
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="addMoneyModal"
-  tabindex="-1"
-  aria-labelledby="addMoneyModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addMoneyModalLabel">Add Money</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <!-- Input field to enter amount -->
-        <div class="mb-3">
-          <label for="amountInput" class="form-label">Amount:</label>
-          <input
-            type="number"
-            class="form-control"
-            id="amountInput"
-            placeholder="Enter amount (in paise)"
-            required
-          />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <!-- Button to add money and close modal -->
-        <button type="button" class="btn btn-primary" id="addMoneyBtn">
-          Add Money
-        </button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<style>
-  .expired-card {
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.5);
-    background-size: cover;
-    background-position: center;
-  }
+      <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
 
-  .expired-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 24px;
-    text-align: center;
-  }
-</style>
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<%- include("./layouts/footer") %>
-
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
-
-<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-<script src="/static/script/accountPage.js"></script>
-<script src="/static/script/addressPage.js"></script>
-<script src="/static/script/orderPage.js"></script>
-<script src="/static/script/wishlistPage.js"></script>
-<script src="/static/script/walletPage.js"></script>
+      <script src="/script/accountPage.js"></script>
+      <script src="/script/addressPage.js"></script>
+      <script src="/script/orderPage.js"></script>
+      <script src="/script/wishlistPage.js"></script>
+      <script src="/script/walletPage.js"></script>

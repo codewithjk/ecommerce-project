@@ -1,106 +1,77 @@
 <!-- Plugins css -->
-<link
-  href="/static/backend/libs/dropzone/dropzone.css"
-  rel="stylesheet"
-  type="text/css"
-/>
+<link href="/backend/libs/dropzone/dropzone.css" rel="stylesheet" type="text/css" />
 
 <!-- cropper css -->
-<link href="/static/script/admin/cropperjs/cropper.css" rel="stylesheet" />
+<link href="/script/admin/cropperjs/cropper.css" rel="stylesheet" />
 
 <%- include("./layouts/header") %>
 
-<div id="layout-wrapper">
-  <%- include("./layouts/topbar") %>
-  <!-- ========== App Menu ========== -->
-  <%-include("./layouts/menubar") %>
-  <!-- Left Sidebar End -->
+  <div id="layout-wrapper">
+    <%- include("./layouts/topbar") %>
+      <!-- ========== App Menu ========== -->
+      <%-include(". /layouts/menubar") %>
+        <!-- Left Sidebar End -->
 
-  <div class="main-content">
-    <div class="page-content">
-      <div class="container-fluid">
-        <!-- start page title -->
-        <div class="row">
-          <div class="col-12">
-            <div
-              class="page-title-box d-sm-flex align-items-center justify-content-between"
-            >
-              <h4 class="mb-sm-0">Create product</h4>
+        <div class="main-content">
+          <div class="page-content">
+            <div class="container-fluid">
+              <!-- start page title -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Create product</h4>
 
-              <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item">
-                    <a href="javascript: void(0);">Product</a>
-                  </li>
-                  <li class="breadcrumb-item active">Edit product</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- end page title -->
-
-        <form
-          id="createproduct-form"
-          autocomplete="off"
-          class="needs-validation"
-          novalidate
-        >
-          <div class="row">
-            <div class="col-xl-9 col-lg-8">
-              <div class="card">
-                <div class="card-header">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0 me-3">
-                      <div class="avatar-sm">
-                        <div
-                          class="avatar-title rounded-circle bg-light text-primary fs-20"
-                        >
-                          <i class="bi bi-box-seam"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex-grow-1">
-                      <h5 class="card-title mb-1">Product Information</h5>
-                      <p class="text-muted mb-0">Fill all information below.</p>
+                    <div class="page-title-right">
+                      <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                          <a href="javascript: void(0);">Product</a>
+                        </li>
+                        <li class="breadcrumb-item active">Edit product</li>
+                      </ol>
                     </div>
                   </div>
                 </div>
-                <div class="card-body">
-                  <div class="mb-3">
-                    <label class="form-label" for="product-title-input"
-                      >Product title</label
-                    >
+              </div>
+              <!-- end page title -->
 
-                    <input
-                      value="<%=product.title %>"
-                      name="title"
-                      type="text"
-                      class="form-control"
-                      id="product-title-input"
-                      placeholder="Enter product title"
-                      required
-                      oninput="removeError('titleError')"
-                    />
-                    <div class="invalid-feedback">
-                      Please enter a product title.
-                    </div>
-                    <p id="titleError" class="text-danger"></p>
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Product description</label>
-                    <textarea
-                      value="<%=product.description %>"
-                      name="description"
-                      type="text"
-                      class="form-control h-auto"
-                      id="descriptionInput"
-                      placeholder="Enter product description"
-                      rows="5"
-                      oninput="removeError('descriptionError')"
-                    ></textarea>
+              <form id="createproduct-form" autocomplete="off" class="needs-validation" novalidate>
+                <div class="row">
+                  <div class="col-xl-9 col-lg-8">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                              <div class="avatar-title rounded-circle bg-light text-primary fs-20">
+                                <i class="bi bi-box-seam"></i>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h5 class="card-title mb-1">Product Information</h5>
+                            <p class="text-muted mb-0">Fill all information below.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-3">
+                          <label class="form-label" for="product-title-input">Product title</label>
 
-                    <!-- <div id="ckeditor-classic">
+                          <input value="<%=product.title %>" name="title" type="text" class="form-control"
+                            id="product-title-input" placeholder="Enter product title" required
+                            oninput="removeError('titleError')" />
+                          <div class="invalid-feedback">
+                            Please enter a product title.
+                          </div>
+                          <p id="titleError" class="text-danger"></p>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label">Product description</label>
+                          <textarea value="<%=product.description %>" name="description" type="text"
+                            class="form-control h-auto" id="descriptionInput" placeholder="Enter product description"
+                            rows="5" oninput="removeError('descriptionError')"></textarea>
+
+                          <!-- <div id="ckeditor-classic">
                       <p>
                         Tommy Hilfiger men striped pink sweatshirt. Crafted with
                         cotton. Material composition is 100% organic cotton.
@@ -116,105 +87,88 @@
                         <li>4 Different Color</li>
                       </ul>
                     </div> -->
-                    <p id="descriptionError" class="text-danger"></p>
-                  </div>
+                          <p id="descriptionError" class="text-danger"></p>
+                        </div>
 
-                  <div>
-                    <div class="d-flex align-items-start">
-                      <div class="flex-grow-1">
-                        <label class="form-label">Product category</label>
-                      </div>
-                      <div class="flex-shrink-0">
-                        <a
-                          href="/admin/categories"
-                          class="float-end text-decoration-underline"
-                          >Add New</a
-                        >
-                      </div>
-                    </div>
-                    <div>
-                      <select
-                        class="form-select"
-                        id="choices-category-input"
-                        name="choices-category-input"
-                      >
-                        <% categories.forEach(category => { %>
-                        <option value="<%=category._id  %>">
-                          <%=category.title %>
-                        </option>
+                        <div>
+                          <div class="d-flex align-items-start">
+                            <div class="flex-grow-1">
+                              <label class="form-label">Product category</label>
+                            </div>
+                            <div class="flex-shrink-0">
+                              <a href="/admin/categories" class="float-end text-decoration-underline">Add New</a>
+                            </div>
+                          </div>
+                          <div>
+                            <select class="form-select" id="choices-category-input" name="choices-category-input">
+                              <% categories.forEach(category=> { %>
+                                <option value="<%=category._id  %>">
+                                  <%=category.title %>
+                                </option>
 
-                        <% }); %>
-                      </select>
-                    </div>
-                    <div class="error-msg mt-1">
-                      Please select a product category.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end card -->
-
-              <div class="card">
-                <div class="card-header">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0 me-3">
-                      <div class="avatar-sm">
-                        <div
-                          class="avatar-title rounded-circle bg-light text-primary fs-20"
-                        >
-                          <i class="bi bi-images"></i>
+                                <% }); %>
+                            </select>
+                          </div>
+                          <div class="error-msg mt-1">
+                            Please select a product category.
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="flex-grow-1">
-                      <h5 class="card-title mb-1">Product Gallery</h5>
-                      <p class="text-muted mb-0">Add product gallery images.</p>
-                    </div>
-                  </div>
-                </div>
+                    <!-- end card -->
 
-                <div id="images" class="card-body d-flex gap-2">
-                  <div id="image-list" class="d-flex gap-2 overflow-scroll">
-                    <!-- here existing image -->
-                  </div>
-                  <div
-                    data-bs-toggle="modal"
-                    id="image-input"
-                    class="border border-black rounded p-2 col-md-3 d-flex justify-content-center align-items-center"
-                  >
-                    <label for="uploadFile" class="select-image btn btn-primary"
-                      >Select Image
-                      <i class="display-4 text-muted ri-upload-cloud-2-fill"></i
-                    ></label>
-                    <input type="file" id="uploadFile" style="display: none" />
-                  </div>
-                  <div class="error-msg mt-1">Please add a product images.</div>
-                  <p class="text-danger" id="imageError"></p>
-                </div>
-              </div>
-              <!-- end card -->
-
-              <div class="card">
-                <div class="card-header">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0 me-3">
-                      <div class="avatar-sm">
-                        <div
-                          class="avatar-title rounded-circle bg-light text-primary fs-20"
-                        >
-                          <i class="bi bi-list-ul"></i>
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                              <div class="avatar-title rounded-circle bg-light text-primary fs-20">
+                                <i class="bi bi-images"></i>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h5 class="card-title mb-1">Product Gallery</h5>
+                            <p class="text-muted mb-0">Add product gallery images.</p>
+                          </div>
                         </div>
                       </div>
+
+                      <div id="images" class="card-body d-flex gap-2">
+                        <div id="image-list" class="d-flex gap-2 overflow-scroll">
+                          <!-- here existing image -->
+                        </div>
+                        <div data-bs-toggle="modal" id="image-input"
+                          class="border border-black rounded p-2 col-md-3 d-flex justify-content-center align-items-center">
+                          <label for="uploadFile" class="select-image btn btn-primary">Select Image
+                            <i class="display-4 text-muted ri-upload-cloud-2-fill"></i></label>
+                          <input type="file" id="uploadFile" style="display: none" />
+                        </div>
+                        <div class="error-msg mt-1">Please add a product images.</div>
+                        <p class="text-danger" id="imageError"></p>
+                      </div>
                     </div>
-                    <div class="flex-grow-1">
-                      <h5 class="card-title mb-1">General Information</h5>
-                      <p class="text-muted mb-0">Fill all information below.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <!-- <div class="col-lg-6">
+                    <!-- end card -->
+
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                              <div class="avatar-title rounded-circle bg-light text-primary fs-20">
+                                <i class="bi bi-list-ul"></i>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h5 class="card-title mb-1">General Information</h5>
+                            <p class="text-muted mb-0">Fill all information below.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <!-- <div class="col-lg-6">
                       <div class="mb-3">
                         <label class="form-label" for="manufacturer-name-input"
                           >Manufacturer Name</label
@@ -227,7 +181,7 @@
                         />
                       </div>
                     </div> -->
-                    <!-- <div class="col-lg-6">
+                          <!-- <div class="col-lg-6">
                       <div class="mb-3">
                         <label class="form-label" for="manufacturer-brand-input"
                           >Manufacturer Brand</label
@@ -240,453 +194,273 @@
                         />
                       </div>
                     </div> -->
-                  </div>
-                  <!-- end row -->
+                        </div>
+                        <!-- end row -->
 
-                  <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="mb-3">
-                        <label class="form-label" for="product-price-input"
-                          >Price</label
-                        >
-                        <div class="input-group has-validation mb-3">
-                          <span
-                            class="input-group-text"
-                            id="product-price-addon"
-                            >₹</span
-                          >
-                          <input
-                            value="<%=product.price %>"
-                            name="price"
-                            type="text"
-                            class="form-control"
-                            id="product-price-input"
-                            placeholder="Enter price"
-                            aria-label="Price"
-                            aria-describedby="product-price-addon"
-                            required
-                            oninput="removeError('priceError')"
-                          />
-                          <div class="invalid-feedback">
-                            Please enter a product price.
+                        <div class="row">
+                          <div class="col-lg-3 col-sm-6">
+                            <div class="mb-3">
+                              <label class="form-label" for="product-price-input">Price</label>
+                              <div class="input-group has-validation mb-3">
+                                <span class="input-group-text" id="product-price-addon">₹</span>
+                                <input value="<%=product.price %>" name="price" type="text" class="form-control"
+                                  id="product-price-input" placeholder="Enter price" aria-label="Price"
+                                  aria-describedby="product-price-addon" required oninput="removeError('priceError')" />
+                                <div class="invalid-feedback">
+                                  Please enter a product price.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-sm-6">
+                            <div class="mb-3">
+                              <label class="form-label" for="product-discount-input">Discount</label>
+                              <div class="input-group has-validation mb-3">
+                                <span class="input-group-text" id="product-discount-addon">%</span>
+                                <input value="<%=product.discount %>" name="discount" type="text" class="form-control"
+                                  id="product-discount-input" placeholder="Enter discount" aria-label="discount"
+                                  aria-describedby="product-discount-addon" required
+                                  oninput="removeError('priceError')" />
+                                <div class="invalid-feedback">
+                                  Please enter a product discount.
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- end col -->
+                          <p class="text-danger" id="priceError"></p>
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="mt-3 mt-lg-0">
+                              <label class="form-label">Sizes and Qty</label>
+                              <ul class="clothe-size list-unstyled hstack gap-2 mb-0 flex-wrap" id="size-filter">
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="xs" id="sizeXS"
+                                    onchange="toggleStocksInput('XS')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="sizeXS">XS</label>
+                                  <div class="">
+                                    <input name="XS" type="number" class="form-control stock-of-size" value="0" id="XS"
+                                      placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="s" id="sizeS"
+                                    onchange="toggleStocksInput('S')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="sizeS">S</label>
+                                  <div class="">
+                                    <input name="S" type="number" class="form-control stock-of-size" value="0" id="S"
+                                      placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="m" id="sizeM"
+                                    onchange="toggleStocksInput('M')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="sizeM">M</label>
+                                  <div class="">
+                                    <input name="M" type="number" class="form-control stock-of-size" value="0" id="M"
+                                      placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="l" id="sizeL"
+                                    onchange="toggleStocksInput('L')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="sizeL">L</label>
+                                  <div class="">
+                                    <input name="L" type="number" class="form-control stock-of-size" value="0" id="L"
+                                      placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="xl" id="sizeXL"
+                                    onchange="toggleStocksInput('XL')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="sizeXL">XL</label>
+                                  <div class="">
+                                    <input name="XL" type="number" class="form-control stock-of-size" value="0" id="XL"
+                                      placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="2xl" id="size2XL"
+                                    onchange="toggleStocksInput('2XL')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="size2XL">2XL</label>
+                                  <div class="">
+                                    <input name="2XL" type="number" class="form-control stock-of-size" value="0"
+                                      id="2XL" placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="3xl" id="size3XL"
+                                    onchange="toggleStocksInput('3XL')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="size3XL">3XL</label>
+                                  <div class="">
+                                    <input name="3XL" type="number" class="form-control stock-of-size" value="0"
+                                      id="3XL" placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                                <li class="d-flex justify-content-center align-items-center gap-2">
+                                  <input name="size" type="checkbox" value="40" id="size40"
+                                    onchange="toggleStocksInput('40')" />
+                                  <label
+                                    class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    for="size40">40</label>
+                                  <div class="">
+                                    <input name="40" value="0" type="number" class="form-control stock-of-size" id="40"
+                                      placeholder="Stocks" disabled />
+                                  </div>
+                                </li>
+                              </ul>
+                              <div class="error-msg mt-1">
+                                Please select a product sizes.
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
-                      <div class="mb-3">
-                        <label class="form-label" for="product-discount-input"
-                          >Discount</label
-                        >
-                        <div class="input-group has-validation mb-3">
-                          <span
-                            class="input-group-text"
-                            id="product-discount-addon"
-                            >%</span
-                          >
-                          <input
-                            value="<%=product.discount %>"
-                            name="discount"
-                            type="text"
-                            class="form-control"
-                            id="product-discount-input"
-                            placeholder="Enter discount"
-                            aria-label="discount"
-                            aria-describedby="product-discount-addon"
-                            required
-                            oninput="removeError('priceError')"
-                          />
-                          <div class="invalid-feedback">
-                            Please enter a product discount.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- end col -->
-                    <p class="text-danger" id="priceError"></p>
-                  </div>
-                  <!-- end row -->
-
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="mt-3 mt-lg-0">
-                        <label class="form-label">Sizes and Qty</label>
-                        <ul
-                          class="clothe-size list-unstyled hstack gap-2 mb-0 flex-wrap"
-                          id="size-filter"
-                        >
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="xs"
-                              id="sizeXS"
-                              onchange="toggleStocksInput('XS')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="sizeXS"
-                              >XS</label
-                            >
-                            <div class="">
-                              <input
-                                name="XS"
-                                type="number"
-                                class="form-control stock-of-size"
-                                value="0"
-                                id="XS"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="s"
-                              id="sizeS"
-                              onchange="toggleStocksInput('S')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="sizeS"
-                              >S</label
-                            >
-                            <div class="">
-                              <input
-                                name="S"
-                                type="number"
-                                class="form-control stock-of-size"
-                                value="0"
-                                id="S"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="m"
-                              id="sizeM"
-                              onchange="toggleStocksInput('M')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="sizeM"
-                              >M</label
-                            >
-                            <div class="">
-                              <input
-                                name="M"
-                                type="number"
-                                class="form-control stock-of-size"
-                                value="0"
-                                id="M"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="l"
-                              id="sizeL"
-                              onchange="toggleStocksInput('L')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="sizeL"
-                              >L</label
-                            >
-                            <div class="">
-                              <input
-                                name="L"
-                                type="number"
-                                class="form-control stock-of-size"
-                                value="0"
-                                id="L"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="xl"
-                              id="sizeXL"
-                              onchange="toggleStocksInput('XL')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="sizeXL"
-                              >XL</label
-                            >
-                            <div class="">
-                              <input
-                                name="XL"
-                                type="number"
-                                class="form-control stock-of-size"
-                                value="0"
-                                id="XL"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="2xl"
-                              id="size2XL"
-                              onchange="toggleStocksInput('2XL')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="size2XL"
-                              >2XL</label
-                            >
-                            <div class="">
-                              <input
-                                name="2XL"
-                                type="number"
-                                class="form-control stock-of-size"
-                                value="0"
-                                id="2XL"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="3xl"
-                              id="size3XL"
-                              onchange="toggleStocksInput('3XL')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="size3XL"
-                              >3XL</label
-                            >
-                            <div class="">
-                              <input
-                                name="3XL"
-                                type="number"
-                                class="form-control stock-of-size"
-                                value="0"
-                                id="3XL"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                          <li
-                            class="d-flex justify-content-center align-items-center gap-2"
-                          >
-                            <input
-                              name="size"
-                              type="checkbox"
-                              value="40"
-                              id="size40"
-                              onchange="toggleStocksInput('40')"
-                            />
-                            <label
-                              class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                              for="size40"
-                              >40</label
-                            >
-                            <div class="">
-                              <input
-                                name="40"
-                                value="0"
-                                type="number"
-                                class="form-control stock-of-size"
-                                id="40"
-                                placeholder="Stocks"
-                                disabled
-                              />
-                            </div>
-                          </li>
-                        </ul>
-                        <div class="error-msg mt-1">
-                          Please select a product sizes.
-                        </div>
-                      </div>
+                    <!-- end card -->
+                    <div class="text-end mb-3">
+                      <p class="text-danger formError hideError"></p>
+                      <p class="text-success formSuccess hideError"></p>
+                      <button type="submit" class="btn btn-success w-sm">
+                        Submit
+                      </button>
                     </div>
                   </div>
+                  <!-- end col -->
+                </div>
+                <!-- end row -->
+              </form>
+            </div>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <script>
+                      document.write(new Date().getFullYear());
+                    </script>
+                    © FASCO.
+                  </div>
+                  <div class="col-sm-6"></div>
                 </div>
               </div>
-              <!-- end card -->
-              <div class="text-end mb-3">
-                <p class="text-danger formError hideError"></p>
-                <p class="text-success formSuccess hideError"></p>
-                <button type="submit" class="btn btn-success w-sm">
-                  Submit
-                </button>
-              </div>
-            </div>
-            <!-- end col -->
+            </footer>
           </div>
-          <!-- end row -->
-        </form>
-      </div>
-      <!-- End Page-content -->
-
-      <footer class="footer">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-6">
-              <script>
-                document.write(new Date().getFullYear());
-              </script>
-              © FASCO.
-            </div>
-            <div class="col-sm-6"></div>
-          </div>
+          <!-- end main content-->
         </div>
-      </footer>
-    </div>
-    <!-- end main content-->
   </div>
-</div>
-<!-- END layout-wrapper -->
+  <!-- END layout-wrapper -->
 
-<!-- successModal -->
-<div
-  id="successModal"
-  class="modal fade zoomIn"
-  tabindex="-1"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button
-          type="button"
-          class="btn-close"
-          id="close-removecategoryModal"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body p-md-5">
-        <div
-          class="d-flex flex-column gap-2 justify-content-center align-items-center mt-4 mb-2"
-        >
-          <h2 class="my-3 px-3 text-success">Product successfully edited</h2>
-          <button id="btn-next" type="button" class="btn btn-success">
-            Next
-          </button>
+  <!-- successModal -->
+  <div id="successModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" id="close-removecategoryModal" data-bs-dismiss="modal"
+            aria-label="Close"></button>
         </div>
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<!-- imageModal -->
-<div id="imageModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button
-          type="button"
-          class="btn-close"
-          id="close-removecategoryModal"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body p-md-5">
-        <div class="text-center">
-          <!-- image preiew -->
-          <div
-            class="h-auto d-flex justify-content-center align-items-center"
-            style="height: 400px; width: 400px"
-          >
-            <img id="preview" src="" alt="" class="img-fluid" />
-            <!-- <img id="output" src="" alt="" class="img-fluid" /> -->
+        <div class="modal-body p-md-5">
+          <div class="d-flex flex-column gap-2 justify-content-center align-items-center mt-4 mb-2">
+            <h2 class="my-3 px-3 text-success">Product successfully edited</h2>
+            <button id="btn-next" type="button" class="btn btn-success">
+              Next
+            </button>
           </div>
         </div>
-        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-          <!-- <label for="uploadFile" class="select-image btn btn-primary"
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  <!-- imageModal -->
+  <div id="imageModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" id="close-removecategoryModal" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-md-5">
+          <div class="text-center">
+            <!-- image preiew -->
+            <div class="h-auto d-flex justify-content-center align-items-center" style="height: 400px; width: 400px">
+              <img id="preview" src="" alt="" class="img-fluid" />
+              <!-- <img id="output" src="" alt="" class="img-fluid" /> -->
+            </div>
+          </div>
+          <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+            <!-- <label for="uploadFile" class="select-image btn btn-primary"
             >Select Image</label
           >
           <input type="file" id="uploadFile" style="display: none" /> -->
-          <button id="btn-crop" type="button" class="btn btn-success">
-            Crop and upload
-          </button>
+            <button id="btn-crop" type="button" class="btn btn-success">
+              Crop and upload
+            </button>
+          </div>
         </div>
       </div>
+      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-content -->
+    <!-- /.modal-dialog -->
   </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
+  <!-- /.modal -->
 
-<!--preloader-->
-<div id="preloader">
-  <div id="status">
-    <div class="spinner-border text-primary avatar-sm" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <!--preloader-->
+  <div id="preloader">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  function toggleStocksInput(inputId) {
-    var input = document.getElementById(inputId);
-    input.disabled = !input.disabled;
-  }
-</script>
+  <script>
+    function toggleStocksInput(inputId) {
+      var input = document.getElementById(inputId);
+      input.disabled = !input.disabled;
+    }
+  </script>
 
-<!-- ckeditor -->
-<script src="/static/backend/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+  <!-- ckeditor -->
+  <script src="/backend/libs/%40ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
 
-<!-- dropzone js -->
-<script src="/static/backend/libs/dropzone/dropzone-min.js"></script>
+  <!-- dropzone js -->
+  <script src="/backend/libs/dropzone/dropzone-min.js"></script>
 
-<!-- create-product -->
-<script src="/static/backend/js/backend/create-product.init.js"></script>
+  <!-- create-product -->
+  <script src="/backend/js/backend/create-product.init.js"></script>
 
-<!-- '''''''''''''''' -->
-<script>
-  function toggleStocksInput(inputId) {
-    var input = document.getElementById(inputId);
-    input.disabled = !input.disabled;
-  }
-</script>
+  <!-- '''''''''''''''' -->
+  <script>
+    function toggleStocksInput(inputId) {
+      var input = document.getElementById(inputId);
+      input.disabled = !input.disabled;
+    }
+  </script>
 
-<!-- cropper Js -->
-<script src="/static/script/admin/cropperjs/cropper.js"></script>
+  <!-- cropper Js -->
+  <script src="/script/admin/cropperjs/cropper.js"></script>
 
-<script src="/static/script/admin/editProduct.js"></script>
-<%- include("./layouts/footer") %>
+  <script src="/script/admin/editProduct.js"></script>
+  <%- include("./layouts/footer") %>

@@ -1,445 +1,323 @@
 <%- include("./layouts/header") %>
 
-<div id="layout-wrapper">
-  <%- include("./layouts/topbar") %>
-  <!-- ========== App Menu ========== -->
-  <%-include("./layouts/menubar") %>
-  <!-- Left Sidebar End -->
+  <div id="layout-wrapper">
+    <%- include("./layouts/topbar") %>
+      <!-- ========== App Menu ========== -->
+      <%-include(". /layouts/menubar") %>
+        <!-- Left Sidebar End -->
 
-  <!-- Start right Content here -->
-  <!-- ============================================================== -->
-  <div class="main-content">
-    <div class="page-content">
-      <div class="container-fluid">
-        <!-- start page title -->
-        <div class="row">
-          <div class="col-12">
-            <div
-              class="page-title-box d-sm-flex align-items-center justify-content-between"
-            >
-              <h4 class="mb-sm-0">Categories</h4>
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+          <div class="page-content">
+            <div class="container-fluid">
+              <!-- start page title -->
+              <div class="row">
+                <div class="col-12">
+                  <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Categories</h4>
 
-              <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item">
-                    <a href="javascript: void(0);">Products</a>
-                  </li>
-                  <li class="breadcrumb-item active">Categories</li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- end page title -->
-
-        <div class="row">
-          <div class="col-xxl-3">
-            <div class="card">
-              <div class="card-header">
-                <h6 class="card-title mb-0">Create Categories</h6>
-              </div>
-              <div class="card-body">
-                <form
-                  autocomplete="off"
-                  class="needs-validation createCategory-form"
-                  id="createCategory-form"
-                  novalidate
-                >
-                  <div class="row">
-                    <div class="col-xxl-12 col-lg-6">
-                      <div class="mb-3">
-                        <label for="categoryTitle" class="form-label"
-                          >Category Title<span class="text-danger"
-                            >*</span
-                          ></label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="categoryTitle"
-                          placeholder="Enter title"
-                          required
-                        />
-                        <div class="invalid-feedback">
-                          Please enter a category title.
-                        </div>
-                      </div>
+                    <div class="page-title-right">
+                      <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                          <a href="javascript: void(0);">Products</a>
+                        </li>
+                        <li class="breadcrumb-item active">Categories</li>
+                      </ol>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end page title -->
 
-                    <div class="col-xxl-12 col-lg-6">
-                      <div class="mb-3">
-                        <label
-                          for="category-image-input"
-                          class="form-label d-block"
-                          >Image <span class="text-danger">*</span></label
-                        >
-
-                        <div class="position-relative d-inline-block">
-                          <div
-                            class="position-absolute top-100 start-100 translate-middle"
-                          >
-                            <label
-                              for="category-image-input"
-                              class="mb-0"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="right"
-                              title="Select Category Image"
-                            >
-                              <span class="avatar-xs d-inline-block">
-                                <span
-                                  class="avatar-title bg-light border rounded-circle text-muted cursor-pointer"
-                                >
-                                  <i class="ri-image-fill"></i>
-                                </span>
-                              </span>
-                            </label>
-                            <input
-                              class="form-control d-none"
-                              id="category-image-input"
-                              type="file"
-                              accept="image/png, image/gif, image/jpeg"
-                            />
+              <div class="row">
+                <div class="col-xxl-3">
+                  <div class="card">
+                    <div class="card-header">
+                      <h6 class="card-title mb-0">Create Categories</h6>
+                    </div>
+                    <div class="card-body">
+                      <form autocomplete="off" class="needs-validation createCategory-form" id="createCategory-form"
+                        novalidate>
+                        <div class="row">
+                          <div class="col-xxl-12 col-lg-6">
+                            <div class="mb-3">
+                              <label for="categoryTitle" class="form-label">Category Title<span
+                                  class="text-danger">*</span></label>
+                              <input type="text" class="form-control" id="categoryTitle" placeholder="Enter title"
+                                required />
+                              <div class="invalid-feedback">
+                                Please enter a category title.
+                              </div>
+                            </div>
                           </div>
 
-                          <div class="avatar-lg">
-                            <div class="avatar-title bg-light rounded-3">
-                              <img
-                                src="#"
-                                alt=""
-                                id="category-img"
-                                class="avatar-md h-auto rounded-3 object-fit-cover"
-                              />
+                          <div class="col-xxl-12 col-lg-6">
+                            <div class="mb-3">
+                              <label for="category-image-input" class="form-label d-block">Image <span
+                                  class="text-danger">*</span></label>
+
+                              <div class="position-relative d-inline-block">
+                                <div class="position-absolute top-100 start-100 translate-middle">
+                                  <label for="category-image-input" class="mb-0" data-bs-toggle="tooltip"
+                                    data-bs-placement="right" title="Select Category Image">
+                                    <span class="avatar-xs d-inline-block">
+                                      <span
+                                        class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                                        <i class="ri-image-fill"></i>
+                                      </span>
+                                    </span>
+                                  </label>
+                                  <input class="form-control d-none" id="category-image-input" type="file"
+                                    accept="image/png, image/gif, image/jpeg" />
+                                </div>
+
+                                <div class="avatar-lg">
+                                  <div class="avatar-title bg-light rounded-3">
+                                    <img src="#" alt="" id="category-img"
+                                      class="avatar-md h-auto rounded-3 object-fit-cover" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <p class="text-danger" id="addImageError"></p>
+                          </div>
+                          <div class="col-xxl-12 col-lg-6">
+                            <div class="mb-3">
+                              <label for="descriptionInput" class="form-label">Description</label>
+                              <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Description"
+                                required></textarea>
+                              <div class="invalid-feedback">
+                                Please enter a description.
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xxl-12">
+                            <p class="text-danger formError hideError"></p>
+                            <p class="text-success formSuccess hideError"></p>
+                            <div class="text-end">
+                              <button type="submit" class="btn btn-success">
+                                Add Category
+                              </button>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <p class="text-danger" id="addImageError"></p>
+                      </form>
                     </div>
-                    <div class="col-xxl-12 col-lg-6">
-                      <div class="mb-3">
-                        <label for="descriptionInput" class="form-label"
-                          >Description</label
-                        >
-                        <textarea
-                          class="form-control"
-                          id="descriptionInput"
-                          rows="3"
-                          placeholder="Description"
-                          required
-                        ></textarea>
-                        <div class="invalid-feedback">
-                          Please enter a description.
+                  </div>
+                  <!-- end card -->
+                </div>
+                <div class="col-xxl-9">
+                  <div class="row" id="categories-list">
+                    <% categories.forEach(category=> { %>
+                      <div class="col-xxl-4 col-md-6">
+                        <div class="card categrory-widgets overflow-hidden">
+                          <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                              <h5 class="flex-grow-1 mb-0">
+                                <%=category.title %>
+                              </h5>
+                              <ul class="flex-shrink-0 list-unstyled hstack gap-1 mb-0">
+                                <li>
+                                  <% const categoryObj=JSON.stringify(category) %>
+                                    <a data-custom-data="<%=categoryObj%>" data-bs-toggle="modal"
+                                      data-bs-target="#editModal" class="btn p-1 bg-info-subtle text-info">
+                                      Edit
+                                    </a>
+                                </li>
+                                <li>
+                                  <button data-custom-data="<%=category._id %>" id="<%=category._id %>"
+                                    href="#deleteModal" data-bs-toggle="modal"
+                                    class="delete-category btn p-1 bg-danger-subtle text-danger">
+                                    Delete
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                            <p>
+                              <%=category.description %>
+                            </p>
+
+                            <img src="<%=category.image %>" alt="" class="img-fluid object-fit-cover" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-xxl-12">
-                      <p class="text-danger formError hideError"></p>
-                      <p class="text-success formSuccess hideError"></p>
-                      <div class="text-end">
-                        <button type="submit" class="btn btn-success">
-                          Add Category
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <!-- end card -->
-          </div>
-          <div class="col-xxl-9">
-            <div class="row" id="categories-list">
-              <% categories.forEach(category => { %>
-              <div class="col-xxl-4 col-md-6">
-                <div class="card categrory-widgets overflow-hidden">
-                  <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-3">
-                      <h5 class="flex-grow-1 mb-0"><%=category.title %></h5>
-                      <ul class="flex-shrink-0 list-unstyled hstack gap-1 mb-0">
-                        <li>
-                          <% const categoryObj = JSON.stringify(category) %>
-                          <a
-                            data-custom-data="<%=categoryObj%>"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editModal"
-                            class="btn p-1 bg-info-subtle text-info"
-                          >
-                            Edit
-                          </a>
-                        </li>
-                        <li>
-                          <button
-                            data-custom-data="<%=category._id %>"
-                            id="<%=category._id %>"
-                            href="#deleteModal"
-                            data-bs-toggle="modal"
-                            class="delete-category btn p-1 bg-danger-subtle text-danger"
-                          >
-                            Delete
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-                    <p><%=category.description %></p>
 
-                    <img
-                      src="<%=category.image %>"
-                      alt=""
-                      class="img-fluid object-fit-cover"
-                    />
+                      <% }); %>
                   </div>
+                  <!--end row-->
                 </div>
+                <!--end col-->
               </div>
-
-              <% }); %>
+              <!--end row-->
             </div>
-            <!--end row-->
+            <!-- container-fluid -->
           </div>
-          <!--end col-->
-        </div>
-        <!--end row-->
-      </div>
-      <!-- container-fluid -->
-    </div>
-    <!-- End Page-content -->
+          <!-- End Page-content -->
 
-    <footer class="footer">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-6">
-            <script>
-              document.write(new Date().getFullYear());
-            </script>
-            © FASCO.
-          </div>
-          <div class="col-sm-6">
-            <div class="text-sm-end d-none d-sm-block"></div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  </div>
-  <!-- end main content-->
-</div>
-<!-- END layout-wrapper -->
-
-<!-- deleteModal -->
-<div
-  id="deleteModal"
-  class="modal fade zoomIn"
-  tabindex="-1"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button
-          type="button"
-          class="btn-close"
-          id="close-removecategoryModal"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body p-md-5">
-        <div class="text-center">
-          <div class="text-danger">
-            <i class="bi bi-trash display-4"></i>
-          </div>
-          <div class="mt-4 fs-15">
-            <h4 class="mb-1">Are you sure ?</h4>
-            <p class="text-muted mx-4 mb-0">
-              Are you sure you want to remove this category ?
-            </p>
-          </div>
-        </div>
-        <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-          <button
-            type="button"
-            class="btn w-sm btn-light btn-hover"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            class="btn w-sm btn-danger btn-hover"
-            id="remove-category"
-          >
-            Yes, Delete It!
-          </button>
-        </div>
-        <p id="yes-delete" class="text-success"></p>
-        <!-- <p id="no-delete" class="text-danger"></p> -->
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<!-- editModal -->
-<div id="editModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body p-md-5">
-        <div class="card">
-          <div class="card-header">
-            <h6 class="card-title mb-0">Edit Category</h6>
-          </div>
-          <div class="card-body">
-            <form
-              autocomplete="off"
-              class="needs-validation createCategory-form"
-              id="createCategory-form"
-              novalidate
-            >
-              <input
-                type="hidden"
-                id="categoryid-input"
-                class="form-control"
-                value=""
-              />
+          <footer class="footer">
+            <div class="container-fluid">
               <div class="row">
-                <div class="col-xxl-12 col-lg-6">
-                  <div class="mb-3">
-                    <label for="editcategoryTitle" class="form-label"
-                      >Category Title<span class="text-danger">*</span></label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="editcategoryTitle"
-                      placeholder="Enter title"
-                      required
-                    />
-                    <div class="invalid-feedback">
-                      Please enter a category title.
-                    </div>
-                  </div>
+                <div class="col-sm-6">
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  © FASCO.
                 </div>
-
-                <div class="col-xxl-12 col-lg-6">
-                  <div class="mb-3">
-                    <label
-                      for="edit-category-image-input"
-                      class="form-label d-block"
-                      >Image <span class="text-danger">*</span></label
-                    >
-
-                    <div class="position-relative d-inline-block">
-                      <div
-                        class="position-absolute top-100 start-100 translate-middle"
-                      >
-                        <label
-                          for="edit-category-image-input"
-                          class="mb-0"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="right"
-                          title="Select Category Image"
-                        >
-                          <span class="avatar-xs d-inline-block">
-                            <span
-                              class="avatar-title bg-light border rounded-circle text-muted cursor-pointer"
-                            >
-                              <i class="ri-image-fill"></i>
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          class="form-control d-none"
-                          id="edit-category-image-input"
-                          type="file"
-                          accept="image/png, image/gif, image/jpeg"
-                        />
-                      </div>
-                      <div class="avatar-lg">
-                        <div class="avatar-title bg-light rounded-3">
-                          <img
-                            src="#"
-                            alt=""
-                            id="edit-category-img"
-                            class="avatar-md h-auto rounded-3 object-fit-cover"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="error-msg mt-1">
-                      Please add a category images.
-                    </div>
-                  </div>
-                  <p class="text-danger" id="editImageError"></p>
-                </div>
-                <div class="col-xxl-12 col-lg-6">
-                  <div class="mb-3">
-                    <label for="edit-descriptionInput" class="form-label"
-                      >Description</label
-                    >
-                    <textarea
-                      class="form-control"
-                      id="edit-descriptionInput"
-                      rows="3"
-                      placeholder="Description"
-                      required
-                    ></textarea>
-                    <div class="invalid-feedback">
-                      Please enter a description.
-                    </div>
-                  </div>
-                </div>
-                <div class="col-xxl-12">
-                  <p class="text-danger formError hideError"></p>
-                  <p class="text-success formSuccess hideError"></p>
-                  <div class="text-end">
-                    <p id="edit-error" class="text-danger"></p>
-                    <button
-                      type="button"
-                      class="btn w-sm btn-light btn-hover"
-                      id="deleteRecord-close"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button
-                      id="edit-category"
-                      type="submit"
-                      class="btn btn-success"
-                    >
-                      Edit Category
-                    </button>
-                  </div>
+                <div class="col-sm-6">
+                  <div class="text-sm-end d-none d-sm-block"></div>
                 </div>
               </div>
-            </form>
+            </div>
+          </footer>
+        </div>
+        <!-- end main content-->
+  </div>
+  <!-- END layout-wrapper -->
+
+  <!-- deleteModal -->
+  <div id="deleteModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" id="close-removecategoryModal" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-md-5">
+          <div class="text-center">
+            <div class="text-danger">
+              <i class="bi bi-trash display-4"></i>
+            </div>
+            <div class="mt-4 fs-15">
+              <h4 class="mb-1">Are you sure ?</h4>
+              <p class="text-muted mx-4 mb-0">
+                Are you sure you want to remove this category ?
+              </p>
+            </div>
+          </div>
+          <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+            <button type="button" class="btn w-sm btn-light btn-hover" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn w-sm btn-danger btn-hover" id="remove-category">
+              Yes, Delete It!
+            </button>
+          </div>
+          <p id="yes-delete" class="text-success"></p>
+          <!-- <p id="no-delete" class="text-danger"></p> -->
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  <!-- editModal -->
+  <div id="editModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-md-5">
+          <div class="card">
+            <div class="card-header">
+              <h6 class="card-title mb-0">Edit Category</h6>
+            </div>
+            <div class="card-body">
+              <form autocomplete="off" class="needs-validation createCategory-form" id="createCategory-form" novalidate>
+                <input type="hidden" id="categoryid-input" class="form-control" value="" />
+                <div class="row">
+                  <div class="col-xxl-12 col-lg-6">
+                    <div class="mb-3">
+                      <label for="editcategoryTitle" class="form-label">Category Title<span
+                          class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="editcategoryTitle" placeholder="Enter title"
+                        required />
+                      <div class="invalid-feedback">
+                        Please enter a category title.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xxl-12 col-lg-6">
+                    <div class="mb-3">
+                      <label for="edit-category-image-input" class="form-label d-block">Image <span
+                          class="text-danger">*</span></label>
+
+                      <div class="position-relative d-inline-block">
+                        <div class="position-absolute top-100 start-100 translate-middle">
+                          <label for="edit-category-image-input" class="mb-0" data-bs-toggle="tooltip"
+                            data-bs-placement="right" title="Select Category Image">
+                            <span class="avatar-xs d-inline-block">
+                              <span class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                                <i class="ri-image-fill"></i>
+                              </span>
+                            </span>
+                          </label>
+                          <input class="form-control d-none" id="edit-category-image-input" type="file"
+                            accept="image/png, image/gif, image/jpeg" />
+                        </div>
+                        <div class="avatar-lg">
+                          <div class="avatar-title bg-light rounded-3">
+                            <img src="#" alt="" id="edit-category-img"
+                              class="avatar-md h-auto rounded-3 object-fit-cover" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="error-msg mt-1">
+                        Please add a category images.
+                      </div>
+                    </div>
+                    <p class="text-danger" id="editImageError"></p>
+                  </div>
+                  <div class="col-xxl-12 col-lg-6">
+                    <div class="mb-3">
+                      <label for="edit-descriptionInput" class="form-label">Description</label>
+                      <textarea class="form-control" id="edit-descriptionInput" rows="3" placeholder="Description"
+                        required></textarea>
+                      <div class="invalid-feedback">
+                        Please enter a description.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xxl-12">
+                    <p class="text-danger formError hideError"></p>
+                    <p class="text-success formSuccess hideError"></p>
+                    <div class="text-end">
+                      <p id="edit-error" class="text-danger"></p>
+                      <button type="button" class="btn w-sm btn-light btn-hover" id="deleteRecord-close"
+                        data-bs-dismiss="modal">
+                        Close
+                      </button>
+                      <button id="edit-category" type="submit" class="btn btn-success">
+                        Edit Category
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
+      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-content -->
+    <!-- /.modal-dialog -->
   </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
+  <!-- /.modal -->
 
-<!--preloader-->
-<div id="preloader">
-  <div id="status">
-    <div class="spinner-border text-primary avatar-sm" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <!--preloader-->
+  <div id="preloader">
+    <div id="status">
+      <div class="spinner-border text-primary avatar-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
   </div>
-</div>
-<!-- <script src="/static/backend/js/backend/product-categories.init.js"></script> -->
+  <!-- <script src="/backend/js/backend/product-categories.init.js"></script> -->
 
-<script src="/static/script/admin/categoriesPage.js"></script>
-<%- include("./layouts/footer") %>
+  <script src="/script/admin/categoriesPage.js"></script>
+  <%- include("./layouts/footer") %>

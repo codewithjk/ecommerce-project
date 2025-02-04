@@ -1,73 +1,66 @@
 <%- include("./layouts/header") %>
 
-<section
-  class="auth-page-wrapper position-relative bg-light min-vh-100 d-flex align-items-center justify-content-between"
->
-  <div class="auth-header position-fixed top-0 start-0 end-0 bg-body">
-    <div class="container-fluid">
-      <div class="row justify-content-between align-items-center">
-        <!---end col-->
-        <div class="col-auto"></div>
+  <section
+    class="auth-page-wrapper position-relative bg-light min-vh-100 d-flex align-items-center justify-content-between">
+    <div class="auth-header position-fixed top-0 start-0 end-0 bg-body">
+      <div class="container-fluid">
+        <div class="row justify-content-between align-items-center">
+          <!---end col-->
+          <div class="col-auto"></div>
+        </div>
+        <!--end row-->
       </div>
-      <!--end row-->
+      <!--end container-fluid-->
     </div>
-    <!--end container-fluid-->
-  </div>
-  <div class="w-100">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <div class="auth-card mx-lg-3">
-            <div class="card border-0 mb-0">
-              <div class="card-body text-center p-4">
-                <div class="text-center px-sm-5 mx-5">
-                  <img
-                    src="/static/images/error400.png"
-                    class="img-fluid"
-                    alt=""
-                  />
-                </div>
-                <div class="mt-4 text-center pt-3">
-                  <div class="position-relative">
-                    <h4 class="fs-18 error-subtitle text-uppercase mb-0">
-                      Oops, page not found
-                    </h4>
-                    <p class="fs-15 text-muted mt-3">
-                      You are requesting a invalid page.
-                    </p>
-                    <div class="mt-4">
-                      <a href="/" class="btn btn-primary"
-                        ><i class="mdi mdi-home me-1"></i>Back to home</a
-                      >
+    <div class="w-100">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div class="auth-card mx-lg-3">
+              <div class="card border-0 mb-0">
+                <div class="card-body text-center p-4">
+                  <div class="text-center px-sm-5 mx-5">
+                    <img src="/images/error400.png" class="img-fluid" alt="" />
+                  </div>
+                  <div class="mt-4 text-center pt-3">
+                    <div class="position-relative">
+                      <h4 class="fs-18 error-subtitle text-uppercase mb-0">
+                        Oops, page not found
+                      </h4>
+                      <p class="fs-15 text-muted mt-3">
+                        You are requesting a invalid page.
+                      </p>
+                      <div class="mt-4">
+                        <a href="/" class="btn btn-primary"><i class="mdi mdi-home me-1"></i>Back to home</a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <!--end col-->
         </div>
-        <!--end col-->
+        <!--end row-->
       </div>
-      <!--end row-->
-    </div>
-    <!--end container-->
+      <!--end container-->
 
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="text-center">
-              <p class="mb-0 text-muted">
-                ©
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                FASCO
-              </p>
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-center">
+                <p class="mb-0 text-muted">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  FASCO
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </footer>
-  </div>
-</section>
+      </footer>
+    </div>
+  </section>

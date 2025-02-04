@@ -1,470 +1,300 @@
 <%- include("./layouts/header") %> <%- include("./layouts/navbar") %>
 
-<div class="position-relative section">
-  <div class="container">
-    <div class="ecommerce-product gap-4">
-      <div class="sidebar small-sidebar flex-shrink-0">
-        <div class="card overflow-hidden">
-          <div class="card-header">
-            <div class="d-flex mb-3">
-              <div class="flex-grow-1">
-                <h5 class="fs-16">Filters</h5>
+    <div class="position-relative section">
+      <div class="container">
+        <div class="ecommerce-product gap-4">
+          <div class="sidebar small-sidebar flex-shrink-0">
+            <div class="card overflow-hidden">
+              <div class="card-header">
+                <div class="d-flex mb-3">
+                  <div class="flex-grow-1">
+                    <h5 class="fs-16">Filters</h5>
+                  </div>
+                  <div class="flex-shrink-0">
+                    <a href="/products" class="text-decoration-underline" id="clearall">Clear All</a>
+                  </div>
+                </div>
+
+                <div data-bs-toggle="modal" data-bs-target="#searchModal" class="search-box">
+                  <input type="text" class="form-control" id="searchProductList" autocomplete="off"
+                    placeholder="Search Products..." />
+                  <i class="ri-search-line search-icon"></i>
+                </div>
               </div>
-              <div class="flex-shrink-0">
-                <a
-                  href="/products"
-                  class="text-decoration-underline"
-                  id="clearall"
-                  >Clear All</a
-                >
-              </div>
-            </div>
 
-            <div
-              data-bs-toggle="modal"
-              data-bs-target="#searchModal"
-              class="search-box"
-            >
-              <input
-                type="text"
-                class="form-control"
-                id="searchProductList"
-                autocomplete="off"
-                placeholder="Search Products..."
-              />
-              <i class="ri-search-line search-icon"></i>
-            </div>
-          </div>
+              <div class="accordion accordion-flush filter-accordion">
+                <div class="card-body border-bottom">
+                  <div>
+                    <p class="text-muted text-uppercase fs-13 fw-medium mb-3">
+                      Categories
+                    </p>
+                    <ul class="list-unstyled mb-0 filter-list">
+                      <% categories.forEach(category=> { %>
 
-          <div class="accordion accordion-flush filter-accordion">
-            <div class="card-body border-bottom">
-              <div>
-                <p class="text-muted text-uppercase fs-13 fw-medium mb-3">
-                  Categories
-                </p>
-                <ul class="list-unstyled mb-0 filter-list">
-                  <% categories.forEach(category => { %>
+                        <li>
+                          <a onclick="filterByCategory(`<%=category._id%>`)" class="d-flex py-1 align-items-center">
+                            <div class="flex-grow-1">
+                              <h5 class="fs-14 mb-0 listname">
+                                <%=category.title%>
+                              </h5>
+                            </div>
+                          </a>
+                        </li>
 
-                  <li>
-                    <a
-                      onclick="filterByCategory(`<%=category._id%>`)"
-                      class="d-flex py-1 align-items-center"
-                    >
-                      <div class="flex-grow-1">
-                        <h5 class="fs-14 mb-0 listname"><%=category.title%></h5>
+                        <% }); %>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="card-body border-bottom">
+                  <p class="text-muted text-uppercase fs-13 fw-medium mb-4">
+                    Price
+                  </p>
+
+                  <div id="product-price-range" data-slider-color="info"></div>
+                  <div class="formCost gap-2 align-items-center mt-3">
+                    <input class="form-range" type="range" id="costRange" min="500" max="10000" value="500"
+                      step="500" />
+                    <div>
+                      <span class="fw-semibold text-muted" id="fromValue">100</span>
+                      <span class="fw-semibold text-muted">to</span>
+                      <span class="fw-semibold text-muted" id="toValue">10000</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- end accordion-item -->
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingSize">
+                    <button class="accordion-button bg-transparent shadow-none" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#flush-collapseSize" aria-expanded="true" aria-controls="flush-collapseSize">
+                      <span class="text-muted text-uppercase fs-13 fw-medium">Sizes</span>
+                      <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
+                    </button>
+                  </h2>
+
+                  <div id="flush-collapseSize" class="accordion-collapse collapse show"
+                    aria-labelledby="flush-headingSize">
+                    <div class="accordion-body text-body pt-0">
+                      <ul class="clothe-size list-unstyled hstack gap-3 mb-0 flex-wrap" id="size-filter">
+                        <li onclick="filterProductsBySize('XS')">
+                          <input type="radio" name="sizes" value="xs" id="sizeXs" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="sizeXs">XS</label>
+                        </li>
+                        <li onclick="filterProductsBySize('S')">
+                          <input type="radio" name="sizes" value="s" id="sizeS" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="sizeS">S</label>
+                        </li>
+                        <li onclick="filterProductsBySize('M')">
+                          <input type="radio" name="sizes" value="m" id="sizeM" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="sizeM">M</label>
+                        </li>
+                        <li onclick="filterProductsBySize('L')">
+                          <input type="radio" name="sizes" value="l" id="sizeL" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="sizeL">L</label>
+                        </li>
+                        <li onclick="filterProductsBySize('XL')">
+                          <input type="radio" name="sizes" value="xl" id="sizeXl" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="sizeXl">XL</label>
+                        </li>
+                        <li onclick="filterProductsBySize('2XL')">
+                          <input type="radio" name="sizes" value="2xl" id="size2xl" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="size2xl">2XL</label>
+                        </li>
+                        <li onclick="filterProductsBySize('3XL')">
+                          <input type="radio" name="sizes" value="3xl" id="size3xl" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="size3xl">3XL</label>
+                        </li>
+                        <li onclick="filterProductsBySize('30')">
+                          <input type="radio" name="sizes" value="30" id="size30" />
+                          <label
+                            class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
+                            for="size30">30</label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- end accordion-item -->
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingDiscount">
+                    <button class="accordion-button bg-transparent shadow-none collapsed" type="button"
+                      data-bs-toggle="collapse" data-bs-target="#flush-collapseDiscount" aria-expanded="true"
+                      aria-controls="flush-collapseDiscount">
+                      <span class="text-muted text-uppercase fs-13 fw-medium">Discount</span>
+                      <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
+                    </button>
+                  </h2>
+                  <div id="flush-collapseDiscount" class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingDiscount">
+                    <div class="accordion-body text-body pt-1">
+                      <div class="d-flex flex-column gap-2 filter-check" id="discount-filter">
+                        <div class="form-check">
+                          <input onclick="filterProductsByDiscount(50)" class="form-check-input" type="radio"
+                            name="productdiscountRadio" value="50" id="productdiscountRadio6" />
+                          <label class="form-check-label" for="productdiscountRadio6">50% or more</label>
+                        </div>
+                        <div class="form-check">
+                          <input onclick="filterProductsByDiscount(40)" class="form-check-input" type="radio"
+                            name="productdiscountRadio" value="40" id="productdiscountRadio5" />
+                          <label class="form-check-label" for="productdiscountRadio5">40% or more</label>
+                        </div>
+                        <div class="form-check">
+                          <input onclick="filterProductsByDiscount(30)" class="form-check-input" type="radio"
+                            name="productdiscountRadio" value="30" id="productdiscountRadio4" />
+                          <label class="form-check-label" for="productdiscountRadio4">30% or more</label>
+                        </div>
+                        <div class="form-check">
+                          <input onclick="filterProductsByDiscount(20)" class="form-check-input" type="radio"
+                            name="productdiscountRadio" value="20" id="productdiscountRadio3" />
+                          <label class="form-check-label" for="productdiscountRadio3">20% or more</label>
+                        </div>
+                        <div class="form-check">
+                          <input onclick="filterProductsByDiscount(10)" class="form-check-input" type="radio"
+                            name="productdiscountRadio" value="10" id="productdiscountRadio2" />
+                          <label class="form-check-label" for="productdiscountRadio2">10% or more</label>
+                        </div>
                       </div>
-                    </a>
-                  </li>
-
-                  <% }); %>
-                </ul>
-              </div>
-            </div>
-
-            <div class="card-body border-bottom">
-              <p class="text-muted text-uppercase fs-13 fw-medium mb-4">
-                Price
-              </p>
-
-              <div id="product-price-range" data-slider-color="info"></div>
-              <div class="formCost gap-2 align-items-center mt-3">
-                <input
-                  class="form-range"
-                  type="range"
-                  id="costRange"
-                  min="500"
-                  max="10000"
-                  value="500"
-                  step="500"
-                />
-                <div>
-                  <span class="fw-semibold text-muted" id="fromValue">100</span>
-                  <span class="fw-semibold text-muted">to</span>
-                  <span class="fw-semibold text-muted" id="toValue">10000</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+                <!-- end accordion-item -->
 
-            <!-- end accordion-item -->
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingRating">
+                    <button class="accordion-button bg-transparent shadow-none collapsed" type="button"
+                      data-bs-toggle="collapse" data-bs-target="#flush-collapseRating" aria-expanded="false"
+                      aria-controls="flush-collapseRating">
+                      <span class="text-muted text-uppercase fs-13 fw-medium">Rating</span>
+                      <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
+                    </button>
+                  </h2>
 
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingSize">
-                <button
-                  class="accordion-button bg-transparent shadow-none"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseSize"
-                  aria-expanded="true"
-                  aria-controls="flush-collapseSize"
-                >
-                  <span class="text-muted text-uppercase fs-13 fw-medium"
-                    >Sizes</span
-                  >
-                  <span
-                    class="badge bg-success rounded-pill align-middle ms-1 filter-badge"
-                  ></span>
-                </button>
-              </h2>
-
-              <div
-                id="flush-collapseSize"
-                class="accordion-collapse collapse show"
-                aria-labelledby="flush-headingSize"
-              >
-                <div class="accordion-body text-body pt-0">
-                  <ul
-                    class="clothe-size list-unstyled hstack gap-3 mb-0 flex-wrap"
-                    id="size-filter"
-                  >
-                    <li onclick="filterProductsBySize('XS')">
-                      <input type="radio" name="sizes" value="xs" id="sizeXs" />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="sizeXs"
-                        >XS</label
-                      >
-                    </li>
-                    <li onclick="filterProductsBySize('S')">
-                      <input type="radio" name="sizes" value="s" id="sizeS" />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="sizeS"
-                        >S</label
-                      >
-                    </li>
-                    <li onclick="filterProductsBySize('M')">
-                      <input type="radio" name="sizes" value="m" id="sizeM" />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="sizeM"
-                        >M</label
-                      >
-                    </li>
-                    <li onclick="filterProductsBySize('L')">
-                      <input type="radio" name="sizes" value="l" id="sizeL" />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="sizeL"
-                        >L</label
-                      >
-                    </li>
-                    <li onclick="filterProductsBySize('XL')">
-                      <input type="radio" name="sizes" value="xl" id="sizeXl" />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="sizeXl"
-                        >XL</label
-                      >
-                    </li>
-                    <li onclick="filterProductsBySize('2XL')">
-                      <input
-                        type="radio"
-                        name="sizes"
-                        value="2xl"
-                        id="size2xl"
-                      />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="size2xl"
-                        >2XL</label
-                      >
-                    </li>
-                    <li onclick="filterProductsBySize('3XL')">
-                      <input
-                        type="radio"
-                        name="sizes"
-                        value="3xl"
-                        id="size3xl"
-                      />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="size3xl"
-                        >3XL</label
-                      >
-                    </li>
-                    <li onclick="filterProductsBySize('30')">
-                      <input type="radio" name="sizes" value="30" id="size30" />
-                      <label
-                        class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle"
-                        for="size30"
-                        >30</label
-                      >
-                    </li>
-                  </ul>
+                  <div id="flush-collapseRating" class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingRating">
+                    <div class="accordion-body text-body">
+                      <div class="d-flex flex-column gap-2 filter-check" id="rating-filter">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="4" id="productratingRadio4" />
+                          <label class="form-check-label" for="productratingRadio4">
+                            <span class="text-muted">
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star"></i>
+                            </span>
+                            4 & Above
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="3" id="productratingRadio3" />
+                          <label class="form-check-label" for="productratingRadio3">
+                            <span class="text-muted">
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star"></i>
+                              <i class="mdi mdi-star"></i>
+                            </span>
+                            3 & Above
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="2" id="productratingRadio2" />
+                          <label class="form-check-label" for="productratingRadio2">
+                            <span class="text-muted">
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star"></i>
+                              <i class="mdi mdi-star"></i>
+                              <i class="mdi mdi-star"></i>
+                            </span>
+                            2 & Above
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="1" id="productratingRadio1" />
+                          <label class="form-check-label" for="productratingRadio1">
+                            <span class="text-muted">
+                              <i class="mdi mdi-star text-warning"></i>
+                              <i class="mdi mdi-star"></i>
+                              <i class="mdi mdi-star"></i>
+                              <i class="mdi mdi-star"></i>
+                              <i class="mdi mdi-star"></i>
+                            </span>
+                            1
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <!-- end accordion-item -->
               </div>
             </div>
-            <!-- end accordion-item -->
-
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingDiscount">
-                <button
-                  class="accordion-button bg-transparent shadow-none collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseDiscount"
-                  aria-expanded="true"
-                  aria-controls="flush-collapseDiscount"
-                >
-                  <span class="text-muted text-uppercase fs-13 fw-medium"
-                    >Discount</span
-                  >
-                  <span
-                    class="badge bg-success rounded-pill align-middle ms-1 filter-badge"
-                  ></span>
-                </button>
-              </h2>
-              <div
-                id="flush-collapseDiscount"
-                class="accordion-collapse collapse"
-                aria-labelledby="flush-headingDiscount"
-              >
-                <div class="accordion-body text-body pt-1">
-                  <div
-                    class="d-flex flex-column gap-2 filter-check"
-                    id="discount-filter"
-                  >
-                    <div class="form-check">
-                      <input
-                        onclick="filterProductsByDiscount(50)"
-                        class="form-check-input"
-                        type="radio"
-                        name="productdiscountRadio"
-                        value="50"
-                        id="productdiscountRadio6"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="productdiscountRadio6"
-                        >50% or more</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        onclick="filterProductsByDiscount(40)"
-                        class="form-check-input"
-                        type="radio"
-                        name="productdiscountRadio"
-                        value="40"
-                        id="productdiscountRadio5"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="productdiscountRadio5"
-                        >40% or more</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        onclick="filterProductsByDiscount(30)"
-                        class="form-check-input"
-                        type="radio"
-                        name="productdiscountRadio"
-                        value="30"
-                        id="productdiscountRadio4"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="productdiscountRadio4"
-                        >30% or more</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        onclick="filterProductsByDiscount(20)"
-                        class="form-check-input"
-                        type="radio"
-                        name="productdiscountRadio"
-                        value="20"
-                        id="productdiscountRadio3"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="productdiscountRadio3"
-                        >20% or more</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        onclick="filterProductsByDiscount(10)"
-                        class="form-check-input"
-                        type="radio"
-                        name="productdiscountRadio"
-                        value="10"
-                        id="productdiscountRadio2"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="productdiscountRadio2"
-                        >10% or more</label
-                      >
-                    </div>
+            <!-- end card -->
+          </div>
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center gap-2 mb-4">
+              <div class="flex-shrink-0">
+                <div class="d-flex gap-2">
+                  <div class="flex-shrink-0">
+                    <label for="sort-elem" class="col-form-label">Sort By:</label>
+                  </div>
+                  <div class="flex-shrink-0">
+                    <select class="form-select w-md" id="sort-elem">
+                      <option value="">All</option>
+                      <option value="low_to_high">Low to High</option>
+                      <option value="high_to_low">High to Low</option>
+                    </select>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- end accordion-item -->
+            <div id="product-list" class="row overflow-hidden"></div>
+            <div id="pagination-element" class="row d-flex justify-content-center">
+              <button id="loadmore-button" onclick="loadmore()" class="btn btn-primary rounded-pill w-auto">
+                Load More
+              </button>
+              <h5 id="no-result" class="text-center"></h5>
+            </div>
 
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingRating">
-                <button
-                  class="accordion-button bg-transparent shadow-none collapsed"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#flush-collapseRating"
-                  aria-expanded="false"
-                  aria-controls="flush-collapseRating"
-                >
-                  <span class="text-muted text-uppercase fs-13 fw-medium"
-                    >Rating</span
-                  >
-                  <span
-                    class="badge bg-success rounded-pill align-middle ms-1 filter-badge"
-                  ></span>
-                </button>
-              </h2>
-
-              <div
-                id="flush-collapseRating"
-                class="accordion-collapse collapse"
-                aria-labelledby="flush-headingRating"
-              >
-                <div class="accordion-body text-body">
-                  <div
-                    class="d-flex flex-column gap-2 filter-check"
-                    id="rating-filter"
-                  >
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="4"
-                        id="productratingRadio4"
-                      />
-                      <label class="form-check-label" for="productratingRadio4">
-                        <span class="text-muted">
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star"></i>
-                        </span>
-                        4 & Above
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="3"
-                        id="productratingRadio3"
-                      />
-                      <label class="form-check-label" for="productratingRadio3">
-                        <span class="text-muted">
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star"></i>
-                          <i class="mdi mdi-star"></i>
-                        </span>
-                        3 & Above
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="2"
-                        id="productratingRadio2"
-                      />
-                      <label class="form-check-label" for="productratingRadio2">
-                        <span class="text-muted">
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star"></i>
-                          <i class="mdi mdi-star"></i>
-                          <i class="mdi mdi-star"></i>
-                        </span>
-                        2 & Above
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="1"
-                        id="productratingRadio1"
-                      />
-                      <label class="form-check-label" for="productratingRadio1">
-                        <span class="text-muted">
-                          <i class="mdi mdi-star text-warning"></i>
-                          <i class="mdi mdi-star"></i>
-                          <i class="mdi mdi-star"></i>
-                          <i class="mdi mdi-star"></i>
-                          <i class="mdi mdi-star"></i>
-                        </span>
-                        1
-                      </label>
+            <div class="row d-none" id="search-result-elem">
+              <div class="col-lg-12">
+                <div class="text-center py-5">
+                  <div class="avatar-lg mx-auto mb-4">
+                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
+                      <i class="bi bi-search"></i>
                     </div>
                   </div>
+
+                  <h5>No matching records found</h5>
                 </div>
               </div>
-            </div>
-            <!-- end accordion-item -->
-          </div>
-        </div>
-        <!-- end card -->
-      </div>
-      <div class="flex-grow-1">
-        <div class="d-flex align-items-center gap-2 mb-4">
-          <div class="flex-shrink-0">
-            <div class="d-flex gap-2">
-              <div class="flex-shrink-0">
-                <label for="sort-elem" class="col-form-label">Sort By:</label>
-              </div>
-              <div class="flex-shrink-0">
-                <select class="form-select w-md" id="sort-elem">
-                  <option value="">All</option>
-                  <option value="low_to_high">Low to High</option>
-                  <option value="high_to_low">High to Low</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="product-list" class="row overflow-hidden"></div>
-        <div id="pagination-element" class="row d-flex justify-content-center">
-          <button
-            id="loadmore-button"
-            onclick="loadmore()"
-            class="btn btn-primary rounded-pill w-auto"
-          >
-            Load More
-          </button>
-          <h5 id="no-result" class="text-center"></h5>
-        </div>
-
-        <div class="row d-none" id="search-result-elem">
-          <div class="col-lg-12">
-            <div class="text-center py-5">
-              <div class="avatar-lg mx-auto mb-4">
-                <div
-                  class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24"
-                >
-                  <i class="bi bi-search"></i>
-                </div>
-              </div>
-
-              <h5>No matching records found</h5>
             </div>
           </div>
         </div>
       </div>
+      <!--end container-->
     </div>
-  </div>
-  <!--end container-->
-</div>
 
-<!-- footer -->
-<%- include("./layouts/footer") %>
-<script src="/static/script/productsPage.js"></script>
+    <!-- footer -->
+    <%- include("./layouts/footer") %>
+      <script src="/script/productsPage.js"></script>

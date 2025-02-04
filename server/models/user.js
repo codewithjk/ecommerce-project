@@ -25,7 +25,7 @@ const userSchema = new Schema({
   },
   avatar: {
     type: String,
-    default: "/static/images/avatar-1.jpg",
+    default: "/images/avatar-1.jpg",
   },
   facebookId: {
     type: String,

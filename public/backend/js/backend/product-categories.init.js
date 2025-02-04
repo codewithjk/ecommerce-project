@@ -10,7 +10,7 @@ File: product category init File
 var categoryListData = [
   {
     id: 1,
-    categoryImg: "/static/frontend/images/ecommerce/headphone.png",
+    categoryImg: "/frontend/images/ecommerce/headphone.png",
     categoryTitle: "Headphone",
     subCategory: [
       "Wireless",
@@ -26,7 +26,7 @@ var categoryListData = [
   },
   {
     id: 2,
-    categoryImg: "/static/frontend/images/ecommerce/smart-watch.png",
+    categoryImg: "/frontend/images/ecommerce/smart-watch.png",
     categoryTitle: "Watch",
     subCategory: [
       "Digital Watches",
@@ -41,7 +41,7 @@ var categoryListData = [
   },
   {
     id: 3,
-    categoryImg: "/static/frontend/images/ecommerce/sofa.png",
+    categoryImg: "/frontend/images/ecommerce/sofa.png",
     categoryTitle: "Furniture",
     subCategory: ["Beds", "Cabinets", "Chairs & Seating", "Desks"],
     description:
@@ -49,7 +49,7 @@ var categoryListData = [
   },
   {
     id: 4,
-    categoryImg: "/static/frontend/images/ecommerce/clothes.png",
+    categoryImg: "/frontend/images/ecommerce/clothes.png",
     categoryTitle: "Clothing",
     subCategory: [
       "Casual Wear",
@@ -64,7 +64,7 @@ var categoryListData = [
   },
   {
     id: 5,
-    categoryImg: "/static/frontend/images/ecommerce/baby-shoe.png",
+    categoryImg: "/frontend/images/ecommerce/baby-shoe.png",
     categoryTitle: "Footwear",
     subCategory: ["Athletic Shoes", "Leather Shoes", "Figure Shoes", "Crocs"],
     description:
@@ -72,7 +72,7 @@ var categoryListData = [
   },
   {
     id: 6,
-    categoryImg: "/static/frontend/images/ecommerce/light-bulb.png",
+    categoryImg: "/frontend/images/ecommerce/light-bulb.png",
     categoryTitle: "Lighting",
     subCategory: [
       "Ambient Lighting",
@@ -85,7 +85,7 @@ var categoryListData = [
   },
   {
     id: 7,
-    categoryImg: "/static/frontend/images/ecommerce/cosmetics.png",
+    categoryImg: "/frontend/images/ecommerce/cosmetics.png",
     categoryTitle: "Beauty & Personal Care",
     subCategory: ["Baby Care", "Deodorants", "Feminine Care", "Fragrances"],
     description:
@@ -93,7 +93,7 @@ var categoryListData = [
   },
   {
     id: 8,
-    categoryImg: "/static/frontend/images/ecommerce/book.png",
+    categoryImg: "/frontend/images/ecommerce/book.png",
     categoryTitle: "Books",
     subCategory: [
       "Fantasy",
@@ -109,7 +109,7 @@ var categoryListData = [
   },
   {
     id: 9,
-    categoryImg: "/static/frontend/images/ecommerce/smart-watch.png",
+    categoryImg: "/frontend/images/ecommerce/smart-watch.png",
     categoryTitle: "Other Accessories",
     subCategory: ["Bags", "Eyewear", "Belts", "Hair accessories"],
     description:
@@ -118,7 +118,7 @@ var categoryListData = [
   ,
   {
     id: 10,
-    categoryImg: "/static/frontend/images/ecommerce/cosmetics.png",
+    categoryImg: "/frontend/images/ecommerce/cosmetics.png",
     categoryTitle: "Beauty & Personal Care",
     subCategory: ["Baby Care", "Deodorants", "Feminine Care", "Fragrances"],
     description:
@@ -126,7 +126,7 @@ var categoryListData = [
   },
   {
     id: 11,
-    categoryImg: "/static/frontend/images/ecommerce/book.png",
+    categoryImg: "/frontend/images/ecommerce/book.png",
     categoryTitle: "Books",
     subCategory: [
       "Fantasy",
@@ -142,7 +142,7 @@ var categoryListData = [
   },
   {
     id: 12,
-    categoryImg: "/static/frontend/images/ecommerce/smart-watch.png",
+    categoryImg: "/frontend/images/ecommerce/smart-watch.png",
     categoryTitle: "Other Accessories",
     subCategory: ["Bags", "Eyewear", "Belts", "Hair accessories"],
     description:
@@ -423,8 +423,8 @@ function findNextId() {
     return 0;
   }
   var lastElementId = fetchIdFromObj(
-      categoryListData[categoryListData.length - 1]
-    ),
+    categoryListData[categoryListData.length - 1]
+  ),
     firstElementId = fetchIdFromObj(categoryListData[0]);
   return firstElementId >= lastElementId
     ? firstElementId + 1
