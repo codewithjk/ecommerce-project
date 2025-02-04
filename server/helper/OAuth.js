@@ -4,11 +4,14 @@ const { userModel } = require("../models/user");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
+const google_redirect_url = process.env.GOOGLE_URL;
+const facebook_redirect_url = process.env.FACEBOOK_URL;
+
 const getGoogleURL = (req, res) => {
   const params = new URLSearchParams({
     client_id: process.env.GOOGLE_CLIENT_ID, // It must correspond to what we declared earlier in the backend
     scope: "email profile ", // This is the user data you have access to, in our case its just the mail.
-    redirect_uri: "http://localhost:8080/auth/google/callback", // This is the uri that will be redirected to if the user signs into his google account successfully
+    redirect_uri: google_redirect_url, // This is the uri that will be redirected to if the user signs into his google account successfully
     auth_type: "rerequest", // This tells the consent screen to reappear if the user initially entered wrong credentials into the google modal
     display: "popup", //It pops up the consent screen when the anchor tag is clicked
     response_type: "code",
@@ -72,7 +75,7 @@ const getUserFromGoogle = async (req, res) => {
 const getFacebookURL = (req, res) => {
   const params = new URLSearchParams({
     client_id: process.env.FACEBOOK_CLIENT_ID,
-    redirect_uri: "http://localhost:8080/auth/facebook/callback",
+    redirect_uri: facebook_redirect_url,
     scope: "email",
   });
   const url = `https://www.facebook.com/v6.0/dialog/oauth?${params}`;
@@ -139,7 +142,7 @@ function getGoogleToken(code) {
     code: code,
     client_id: process.env.GOOGLE_CLIENT_ID,
     client_secret: process.env.GOOGLE_CLIENT_SECRET,
-    redirect_uri: "http://localhost:8080/auth/google/callback",
+    redirect_uri: google_redirect_url,
     grant_type: "authorization_code",
   });
   const url = `https://oauth2.googleapis.com/token?${query}`;
@@ -168,7 +171,7 @@ function getFacebookToken(code) {
     code: code,
     client_id: process.env.FACEBOOK_CLIENT_ID,
     client_secret: process.env.FACEBOOK_CLIENT_SECRET,
-    redirect_uri: "http://localhost:8080/auth/facebook/callback",
+    redirect_uri: facebook_redirect_url,
     grant_type: "authorization_code",
   });
   const url = `https://graph.facebook.com/v12.0/oauth/access_token?${query}`;
