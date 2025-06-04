@@ -14,12 +14,6 @@ const {
 } = require("../../helper/dbQueries");
 ///////
 
-const fs = require("fs");
-const path = require("path");
-
-const imgur = require("imgur");
-const { log } = require("console");
-const { logout } = require("./auth");
 
 /////
 
@@ -67,7 +61,7 @@ exports.postAddProduct = async (req, res) => {
     const urls = [];
 
     for (const image of req.body.image) {
-      const url = await saveBase64ImageToFile(image, "image.jpg");
+      const url = await uploadBase64ImageToCloudinary(image);
       urls.push(url);
     }
 
@@ -118,7 +112,7 @@ exports.editProduct = async (req, res) => {
     const urls = [];
 
     for (const image of req.body.image) {
-      const url = await saveBase64ImageToFile(image, "image.jpg");
+      const url = await uploadBase64ImageToCloudinary(image);
       urls.push(url);
     }
 
@@ -273,26 +267,3 @@ exports.checkProductExists = async (req, res) => {
     console.log(error);
   }
 };
-
-///////////////////////////////////////////////////////////////////
-
-async function saveBase64ImageToFile(base64Data, filePath) {
-  return new Promise((resolve, reject) => {
-    const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, "");
-    const buffer = Buffer.from(base64Image, "base64");
-    fs.writeFile(filePath, buffer, async (err) => {
-      if (err) {
-        console.error("Error saving image:", err);
-        reject(err);
-      } else {
-        try {
-          const obj = await imgur.uploadFile(filePath);
-          resolve(obj.data.link);
-        } catch (error) {
-          console.log(error);
-          reject(error);
-        }
-      }
-    });
-  });
-}

@@ -95,15 +95,19 @@ exports.placeOrderRazorpay = async (req, res) => {
     let total_amount = 0;
     items.forEach((item) => {
       total_amount += item.PriceAfterCategoryDiscount * item.quantity;
+      console.log(item.PriceAfterCategoryDiscount * item.quantity)
       // Math.round(item.price - (item.price * item.discount) / 100) *
       // item.quantity;
     });
 
+    console.log("shipping: ",shipping)
+
     total_amount = Math.round(
       total_amount -
-        (total_amount * cart.couponDiscount.couponDiscount) / 100 +
-        shipping
+      ((total_amount * cart.couponDiscount.couponDiscount) / 100)
+      // +shipping
     );
+    console.log(total_amount)
 
     const options = {
       amount: total_amount * 100,

@@ -1,12 +1,12 @@
 const { log } = require("console");
-const fs = require("fs");
-const imgur = require("imgur");
+
 const {
   createCoupon,
   getAllCoupons,
   deleteCoupon,
 } = require("../../helper/dbQueries");
 const exp = require("constants");
+const { uploadBase64ImageToCloudinary } = require("../../helper/cloudinary.config");
 
 exports.getCouponPage = async (req, res) => {
   const coupons = await getAllCoupons();
@@ -20,7 +20,7 @@ exports.getCouponPage = async (req, res) => {
 
 exports.addCoupon = async (req, res) => {
   try {
-    log(req.body);
+
     const {
       title,
       image,
@@ -31,7 +31,8 @@ exports.addCoupon = async (req, res) => {
       discount,
       count,
     } = req.body;
-    const url = await saveBase64ImageToFile(image, "image.jpg");
+    console.log(image)
+    const url = await uploadBase64ImageToCloudinary(image);
     const data = {
       title,
       image: url,
@@ -69,25 +70,4 @@ exports.removeCoupon = async (req, res) => {
     console.log();
   }
 };
-//////////////////////////////////////////////////////////////////////////
 
-async function saveBase64ImageToFile(base64Data, filePath) {
-  return new Promise((resolve, reject) => {
-    const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, "");
-    const buffer = Buffer.from(base64Image, "base64");
-    fs.writeFile(filePath, buffer, async (err) => {
-      if (err) {
-        console.error("Error saving image:", err);
-        reject(err);
-      } else {
-        try {
-          const obj = await imgur.uploadFile(filePath);
-          resolve(obj.data.link);
-        } catch (error) {
-          console.log(error);
-          reject(error);
-        }
-      }
-    });
-  });
-}
