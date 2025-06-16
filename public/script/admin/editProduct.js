@@ -190,8 +190,13 @@ var createCategoryForm = document.getElementById("createproduct-form");
 
 createCategoryForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  var categoryError = document.getElementById("categoryError");
+  var priceError = document.getElementById("priceError");
+  var imageError = document.getElementById("imageError");
+  categoryError.innerHTML = "";
+   priceError.innerHTML = "";
   const inputFields = createCategoryForm.querySelectorAll("input:enabled");
-
+  var productId = document.getElementById('productId').innerHTML;
   var productTitle = document
     .getElementById("product-title-input")
     .value.trim();
@@ -212,7 +217,7 @@ createCategoryForm.addEventListener("submit", (event) => {
     validInput = false;
     return;
   } else {
-    fetch(`/admin/check-product-exists?title=${productTitle}`)
+    fetch(`/admin/check-product-exists?title=${productTitle}&productId=${productId}`)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -221,7 +226,8 @@ createCategoryForm.addEventListener("submit", (event) => {
       .then((data) => {
         const product = data.product;
 
-        if (product !== null) {
+        if ((product !== null || product !== undefined) && product._id !== productId) {
+          
           titleError.innerHTML = "this product is already exists";
           validInput = false;
           return;
@@ -233,6 +239,13 @@ createCategoryForm.addEventListener("submit", (event) => {
     validInput = false;
     return;
   }
+if (category === "") {
+  categoryError.innerHTML = "Please select a category.";
+  validInput = false;
+  return;
+} else {
+  categoryError.innerHTML = "";
+}
 
   sizes.forEach((element) => {
     const value = Number(element.value);
@@ -256,6 +269,12 @@ createCategoryForm.addEventListener("submit", (event) => {
       size.push(obj);
     }
   });
+
+  //validate image field
+  // if (imageField.length == 0) {
+  //   imageError.innerHTML = "select minimum one image ";
+  //   return
+  // } 
 
   imageField.forEach((img) => {
     images.push(img.src);

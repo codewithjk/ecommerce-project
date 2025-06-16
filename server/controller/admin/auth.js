@@ -1,3 +1,4 @@
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 const { generateOtp } = require("../../helper/generateOtp");
 const { setJwtToCookiesAdmin } = require("../../helper/setJwtToken");
 const adminModel = require("../../models/admin");
@@ -19,7 +20,7 @@ exports.postLogin = async (req, res) => {
       // const data = await generateOtp(email);
       // if (data.success) {
       setJwtToCookiesAdmin(res, admin).then(() => {
-        res.json({
+        res.status(HttpStatusCodes.OK).json({
           success: "login success",
           // redirect: "/otp-verification",
           redirect: "/admin/dashboard",

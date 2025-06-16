@@ -7,6 +7,7 @@ const {
 } = require("../../helper/dbQueries");
 const exp = require("constants");
 const { uploadBase64ImageToCloudinary } = require("../../helper/cloudinary.config");
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 
 exports.getCouponPage = async (req, res) => {
   const coupons = await getAllCoupons();
@@ -47,12 +48,12 @@ exports.addCoupon = async (req, res) => {
     const newCoupon = await createCoupon(data);
     log("new coupon", newCoupon);
     if (newCoupon !== null) {
-      res.status(200).json({ message: "coupon added successfully" });
+      res.status(HttpStatusCodes.OK).json({ message: "coupon added successfully" });
     } else {
-      res.status(200).json({ error: "something is wrong" });
+      res.status(HttpStatusCodes.OK).json({ error: "something is wrong" });
     }
   } catch (error) {
-    res.status(200).json({ error: "something is wrong" });
+    res.status(HttpStatusCodes.OK).json({ error: "something is wrong" });
   }
 };
 
@@ -62,9 +63,9 @@ exports.removeCoupon = async (req, res) => {
     const deletedCoupon = await deleteCoupon(couponId);
 
     if (deletedCoupon) {
-      res.status(200).json({ message: "coupon deleted" });
+      res.status(HttpStatusCodes.OK).json({ message: "coupon deleted" });
     } else {
-      res.status(200).json({ error: "coupon not deleted" });
+      res.status(HttpStatusCodes.OK).json({ error: "coupon not deleted" });
     }
   } catch (error) {
     console.log();

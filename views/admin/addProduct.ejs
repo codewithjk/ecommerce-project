@@ -100,6 +100,7 @@
                           </div>
                           <div>
                             <select class="form-select" id="choices-category-input" name="choices-category-input">
+                              <option value="">-- Select Category --</option>
                               <% categories.forEach(category=> { %>
                                 <option value="<%=category._id  %>">
                                   <%=category.title %>
@@ -108,6 +109,7 @@
                                 <% }); %>
                             </select>
                           </div>
+                          <div id="categoryError" class="text-danger"></div>
                           <div class="error-msg mt-1">
                             Please select a product category.
                           </div>
@@ -140,8 +142,9 @@
                           <input type="file" id="uploadFile" style="display: none" />
                         </div>
                         <div class="error-msg mt-1">Please add a product images.</div>
-                        <p class="text-danger" id="imageError"></p>
+                        
                       </div>
+                      <p class="text-danger" id="imageError"></p>
                     </div>
                     <!-- end card -->
 

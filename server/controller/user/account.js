@@ -19,6 +19,7 @@ const { walletModel } = require("../../models/wallet");
 
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 const { RAZORPAY_CLIENT_ID, RAZORPAY_CLIENT_SECRET } = process.env;
 
 const razorpayInstance = new Razorpay({
@@ -31,7 +32,7 @@ exports.getAccountPage = async (req, res) => {
     const userId = req.user.sub;
     const user = await getUserById(userId);
     const wallet = await walletModel.findOne({ userId: userId });
-    console.log(wallet,userId);
+    console.log(user.coupons);
     
     res.render("account", { user: user, wallet: wallet });
   } catch (error) {
@@ -45,7 +46,7 @@ exports.getAddressOfUser = async (req, res) => {
 
   const addresses = await getAddressByUid(userId);
 
-  res.json({ addresses: addresses });
+  res.status(HttpStatusCodes.OK).json({ addresses: addresses });
 };
 
 exports.editAddress = async (req, res) => {
@@ -62,7 +63,7 @@ exports.editAddress = async (req, res) => {
 
     const updatedAddress = await updateAddress(id, data);
     if (updatedAddress !== null) {
-      res.json({ message: "address updated !" });
+      res.status(HttpStatusCodes.OK).json({ message: "address updated !" });
     }
   } catch (error) {
     console.log(error);
@@ -84,7 +85,7 @@ exports.addAddress = async (req, res) => {
 
     const newaddress = await addAddress(data);
     if (newaddress != null) {
-      res.json({ message: "new address added!" });
+      res.status(HttpStatusCodes.CREATED).json({ message: "new address added!" });
     }
   } catch (error) {
     console.log(error);
@@ -96,7 +97,7 @@ exports.editProfile = async (req, res) => {
     const userId = req.user.sub;
     const editedProfile = await updateProfile(userId, req.body);
     if (editedProfile !== null) {
-      res.json({ message: "profile successfully updated" });
+      res.status(HttpStatusCodes.OK).json({ message: "profile successfully updated" });
     }
   } catch (error) {
     console.error(error);
@@ -110,7 +111,7 @@ exports.removeAddress = async (req, res) => {
     const deletedAddress = await deleteAddressById(addressId);
 
     if (deletedAddress !== null) {
-      res.status(200).json({ message: "address successfully deleted" });
+      res.status(HttpStatusCodes.OK).json({ message: "address successfully deleted" });
     }
   } catch (error) {
     console.log(error);
@@ -123,9 +124,9 @@ exports.addToWishlist = async (req, res) => {
     const itemId = req.query.itemId;
     const newItem = await addItemToWishlist(userId, itemId);
     if (newItem !== null) {
-      res.status(200).json({ add: true, message: "item added to wishlist" });
+      res.status(HttpStatusCodes.OK).json({ add: true, message: "item added to wishlist" });
     } else {
-      res.status(500).json({ message: "something went wrong" });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "something went wrong" });
     }
   } catch (error) {
     console.log(error);
@@ -139,10 +140,10 @@ exports.removeFromWishlist = async (req, res) => {
     const removedItem = await removeItemToWishlist(userId, itemId);
     if (removedItem !== null) {
       res
-        .status(200)
+        .status(HttpStatusCodes.OK)
         .json({ remove: true, message: "item removed from wishlist" });
     } else {
-      res.status(500).json({ message: "something went wrong" });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "something went wrong" });
     }
   } catch (error) {
     console.log(error);
@@ -154,9 +155,9 @@ exports.getWishlist = async (req, res) => {
     const userId = req.user.sub;
     const wishlist = await getWishlistByUserId(userId);
     if (wishlist !== null) {
-      res.status(200).json({ items: wishlist.items });
+      res.status(HttpStatusCodes.OK).json({ items: wishlist.items });
     } else {
-      res.status(200).json({ items: [] });
+      res.status(HttpStatusCodes.OK).json({ items: [] });
     }
   } catch (error) {
     console.log(error);
@@ -167,7 +168,7 @@ exports.renderWishlistPage = async (req, res) => {
   try {
     const userId = req.user.sub;
     const wishlist = await getDetailedWishlist(userId);
-    res.status(200).json({ wishlist: wishlist });
+    res.status(HttpStatusCodes.OK).json({ wishlist: wishlist });
   } catch (error) {
     console.log(error);
   }
@@ -178,7 +179,8 @@ exports.getWallet = async (req, res) => {
   try {
     const userId = req.user.sub;
     const wallet = await getWalletByUserId(userId);
-    res.status(200).json({ wallet: wallet });
+    console.log(wallet)
+    res.status(HttpStatusCodes.OK).json({ wallet: wallet });
   } catch (error) {
     console.log(error);
   }
@@ -192,9 +194,9 @@ exports.orderDetails = async (req, res) => {
     const order = await getOrderById(orderId);
 
     if (order !== null && order !== undefined) {
-      res.status(200).render("orderDetails", { order: order, user: user });
+      res.status(HttpStatusCodes.OK).render("orderDetails", { order: order, user: user });
     } else {
-      res.status(500).render("serverError");
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).render("serverError");
     }
   } catch (error) {
     res.render("clientError");
@@ -219,9 +221,9 @@ exports.cancelOrder = async (req, res) => {
     const items = cancelledOrder.products;
     const updatedData = increaseProductQuantities(items);
     if (cancelledOrder !== null) {
-      res.status(200).json({ message: "oreder is cancelled" });
+      res.status(HttpStatusCodes.OK).json({ message: "oreder is cancelled" });
     } else {
-      res.status(500).json({ message: "something went wrong" });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "something went wrong" });
     }
   } catch (error) {
     console.log(error);
@@ -245,9 +247,9 @@ exports.returnProduct = async (req, res) => {
       { new: true }
     );
     if (returnedOrder !== null) {
-      res.status(200).json({ message: "oreder is cancelled" });
+      res.status(HttpStatusCodes.OK).json({ message: "oreder is cancelled" });
     } else {
-      res.status(500).json({ message: "something went wrong" });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "something went wrong" });
     }
   } catch (error) {
     console.log(error);
@@ -271,7 +273,7 @@ exports.addFundToWallet = async (req, res) => {
 
     razorpayInstance.orders.create(options, async (err, order) => {
       if (!err) {
-        res.status(200).json({
+        res.status(HttpStatusCodes.OK).json({
           success: true,
           msg: "Money added to wallet",
           order_id: order.id,
@@ -285,7 +287,7 @@ exports.addFundToWallet = async (req, res) => {
         });
       } else {
         console.log("error === ", err);
-        res.status(400).json({ success: false, msg: "Something went wrong!" });
+        res.status(HttpStatusCodes.BAD_REQUEST).json({ success: false, msg: "Something went wrong!" });
       }
     });
   } catch (error) {
@@ -303,7 +305,7 @@ exports.confirmAddFundToWallet = async (req, res) => {
       "You added money to wallet",
       amount
     );
-    res.status(200).json({ message: "amount successfully added" });
+    res.status(HttpStatusCodes.OK).json({ message: "amount successfully added" });
   } catch (error) {
     console.log(error);
   }

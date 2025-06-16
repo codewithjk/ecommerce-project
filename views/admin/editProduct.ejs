@@ -19,7 +19,7 @@
               <div class="row">
                 <div class="col-12">
                   <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Create product</h4>
+                    <h4 class="mb-sm-0">Edit product</h4>
 
                     <div class="page-title-right">
                       <ol class="breadcrumb m-0">
@@ -56,7 +56,7 @@
                       <div class="card-body">
                         <div class="mb-3">
                           <label class="form-label" for="product-title-input">Product title</label>
-
+                          <p hidden id="productId"><%=product._id %></p>
                           <input value="<%=product.title %>" name="title" type="text" class="form-control"
                             id="product-title-input" placeholder="Enter product title" required
                             oninput="removeError('titleError')" />
@@ -101,6 +101,7 @@
                           </div>
                           <div>
                             <select class="form-select" id="choices-category-input" name="choices-category-input">
+                              <option value="">-- Select Category --</option>
                               <% categories.forEach(category=> { %>
                                 <option value="<%=category._id  %>">
                                   <%=category.title %>
@@ -109,6 +110,7 @@
                                 <% }); %>
                             </select>
                           </div>
+                          <div id="categoryError" class="text-danger"></div>
                           <div class="error-msg mt-1">
                             Please select a product category.
                           </div>
@@ -145,8 +147,9 @@
                           <input type="file" id="uploadFile" style="display: none" />
                         </div>
                         <div class="error-msg mt-1">Please add a product images.</div>
-                        <p class="text-danger" id="imageError"></p>
+                        
                       </div>
+                      <p class="text-danger" id="imageError"></p>
                     </div>
                     <!-- end card -->
 

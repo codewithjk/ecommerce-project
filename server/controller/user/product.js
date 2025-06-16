@@ -1,3 +1,4 @@
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 const {
   getAllProducts,
   getOneProduct,
@@ -98,9 +99,9 @@ exports.removeCartItem = async (req, res) => {
   try {
     const deletedItem = await deleteFromCart(userId, itemId);
     if (deletedItem != null) {
-      res.status(200).json({ message: "successfully removed" });
+      res.status(HttpStatusCodes.OK).json({ message: "successfully removed" });
     } else {
-      res.status(501).json({ error: "somthing went wrong try again!" });
+      res.status(HttpStatusCodes.NOT_IMPLEMENTED).json({ error: "somthing went wrong try again!" });
     }
   } catch (error) {
     console.log(error);
@@ -115,12 +116,12 @@ exports.addToCart = async (req, res) => {
   try {
     const newItem = await addItemToCart(userId, itemId, size, quantity);
     if (newItem === undefined) {
-      res.status(200).json({ message: "product already added to cart" });
+      res.status(HttpStatusCodes.OK).json({ message: "product already added to cart" });
     } else {
       if (newItem !== null) {
-        res.status(200).json({ message: "successfully added" });
+        res.status(HttpStatusCodes.OK).json({ message: "successfully added" });
       } else {
-        res.status(501).json({ error: "somthing went wrong try again!" });
+        res.status(HttpStatusCodes.NOT_IMPLEMENTED).json({ error: "somthing went wrong try again!" });
       }
     }
   } catch (error) {
@@ -144,7 +145,7 @@ exports.listAllProduct = async (req, res) => {
     const limit = req.query.limit;
     const skip = req.query.skip;
     const products = await getAllProducts(limit, skip);
-    res.status(200).json({ products: products });
+    res.status(HttpStatusCodes.OK).json({ products: products });
   } catch (error) {
     console.log(error);
   }
@@ -157,9 +158,9 @@ exports.searchProduct = async (req, res) => {
     const skip = req.query.skip;
     const products = await searchProducts(query, limit, skip);
     if (products.length > 0) {
-      res.status(200).json({ products: products });
+      res.status(HttpStatusCodes.OK).json({ products: products });
     } else {
-      res.status(200).json({ message: `No  result found for '${query}'` });
+      res.status(HttpStatusCodes.OK).json({ message: `No  result found for '${query}'` });
     }
   } catch (error) {
     console.log(error);
@@ -173,12 +174,12 @@ exports.updateItemCountInCart = async (req, res) => {
     const count = req.query.count;
     const updated = await updateItemCount(userId, itemId, count);
     if (updated !== null) {
-      res.status(200).json({ message: "count updated" });
+      res.status(HttpStatusCodes.OK).json({ message: "count updated" });
     } else {
-      res.status(500).json({ message: "something went wrong! try again" });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "something went wrong! try again" });
     }
   } catch (error) {
-    res.status(500).json({ message: "something went wrong! try again" });
+    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "something went wrong! try again" });
   }
 };
 

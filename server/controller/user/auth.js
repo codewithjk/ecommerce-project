@@ -11,6 +11,7 @@ const {
 const crypto = require("crypto");
 const { log } = require("console");
 const { default: mongoose } = require("mongoose");
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 
 // const GoogleStrategy = require("passport-google-oidc");
 
@@ -38,7 +39,7 @@ exports.postRegister = async (req, res) => {
   try {
     const userExist = await userModel.findOne({ email: email });
     if (userExist) {
-      res.json({ error: "email is already used" });
+      res.status(HttpStatusCodes.OK).json({ error: "email is already used" });
     } else {
       const code = req.body.code;
 
@@ -66,7 +67,7 @@ exports.postRegister = async (req, res) => {
       res.cookie("email", email);
       generateOtp(email).then((data) => {
         if (data.success) {
-          res.json({
+          res.status(HttpStatusCodes.OK).json({
             success: "successfully registered",
             redirect: `/otp-verification?id=${data.id}`,
           });
@@ -88,18 +89,18 @@ exports.postLogin = async (req, res) => {
 
   const user = await userModel.findOne({ email: email });
   if (user == null) {
-    res.json({ emailError: "invalid email" });
+    res.status(HttpStatusCodes.OK).json({ emailError: "invalid email" });
     // res.render("login", { invalidEmail: "invalid email" });
   } else if (password !== user.password) {
-    res.json({ passwordError: "incorrect password" });
+    res.status(HttpStatusCodes.OK).json({ passwordError: "incorrect password" });
     // res.render("login", { invalidPassword: "incorrect password" });
   } else if (user.status === "Blocked") {
-    res.json({ blocked: true });
+    res.status(HttpStatusCodes.OK).json({ blocked: true });
   } else {
     generateOtp(email).then((data) => {
       if (data.success) {
         res.cookie("email", email);
-        res.json({
+        res.status(HttpStatusCodes.OK).json({
           success: "successfully registered",
           redirect: `/otp-verification?id=${data.id}`,
         });
@@ -123,9 +124,9 @@ exports.postOtp = async (req, res) => {
   try {
     const otpData = await otpModel.findOne({ otp: user_otp });
     if (otpData === null) {
-      res.json({ error: "invalid otp" });
+      res.status(HttpStatusCodes.OK).json({ error: "invalid otp" });
     } else if (otpData.is_verified === true) {
-      res.json({ error: "Otp is already used" });
+      res.status(HttpStatusCodes.OK).json({ error: "Otp is already used" });
     } else {
       await otpModel.findOneAndUpdate(
         { _id: otpData._id },
@@ -133,7 +134,7 @@ exports.postOtp = async (req, res) => {
       );
       const userData = await userModel.findOne({ _id: otpData.user_id });
       await setJwtToCookies(res, userData);
-      res.status(200).json({
+      res.status(HttpStatusCodes.OK).json({
         success: "otp successfully verified",
         // redirect: "/products",
       });
@@ -195,12 +196,12 @@ exports.getSetNewPassword = (req, res) => {
 exports.postSetNewPassword = (req, res) => {
   const userId = req.user.sub;
   if (req.body.password[0] !== req.body.password[1]) {
-    res.json({ error: "password not matching" });
+    res.status(HttpStatusCodes.OK).json({ error: "password not matching" });
   } else {
     userModel
       .findOneAndUpdate({ _id: userId }, { password: req.body.password[0] })
       .then((user) => {
-        res.json({
+        res.status(HttpStatusCodes.OK).json({
           success: "password change successfull",
           redirect: "/products",
         });
@@ -214,7 +215,7 @@ exports.updatePassword = async (req, res) => {
   const newPassword = req.body.newPassword;
   const user = await userModel.findById(userId);
   if (oldPassword !== user.password) {
-    res.json({ error: "old password not matching" });
+    res.status(HttpStatusCodes.OK).json({ error: "old password not matching" });
   } else {
     userModel
       .findOneAndUpdate({ _id: userId }, { password: newPassword })
@@ -238,7 +239,7 @@ exports.getOTPTime = async (req, res) => {
       { user_id: id },
       { created_at: 1, _id: 0 }
     );
-    res.json({ data: data.created_at });
+    res.status(HttpStatusCodes.OK).json({ data: data.created_at });
   } catch (error) {
     console.log(error);
   }

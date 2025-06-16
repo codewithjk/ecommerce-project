@@ -1,3 +1,4 @@
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 const { createOffer, deleteOffer } = require("../../helper/dbQueries");
 const { categoryModel } = require("../../models/category");
 const { offerModel } = require("../../models/offer");
@@ -17,9 +18,9 @@ exports.addCategoryOffer = async (req, res) => {
 
     const newOffer = await createOffer(data);
     if (newOffer !== null) {
-      res.status(200).json({ message: "offer added successfully" });
+      res.status(HttpStatusCodes.OK).json({ message: "offer added successfully" });
     } else {
-      res.status(200).json({ error: "something is wrong " });
+      res.status(HttpStatusCodes.OK).json({ error: "something is wrong " });
     }
   } catch (error) {
     console.log(error);
@@ -32,11 +33,11 @@ exports.removeOffer = async (req, res) => {
     const deletedOffer = await deleteOffer(offerId);
     if (deletedOffer !== null) {
       res
-        .status(200)
+        .status(HttpStatusCodes.OK)
         .json({ message: "offer removed !", redirect: "/admin/offers" });
     } else {
       res
-        .status(200)
+        .status(HttpStatusCodes.OK)
         .json({ error: "something went wrong.", redirect: "/admin/offers" });
     }
   } catch (error) {

@@ -95,8 +95,14 @@ var createCategoryForm = document.getElementById("createproduct-form");
 
 createCategoryForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  var categoryError = document.getElementById("categoryError");
+  var priceError = document.getElementById("priceError");
+  var imageError = document.getElementById("imageError");
+
+  
   const inputFields = createCategoryForm.querySelectorAll("input:enabled");
   priceError.innerHTML = "";
+  categoryError.innerHTML = "";
 
   var productTitle = document
     .getElementById("product-title-input")
@@ -140,6 +146,15 @@ createCategoryForm.addEventListener("submit", (event) => {
     return;
   }
 
+
+if (category === "") {
+  categoryError.innerHTML = "Please select a category.";
+  validInput = false;
+  return;
+} else {
+  categoryError.innerHTML = "";
+}
+
   sizes.forEach((element) => {
     const value = Number(element.value);
     const errorDiv = element.nextElementSibling;
@@ -163,6 +178,12 @@ createCategoryForm.addEventListener("submit", (event) => {
     }
   });
 
+  
+  //validate image field
+  if (imageField.length == 0) {
+    imageError.innerHTML = "select minimum one image ";
+    return
+  } 
   imageField.forEach((img) => {
     images.push(img.src);
   });

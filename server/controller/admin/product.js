@@ -12,6 +12,8 @@ const {
   getProductByName,
   getUserById,
 } = require("../../helper/dbQueries");
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
+const { uploadBase64ImageToCloudinary } = require("../../helper/cloudinary.config");
 ///////
 
 
@@ -153,12 +155,12 @@ exports.removeImage = async (req, res) => {
   try {
     const result = await deleteImage(url, pid);
     if (result) {
-      res.status(200).json({ message: "success fully removed" });
+      res.status(HttpStatusCodes.OK).json({ message: "success fully removed" });
     } else {
-      res.status(500).json({ message: "failed to remove" });
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ message: "failed to remove" });
     }
   } catch (error) {
-    res.status(500).render("error");
+    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).render("error");
   }
 };
 
@@ -167,6 +169,7 @@ exports.getEditPage = async (req, res) => {
     const productId = req.query.productId;
     const categories = await categoryModel.find();
     const product = await productModel.findById(productId);
+    console.log(product)
     res.render("editProduct", { product: product, categories: categories });
   } catch (error) {
     console.log(error);
@@ -177,7 +180,7 @@ exports.getProductById = async (req, res) => {
   try {
     const productId = req.query.productId;
     const product = await productModel.findById(productId);
-    res.status(200).json({ product: product });
+    res.status(HttpStatusCodes.OK).json({ product: product });
   } catch (error) {
     console.log(error);
   }
@@ -191,9 +194,9 @@ exports.orderDetails = async (req, res) => {
     const userId = order.userId;
     const user = await getUserById(userId);
     if (order !== null) {
-      res.status(200).render("orderDetails", { order: order, user: user });
+      res.status(HttpStatusCodes.OK).render("orderDetails", { order: order, user: user });
     } else {
-      res.status(500).render("serverError");
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).render("serverError");
     }
   } catch (error) {
     console.log(error);
@@ -206,9 +209,9 @@ exports.refundOrder = async (req, res) => {
 
     const order = await refundOrderById(orderId);
     if (order) {
-      res.status(200).json({ message: "sucessfully refunded" });
+      res.status(HttpStatusCodes.OK).json({ message: "sucessfully refunded" });
     } else {
-      res.status(500).render("serverError");
+      res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).render("serverError");
     }
   } catch (error) {
     console.log(error);
@@ -221,9 +224,9 @@ exports.updateOrderStatus = async (req, res) => {
     const orderId = req.body.orderId;
     const updated = await changeOrderStatus(orderId, status);
     if (updated !== null) {
-      res.status(200).json({ message: `Order is ${status}` });
+      res.status(HttpStatusCodes.OK).json({ message: `Order is ${status}` });
     } else {
-      res.status(401).json({ message: "something went wrong!" });
+      res.status(HttpStatusCodes.UNAUTHORIZED).json({ message: "something went wrong!" });
     }
   } catch (error) {
     console.log(error);
@@ -234,7 +237,7 @@ exports.updateOrderStatus = async (req, res) => {
 exports.getWeeklyOrders = async (req, res) => {
   try {
     const data = await getDailyDataOfWeek();
-    res.status(200).json({ data });
+    res.status(HttpStatusCodes.OK).json({ data });
   } catch (error) {
     console.log(error);
   }
@@ -243,7 +246,7 @@ exports.getMonthlyOrders = async (req, res) => {
   try {
     const data = await getWeeklyDataOfMonth();
 
-    res.status(200).json({ data });
+    res.status(HttpStatusCodes.OK).json({ data });
   } catch (error) {
     console.log(error);
   }
@@ -252,7 +255,7 @@ exports.getMonthlyOrders = async (req, res) => {
 exports.getYearlyOrders = async (req, res) => {
   try {
     const data = await getMonthlyDataOfYear();
-    res.status(200).json({ data });
+    res.status(HttpStatusCodes.OK).json({ data });
   } catch (error) {
     console.log(error);
   }
@@ -262,7 +265,8 @@ exports.checkProductExists = async (req, res) => {
   try {
     const name = req.query.title;
     const data = await getProductByName(name);
-    res.status(200).json({ product: data });
+   
+    res.status(HttpStatusCodes.OK).json({ product: data });
   } catch (error) {
     console.log(error);
   }

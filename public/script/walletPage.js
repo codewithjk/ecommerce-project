@@ -1,3 +1,5 @@
+
+let walletHistoryTable;
 const wallet_tab = document.getElementById("wallet"); //here id of triggering element (a tag)
 wallet_tab.addEventListener("shown.bs.tab", async function (event) {
   try {
@@ -23,6 +25,13 @@ async function updatewalletContent(walletContent) {
       <td >${history.amount} </td>`;
       walletContent.appendChild(tableRow);
     });
+     if (walletHistoryTable === undefined) {
+      walletHistoryTable = new DataTable("#walletTableUser", {
+        layout: {
+          topStart: {},
+        },
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -83,3 +92,4 @@ addMoneyBtn.addEventListener("click", async (event) => {
     console.log(error);
   }
 });
+

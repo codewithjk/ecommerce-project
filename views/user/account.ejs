@@ -348,13 +348,13 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="table-responsive table-card">
-                      <table class="table fs-15 align-middle table-nowrap">
+                      <table class="table fs-15 align-middle " id="walletTableUser">
                         <thead>
                           <tr>
                             <th scope="col">Method</th>
                             <th scope="col">Description</th>
                             <th scope="col">Amount</th>
-                            <th scope="col"></th>
+                          
                           </tr>
                         </thead>
                         <tbody id="walletContent">
@@ -387,6 +387,7 @@
                             return 1; } else { return 0; } }).forEach(coupon => { %>
                             <% const endDate=new Date(coupon.coupon.endDate); %>
                               <% const remainingDays=Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24)); %>
+                            
                                 <% if (remainingDays> 0 &&
                                   coupon.is_expired == false) { %>
                                   <div class="col-md-6">

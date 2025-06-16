@@ -3,6 +3,8 @@ const {
   deleteCategory,
   findCategoryByName,
 } = require("../../helper/dbQueries");
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
+const { uploadBase64ImageToCloudinary } = require("../../helper/cloudinary.config");
 
 
 exports.getCategoryPage = async (req, res) => {
@@ -27,12 +29,12 @@ exports.addCategory = async (req, res) => {
     const ifExist = await findCategoryByName(req.body.title.trim());
     if (ifExist === null) {
       await category.save();
-      res.json({
+      res.status(HttpStatusCodes.CREATED).json({
         message: "Category is successfully added",
         redirect: "/admin/categories",
       });
     } else {
-      res.json({ error: "This category already exists" });
+      res.status(HttpStatusCodes.OK).json({ error: "This category already exists" });
     }
   } catch (error) {
     if (error.code === 11000) {

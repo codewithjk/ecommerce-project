@@ -1,3 +1,4 @@
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 const { userModel } = require("../../models/user");
 
 exports.getCustomerPage = async (req, res) => {
@@ -15,7 +16,7 @@ exports.getCustomerPage = async (req, res) => {
       activeUsers: activeUsers,
     });
   } catch (error) {
-    res.status(500).json({ error: "server is not responding" });
+    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ error: "server is not responding" });
   }
 };
 
@@ -31,7 +32,7 @@ exports.blockUser = async (req, res) => {
       res.json({ redirect: "/admin/customers" });
     }
   } catch (error) {
-    res.status(500).json({ error: "server is not responding" });
+    res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({ error: "server is not responding" });
   }
 };
 exports.unblockUser = async (req, res) => {

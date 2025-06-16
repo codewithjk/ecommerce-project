@@ -26,6 +26,7 @@ const { log } = require("console");
 const {
   calculateDistanceBetweenPINs,
 } = require("../../helper/calculateDistance");
+const HttpStatusCodes = require("../../constants/HttpStatusCodes");
 
 exports.placeOrderCOD = async (req, res) => {
   try {
@@ -43,12 +44,12 @@ exports.placeOrderCOD = async (req, res) => {
       total_amount - (total_amount * cart.couponDiscount.couponDiscount) / 100
     );
     if (total_amount > 1000) {
-      res.status(200).json({
+      res.status(HttpStatusCodes.OK).json({
         message:
           "Unable to proceed with COD. minimum amount for COD is 1000 .Try other method.",
       });
     } else {
-      res.status(200).json({
+      res.status(HttpStatusCodes.OK).json({
         redirectURL: `/payment/success?method="COD"&addressId=${addressId}`,
       });
     }
@@ -63,9 +64,10 @@ exports.getAllOrders = async (req, res) => {
     const orders = await getOrdersByUserId(userId);
 
     if (orders !== null) {
-      res.status(200).json({ orders: orders });
+      res.status(HttpStatusCodes.OK).json({ orders: orders });
+      console.log(orders)
     } else {
-      res.status(200).json({ message: "no orders found" });
+      res.status(HttpStatusCodes.OK).json({ message: "no orders found" });
     }
   } catch (error) {
     console.log(error);
@@ -117,7 +119,7 @@ exports.placeOrderRazorpay = async (req, res) => {
 
     razorpayInstance.orders.create(options, async (err, order) => {
       if (!err) {
-        res.status(200).json({
+        res.status(HttpStatusCodes.OK).json({
           success: true,
           msg: "Order Created",
           order_id: order.id,
@@ -131,7 +133,7 @@ exports.placeOrderRazorpay = async (req, res) => {
         });
       } else {
         console.log("error === ", err);
-        res.status(400).json({ success: false, msg: "Something went wrong!" });
+        res.status(HttpStatusCodes.BAD_REQUEST).json({ success: false, msg: "Something went wrong!" });
       }
     });
   } catch (error) {
@@ -159,7 +161,7 @@ exports.continuePayment = async (req, res) => {
 
     razorpayInstance.orders.create(options, async (err, order) => {
       if (!err) {
-        res.status(200).json({
+        res.status(HttpStatusCodes.OK).json({
           success: true,
           msg: "Order Created",
           order_id: order.id,
@@ -173,7 +175,7 @@ exports.continuePayment = async (req, res) => {
         });
       } else {
         console.log("error === ", err);
-        res.status(400).json({ success: false, msg: "Something went wrong!" });
+        res.status(HttpStatusCodes.BAD_REQUEST).json({ success: false, msg: "Something went wrong!" });
       }
     });
   } catch (error) {
@@ -186,9 +188,9 @@ exports.continuePaymentHandler = async (req, res) => {
     const orderId = req.query.orderId;
     const updatedOrder = await updatePaymentOfOrder(orderId);
     if (updatedOrder !== null) {
-      res.status(200).json({ message: "Payment Successful" });
+      res.status(HttpStatusCodes.OK).json({ message: "Payment Successful" });
     } else {
-      res.status(200).json({ message: "Payment Failed. Try again!" });
+      res.status(HttpStatusCodes.OK).json({ message: "Payment Failed. Try again!" });
     }
   } catch (error) {
     console.log(error);
@@ -221,7 +223,7 @@ exports.renderSuccess = async (req, res) => {
     const shipping = distance * 10;
 
     if (items.length === 0) {
-      res.status(400).render("clientError");
+      res.status(HttpStatusCodes.BAD_REQUEST).render("clientError");
     } else {
       let total_amount = 0;
       items.forEach((item) => {
@@ -262,7 +264,7 @@ exports.renderSuccess = async (req, res) => {
         //remove all items from cart
         const remove = await removeAllItemFromCart(userId);
         res
-          .status(200)
+          .status(HttpStatusCodes.OK)
           .render("confirmation", { user: user, orderId: newOrder._id });
       }
     }
@@ -295,7 +297,7 @@ exports.renderFailure = async (req, res) => {
     const shipping = distance * 10;
 
     if (items.length === 0) {
-      res.status(400).render("clientError");
+      res.status(HttpStatusCodes.BAD_REQUEST).render("clientError");
     } else {
       let total_amount = 0;
       items.forEach((item) => {
@@ -335,7 +337,7 @@ exports.renderFailure = async (req, res) => {
         //remove all items from cart
         const remove = await removeAllItemFromCart(userId);
         res
-          .status(200)
+          .status(HttpStatusCodes.OK)
           .render("paymentFailed", { user: user, orderId: newOrder._id });
       }
     }
@@ -352,7 +354,7 @@ exports.applyCoupon = async (req, res) => {
 
     const couponApplied = await applyCouponToCart(userId, code, amount);
     if (couponApplied) {
-      res.status(200).json({
+      res.status(HttpStatusCodes.OK).json({
         message: couponApplied.message,
         discount: couponApplied.discount || 0,
       });
