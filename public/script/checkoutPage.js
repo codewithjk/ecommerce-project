@@ -142,16 +142,76 @@ edit_modal.addEventListener("show.bs.modal", function (event) {
   const form = document.getElementById("editAddress-form");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    let filled = true;
 
     let inputElements = form.querySelectorAll("input:enabled");
-    inputElements.forEach((input) => {
-      if (input.value == " " || input.value == "") {
-        document.getElementById("fillerrror").innerText =
-          "Please fill all the fields";
+    
+    let filled = true;
+let errorMessage = "";
+
+inputElements.forEach((input) => {
+  const value = input.value.trim();
+  const fieldName = input.getAttribute("name");
+
+  switch (fieldName) {
+    case "name":
+      if (value === "") {
+        errorMessage = "Please enter your name.";
         filled = false;
       }
-    });
+      break;
+
+    case "phoneNumber":
+      if (value === "") {
+        errorMessage = "Please enter your phone number.";
+        filled = false;
+      } else if (!/^\d{10}$/.test(value)) {
+        errorMessage = "Phone number must be 10 digits.";
+        filled = false;
+      }
+      break;
+
+    case "city":
+      if (value === "") {
+        errorMessage = "Please enter your city.";
+        filled = false;
+      }
+      break;
+
+    case "state":
+      if (value === "") {
+        errorMessage = "Please enter your state.";
+        filled = false;
+      }
+      break;
+
+    case "postalCode":
+      if (value === "") {
+        errorMessage = "Please enter your postal code.";
+        filled = false;
+      } else if (!/^\d{6}$/.test(value)) {
+        errorMessage = "Postal code must be 6 digits.";
+        filled = false;
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  // Stop checking others if already invalid
+  if (!filled) {
+    console.warn(`Validation failed for: ${fieldName}`);
+    return;
+  }
+});
+
+const errorContainer = document.getElementById("fillerrror");
+if (!filled) {
+  errorContainer.innerText = errorMessage;
+} else {
+  errorContainer.innerText = ""; // clear message
+}
+
     if (filled) {
       const data = {
         id: addressobj._id,
@@ -200,15 +260,75 @@ document.addEventListener("click", (event) => {
 const add_form = document.getElementById("createAddress-form");
 add_form.addEventListener("submit", async function (event) {
   event.preventDefault();
-  let filled = true;
+
   let inputElements = add_form.querySelectorAll("input:enabled");
-  inputElements.forEach((input) => {
-    if (input.value == " " || input.value == "") {
-      document.getElementById("addfillerrror").innerText =
-        "Please fill all the fields";
-      filled = false;
-    }
-  });
+  let filled = true;
+let errorMessage = "";
+
+inputElements.forEach((input) => {
+  const value = input.value.trim();
+  const fieldName = input.getAttribute("name");
+
+  switch (fieldName) {
+    case "name":
+      if (value === "") {
+        errorMessage = "Please enter your name.";
+        filled = false;
+      }
+      break;
+
+    case "phoneNumber":
+      if (value === "") {
+        errorMessage = "Please enter your phone number.";
+        filled = false;
+      } else if (!/^\d{10}$/.test(value)) {
+        errorMessage = "Phone number must be 10 digits.";
+        filled = false;
+      }
+      break;
+
+    case "city":
+      if (value === "") {
+        errorMessage = "Please enter your city.";
+        filled = false;
+      }
+      break;
+
+    case "state":
+      if (value === "") {
+        errorMessage = "Please enter your state.";
+        filled = false;
+      }
+      break;
+
+    case "postalCode":
+      if (value === "") {
+        errorMessage = "Please enter your postal code.";
+        filled = false;
+      } else if (!/^\d{6}$/.test(value)) {
+        errorMessage = "Postal code must be 6 digits.";
+        filled = false;
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  // Stop checking others if already invalid
+  if (!filled) {
+    console.warn(`Validation failed for: ${fieldName}`);
+    return;
+  }
+});
+
+const errorContainer = document.getElementById("addfillerrror");
+if (!filled) {
+  errorContainer.innerText = errorMessage;
+} else {
+  errorContainer.innerText = ""; // clear message
+}
+
 
   if (filled) {
     const data = {
