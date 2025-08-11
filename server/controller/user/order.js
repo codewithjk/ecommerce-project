@@ -87,9 +87,9 @@ exports.placeOrderRazorpay = async (req, res) => {
     const address = await getAddressById(addressId);
     const pincode = address.postalCode;
 
-    const distance = await calculateDistanceBetweenPINs(pincode, "683572");
+    // const distance = await calculateDistanceBetweenPINs(pincode, "683572");
 
-    const shipping = distance * 10;
+    // const shipping = distance * 10;
 
     const cart = await getCartByUserId(userId);
     const items = cart.cartItems;
@@ -102,12 +102,10 @@ exports.placeOrderRazorpay = async (req, res) => {
       // item.quantity;
     });
 
-    console.log("shipping: ",shipping)
 
     total_amount = Math.round(
       total_amount -
       ((total_amount * cart.couponDiscount.couponDiscount) / 100)
-      // +shipping
     );
     console.log(total_amount)
 
@@ -218,9 +216,9 @@ exports.renderSuccess = async (req, res) => {
 
     const pincode = address.postalCode;
 
-    const distance = await calculateDistanceBetweenPINs(pincode, "683572");
+    // const distance = await calculateDistanceBetweenPINs(pincode, "683572");
 
-    const shipping = distance * 10;
+    const shipping = 0;
 
     if (items.length === 0) {
       res.status(HttpStatusCodes.BAD_REQUEST).render("clientError");
@@ -234,7 +232,7 @@ exports.renderSuccess = async (req, res) => {
 
       subTotal = total_amount;
       total_amount = Math.round(total_amount - (total_amount * discount) / 100);
-      total_amount = total_amount + shipping;
+      total_amount = total_amount
       // const orderId = req.query.orderId;
       const couponData = await findCoupon(total_amount);
       //generate coupon if there is a coupon is available
@@ -292,9 +290,9 @@ exports.renderFailure = async (req, res) => {
 
     const pincode = address.postalCode;
 
-    const distance = await calculateDistanceBetweenPINs(pincode, "683572");
+    // const distance = await calculateDistanceBetweenPINs(pincode, "683572");
 
-    const shipping = distance * 10;
+    const shipping = 0;
 
     if (items.length === 0) {
       res.status(HttpStatusCodes.BAD_REQUEST).render("clientError");
